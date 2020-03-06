@@ -14,6 +14,6 @@
 }
 </style>
 
-<div class="layer"><p>여기에 이름을 쓰세요 - 승환,원호?,선일,헌준</p></div>
+<div class="layer"><p>여기에 이름을 쓰세요 - 승환,원호?,선일,헌준,지준</p></div>
     
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>	
