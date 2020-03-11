@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 
 
-
-
 <style>
 </style>
 <div class="footerall">
@@ -16,7 +14,3 @@
 <!-- Footer -->
 </div>
 <!-- divall -->
-
-
-</body>
-</html>

@@ -1,5 +1,5 @@
 $(function(){
-    $("nav.primnav .userinfo section section").hide();
+    $("nav.primnav .userinfo idSection idSection").hide();
 })
 $(function(){
     $("#hamburger").change(function(){
@@ -14,7 +14,7 @@ $(function(){
                 playerImg.addEventListener('finish', function(){
                     targetImg.style.transform = 'translate(105px, 15px) scale(2.7)';
                 });
-                $("nav.primnav .userinfo section section").fadeIn(300);
+                $("nav.primnav .userinfo idSection idSection").fadeIn(300);
                 $(".primnav .icon").css("paddingLeft", "50px");
                 $("input:checkbox[id='hamburger']").attr("disabled", false);
             }, 500);
@@ -30,7 +30,7 @@ $(function(){
                 playerImg.addEventListener('finish', function(){
                     targetImg.style.transform = 'translate(0px, 0px) scale(1)';
                 });
-                $("nav.primnav .userinfo section section").fadeOut(100);
+                $("nav.primnav .userinfo idSection idSection").fadeOut(100);
                 $(".primnav .icon").css("paddingLeft", "19px");
                 $("input:checkbox[id='hamburger']").attr("disabled", false);
             }, 500);
