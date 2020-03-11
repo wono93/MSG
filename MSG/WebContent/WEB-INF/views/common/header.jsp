@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/header.css">
-    <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
-    <script src="js/jquery-3.4.1.js"></script>
-    <script src="js/header.js"></script>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
     <input id="hamburger" class="hamburger" type="checkbox" />
     <label for="hamburger" class="hamburger">
         <i></i>
@@ -27,12 +13,12 @@
         <div class="userinfo">
             <user id="user">
                 <img src="https://randomuser.me/api/portraits/women/85.jpg" />
-                <section>
-                    <section>
+                <idSection>
+                    <idSection>
                         <name>누구지</name>
                         <actions><a href="#">사업부</a> | <a href="#">과장</a></actions>
-                    </section>
-                </section>
+                    </idSection>
+                </idSection>
             </user>
         </div>
         <br>
@@ -43,7 +29,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="listForm.jsp">
                     <i class="icon far fa-folder" style="font-size:24px"></i> 전자문서
                 </a>
             </li>

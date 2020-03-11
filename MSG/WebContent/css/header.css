@@ -269,7 +269,7 @@
     max-height: 135px;
     max-width: 135px;
   }
-  user > section {
+  user > idSection {
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: horizontal;
@@ -280,7 +280,7 @@
     margin-top: 72px;
     margin-left: 87px;
   }
-  user > section > section {
+  user > idSection > idSection {
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
