@@ -1,0 +1,305 @@
+body {
+    font-family: "Noto Sans KR";
+    background-color: #ebebeb;
+}
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block;
+    width: 1200px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+article > .content {
+    display: inline-block;
+    width: 1020px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 230px;
+    vertical-align: middle;
+    /* border: 1px solid red; */
+}
+.content > .control {
+    display: inline-block;
+    width: 1020px;
+    height: 130px;
+    vertical-align: middle;
+    padding-top: 40px;
+}
+
+/* subNav */
+.subNav::after{content:""; display:block; clear:both;}
+.subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
+.subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+
+/* 여기서부터 테이블 */
+table {
+    width: 900px;
+    margin: auto;
+    border-top: 4px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+    word-break: break-all;
+}
+th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px;
+}
+table th:nth-child(3){
+    width: 300px;
+}
+table td:nth-child(3){
+    padding-left: 30px;
+    text-align: left;
+}
+table td:nth-child(2){
+    text-align: left;
+}
+/* 여기서부터 페이징 */
+.pagination {
+    padding-top: 30px;
+    display: inline-block;
+}
+.pagination a {
+    color: #999999;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 900;
+}
+.pagination a.active {
+    background-color: #f4ca25;
+    color: #333333;
+    border-radius: 50%;
+    transition: background-color .3s;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 100%;
+    transition: background-color .3s;
+}
+.pagination .arrow {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+/* 여기서부터 검색창 */
+.srchBar {
+    padding-top: 10px;
+    padding-bottom: 130px;
+}
+#srchWord {
+    background-color: #ebebeb;
+    color: #333333;
+    border: 0;
+    height: 34px;
+    width: 230px;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+}
+.yellowBtn{
+    background-color: #f4ca25;
+    border: 1px solid #f4ca25;
+    color: #333333;
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 여기서부터 select-box */
+.select-box {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+  }
+  @media (min-width: 110px) {
+    .select-box {
+      width: 110px;
+    }
+  }
+  .select-box__current {
+    position: relative;
+    border: 2px solid #999999;
+    border-radius: 5%;
+    cursor: pointer;
+    outline: none;
+  }
+  .select-box__current:focus + .select-box__list {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+  }
+  .select-box__current:focus + .select-box__list .select-box__option {
+    cursor: pointer;
+  }
+  .select-box__current:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg);
+  }
+  .select-box__icon {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 13px;
+    opacity: 0.3;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  .select-box__value {
+    display: -webkit-box;
+    display: flex;
+  }
+  .select-box__input {
+    display: none;
+  }
+  .select-box__input:checked + .select-box__input-text {
+    display: block;
+  }
+  .select-box__input-text {
+    display: none;
+    width: 100%;
+    margin: 0;
+    padding: 7px;
+    padding-right: 20px;
+    background-color: #fefefe;
+  }
+  .select-box__list {
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    top: 38px;
+    left : -5px;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+  }
+  .select-box__option {
+    display: block;
+    padding: 5px;
+    background-color: #fefefe;
+  }
+  .select-box__option:hover, .select-box__option:focus {
+    color: #333333;
+    background-color: #ebebeb;
+  }
+  
+  @-webkit-keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+  @keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+
+  
+  /* 아이디저장 체크박스*/
+.control > div {
+    display: inline-block;
+    width: 900px;
+    padding: 15px 0px;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    background-color: #ebebeb;
+}
+.control h1 {
+    margin: 0px 0px 15px;
+    }
+.checkbox_wrap label {
+    margin: 0px 10px;
+}
+
+.myDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.myDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.myDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.myDocu-container:hover input ~ .myDocu-checkmark { background-color: #ccc;}
+.myDocu-container input:checked ~ .myDocu-checkmark { background-color: #F4CA25; }
+.myDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.myDocu-container input:checked ~ .myDocu-checkmark:after { display: inline; }
+.myDocu-container .myDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.reqDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.reqDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.reqDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.reqDocu-container:hover input ~ .reqDocu-checkmark { background-color: #ccc;}
+.reqDocu-container input:checked ~ .reqDocu-checkmark { background-color: #F4CA25; }
+.reqDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.reqDocu-container input:checked ~ .reqDocu-checkmark:after { display: inline; }
+.reqDocu-container .reqDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.compDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.compDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.compDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.compDocu-container:hover input ~ .compDocu-checkmark { background-color: #ccc;}
+.compDocu-container input:checked ~ .compDocu-checkmark { background-color: #F4CA25; }
+.compDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.compDocu-container input:checked ~ .compDocu-checkmark:after { display: inline; }
+.compDocu-container .compDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.refDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.refDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.refDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.refDocu-container:hover input ~ .refDocu-checkmark { background-color: #ccc;}
+.refDocu-container input:checked ~ .refDocu-checkmark { background-color: #F4CA25; }
+.refDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.refDocu-container input:checked ~ .refDocu-checkmark:after { display: inline; }
+.refDocu-container .refDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.endDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.endDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.endDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.endDocu-container:hover input ~ .endDocu-checkmark { background-color: #ccc;}
+.endDocu-container input:checked ~ .endDocu-checkmark { background-color: #F4CA25; }
+.endDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.endDocu-container input:checked ~ .endDocu-checkmark:after { display: inline; }
+.endDocu-container .endDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}

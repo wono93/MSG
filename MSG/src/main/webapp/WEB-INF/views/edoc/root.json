@@ -1,0 +1,7 @@
+[
+    { "id" : "ajson1", "parent" : "#", "text" : "마케팅" },
+    { "id" : "ajson2", "parent" : "#", "text" : "경영지원부" },
+    { "id" : "ajson3", "parent" : "ajson2", "text" : "인사과" },
+    { "id" : "ajson4", "parent" : "ajson2", "text" : "총무부" },
+    { "id" : "ajson5", "parent" : "ajson4", "text" : "과장 장그래", "icon":"jstree-file"}
+ ]

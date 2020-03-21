@@ -1,0 +1,117 @@
+	.dmBar{
+	  position: absolute;
+	  right: 0px;
+	  z-index: 10;
+	}
+
+    .dmButton{
+        font-size: 14px;
+        padding: 7px 23px;
+        background: #999999;
+    }
+    .button:hover{
+        background: #F4CA25;
+    }
+    #dm-container{
+        width: 400px;
+        padding: 10px 10px;
+        background-color: #FEFEFE;
+        height: 600px;
+        overflow-y: scroll;
+    }
+    /* member img */
+    .member-img{
+        width: 50px; 
+        height: 50px;
+        object-position: top;
+        object-fit: cover;
+        border-radius: 50%;
+        float: inherit;
+    }
+    /* hr date */
+    #hr-container{
+        text-align: center;
+        color: #999999;
+        font-size: 5px;
+    }
+    .dmHr{
+        width: 130px;
+        display: inline-block;
+    }
+    #span-date{
+        position: relative;
+        left : 0px;
+        top : -4px;
+    }
+    #hr-left{
+        position: relative;
+        float: left;
+    }
+    #hr-right{
+        position: relative;
+        float: right;
+    }
+    /* dm */
+    .dm-content{
+        padding: 15px;
+        max-width: calc(100% - 200px);
+        max-height: calc(100% - 70px);
+	    overflow-y: scroll;
+        margin: 0 10px;
+        float: inherit;
+    }
+    .dm-time{
+        color: #999999;
+        float: inherit;
+        font-size: 5px;
+    }
+    /* to dm */
+    #to-dm{
+        float: right;
+        margin: 10px;
+    }
+    #to-dm-content{
+        background: #F4CA25;
+    }
+    /* from dm */
+    #from-dm{
+        float: left;
+        margin: 10px;
+    }
+    #from-dm-content{
+        background-color: #EBEBEB;
+    }
+    /* send dm */
+    #send-dm-container{
+        background-color: #EBEBEB;
+        width: 400px;
+        height: 97px;
+        padding: 10px 10px;
+    }
+    #send-dm-button{
+        float: right;
+        margin: 0px 3px 0 0;
+    }
+    #send-dm-content{
+        resize: none;
+        background-color: #FEFEFE;
+        border: none;
+    }
+
+    #title-container{
+        background-color: #ffffff;
+        width: 400px;
+        height: 70px;
+        padding: 10px 10px;
+        text-align: center;
+        font-size: 25px;
+    }
+    #name-span{
+        margin: 30px auto;
+        font-weight: 500;
+    }
+    #dmClose{
+        float: right;
+        width: 20px;
+        margin: 5px 5px 0 0;
+    }

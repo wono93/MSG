@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>
+  	<!-- db로 전달된 데이터가 null인 경우, db입력 시에 빈칸이 아닌 NULL을 입력할 것 -->
+  	<setting name="jdbcTypeForNull" value="NULL"/>
+  	<setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+  
+  <typeAliases>
+  <!-- 	<typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/> -->
+  <package name="com.kh.msg"/> <!-- com.kh.spring 이하에 있는 클래스를 대상으로  alias를 등록해줌. alias는 소문자로 시작 ex. ProductInfo => productInfo-->
+  </typeAliases>
+
+</configuration>

@@ -1,0 +1,290 @@
+
+        /* 여기서부터 select-box */
+        .srchChBar .select-box{
+        	float: left;
+        	top:0;
+        	left: 0;
+        	position:relative;
+        	display:inline-block;
+        	width:100%;
+        	font-family:"Noto Sans KR";
+        	font-size:14px;
+        	font-weight:800;
+        	color:#333
+       	}
+       	@media (min-width:110px){
+       		.srchChBar .select-box{
+       			width:110px
+       			}
+		}
+		.srchChBar .select-box__current{
+			position:relative;
+			border:2px solid #999;
+			border-radius:5%;
+			cursor:pointer;outline:0
+		}
+		.select-box__current:focus+.select-box__list{
+			opacity:1;
+			-webkit-animation-name:none;
+			animation-name:none
+		}
+			
+		.select-box__current:focus+.select-box__list .select-box__option{
+			cursor:pointer
+		}
+		.srchChBar .select-box__current:focus .select-box__icon{
+			-webkit-transform:translateY(-50%) rotate(180deg);
+			transform:translateY(-50%) rotate(180deg)
+		}
+		.srchChBar .select-box__icon{
+			position:absolute;
+			top:50%;
+			right:7px;
+			-webkit-transform:translateY(-50%);
+			transform:translateY(-50%);
+			width:13px;
+			opacity:.3;
+			-webkit-transition:.2s ease;
+			transition:.2s ease
+		}
+		.srchChBar .select-box__value{
+			display:-webkit-box;
+			display:flex
+		}
+		.srchChBar .select-box__input{
+			display:none
+		}
+		.select-box__input:checked+.select-box__input-text{
+			display:block
+		}
+		.srchChBar .select-box__input-text{
+			display:none;
+			width:100%;
+			margin:0;
+			padding:8px;
+			padding-right:20px;
+			background-color:#fefefe
+		}
+		.srchChBar .select-box__list{
+			position:absolute;
+			width:100%;
+			padding:0;
+			list-style:none;
+			opacity:0;
+			-webkit-animation-name:HideList;
+			animation-name:HideList;
+			-webkit-animation-duration:.5s;
+			animation-duration:.5s;
+			-webkit-animation-delay:.5s;
+			animation-delay:.5s;
+			-webkit-animation-fill-mode:forwards;
+			animation-fill-mode:forwards;
+			-webkit-animation-timing-function:step-start;
+			animation-timing-function:step-start
+		}
+		.srchChBar .select-box__option{
+			display:block;
+			padding:5px;
+			background-color:#fefefe
+		}
+		.select-box__option:focus,.select-box__option:hover{
+			color:#333;
+			background-color:#ebebeb
+		}
+		@-webkit-keyframes HideList{
+			from{
+				-webkit-transform:scaleY(1);
+				transform:scaleY(1)
+			}
+			to{
+				-webkit-transform:scaleY(0);
+				transform:scaleY(0)
+			}
+		}
+		@keyframes HideList{
+			from{
+				-webkit-transform:scaleY(1);
+				transform:scaleY(1)
+			}
+			to{
+				-webkit-transform:scaleY(0);
+				transform:scaleY(0)
+			}
+		}
+        
+        #plus-icon{width:15px; height: 15px; background-color: #EBEBEB;}
+        
+        /* 모달 */
+        /* The Modal (background) */
+        .ch-modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .ch-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 25px 25px 45px 45px;
+            border: 1px solid #888;
+            width: 650px;
+            /* Could be more or less, depending on screen size */
+        }
+
+        .channelGenTitle {
+            position: relative;
+            height: 70px;
+        }
+
+        .channelGenTitle h3 {
+            float: left;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .channelGenTitle h4 {
+            float: right;
+        }
+        .chDivBtn {
+            text-align: center;
+            float: right;
+        }
+
+        .chDivBtn button {
+            margin: 0 0 0 5px;
+        }
+        .ch-button{
+            background-color: #fefefe;
+            border: 1px solid #999999;
+            color: #999999;
+            font-size: 14px;
+            font-weight: 400;
+            width: 65px;
+            height: 40px;   
+        }
+        .ch-button:hover{
+            background: #F4CA25;
+        }
+        .ch-modal-content textarea {
+            background-color: #ebebeb;
+            border: 0px;
+        }
+
+        /* 여기서부터 검색창 */
+        .srchChBar {
+            padding: 50px 0 20px 0;
+            /* text-align: right; */
+        }
+
+        #srchChWord {
+            background-color: #ebebeb;
+            color: #333333;
+            border: 0;
+            height: 38px;
+            width: 170px;
+            font-family: "Noto Sans KR";
+            font-size: 14px;
+            margin: 0 0 0 10px;
+        }
+        #ch-search-icon{
+            width: 27px;
+            vertical-align: bottom;
+            margin: 0 0 6px 6px;
+        }
+        /* ch-member img */
+        .ch-member-img{
+            width: 50px; 
+            height: 50px;
+            object-position: top;
+            object-fit: cover;
+            border-radius: 50%;
+            float: right;
+            border: 1px solid #999999;
+        }
+        #ch-member-list-img{
+            width: 34px;
+            height: 34px;
+            margin: 2px 0;
+            border: none;
+        }
+
+        #ch-input-title{
+            background-color: #ebebeb;
+            color: #333333;
+            height: 30px;
+            width: 590px;
+            border: none;
+            border-bottom: 3px solid #999999;
+            padding: 12px 19px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        .x-icon{
+            width: 20px;
+        }
+        #close-btn{
+            float: right;
+        }
+        #king{
+            width: 24px;
+            float: right;
+            margin: 0 8px 0 0;
+        }
+        #ch-content{
+            padding: 20px 20px 0 0;
+        }
+        #ch-member-list{
+            border-top: 3px solid #999999;
+            border-bottom: 3px solid #999999;
+            padding: 10px 0;
+            height: 140px;
+            overflow: scroll;
+            text-align: center;
+        }
+        #ch-member-table td:first-child{
+            width:45px;
+        }
+        #ch-member-table td:nth-child(2){
+            font-weight: 500;
+            width:100px;
+        }
+        #ch-member-table td:nth-child(3){
+            width:150px;
+        }
+        #ch-member-table td:nth-child(4){
+            width:100px;
+        }
+        #ch-member-table td:nth-child(5){
+            width:170px;
+        }
+	#ch-member-table {
+	    display: table;
+	    border-spacing: 2px;
+	    border-color: grey;
+	    width: 600px;
+    	margin: none;
+	    border-top: 0;
+	    font-size: 12pt;
+	}
+	#ch-member-table td{
+		padding: 1px;
+		text-align : center;
+		border : none;
+	}

@@ -1,0 +1,207 @@
+@charset "UTF-8";
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block;
+    width: 1200px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+
+
+input{font-family: 'Noto Sans KR';}
+.center1200{ width: 1200px; margin:0 auto; position: relative;}
+.center1200::after{content:""; display:block; clear:both;}
+.center1200>h3{ margin:75px 0 0 60px; font-size:36px; font-weight:900;text-align:left;}
+.center1200 li:first-of-type{margin-left:60px;}
+.center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+.float{float:left;}
+#whitecontent{width:1080px; margin:0 auto; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
+#whitecontent>span{font-size:30px; margin-left: 30px;}
+#timepicker-start, #timepicker-end{width:210px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
+#timepicker-startend{width:250px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
+#timepicker-start:focus + .starticon, #timepicker-end:focus + .endicon, #timepicker-startend:focus + .startendicon{color:#f4ca25;}
+#timepicker-end{margin-left: 30px;}
+.starticon,.endicon,.startendicon {color:#999; margin-left: 10px; cursor: pointer;}
+.starticon:hover,.endicon:hover,.startendicon:hover{color:#333;}
+#getreserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:235px;}
+#getreserv:hover{font-weight:bold; color:#333; border:none; background-color: #f4ca25; cursor: pointer;}
+#res-table{width: 100%; line-height: 46px; margin-top: 20px;}
+#res-table th, #res-table td{color: #333; width: 25%; text-align: center;}
+#res-table tr{ width:980px; display:flex; border-bottom: 1px solid #999;}
+#res-table tr:first-child{ border-top: 4px solid #999;}
+#res-table tr:last-child{ margin-bottom:50px;}
+/* 아이디저장 체크박스*/
+.saveId-container { display: inline; position: relative; padding-left: 25px; top:7px; left:69px; cursor: pointer; font-size: 20px;}
+.saveId-container input {position: absolute; opacity: 0; cursor: pointer; }
+.saveId-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #EBEBEB;}
+.saveId-container:hover input ~ .saveId-checkmark { background-color: #ccc;}
+.saveId-container input:checked ~ .saveId-checkmark { background-color: #F4CA25; }
+.saveId-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.saveId-container input:checked ~ .saveId-checkmark:after { display: inline; }
+.saveId-container .saveId-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.select-box {
+    position: relative;
+    display: flex;
+    left: -100px;
+    top: -55px;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 19px;
+    color: #333333;
+  }
+  @media (min-width: 110px) {
+    .select-box {
+      width: 110px;
+    }
+  }
+
+  /* 여기서부터 select-box */
+.select-box {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 19px;
+    color: #333333;
+  }
+  @media (min-width: 110px) {
+    .select-box {
+      width: 110px;
+      float:right;
+    }
+  }
+  .select-box__current {
+    position: relative;
+    border: 2px solid #999;
+    cursor: pointer;
+    outline: none;
+  }
+  .select-box__current:focus + .select-box__list {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+  }
+  .select-box__current:focus + .select-box__list .select-box__option {
+    cursor: pointer;
+  }
+  .select-box__current:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg);
+  }
+  .select-box__icon {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 13px;
+    opacity: 0.3;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  .select-box__value {
+    display: -webkit-box;
+    display: flex;
+  }
+  .select-box__input {
+    display: none;
+  }
+  .select-box__input:checked + .select-box__input-text {
+    display: block;
+  }
+  .select-box__input-text {
+    display: none;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    padding-right: 20px;
+    background-color: #fefefe;
+  }
+  .select-box__list {
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+  }
+  .select-box__option {
+    display: block;
+    padding: 10px;
+    background-color: #fefefe;
+  }
+  .select-box__option:hover, .select-box__option:focus {
+    color: #333333;
+    background-color: #ebebeb;
+  }
+  
+  @-webkit-keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+  @keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+
+  /* 여기서부터 페이징 */
+.pagingg{ margin: 0 auto; text-align:center;}
+.pagination {
+    display: inline-block;
+}
+.pagination a {
+    color: #999999;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 900;
+}
+.pagination a.active {
+    background-color: #f4ca25;
+    color: #333333;
+    border-radius: 50%;
+    transition: background-color .3s;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 100%;
+    transition: background-color .3s;
+}
+.pagination .arrow {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+  

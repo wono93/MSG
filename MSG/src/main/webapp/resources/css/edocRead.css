@@ -1,0 +1,281 @@
+body {
+    background-color: #ebebeb;
+}
+body *{
+    font-family: "Noto Sans KR";
+}
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block;
+    width: 1200px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+article > .content {
+    display: inline-block;
+    width: 1020px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 230px;
+    vertical-align: middle;
+    /* border: 1px solid red; */
+}
+.content > .control {
+    display: inline-block;
+    width: 1020px;
+    /* border: 1px solid blue; */
+}
+.leftGrp {
+    width: 385px;
+    text-align: left;
+    display: inline-block;
+    font-size: 20px;
+    padding: 61px 61px 10px;
+}
+.leftGrp h1{
+    margin: 0;
+}
+.rightGrp {
+    width: 385px;
+    text-align: right;
+    display: inline-block;
+    padding: 61px 61px 10px;
+}
+
+/* 여기서부터 버튼 양식 */
+.yellowBtn{
+    background-color: #f4ca25;
+    border: 1px solid #f4ca25;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+}
+.whiteBtn{
+    background-color: #fefefe;
+    border: 1px solid #999999;
+    color: #999999;
+    font-size: 14px;
+    font-weight: 400;
+}
+.commonBtn{
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+/* subNav */
+.subNav::after{content:""; display:block; clear:both;}
+.subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
+.subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+
+/* 여기서부터 테이블들 */
+table {
+    margin-top: 15px;
+    display: inline-block;
+    border-top: 3px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+    table-layout: fixed;
+    word-break: break-all;
+}
+th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px 0px;
+}
+table th {
+    background-color: #ebebeb;
+}
+table tr:last-child {
+    border-bottom: 4px solid #999999;
+}
+
+.tbRow {
+    width: 1020px;
+    display: inline-block;
+}
+
+/* 첫줄 */
+.docuInfoTb td:first-child {
+    background-color: #ebebeb;
+}
+.docuInfoTb {
+    float: left;
+    margin-left: 61px;
+    width: 340px;
+}
+.docuInfoTb tr td {
+    height: 35px;
+    padding: 0;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
+}
+.docuInfoTb tr > td:last-child {
+    text-align: left;
+    padding-left: 15px;
+}
+.docuInfoTb td:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuInfoTb td:nth-child(2){
+    width: 240px;
+}
+.docuFlowTb {
+    float: right;
+    margin-right: 61px;
+    width: 550px;
+}
+.docuFlowTb th{
+    width: 91.66px;
+    padding : 0;
+    height: 38px;
+}
+.docuFlowTb tr:nth-child(2) td{
+    padding: 0px;
+    height: 108px;
+}
+.docuFlowTb tr:nth-child(3) td{
+    height: 31px;
+    width: 91.66px;
+    padding: 0px;
+    font-size: 10pt;
+}
+.docuFlowTb tr:first-child th:first-child{
+    border-bottom: 4px solid #999999;
+}
+.docuFlowTb tr *:not(.NoRBorder) {
+    border-right: 1px solid #999999;;
+}
+
+/* 둘째줄 */
+.docuRefeTb td:first-child {
+    background-color: #ebebeb;
+}
+.docuRefeTb {
+    float: left;
+    margin-left: 61px;
+    width: 523px;
+}
+.docuRefeTb tr *{
+    padding-top: 7px;
+    padding-bottom: 7px;
+    height: 151px;
+}
+.docuRefeTb td:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuRefeTb td:last-child{
+    width: 423px;
+    text-align: left;
+    padding-left: 15px;
+}
+.docuCoopTb {
+    float: right;
+    margin-right: 61px;
+    width: 367px;
+}
+.docuCoopTb th{
+    width: 91.66px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.docuCoopTb tr:nth-child(2) td{
+    padding: 0px;
+    height: 95px;
+}
+.docuCoopTb tr:nth-child(3) td{
+    height: 31px;
+    width: 91.66px;
+    padding: 0px;
+    font-size: 10pt;
+}
+.docuCoopTb tr:first-child th:first-child{
+    border-bottom: 4px solid #999999;
+}
+
+.docuCoopTb tr *:not(.NoRBorder) {
+    border-right: 1px solid #999999;;
+}
+.docuCoopTb tr td{
+    padding: 6px 0px;
+    width: 91.66px;
+    word-break: break-all;
+    font-size: 11pt;
+}
+
+/* 셋째줄 */
+.docuCommTb td:first-child {
+    background-color: #ebebeb;
+}
+.docuCommTb {
+    float: left;
+    margin-left: 61px;
+    width: 900px;
+}
+.docuCommTb tr td{
+    padding: 0;
+    height: 70px;
+}
+.docuCommTb tr *:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuCommTb tr *:nth-child(2){
+    width: 130px;
+}
+.docuCommTb tr td:last-child{
+    width: 670px;
+    text-align: left;
+}
+/* 넷째줄 */
+.docuAttachTb td:first-child {
+    background-color: #ebebeb;
+    font-weight: 600;
+    width: 100px;
+}
+.docuAttachTb {
+    float: left;
+    margin-left: 61px;
+    width: 900px;
+}
+.docuAttachTb tr *{
+    min-height : 50px;
+}
+.docuAttachTb td:last-child{
+    width: 800px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+/* 문서자리 */
+
+.docuSpc {
+    margin-top: 15px;
+    background-color: #ebebeb;
+    display: inline-block;
+    width: 900px;
+    height: 1273px;
+}
+.document {
+    background-color: white;
+    display: inline-block;
+    margin: 20px 60px;
+    width: 780px;
+    height: 1233px;
+}

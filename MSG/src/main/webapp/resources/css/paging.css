@@ -1,0 +1,31 @@
+    /* 여기서부터 페이징 */
+    .pagingg {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        font-weight: 900;
+    }
+
+    .pagination a.active {
+        border-radius: 50%;
+        transition: background-color .3s;
+    }
+
+    .pagination a:hover:not(.active) {
+        border-radius: 100%;
+        transition: background-color .3s;
+    }
+
+    .pagination .arrow {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
