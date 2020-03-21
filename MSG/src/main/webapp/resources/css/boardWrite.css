@@ -1,0 +1,454 @@
+
+  .box {
+    width: 50px;
+    height: 50px; 
+    border-radius: 70%;
+    overflow: hidden;
+    float: right;
+    margin-top: 17px;
+}
+.profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+p{
+  margin-top: 30px;
+}
+#boardBD{
+    text-align: left;
+    display: inline-block;
+    padding-left: 60px;
+    position: relative;    
+    bottom: -19px;
+}
+.btn{
+    float: right;
+    position: relative;
+    
+}
+ .content > .control1 {
+    display: inline-block;
+    width: 1020px;
+    height: 140px;
+    vertical-align: middle;
+} 
+article > .content1 {
+    display: inline-block;
+    width: 1020px;
+    height: 100%;
+    vertical-align: middle;
+/*     border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 230px;
+    vertical-align: middle;
+    
+}
+/* subNav */
+.subNav::after{content:""; display:block; clear:both;}
+.subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
+.subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+
+
+.content1 > .control {
+    display: inline-block;
+    width: 1020px;
+    height: 140px;
+    vertical-align: middle;
+   
+}
+.select-box1 {
+    display: inline-block;
+    padding-right: 50px;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+    margin-top: 0;
+    height: 250px;
+  }
+  #boardTT{
+      float: left;
+  }
+  #boardTitle{
+      padding-top: 10px;
+  }
+  @media (min-width: 110px) {
+    .select-box1 {
+      width: 200px;
+      margin-right: 40px;
+      margin-top: 25px;
+      height: 300px;
+    }
+    #first1{
+      position: relative;
+      width: 400px;
+      text-align: left;
+      height: 200px;
+      margin-left: 0px;
+    }
+  }
+
+  #com{
+    text-align: left;
+    font-size: 33px;
+    margin-top: 35px;
+}
+.com4{
+  border-bottom: 25px;
+}
+.com2{
+  text-align: left;
+   display: inline-block;
+  position: relative;
+  margin-right: 15px;
+  margin-top: 38px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.com3{
+margin-left: 15px;
+  text-align: left;
+  display: inline-block;
+ position: relative;
+
+ cursor: pointer;
+}
+.subNav{
+  text-align: left;
+}
+.subM2{
+  text-align: left;
+  position: relative;
+}
+#boardCa{
+    width: 50px;
+}
+
+body {
+    font-family: "Noto Sans KR";
+    background-color: #ebebeb;
+}
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block !important;
+    width: 1200px !important;
+    height: 100% !important;
+    vertical-align: middle !important;
+/*     border: 1px solid black !important; */
+}
+article > .content {
+    display: inline-block;
+    width: 1022px;
+    height: 766px;
+    vertical-align: middle;
+/*     border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 190px;
+    vertical-align: middle;
+   
+}
+.content > .control {
+    display: inline-block;
+    width: 1020px;
+    height: 140px;
+    vertical-align: middle;
+   
+}
+
+/* 여기서부터 테이블 */
+table {
+    width: 900px;
+    margin: auto;
+    border-top: 4px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+}
+th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px;
+    text-align: center;
+}
+table th:nth-child(3){
+    width: 350px;
+}
+table td:nth-child(3){
+    padding-left: 30px;
+    text-align: center;
+}
+table td:nth-child(2){
+    text-align: center;
+}
+/* 여기서부터 페이징 */
+.pagination {
+    padding-top: 30px;
+    display: inline-block;
+}
+.pagination a {
+    color: #999999;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 900;
+}
+.pagination a.active {
+    background-color: #f4ca25;
+    color: #333333;
+    border-radius: 50%;
+    transition: background-color .3s;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 100%;
+    transition: background-color .3s;
+}
+.pagination .arrow {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+/* 여기서부터 검색창 */
+.srchBar {
+    padding-top: 10px;
+    padding-bottom: 150px;
+}
+input#srchWord {
+  border-color: black;
+  border-style: solid;
+    border: 0;
+    color: #333333;
+    border-bottom:solid rgb(179, 176, 176) 1px;
+    height: 34px;
+    width: 403px;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+}
+#grayBtn{
+    background-color: #ebebeb;
+    border: none;
+    color: #333333;
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 55px;
+}
+#grayBtn1{
+    background-color: #ebebeb;
+    border: none;
+    color: #333333;
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 55px;
+    margin-bottom: 25px;
+    bottom: 5px;
+    margin-left: 55px;
+}
+#yellowBtn{
+    background-color: #f4ca25;
+    border: none;
+    color: #333333;
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+/* 여기서부터 select-box */
+.select-box {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+    margin-top: 50px;
+    height: 250px;
+  }
+  @media (min-width: 110px) {
+    .select-box {
+      width: 160px;
+      margin-right: 80px;
+      height: 300px;
+    }
+    #first{
+      width: 275px;
+      text-align: left;
+      height: 200px;
+    }
+  }
+
+#com5{
+    text-align: center; 
+   display: inline-block;
+  position: relative;
+  margin-top: 20px;
+  
+}
+  .select-box__current {
+    width: 100%;
+    float: none;
+    border: 2px solid #999999;
+    border-radius: 5%;
+    cursor: pointer;
+    outline: none;
+  }
+  #file{
+      width: 915px;
+      height: 62px;
+      border: 2px solid #999999;
+      margin-bottom: 15px;
+      margin-left: 50px;
+      margin-top: 20px;
+  }
+  #api{
+    width: 915px;
+    height: 450px;
+    margin-left: 50px;
+    text-align: left;
+  }
+  
+  .select-box__current:focus + .select-box__list {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+  }
+  .select-box__current:focus + .select-box__list .select-box__option {
+    cursor: pointer;
+  }
+  .select-box__current:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg);
+  }
+  .select-box__icon {
+    position: absolute;
+    float: left;
+    top: 15px;
+    right: 16px;
+    margin-top: 5px;
+ 
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 13px;
+    opacity: 0.3;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+    z-index: 101;
+  }
+  .select-box__value {
+    display: -webkit-box;
+    display: flex;
+    z-index: 100;
+  }
+  .select-box__input {
+    display: none;
+    z-index: 100;
+  }
+  .select-box__input:checked + .select-box__input-text {
+    display: block;
+    z-index: 100;
+  }
+  .select-box__input-text {
+    display: none;
+    width: 403px;
+    margin: 0;
+    padding: 7px;
+    padding-right: 5px;
+    background-color: #fefefe;
+    z-index: 100;
+  }
+  .select-box__list {
+    z-index: 100;
+    position: absolute;
+    width: 400px;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+  }
+  .select-box__option {
+    display: block;
+    padding: 10px;
+    background-color: #fefefe;
+    
+  }
+  .select-box__option:hover, .select-box__option:focus {
+    color: #333333;
+    background-color: #ebebeb;
+  }
+  #boardBtn{
+    height: 50PX;
+    width: 150px;
+    margin-left: 100px;
+    font-size: 20PX;
+   
+  }
+  
+  .boardBB{
+      float: left;
+      margin-top: 20px;
+      margin-left: 60px;
+  }
+  .boardBC{
+    float: left;
+    margin-left: 15px;
+}
+  
+  @-webkit-keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+  @keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  

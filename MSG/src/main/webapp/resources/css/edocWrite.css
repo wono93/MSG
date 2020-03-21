@@ -1,0 +1,614 @@
+body {
+    background-color: #ebebeb;
+}
+body *{
+    font-family: "Noto Sans KR";
+    outline:none;
+}
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block;
+    width: 1200px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+article > .content {
+    display: inline-block;
+    width: 1020px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 230px;
+    vertical-align: middle;
+    /* border: 1px solid red; */
+}
+.content > .control {
+    display: inline-block;
+    width: 100%;
+    /* border: 1px solid blue; */
+    text-align: left;
+    padding: 30px 0px 10px;
+}
+.control > input {
+    float: left;
+    margin: 0px 0px 10px 61px;
+    padding: 0px 5px;
+    width: 50%;
+    height: 55px;
+    font-size: 18pt;
+    background-color: #ebebeb;
+    border: 0;
+}
+
+.control > button {
+    float: right;
+    margin: 15px 61px 0px 0px;
+}
+.control .select-box {
+    left: 50px;
+    bottom: -14px;
+}
+
+/* subNav */
+.subNav::after{content:""; display:block; clear:both;}
+.subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
+.subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+
+
+/* 여기서부터 버튼 양식 */
+.btnGrp {
+    float: right;
+    margin: 0px 60px 15px 0px;
+}
+
+.yellowBtn{
+    background-color: #f4ca25;
+    border: 1px solid #f4ca25;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+}
+.whiteBtn{
+    background-color: #fefefe;
+    border: 1px solid #999999;
+    color: #999999;
+    font-size: 14px;
+    font-weight: 400;
+}
+.commonBtn{
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+  /* 여기서부터 select-box */
+  .select-box {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+    text-align: left;
+    padding-left: 12px;
+  }
+  form {
+      display: inline-block;
+  }
+  #selectDocu{
+    font-size: 15px;
+  }
+  @media (min-width: 70px) {
+    .select-box {
+        width: 70px;
+    }
+    #selectDocu{
+        width: 200px
+    }
+    #currentExp2{
+        width: 100px;
+    }
+  }
+  #currentExp{
+    height: 36px;
+    padding-top: 3px;
+    border: 2px solid #999999;  
+  }
+
+  .select-box__current {
+    position: relative;
+    /* border: 2px solid #999999; */
+    border-radius: 5%;
+    cursor: pointer;
+    outline: none;
+  }
+  .select-box__current:focus + .select-box__list {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+  }
+  .select-box__current:focus + .select-box__list .select-box__option {
+    cursor: pointer;
+  }
+  .select-box__current:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg);
+  }
+  .select-box__icon {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 13px;
+    padding : 5px;
+    /* opacity: 0.3; */
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  #iconExp {
+      padding : 0px;
+      opacity: 0.3;
+  }
+
+  .select-box:hover .select-box__icon{
+  	background-color: #f4ca25;
+    border-radius: 50%;
+    padding : 5px;
+    transition: background-color .3s;
+  }
+   #selectDocu:hover .select-box__icon{
+      background-color: unset;
+      border-radius: none;
+      padding : 0;
+  }
+
+  .select-box__value {
+    display: -webkit-box;
+    display: flex;
+  }
+  .select-box__input {
+    display: none;
+  }
+  .select-box__input:checked + .select-box__input-text {
+    display: block;
+  }
+  .select-box__input-text {
+    display: none;
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+    padding-right: 20px;
+    background-color: #fefefe;
+  }
+  .select-box__list {
+    position: absolute;
+    width: 70%;
+    padding: 0;
+    top: 28px;
+    /* left : -8px; */
+    z-index: 100;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+  }
+  #listExp {
+      width: 95%;
+      top : 44px;
+      left : 15px;
+  }
+  #listExp2 {
+      width: 100%;
+      top : 30px;
+      left : 12px;
+  }
+
+  .select-box__option {
+    display: block;
+    padding: 5px;
+    background-color: #fefefe;
+  }
+  .select-box__option:hover, .select-box__option:focus {
+    color: #333333;
+    background-color: #ebebeb;
+  }
+  
+  @-webkit-keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+  @keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+
+/* datePicker */
+.datepicker-here {
+    text-align: center;
+    border : 0;
+    border-bottom: 2px solid  #fefefe;
+    font-size: 13pt;
+}
+#timepicker-startend:focus + .startendicon{
+    color:#f4ca25;
+}
+#timepicker-startend:focus {
+    border-bottom: 2px solid #999999;
+}
+.startendicon:hover{
+    cursor: pointer;
+}
+
+/* 여기서부터 테이블들 */
+table {
+    margin-bottom: 15px;
+    display: inline-block;
+    border-top: 3px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+    table-layout: fixed;
+    word-break: break-all;
+}
+th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px 0px;
+}
+table th {
+    background-color: #ebebeb;
+}
+table tr:last-child {
+    border-bottom: 4px solid #999999;
+}
+
+
+
+.tbRow {
+    width: 1020px;
+    display: inline-block;
+}
+
+/* 첫줄 */
+.docuInfoTb td:first-child {
+    background-color: #ebebeb;
+}
+.docuInfoTb {
+    float: left;
+    margin-left: 61px;
+    width: 340px;
+}
+.docuInfoTb tr td{
+    height: 35px;
+    padding: 0;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
+}
+.docuInfoTb tr > td:last-child {
+    text-align: left;
+    padding-left: 15px;
+}
+.docuInfoTb tr:nth-child(4) td:nth-child(2), .docuInfoTb tr:nth-child(5) td:nth-child(2){
+    padding: 0px;
+}
+
+.docuInfoTb td:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuInfoTb td:nth-child(2){
+    width: 240px;
+}
+.docuFlowTb {
+    float: right;
+    margin-right: 61px;
+    width: 550px;
+}
+.docuFlowTb th{
+    width: 91.66px;
+    padding : 0;
+    height: 38px;
+}
+.docuFlowTb tr:nth-child(2) td{
+    padding: 0px;
+    height: 108px;
+}
+.docuFlowTb tr:nth-child(3) td{
+    height: 31px;
+    width: 91.66px;
+    padding: 0;
+    font-size: 10pt;
+}
+.docuFlowTb tr:first-child th:first-child{
+    border-bottom: 4px solid #999999;
+}
+.docuFlowTb tr *:not(.NoRBorder) {
+    border-right: 1px solid #999999;;
+}
+
+/* 둘째줄 */
+.docuRefeTb td:first-child {
+    background-color: #ebebeb;
+}
+.docuRefeTb {
+    float: left;
+    margin-left: 61px;
+    width: 523px;
+}
+.docuRefeTb tr *{
+    padding-top: 7px;
+    padding-bottom: 7px;
+    height: 151px;
+}
+.docuRefeTb td:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuRefeTb td:last-child{
+    width: 423px;
+    text-align: left;
+    padding-left: 15px;
+}
+.docuCoopTb {
+    float: right;
+    margin-right: 61px;
+    width: 367px;
+}
+.docuCoopTb th{
+    width: 91.66px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.docuCoopTb tr:nth-child(2) td{
+    padding: 0px;
+    height: 95px;
+}
+.docuCoopTb tr:nth-child(3) td{
+    height: 31px;
+    width: 91.66px;
+    padding: 0px;
+    font-size: 10pt;
+}
+.docuCoopTb tr:first-child th:first-child{
+    border-bottom: 4px solid #999999;
+}
+
+.docuCoopTb tr *:not(.NoRBorder) {
+    border-right: 1px solid #999999;;
+}
+.docuCoopTb tr td{
+    padding: 6px 0px;
+    width: 91.66px;
+    word-break: break-all;
+    font-size: 11pt;
+}
+
+/* 셋째줄 */
+.docuContentTb td:first-child,.docuContentTb td:nth-child(3)  {
+    background-color: #ebebeb;
+}
+.docuContentTb {
+    float: left;
+    margin-left: 61px;
+    width: 898px;
+}
+.docuContentTb tr td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 50px;
+}
+.docuContentTb td:first-child{
+    width: 100px;
+    font-weight: 600;
+}
+.docuContentTb td:nth-child(2){
+    width: 500px;
+}
+.docuContentTb td:nth-child(3){
+    width: 100px;
+    font-weight: 600;
+}
+.docuContentTb td:nth-child(4){
+    width: 198px;
+}
+table textarea {
+    border: 0;
+    padding-left : 15px;
+    font-size: 13pt;
+}
+table .textIpt {
+    border: 0;
+    height: 40px;
+    font-size: 15px;
+    width: 93%;
+    padding-left : 15px;
+}
+
+
+/* 넷째줄 */
+.docuAttachTb td:first-child {
+    background-color: #ebebeb;
+    width: 100px;
+    font-weight: 600;
+}
+.docuAttachTb {
+    float: left;
+    margin-left: 61px;
+    width: 900px;
+}
+.docuAttachTb tr td{
+    min-height : 50px;
+}
+.docuAttachTb td:nth-child(2){
+    width: 700px;
+    text-align: left;
+    padding-left: 15px;
+}
+.docuAttachTb td:last-child{
+    width: 100px;
+}
+
+
+/* 모달 */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px 20px 20px 50px;
+    border: 1px solid #888;
+    width: 800px; /* Could be more or less, depending on screen size */
+}
+.flowTbDiv{
+    margin: 0;
+}
+.modal-content div:not(.divBtn) {
+    display: inline-block;
+    width: 98%;
+    /* margin-bottom: 30px; */
+}
+.flowTitle h1 {
+    float: left;
+}
+.flowTitle button {
+    float: right;
+    margin : 25px 0px 0px 10px;
+}
+.flowModalTb {
+    border: none;
+    width: 100%;
+}
+.flowModalTb td {
+    border: none;
+    font-size: 15pt;
+    
+}
+.flowModalTb tr:first-child td:first-child {
+    padding: 15px 0px 0px 0px;
+}
+.flowModalTb tr:nth-child(2) td:first-child {
+    padding: 0;
+}
+.flowModalTb tr:nth-child(1) td:last-child, .flowModalTb tr:nth-child(3) td:last-child, .flowModalTb tr:nth-child(5) td:last-child {
+    height: 30px;
+    padding: 15px 0px 5px 0px;
+}
+.flowModalTb tr:nth-child(3) td:last-child, .flowModalTb tr:nth-child(5) td:last-child {
+    height: 30px;
+    padding: 15px 0px 5px 0px;
+}
+.flowModalTb tr:nth-child(2) td:last-child {
+    height: 130px;
+    background-color: #ebebeb;
+    font-size: 12pt;
+}
+.flowModalTb tr:nth-child(4) td:last-child, .flowModalTb tr:nth-child(6) td:last-child {
+    height: 100px;
+    background-color: #ebebeb;
+    font-size: 12pt;
+}
+.flowModalTb tr:first-child td:first-child, .flowModalTb tr:first-child td:last-child {
+    width: 343px;
+}
+.flowModalTb tr:first-child td:nth-child(2){
+    width: 100px;
+}
+.flowModalTb tr:nth-child(2) td:nth-child(2),.flowModalTb tr:nth-child(4) td:first-child,.flowModalTb tr:nth-child(6) td:first-child {
+    text-align: center;
+}
+.flowModalTb tr:nth-child(2) td:nth-child(2):hover,.flowModalTb tr:nth-child(4) td:first-child:hover,.flowModalTb tr:nth-child(6) td:first-child:hover {
+    cursor: pointer;
+}
+.marginTd{
+    padding: 0;
+    border: none;
+    height: 30px;
+}
+.demo {
+    overflow:auto;
+    border:none;
+    height:510px;
+    margin: none;
+    background-color: #ebebeb;
+    font-size: 12pt;
+}
+.modal-content .divBtn {
+    float: right;
+}
+.modal-content .divBtn *{
+    margin-left: 10px;
+}
+
+
+
+/* ebebeb */
+
+/* 결재내용 버튼 */
+.flowAllow-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.flowAllow-container input {position: absolute; opacity: 0; cursor: pointer; }
+.flowAllow-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
+.flowAllow-container:hover input ~ .flowAllow-checkmark { background-color: #ccc;}
+.flowAllow-container input:checked ~ .flowAllow-checkmark { background-color: #F4CA25; }
+.flowAllow-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.flowAllow-container input:checked ~ .flowAllow-checkmark:after { display: inline; }
+.flowAllow-container .flowAllow-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+.flowDeny-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.flowDeny-container input {position: absolute; opacity: 0; cursor: pointer; }
+.flowDeny-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
+.flowDeny-container:hover input ~ .flowDeny-checkmark { background-color: #ccc;}
+.flowDeny-container input:checked ~ .flowDeny-checkmark { background-color: #F4CA25; }
+.flowDeny-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.flowDeny-container input:checked ~ .flowDeny-checkmark:after { display: inline; }
+.flowDeny-container .flowDeny-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}

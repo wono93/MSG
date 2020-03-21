@@ -1,0 +1,50 @@
+.board th, .board td{
+    width: 70%;
+}
+.empLogView {
+	width : 600px; 	
+}
+table th:nth-child(3){
+    width: -webkit-fill-available;
+}
+table td:nth-child(3){
+    padding-left: 0px;
+    text-align: center;
+}
+table td:nth-child(2){
+    text-align: center;
+}
+.emp {
+	margin-left : 40px;
+	width : 160px;
+	height : 365px;
+}
+.emp li:first-child {
+	font-size: 24px;
+}
+.emp p {
+	font-size : 57px;
+}
+.emp li {
+	font-size: 19px; 
+}
+
+.emp li {
+    margin-top: -4px;
+}
+
+.empName {
+    margin-bottom: 0;
+}
+
+h2.workingdays{
+    margin-left: 50px;
+}
+
+.number{
+    font-size: xx-large;
+}
+
+li.deptAndJob{
+    font-size: 1.3em;
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
+    <script src="dist/js/jquery-3.4.1.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+        <script src="dist/js/datepicker.min.js"></script>
+
+        <script src="dist/js/i18n/datepicker.ko.js"></script>
+        <script>
+            // Initialization
+            $('#my-element').datepicker()
+            // Access instance of plugin
+            $('#my-element').data('datepicker')
+
+            // Create start date
+            var start = new Date(),
+                prevDay,
+                startHours = 9;
+        
+            // 09:00 AM
+            start.setHours(9);
+            start.setMinutes(0);
+        
+            // If today is Saturday or Sunday set 10:00 AM
+            if ([6, 0].indexOf(start.getDay()) != -1) {
+                start.setHours(10);
+                startHours = 10
+            }
+        
+            $('#timepicker-actions-exmpl').datepicker({
+                timepicker: true,
+                language: 'en',
+                startDate: start,
+                minHours: startHours,
+                maxHours: 18,
+                onSelect: function (fd, d, picker) {
+                    // Do nothing if selection was cleared
+                    if (!d) return;
+        
+                    var day = d.getDay();
+        
+                    // Trigger only if date is changed
+                    if (prevDay != undefined && prevDay == day) return;
+                    prevDay = day;
+        
+                    // If chosen day is Saturday or Sunday when set
+                    // hour value for weekends, else restore defaults
+                    if (day == 6 || day == 0) {
+                        picker.update({
+                            minHours: 10,
+                            maxHours: 16
+                        })
+                    } else {
+                        picker.update({
+                            minHours: 9,
+                            maxHours: 18
+                        })
+                    }
+                }
+            })
+        </script>
+    <title>MSG :: 예약관리</title>
+</head>
+<style>
+html{background-color: #ededed; }
+input{font-family: 'Noto Sans KR';}
+.center1200{ width: 1200px; margin:0 auto; position: relative;}
+.center1200::after{content:""; display:block; clear:both;}
+.center1200>h3{ margin:75px 0 0 60px; font-size:36px; font-weight:900;}
+.center1200 li:first-of-type{margin-left:17px;}
+.center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR';}
+#whitecontent{width:1080px; margin:0 auto; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
+#whitecontent>span{font-size:30px; margin-left: 30px;}
+#timepicker-start, #timepicker-end{width:210px; height:50px; border:1px solid #999; font-size:19px; padding-left: 20px;}
+#timepicker-start:focus + .starticon, #timepicker-end:focus + .endicon{color:#f4ca25;}
+#timepicker-end{margin-left: 30px;}
+.starticon,.endicon {color:#999; margin-left: 10px;}
+#getreserv{width:100px; height:55px; font-size:19px; color:#999; border:1px solid #999; margin-left:235px;}
+#res-table{width: 100%; line-height: 46px; margin-top: 20px;}
+#res-table th, #res-table td{color: #333; width: 25%; text-align: center;}
+#res-table tr{ width:980px; display:flex; border-bottom: 1px solid #999;}
+#res-table tr:first-child{ border-top: 4px solid #999;}
+#res-table tr:last-child{ margin-bottom:50px;}
+/* 아이디저장 체크박스*/
+.saveId-container { display: inline; position: relative; padding-left: 25px; cursor: pointer; font-size: 20px;}
+.saveId-container input {position: absolute; opacity: 0; cursor: pointer; }
+.saveId-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #EBEBEB;}
+.saveId-container:hover input ~ .saveId-checkmark { background-color: #ccc;}
+.saveId-container input:checked ~ .saveId-checkmark { background-color: #F4CA25; }
+.saveId-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.saveId-container input:checked ~ .saveId-checkmark:after { display: inline; }
+.saveId-container .saveId-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.checkbox_wrap{position: relative;}
+</style>
+<body>
+    <div class="center1200">
+        <h3>예약관리</h3>
+        
+            <ul>
+                <li id="searchli">회의실</li>
+                <li id="noticeli" onclick="location.href='">법인차량</li>
+                <li id="reviewli" onclick="location.href=''">예약확인</li>
+             </ul>
+    </div>
+    <div id="whitecontent">
+        <input type='text' id='timepicker-start' class='datepicker-here' data-language='ko' 
+                data-timepicker="true" data-date-format="yyyy-m-d D" data-time-format='hh:ii AA' autocomplete="off" minutesStep="10"/>
+                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
+        <span>~</span>
+        <input type='text' id='timepicker-end' class='datepicker-here' data-language='ko' 
+                data-timepicker="true" data-date-format="yyyy-m-d D" data-time-format='hh:ii AA' autocomplete="off" minutesStep="10"/>
+                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
+        <button id="getreserv"type="submit">예약하기</button>
+        <table id="res-table">
+            <tr>
+                <th></th>
+                <th>회의실명</th>
+                <th>수용인원</th>
+                <th>선택</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>A1</td>
+                <td>6</td>
+                <td>
+                    <label class="saveId-container kor float" for="one">
+                    <input type="checkbox" name="one" id="one">
+                    <span class="saveId-checkmark"></span>
+       </label></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>A2</td>
+                <td>10</td>
+                <td>
+                        <label class="saveId-container kor float" for="two">
+                        <input type="checkbox" name="two" id="two">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>B1</td>
+                <td>8</td>
+                <td>
+                        <label class="saveId-container kor float" for="three">
+                        <input type="checkbox" name="three" id="three">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>B2</td>
+                <td>10</td>
+                <td>
+                    <label class="saveId-container kor float" for="four">
+                    <input type="checkbox" name="four" id="four">
+                    <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="five">
+                        <input type="checkbox" name="five" id="five">
+                         <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="six">
+                        <input type="checkbox" name="six" id="six">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="seven">
+                        <input type="checkbox" name="seven" id="seven">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="eight">
+                        <input type="checkbox" name="eight" id="eight">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="nine">
+                        <input type="checkbox" name="nine" id="nine">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>C1</td>
+                <td>4</td>
+                <td>
+                        <label class="saveId-container kor float" for="ten">
+                        <input type="checkbox" name="ten" id="ten">
+                        <span class="saveId-checkmark"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

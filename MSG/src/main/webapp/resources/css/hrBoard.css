@@ -1,0 +1,336 @@
+body {
+    font-family: "Noto Sans KR";
+    background-color: #ebebeb;
+}
+section{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+section > div {
+    display: inline-block;
+    width: 1200px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+article > .content {
+    display: inline-block;
+    width: 1020px;
+    height: 100%;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+    background-color: #fefefe;
+}
+article > .subNav {
+    display: inline-block;
+    width: 1020px;
+    height: 230px;
+    vertical-align: middle;
+    /* border: 1px solid red; */
+}
+/* .content > .control {
+    display: inline-block;
+    width: 1020px;
+    height: 140px;
+    vertical-align: middle;
+    border: 1px solid blue;
+}
+ */
+/* 여기서부터 테이블 */
+table {
+    width: 900px;
+    margin: auto;
+    border-top: 4px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+}
+th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px;
+}
+table th:nth-child(3){
+    width: 350px;
+}
+table td:nth-child(3){
+    padding-left: 30px;
+    text-align: left;
+}
+table td:nth-child(2){
+    text-align: left;
+}
+/* 여기서부터 페이징 */
+.pagination {
+    padding-top: 30px;
+    display: inline-block;
+}
+.pagination a {
+    color: #999999;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 900;
+}
+.pagination a.active {
+    background-color: #f4ca25;
+    color: #333333;
+    border-radius: 50%;
+    transition: background-color .3s;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 100%;
+    transition: background-color .3s;
+}
+.pagination .arrow {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+/* 여기서부터 검색창 */
+.srchBar {
+    padding-top: 10px;
+    padding-bottom: 150px;
+}
+#srchWord {
+    background-color: #ebebeb;
+    color: #333333;
+    border: 0;
+    height: 34px;
+    width: 230px;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+}
+.yellowBtn{
+    background-color: #f4ca25;
+    border: none;
+    color: #333333;
+    padding: 9px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 여기서부터 select-box */
+.select-box {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+  }
+  @media (min-width: 110px) {
+    .select-box {
+      width: 110px;
+    }
+  }
+  .select-box__current {
+    position: relative;
+    border: 2px solid #999999;
+    border-radius: 5%;
+    cursor: pointer;
+    outline: none;
+  }
+  .select-box__current:focus + .select-box__list {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+  }
+  .select-box__current:focus + .select-box__list .select-box__option {
+    cursor: pointer;
+  }
+  .select-box__current:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg);
+  }
+  .select-box__icon {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 13px;
+    opacity: 0.3;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  .select-box__value {
+    display: -webkit-box;
+    display: flex;
+  }
+  .select-box__input {
+    display: none;
+  }
+  .select-box__input:checked + .select-box__input-text {
+    display: block;
+  }
+  .select-box__input-text {
+    display: none;
+    width: 100%;
+    margin: 0;
+    padding: 7px;
+    padding-right: 20px;
+    background-color: #fefefe;
+  }
+  .select-box__list {
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+  }
+  .select-box__option {
+    display: block;
+    padding: 5px;
+    background-color: #fefefe;
+  }
+  .select-box__option:hover, .select-box__option:focus {
+    color: #333333;
+    background-color: #ebebeb;
+  }
+  
+  @-webkit-keyframes HideList {
+    from {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+  @keyframes HideList {
+/*     from { */
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+    }
+    to {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+    }
+  }
+  
+
+
+/* ---------------------------------------------------------------------------- */
+html{background-color: #ededed; }
+/* input{font-family: 'Noto Sans KR';}
+.center1200{ width: 1200px; margin:0 auto; position: relative;}
+.center1200::after{content:""; display:block; clear:both;}
+.center1200>h3{ margin:75px 0 0 60px; font-size:36px; font-weight:900;}
+.center1200 li:first-of-type{margin-left:17px;}
+.center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+.center1200 li:nth-of-type(1){color:#333;} */
+/* subNav */
+.subNav::after{content:""; display:block; clear:both;}
+.subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
+.subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
+
+.content{
+	width:1020px;
+	margin:0 auto;min-height: 1200px;padding: 48px 0px 0px 0px;background-color:#fefefe;text-align: center;
+}
+.content>span{font-size:30px; margin-left: 30px;}
+
+.content > .board {
+	padding : 0px 40px;
+	width : 960px;
+}
+
+.content>.control {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    text-align: left;
+    border: 0 solid white;
+    height: auto;
+}
+.control h2{
+    margin: 43px 33px 43px 20px;
+    display: inline;
+    font-size: 24px;
+}
+.control h1{
+    margin: 43px 23px 43px 45px;
+    display: inline;
+    font-size: 28px;
+}
+
+a:link, a:visited{
+    text-decoration: none;
+    color: #333;
+}
+
+table th:nth-child(3){
+    width: 350px;
+}
+table td:nth-child(3){
+    padding-left: 30px;
+    text-align: center;
+}
+table td:nth-child(2){
+    text-align: center;
+}
+
+article{
+    margin: 0 auto;
+    font-size: x-large;
+}
+article > .content{
+    height: 700px;
+/*     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */ 
+}
+.emp{
+    float: left;
+    font-size: 1.2em;
+    background-color: #ebebeb;
+    margin-top: 20px;
+    margin-right:20px;
+    padding:60px;
+}
+.empName{
+    margin-top: 0;
+    font-size: 3em;
+}
+.emp ul{
+    list-style: none;
+    padding: 0;
+}
+.emp li:nth-child(2){
+    margin-top: 0;
+}
+.emp li{
+    margin-top: 50px;
+}
+.empLogView{
+    float: left;
+}
+.logView ol{
+    display: inline-block;
+}
+.board{width: 100%; line-height: 46px; margin-top: 20px;}
+.board th, .board td{color: #333; width: 25%; text-align: center;}
+.board tr{/* width:980px; */display:flex;border-bottom: 1px solid #999;}
+.board tr:first-child{ border-top: 4px solid #999;}
+.board tr:last-child{ margin-bottom:50px;}

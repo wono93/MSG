@@ -1,0 +1,19 @@
+.content>.control{
+    text-align: center;
+}
+
+.logView{
+    /* border-top: 8px solid #999999; */
+    /* margin-top: 30px; */
+    width : 1020px;
+    background-color: #FEFEFE;
+}
+
+.boardHr{
+	display: block;
+	background-color : #999999;
+	border: 0;
+	width : 920px;
+	height : 8px;
+	margin : 30px 50px 0px 50px;
+}
