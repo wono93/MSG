@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/edocWrite.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/jquery-3.4.1.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/edocWrite.js"></script>
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/jsTree/dist/themes/default/style.min.css" />
-    <script src="${pageContext.request.contextPath }/resources/js/edocWrite.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/jsTree/dist/jstree.min.js"></script>
     <script>
@@ -441,8 +441,8 @@
                     </tr>
                 </table>
                 <div class="divBtn">
-                    <button type="button" id="flowBtn" class="whiteBtn commonBtn">확인</button>
-                    <button type="button" id="closeBtn" class="close whiteBtn commonBtn">취소</button>
+                    <button type="button" id="flowBoxBtn" class="whiteBtn commonBtn">확인</button>
+                    <button type="button" id="closeBoxBtn" class="close whiteBtn commonBtn">취소</button>
                 </div>
             </div>
 
