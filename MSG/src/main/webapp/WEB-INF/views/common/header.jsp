@@ -79,12 +79,12 @@
             <ul class="secnav">
                 <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus.png" id="plus-icon" alt=""></p>
                 <li>
-                    <a href="#">
+                    <a href="${pageContext.request.contextPath}/chat/channel.do">
                         <i class="fas fa-circle" style="font-size:15px"></i>　경영지원 1팀
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="${pageContext.request.contextPath}/chat/channel.do">
                         <i class="fas fa-circle" style="font-size:15px"></i>　미식가들
                     </a>
                 </li>

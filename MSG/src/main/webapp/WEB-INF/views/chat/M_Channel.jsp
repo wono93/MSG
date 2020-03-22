@@ -41,22 +41,20 @@
 	    width: 1020px;
 	    height: 230px;
 	    vertical-align: middle;
-/* 	    border: 1px solid red; */
+		/*border: 1px solid red; */
 	}
 	.content > .control {
 	    display: inline-block;
-	    width: 1020px;
+	    width: 940px;
 	    border-bottom: 2px solid #999999;
- 	    padding-bottom: 20px;
+ 	    padding: 40px 40px;
     	text-align : left;
 	}
     .control > p{
 	    text-align: left;
-    	padding-left : 61px;
     }
     .control > .btnGrp, #member-container {
     	display: inline-block;
-    	padding-left : 61px;
    	}
     
     
@@ -83,9 +81,9 @@
 	}
     
     #title{
-        margin: 15px 0;
         font-weight: 800;
-        font-size: 24px;
+        font-size: 28px;
+        margin: 0 0 17px 0;
     }
     .button{
         font-size: 14px;
@@ -98,10 +96,9 @@
 
     }
     #channel-container{
-        width: 840px;
+        width: 860px;
         padding: 65px 80px;
         background-color: #FEFEFE;
-        margin: 10px 0;
         height: 600px;
         overflow-y: scroll;
     }
@@ -168,18 +165,18 @@
     /* send msg */
     #send-msg-container{
         background-color: #FEFEFE;
-        width: 1000px;
-        height: 150px;
+        width: 860px;
+        padding: 60px 80px;
     }
     #send-msg-container textarea{
 		background-color: #EBEBEB;
     }
     #send-msg-button{
         float: right;
-        margin: 26px 37px 0 0;
+        margin: 10px 0;
     }
     #send-msg-content{
-        margin: 14px 0px 0px 77px;
+        /* margin: 14px 0px 0px 77px; */
         border: none;
         resize: none;
     }
@@ -328,8 +325,9 @@
 		        	</div>
 		        
 		        <div id="send-msg-container">
-		            <textarea name="" id="send-msg-content" cols="130" rows="5"></textarea>
+		            <textarea name="" id="send-msg-content" cols="150" rows="5"></textarea>
 		            <button id="send-msg-button" class="button">전송</button>
+		        </div>
 		        </div>
 			</article>
 		</div>
