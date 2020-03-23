@@ -71,11 +71,11 @@
                     <i class="icon far fa-check-square" style="font-size:24px"></i> 예약관리
                 </a>
             </li>
-            <li>
+<!--             <li>
                 <a href="#">
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
-            </li>
+            </li> -->
             <ul class="secnav">
                 <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus.png" id="plus-icon" alt=""></p>
                 <li>
