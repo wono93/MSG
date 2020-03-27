@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="directMsg">
+	<select id="directMsgList" resultType="DirectMsg">
+		select
+		    D.msg_no,E.emp_no,E.user_id,E.emp_name,E.emp_image,D.to_id,D.from_id,D.msg_content,D.msg_date
+		from
+		    emp_tb E left join dm_tb D
+		        on E.emp_no = D.emp_no
+		where
+		    ((D.to_id = #{toId} and D.from_id = #{fromId})
+            	OR (D.to_id = #{fromId} and D.from_id = #{toId}))
+                    and D.msg_no > ${msgNo}
+		order by D.msg_date
+	</select>
+	<select id="directMsgListByRecent" resultType="DirectMsg">
+		select
+		    D.msg_no,E.emp_no,E.user_id,E.emp_name,E.emp_image,D.to_id,D.from_id,D.msg_content,D.msg_date
+		from
+		    emp_tb E left join dm_tb D
+		        on E.emp_no = D.emp_no
+		where
+		    ((D.to_id = #{toId} and D.from_id = #{fromId})
+            	OR (D.to_id = #{fromId} and D.from_id = #{toId}))
+                    and D.msg_no > (select max(D.msg_no) - #{msgNo} from dm_tb)
+		order by D.msg_date
+	</select>
+	<insert id="insert">
+		insert into
+			dm_tb
+		values
+			(seq_msg_no.nextval,1,#{fromId},#{msgContent},default,#{toId})
+	</insert>
+	<select id="selectOne" resultType="DirectMsg">
+		select
+		    *
+		from
+		    emp_tb E left join dm_tb D
+		        on E.emp_no = D.emp_no
+		where
+		     D.msg_no = (select max(msg_no) from dm_tb where to_id = #{toId})
+	</select>
+</mapper>

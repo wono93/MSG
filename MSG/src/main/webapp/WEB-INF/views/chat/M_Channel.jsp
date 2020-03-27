@@ -180,6 +180,7 @@
         border: none;
         resize: none;
     }
+
 </style>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -192,6 +193,16 @@
                         <li onclick="#">이메일</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/chat/channel.do'">팀채널</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
+                        	<form action="${pageContext.request.contextPath}/chat/msgList.do" method="GET">
+		                        <input type="hidden" name="toId" value="admin"/>
+		                    	<!-- <input type="hidden" name="fromId" value="jhaeil"/>
+		                    	<input type="hidden" name="msgNo" value="1"/>
+		                    	<input type="hidden" name="msgContent" value="하위,,"/>
+		                    	<input type="hidden" name="empName" value="정해일"/> -->
+		                        <li>
+			                        <button type="submit">DM</button>
+		                        </li>
+                        	</form>
                      </ul>
                 </div>
 				<div class="content">
