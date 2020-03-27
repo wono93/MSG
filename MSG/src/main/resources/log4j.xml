@@ -10,9 +10,39 @@
 		</layout>
 	</appender>
 	
+	<!-- system logging appender -->
+	<appender name="fileLogger" 
+			  class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" 
+			   value="${catalina.base}/logs/hellospring/hellospring.log"/>
+		<param name="append" value="true"/>
+		<param name="datePattern" value=".yyyy-MM-dd"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p : %l - %m%n"/>
+		</layout>
+	</appender>
+	
+    <!-- #9.2.log4jdbc-remix 로그 출력 appender 추가 -->
+	<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- #9.3.log4jdbc-remix 관련 logger 시작 -->
+	<!-- Query Loggers  -->
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="sqlLogger"/>
+	</logger>
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="sqlLogger"/>
+	</logger>
+	
 	<!-- Application Loggers -->
 	<logger name="com.kh.msg">
-		<level value="info" />
+		<level value="trace" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
