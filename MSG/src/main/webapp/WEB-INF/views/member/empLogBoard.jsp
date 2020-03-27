@@ -14,7 +14,7 @@
     <link href="${pageContext.request.contextPath }/resources/css/select_box.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/paging.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/hrBoard.css" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
+   https://github.com/ISeeTheFuture/MSG/pull/13/conflict?name=MSG%252Fsrc%252Fmain%252Fwebapp%252FWEB-INF%252Fviews%252Fmember%252FempLogBoard.jsp&ancestor_oid=aed079561a45c951e8c8838a5d78cb20a4d99262&base_oid=5f1c655121f605710149d13b0f19e82d7c26b0e3&head_oid=d5a9288b17885141d2b36b4bfab2f0ff14408310 <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
@@ -40,14 +40,17 @@
                         <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
                      </ul>
                 </div>
+                
+			    <form>
 			    <div class="content">
 			        <div class="control">
 			            <h2>조회날짜</h2>
-			            <input type='text' id='timepicker-start' name="src-date-start" class='datepicker-here' data-language='ko' 
+			            <input type='text' id='timepicker-start' name="startDate" class='datepicker-here' data-language='ko' 
 			                    data-date-format="yyyy-mm-dd" autocomplete="off"/>
 			                    <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 			            <span>~</span>
-			            <input type='text' id='timepicker-end' name="src-date-end" class='datepicker-here' data-language='ko' 
+			            <input type='text' id='timepicker-end' name="endDate" class='datepicker-here' data-language='ko' 
+
 			                    data-date-format="yyyy-mm-dd" autocomplete="off" />
 			            <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 			            <h1>총 영업일  ${bsnsDay } 일</h1>
@@ -68,7 +71,8 @@
 				                <td>${vs.count }</td>
 				                <td>${hr.deptName }</td>
 				                <td>${hr.empName }</td>
-				                <td>${bsnsDay - hr.vctnCount }</td>
+				                <td>${bsnsDay - hr.vctnCount<=0?0:bsnsDay - hr.vctnCount }</td>
+
 				                <td>${hr.vctnCount }일</td>
 				                <td>${hr.lateCount }일</td>
 				                <td>${hr.absentCount }일</td>
@@ -78,60 +82,64 @@
 			        </table>
 			        <div class="pagination">
 			            <a href="emp_info.html" class="arrow">&laquo;</a>
-			            <a href="emp_info.html">1</a>
-			            <a href="emp_info.html" class="active">2</a>
+			            <a href="emp_info.html" class="active">1</a>
+			            <a href="emp_info.html">2</a>
 			            <a href="emp_info.html">3</a>
 			            <a href="emp_info.html">4</a>
 			            <a href="emp_info.html">5</a>
 			            <a href="emp_info.html" class="arrow">&raquo;</a>
 			        </div>
-			        <div class="srchBar">
-			            <div class="select-box">
-			                <div class="select-box__current" tabindex="1">
-			                    <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="1" value="1" name="Ben"
-			                            checked="checked" />
-			                        <p class="select-box__input-text">전체</p>
-			                    </div>
-			                    <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="2" value="2" name="Ben"
-			                            />
-			                        <p class="select-box__input-text">부서</p>
-			                    </div>
-			                    <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="3" value="3" name="Ben"
-			                            />
-			                        <p class="select-box__input-text">직위</p>
-			                    </div>
-			                    <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="4" value="4" name="Ben"
-			                            />
-			                        <p class="select-box__input-text">사번</p>
-			                    </div><img class="select-box__icon"
-			                        src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
-			                        aria-hidden="true" />
-			                </div>
-			                <ul class="select-box__list">
-			                    <li>
-			                        <label class="select-box__option" for="1" aria-hidden="aria-hidden">전체</label>
-			                    </li>
-			                    <li>
-			                        <label class="select-box__option" for="2" aria-hidden="aria-hidden">부서</label>
-			                    </li>
-			                    <li>
-			                        <label class="select-box__option" for="3" aria-hidden="aria-hidden">직위</label>
-			                    </li>
-			                    <li>
-			                        <label class="select-box__option" for="4" aria-hidden="aria-hidden">사번</label>
-			                    </li>
-			                </ul>
-			            </div>
-			            <input type="text" name="" id="srchWord">
-			            <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search"
-			                    style="font-size:15px"></i> 검색</button>
-			        </div>
+				        <div class="srchBar">
+				            <div class="select-box">
+				                <div class="select-box__current" tabindex="1">
+				                    <div class="select-box__value">
+				                        <input class="select-box__input" type="radio" id="R1" value="byAll" name="searchBy"
+				                            checked="checked" />
+				                        <p class="select-box__input-text">전체</p>
+				                    </div>
+				                    <div class="select-box__value">
+				                        <input class="select-box__input" type="radio" id="R2" value="byDept" name="searchBy"
+				                            />
+				                        <p class="select-box__input-text">부서</p>
+				                    </div>
+				                    <div class="select-box__value">
+				                        <input class="select-box__input" type="radio" id="R3" value="byJob" name="searchBy"
+				                            />
+				                        <p class="select-box__input-text">직위</p>
+				                    </div>
+				                    <div class="select-box__value">
+				                        <input class="select-box__input" type="radio" id="R4" value="byEmpNo" name="searchBy"
+				                            />
+				                        <p class="select-box__input-text">사번</p>
+				                        
+				                        
+				                        
+				                    </div><img class="select-box__icon"
+				                        src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
+				                        aria-hidden="true" />
+				                </div>
+				                <ul class="select-box__list">
+				                    <li>
+				                        <label class="select-box__option" for="R1" aria-hidden="aria-hidden">전체</label>
+				                    </li>
+				                    <li>
+				                        <label class="select-box__option" for="R2" aria-hidden="aria-hidden">부서</label>
+				                    </li>
+				                    <li>
+				                        <label class="select-box__option" for="R3" aria-hidden="aria-hidden">직위</label>
+				                    </li>
+				                    <li>
+				                        <label class="select-box__option" for="R4" aria-hidden="aria-hidden">사번</label>
+				                    </li>
+				                </ul>
+				            </div>
+				            <input type="text" name="" id="srchWord">
+				            <button type="submit" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search"
+				                    style="font-size:15px"></i> 검색</button>
+				        </div>
 			        
 			    </div>
+			    </form>
 			
 			</article>
 		</div>	
@@ -201,15 +209,12 @@
         }
         
         function calcDate(date1,date2) {
-          /*   var date1 = new Date(2017, 10, 30); // 2017-11-30
-            var date2 = new Date(2017, 11, 6); // 2017-12-6 */
 
             var count = 0;
 
 	        while(true) {  
 	            var temp_date = date1;
 	            if(temp_date.getTime() > date2.getTime()) {
-	                alert("count : " + count);
 	                break;
 	            } else {
 	                var tmp = temp_date.getDay();
@@ -227,6 +232,11 @@
 	        return count;
         }
         
+        function searchBy(){
+        	let by = $("input[name='searchBy']").val();
+        	alert(by);
+        }
+
     </script>
 </body>
 </html>
