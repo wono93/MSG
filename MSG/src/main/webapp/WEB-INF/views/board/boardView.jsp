@@ -11,12 +11,25 @@
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script>
+    
          $(function(){
                 $('#star').on('click',function(){
                     $("#star").html("<i id='star1' class='fas fa-star'></i>");
                 })
                 
             });
+         function fileDownload(oName, rName){
+        		//한글파일명이 있을 수 있으므로, 명시적으로 encoding
+        		oName = encodeURIComponent(oName);
+        		location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
+        	}
+		function update(no){
+				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+			}
+		function insertComment(no){
+			location.href = "${pageContext.request.contextPath}/board/insertComment.do?boardNo="+no;
+		}
+		
     </script>
     <title>boardView</title>
 </head>
@@ -40,8 +53,8 @@
                         </div>
                         <div id="comLeft">
                             <div id="title">
-                                <p>
-                                    하하하하하하안녕하세요
+                                <p name="title">
+                                ${board.title }
                                 </p>
                             </div>
 
@@ -61,36 +74,48 @@
                         </div>
                         <div id="comRight">
                             <div id="category">
-                                <p> 자유게시판</p>
+								<p name="catag" >${board.catag }</p>
                             </div>
                             <div id="date">
                                 <i class="fas fa-eye" id="eye">
                                 </i>
-                                <p class="com3" style="font-size: 22px; padding-right: 8px;">15</p>
-                                <p class="com3">2020-03-01   17:53</p>
+                                <p name="cnt" class="com3" style="font-size: 22px; padding-right: 8px;">
+                                ${board.cnt }
+                                </p>
+                                <p name="date" class="com3">
+                                ${board.date }
+                                </p>
                             </div>
                         </div>
                     </div>
                 <div id="boardContentH">
                     <div id="boardContent">
-                        <p class="com4">
-                            관현악이며, 그러므로 어디 대중을 싸인 그것을 같이, 간에 아니한 위하여서. 가슴이 작고 피가
-                             가지에 우리 불어 힘있다. 
-                             <br>
-                             위하여 군영과 수 있을 동력은 몸이 황금시대의 보내는 있는가? 같이 사는가 과실이 피는 내려온 피어나는 거친 트고,
-                              자신과 있으랴? 가지에 그들에게 풀이 불어 뭇 인간의 교향악이다. 인간의 갑 인간에 밝은 보이는 몸이 때문이다.
-                               동산에는 인간의 꽃 용감하고 노래하며 듣는다. 있으며, 뜨거운지라,
-                               <br>
-                              실현에 청춘의 대중을 설레는 얼마나 하는 끓는 것이다. 피고 대한 무한한 바이며, 사막이다.
-                              무엇을 원질이 원대하고, 이상 피가 구할 뿐이다.
+                        <p name="content" class="com4">
+                        	${board.content }
                         </p>
-                        <img style="float: left; cursor: pointer;" src="${pageContext.request.contextPath}/resources/image/fileDownload.PNG"/>
+                        <c:if test="${board.attachList[0].no != 0 }" >
+							<c:forEach items="${board.attachList}" var="a" varStatus="vs">
+								<button type="button" style="text-align: left;" onclick="fileDownload('${a.file}','${a.refile }');">
+									첨부파일${vs.count} - ${a.file }
+								</button>
+							</c:forEach>
+						</c:if>
                     </div>
+                    
                     <div>
                         <div style="margin-top:35px; width: 100%; height: 100%; z-index: 100; position: relative; 
                             display: inline-block;">
-                            <button type="button" name="" id="grayBtn1" class="btn">수정</button>
-                            <button type="button" name="" id="grayBtn1" class="btn">삭제</button> 
+                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update(${board.no});">수정</button>
+                             <form name="boardFrm" 
+							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
+							  method="post" 
+							  onsubmit="return boardValidate();"
+							  enctype="multipart/form-data">
+							  
+                            	<button type="submit" name="" id="grayBtn1" class="btn">삭제</button>
+                            	<input type="hidden" name="no" value="${board.no }" />
+							  <input type="hidden" name="brdNo" value="${board.no }" /> 			
+							  </form>
                         </div>
                     </div>
                     <div style="height: 100%;" id="commentContent">
@@ -98,63 +123,66 @@
                             <p class="com5">2 개의 댓글</p>
                             <br>
                         </div>
+                        
+                        <c:if test="${board.commentList[0].no != 0 }" >
+							<c:forEach items="${board.commentList}" var="c">
+							<form name="boardFrm" 
+						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${c.brdNo }"
+						  method="post" 
+						  onsubmit="return boardValidate();"
+						  enctype="multipart/form-data">
+		                        <div id="commentUser">
+		                            <table>
+		                                <tr>
+		                                    <td style="padding-left: 0px; padding-right: 0px; width: 50px;">
+		                                        <div class="box1" style="background: #BDBDBD;">
+		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
+		                                        </div>
+		                                    </td>
+		                                    <td style="padding: 0; width: 166px;">${c.empNo }</td>
+		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
+		                                    <td style="padding: 0; width: 166px; color: gray;">
+		                                        ${c.date }
+		                                        <br>
+		                                        <input type="hidden" name="no" value="${c.no }">
+		                                        <button type="submit" name="" id="grayBtn3" class="btn">삭제</button>
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </div>
+		                        </form>
+		                       </c:forEach>
+							</c:if>
+		  				
+                        <form name="boardFrm" 
+						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}"
+						  method="post" 
+						  onsubmit="return boardValidate();"
+						  enctype="multipart/form-data">
                         <div id="commentUser">
-                            <table>
-                                <tr>
-                                    <td style="padding-left: 0px; padding-right: 0px; width: 50px;">
-                                        <div class="box1" style="background: #BDBDBD;">
-                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
-                                        </div>
-                                    </td>
-                                    <td style="padding: 0; width: 166px;">기술지원부 3팀 김그래</td>
-                                    <td style="font-size: 22px; padding-left: 20px;">asdasdasd</td>
-                                    <td style="padding: 0; width: 166px; color: gray;">
-                                        03 - 16 14 : 50
-                                        <br>
-                                        <button type="button" name="" id="grayBtn3" class="btn">삭제</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="commentUser">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="box1" style="background: #BDBDBD;">
-                                            <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
-                                        </div>
-                                    </td>
-                                    <td style="padding: 0; width: 166px;">기술지원부 3팀 김그래</td>
-                                    <td style="font-size: 22px; padding-left: 20px;">non optio, similique delectus explicabo!</td>
-                                    <td style="top: 2px; padding: 0; width: 166px; color: gray;">
-                                        03 - 16 14 : 50
-                                        <br>
-                                        <button type="button" name="" id="grayBtn3" class="btn">삭제</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="commentUser">
+                        <input type="hidden" name="brdNo" value="${board.no }"/>
                             <table>
                                 <tr>
                                     <td style="width: 720px;">
-                                        <textarea type="textarea" id="inputWrd"></textarea>
+                                    <div>
+                                        <textarea name="cmtContent" id="inputWrd"></textarea>
+                                        </div>
                                     </td>
                                     <td>
                                         <button style="margin-bottom: 12px; bottom: 10px;
-                                        right: 22px;" type="button" name="" id="grayBtn2" class="yellowBtn">
-                                            댓글등록
-                                        </button>                               
+                                        right: 22px;" type="submit" name="" id="grayBtn2" class="yellowBtn">
+                                          		  댓글등록
+                                        </button>                        
                                     </td>
                                 </tr>
                             </table>
                         </div>
+                       </form>
                     </div>
                 </div>
                 </div>
             </div>
-            </article>
-        </div>
+         </article>
     </section>
 
 </body>

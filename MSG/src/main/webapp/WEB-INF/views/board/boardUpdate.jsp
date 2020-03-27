@@ -34,33 +34,24 @@
         	return true;
         }
 
-        $(()=>{
-        	
-        	$("[name=upFile]").on("change", e => {
-        		let $file = $(e.target); //사용자가 작성한 file input 태그
-        		
-        		//취소한 경우
-        		if($file.prop('files')[0] === undefined){
-        			$file.next(".custom-file-label").html("파일을 선택하세요.");
-        		}
-        		else{
-        			let fileName = $file.prop('files')[0].name;
-        			$file.next(".custom-file-label").html(fileName);
-        		}
-        	});
-        });
+        function update(no){
+			location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+		}
+       
+        
       </script>
     <title>boardWrite</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<form name="boardFrm" 
-		  action="${pageContext.request.contextPath}/board/write.do" 
-		  method="post" 
+		  action="${pageContext.request.contextPath}/board/update.do?boardNo=${board.no}" 
+		  method="post"
 		  onsubmit="return boardValidate();"
 		  enctype="multipart/form-data">
     <section>
         <div>
+        <input type="hidden" name="no" value="${board.no }" />
         
             <article style="width: 1200; height: 100%;">
                 <div class="subNav">
@@ -123,7 +114,8 @@
                             </ul>
                         
                         <div id="boardTitle">
-                            <input type="text" name="title" id="srchWord">
+                            <input type="text" name="title" id="srchWord" value="${board.title }">
+                            
                         </div>
                         
                     </div>
@@ -139,23 +131,35 @@
                     </div>
 
                 </div>
-                <div id="file">
-                    <!-- <input type="file"/> -->
-                    <p id="com5">
-                        	여기로 파일을 끌고 오거나 직접 선택 
-                     <input type="file" name="upFile" id="upFile1" style="bottom: 10px;" >
-                     <input type="file" name="upFile" id="upFile2" style="bottom: 10px;" >
-                    </p>
-                    <p id="com5">0 MB / 50MB</p>
-                </div>
+                
+                <!--
+                <c:forEach items="${board.attachList }" var="f">
+                -->
+	                <div id="file">
+	                    <p id="com5">
+	                    <!-- 
+		                   <input type="file" name="upFile" id="upFile1" value="${f.file }" style="bottom: 10px;"/>
+		                   <input type="hidden" name="no" value="${f.no }"/>
+	                    </p>
+	                     -->
+                    	<p id="com5">
+                    		0 MB / 50MB
+                   		</p>
+	                </div>
+                <!-- 
+                </c:forEach>
+                 -->
+                
+                
                 <div id="api">
                       <div style="width: 914px; margin-left: 1px;">
-                        <textarea id="summernote" name="content"></textarea>
+                        <textarea id="summernote" name="content">${board.content }</textarea>
                       </div>
                 </div>
                     <div class="srchBar">
-                        <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
-                        <button type="submit" name="" id="yellowBtn" class="btn">글쓰기</button>
+                        <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/view.do?boardNo=${board.no }'"> 취  소 </button>
+             
+                        <button type="submit" name="" id="yellowBtn" class="btn" onclick="update(${board.no});">수정하기</button>
                     </div>
                 </div>
             	
