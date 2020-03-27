@@ -56,10 +56,10 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
 <body id="loginForm">
     <h3 class="thick kor">로그인</h3>
     <div>
-    <form id="loginFrm" method="POST">
+    <form id="loginFrm" method="POST" action="${pageContext.request.contextPath}/member/login.do">
         <div>
             <p class="kor login-label">아이디</p>
-            <input type="text" name="memberId" id="memberId"  class="kor"
+            <input type="text" name="userId" id="userId"  class="kor"
                    placeholder="아이디를 입력하세요"/>
             <%-- <% if(msg == "존재하지 않는 아이디입니다."){ %> --%>
             <p class="kor hidden-space">존재하지 않는 아이디입니다.</p>
@@ -81,7 +81,7 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
                     <input id="enroll-btn" class="kor float" type="button" value="아이디 / 비밀번호 찾기"/>
                 </span>
             </div>
-            <button id="login-btn" type="button" onclick="location.href='${pageContext.request.contextPath}/common/welcome.do'"><p class="thick kor">로그인</p></button>
+            <button id="login-btn" type="submit"><p class="thick kor">로그인</p></button>
         </div>
     </form>
     </div>

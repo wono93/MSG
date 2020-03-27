@@ -13,6 +13,7 @@
 	<!-- Application Loggers -->
 	<logger name="com.kh.msg">
 		<level value="trace" />
+
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/select_box.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/paging.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/hrBoard.css" type="text/css">
-    <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/listForm.js"></script>
     <title>인사 조직도</title>

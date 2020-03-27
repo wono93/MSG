@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
@@ -48,7 +50,7 @@
         <br>
         <ul class="firnav">
             <li>
-                <a href="${pageContext.request.contextPath}/member/list.do">
+                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">
                     <i class="icon far fa-id-card" style="font-size:24px"></i> 인사관리
                 </a>
             </li>
