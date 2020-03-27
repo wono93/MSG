@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,72 +16,9 @@
     <link href="${pageContext.request.contextPath }/resources/css/hrBoard.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
-    <script>
-        //아이콘 클릭 시 dateTimePicker focus
-        $(function(){
-            $('.starticon').click(function(){
-                $('#timepicker-start').focus();
-            });
-            $('.endicon').click(function(){
-                $('#timepicker-end').focus();
-            });
-        });
-
-
-        // Initialization
-        $('#my-element').datepicker()
-        // Access instance of plugin
-        $('#my-element').data('datepicker')
-
-        // Create start date
-        var start = new Date(),
-            prevDay,
-            startHours = 9;
     
-        // 09:00 AM
-        start.setHours(9);
-        start.setMinutes(0);
-    
-        // If today is Saturday or Sunday set 10:00 AM
-        if ([6, 0].indexOf(start.getDay()) != -1) {
-            start.setHours(10);
-            startHours = 10
-        }
-    
-        $('#timepicker-actions-exmpl').datepicker({
-            language: 'en',
-            startDate: start,
-            minHours: startHours,
-            maxHours: 18,
-            onSelect: function (fd, d, picker) {
-                // Do nothing if selection was cleared
-                if (!d) return;
-    
-                var day = d.getDay();
-    
-                // Trigger only if date is changed
-                if (prevDay != undefined && prevDay == day) return;
-                prevDay = day;
-    
-                // If chosen day is Saturday or Sunday when set
-                // hour value for weekends, else restore defaults
-                if (day == 6 || day == 0) {
-                    picker.update({
-                        minHours: 10,
-                        maxHours: 16
-                    })
-                } else {
-                    picker.update({
-                        minHours: 9,
-                        maxHours: 18
-                    })
-                }
-            }
-        })
-    </script>
     <style>
         
 
@@ -103,14 +43,14 @@
 			    <div class="content">
 			        <div class="control">
 			            <h2>조회날짜</h2>
-			            <input type='text' id='timepicker-start' class='datepicker-here' data-language='ko' 
-			                    data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10"/>
+			            <input type='text' id='timepicker-start' name="src-date-start" class='datepicker-here' data-language='ko' 
+			                    data-date-format="yyyy-mm-dd" autocomplete="off"/>
 			                    <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 			            <span>~</span>
-			            <input type='text' id='timepicker-end' class='datepicker-here' data-language='ko' 
-			                    data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10"/>
+			            <input type='text' id='timepicker-end' name="src-date-end" class='datepicker-here' data-language='ko' 
+			                    data-date-format="yyyy-mm-dd" autocomplete="off" />
 			            <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
-			            <h1>총 영업일 20 일</h1>
+			            <h1>총 영업일  ${bsnsDay } 일</h1>
 			        </div>
 			        <table class="board">
 			            <tr>
@@ -123,111 +63,18 @@
 			                <th>결근</th>
 			                <th>조퇴</th>
 			            </tr>
-			            <tr onclick="location.href='${pageContext.request.contextPath}/member/select.do'">
-			                <td>1</td>
-			                <td>기획부</td>
-			                <td>선동일</td>
-			                <td>15일</td>
-			                <td>5일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            <tr>
-			                <td>2</td>
-			                <td>기획부</td>
-			                <td><a href="empLog.html">송종기</a></td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td><span style="background-color: #f4ca25;border-radius: 50%;padding: 8px 8px;">1일</span></td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            <tr>
-			                <td>3</td>
-			                <td>영업부</td>
-			                <td>정나라</td>
-			                <td>15일</td>
-			                <td><span style="background-color: #f4ca25;border-radius: 50%;padding: 8px 8px;">5일</span></td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            <tr>
-			                <td>4</td>
-			                <td>영업부</td>
-			                <td>윤하늘</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            <tr>
-			                <td>5</td>
-			                <td>영업부</td>
-			                <td>공무</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            </tr>
-			            <tr>
-			                <td>6</td>
-			                <td>IT지원부</td>
-			                <td>정공인</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            </tr>
-			            <tr>
-			                <td>7</td>
-			                <td>IT지원팀</td>
-			                <td>박재성</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            </tr>
-			            <tr>
-			                <td>8</td>
-			                <td>인사관리부</td>
-			                <td>안고은</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            </tr>
-			            <tr>
-			                <td>9</td>
-			                <td>인사관리부</td>
-			                <td>이서욱</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
-			            </tr>
-			            <tr>
-			                <td>10</td>
-			                <td>인사관리부</td>
-			                <td>베성재</td>
-			                <td>20일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			                <td>0일</td>
-			            </tr>
+			            <c:forEach items="${list }" var="hr" varStatus="vs">
+				            <tr onclick="location.href='${pageContext.request.contextPath}/member/select.do'">
+				                <td>${vs.count }</td>
+				                <td>${hr.deptName }</td>
+				                <td>${hr.empName }</td>
+				                <td>${bsnsDay - hr.vctnCount }</td>
+				                <td>${hr.vctnCount }일</td>
+				                <td>${hr.lateCount }일</td>
+				                <td>${hr.absentCount }일</td>
+				                <td>${hr.leaveCount }일</td>
+				            </tr>
+			            </c:forEach>
 			        </table>
 			        <div class="pagination">
 			            <a href="emp_info.html" class="arrow">&laquo;</a>
@@ -289,5 +136,97 @@
 			</article>
 		</div>	
 	</section>
+	<script>
+		//광역변수 선언
+	    let startDate;
+	    let endDate; 
+	    
+        //아이콘 클릭 시 dateTimePicker focus
+		$( document ).ready(function(){
+	        
+            $('.starticon').click(function(){
+                $('#timepicker-start').focus();
+            });
+            $('.endicon').click(function(){
+                $('#timepicker-end').focus();
+            });
+            
+            $("#timepicker-start").val("${srcDateStart}");
+            $("#timepicker-end").val("${srcDateEnd}");
+        });
+
+        
+        $("#timepicker-start").datepicker({
+        	onSelect: function onSelect(start){
+       		 	startDate = start;
+        		if(startDate !== undefined && endDate !== undefined){
+        			validate(startDate,endDate);
+        		}
+        	},
+        	maxDate: new Date()
+        });
+        $("#timepicker-end").datepicker({
+        	onSelect: function onSelect(end){
+        		endDate = end;
+        		if(startDate !== undefined && endDate !== undefined){
+        			validate(startDate,endDate);
+        		}
+        	},
+        	maxDate: new Date()
+        });
+        
+        //날짜로 변환
+        function toDate(strDate){
+        	var y = strDate.substr(0, 4);
+   		    var m = strDate.substr(5, 2);
+   		    var d = strDate.substr(8, 2);
+   		    
+   		 	return new Date(y,m-1,d);
+        }
+        
+        //유효성검사
+        function validate(startDate,endDate){
+        	var dstartDate = toDate(startDate);
+        	var dendDate = toDate(endDate);
+        	
+        	//검색하고자 하는 시작날짜가 종료날짜보다 나중인 경우
+        	if (+dstartDate > +dendDate){
+        		alert("날짜를 다시 지정해주세요");
+        	}else{
+        		var bsnsDay = calcDate(dstartDate,dendDate);
+        		location.href="${pageContext.request.contextPath}/member/empLogList.do?startDate="+startDate+
+        				"&endDate="+endDate+
+        				"&bsnsDay="+bsnsDay;
+        	}
+        }
+        
+        function calcDate(date1,date2) {
+          /*   var date1 = new Date(2017, 10, 30); // 2017-11-30
+            var date2 = new Date(2017, 11, 6); // 2017-12-6 */
+
+            var count = 0;
+
+	        while(true) {  
+	            var temp_date = date1;
+	            if(temp_date.getTime() > date2.getTime()) {
+	                alert("count : " + count);
+	                break;
+	            } else {
+	                var tmp = temp_date.getDay();
+	                if(tmp == 0 || tmp == 6) {
+	                    // 주말
+	                    console.log("주말");
+	                } else {
+	                    // 평일
+	                    console.log("평일");
+	                    count++;         
+	                }
+	                temp_date.setDate(date1.getDate() + 1); 
+	            }
+	        }
+	        return count;
+        }
+        
+    </script>
 </body>
 </html>

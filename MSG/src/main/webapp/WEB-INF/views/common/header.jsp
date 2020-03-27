@@ -9,12 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>MSG</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
-    <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
 		var hdjq = jQuery.noConflict();
     </script>
@@ -47,7 +50,7 @@
         <br>
         <ul class="firnav">
             <li>
-                <a href="${pageContext.request.contextPath}/member/list.do">
+                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">
                     <i class="icon far fa-id-card" style="font-size:24px"></i> 인사관리
                 </a>
             </li>
@@ -62,12 +65,12 @@
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/res/cal.do">
+                <a href="${pageContext.request.contextPath}/sched/cal.do">
                     <i class="icon far fa-calendar-alt" style="font-size:24px"></i> 일정관리
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/res/carRes.do">
+                <a href="${pageContext.request.contextPath}/res/confRes.do">
                     <i class="icon far fa-check-square" style="font-size:24px"></i> 예약관리
                 </a>
             </li>

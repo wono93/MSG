@@ -257,7 +257,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <input type="text" name="" id="srchWord">
+                        <input type="text" name="" id="srchWord" placeholder="검색창 나중에 위 쪽으로 올릴것">
                         <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
                     </div>
                 </div>
