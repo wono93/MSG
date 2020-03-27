@@ -15,7 +15,6 @@
     <link href="${pageContext.request.contextPath }/resources/css/empLog.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/IOlog.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
     <script>

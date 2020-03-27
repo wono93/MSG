@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edoc">
+
+
+	<select id="jstree" resultType="jstree">
+		select * from jstree_tb
+	</select>
+
+	<select id="jstreeMem" resultType="jstreeMem">
+		select * from jstree_mem_tb where name = #{name}
+	</select>
+</mapper>

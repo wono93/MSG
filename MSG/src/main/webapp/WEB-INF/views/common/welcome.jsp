@@ -27,6 +27,8 @@
 	font-weight: 900;
 }
 </style>
+<script>
+</script>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 

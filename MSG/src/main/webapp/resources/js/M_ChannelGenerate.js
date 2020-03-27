@@ -23,8 +23,5 @@ hdjq(document).ready(function(){
         if (event.target == channelModal) {
         	channelModal.style.display = "none";
         }
-        if (event.target == flowModal) {
-            flowModal.style.display = "none";
-        }
     }
 });
