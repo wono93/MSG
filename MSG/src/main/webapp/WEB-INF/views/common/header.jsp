@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
