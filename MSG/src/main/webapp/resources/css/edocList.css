@@ -252,7 +252,7 @@ table td:nth-child(2){
 .checkbox_wrap label {
     margin: 0px 10px;
 }
-
+.checkbox_wrap{position: relative;}
 .myDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .myDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .myDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
@@ -262,7 +262,6 @@ table td:nth-child(2){
 .myDocu-container input:checked ~ .myDocu-checkmark:after { display: inline; }
 .myDocu-container .myDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
-.checkbox_wrap{position: relative;}
 .reqDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .reqDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .reqDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
@@ -272,7 +271,6 @@ table td:nth-child(2){
 .reqDocu-container input:checked ~ .reqDocu-checkmark:after { display: inline; }
 .reqDocu-container .reqDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
-.checkbox_wrap{position: relative;}
 .compDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .compDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .compDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
@@ -282,7 +280,6 @@ table td:nth-child(2){
 .compDocu-container input:checked ~ .compDocu-checkmark:after { display: inline; }
 .compDocu-container .compDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
-.checkbox_wrap{position: relative;}
 .refDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .refDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .refDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
@@ -292,7 +289,6 @@ table td:nth-child(2){
 .refDocu-container input:checked ~ .refDocu-checkmark:after { display: inline; }
 .refDocu-container .refDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
-.checkbox_wrap{position: relative;}
 .endDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .endDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .endDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
@@ -302,4 +298,3 @@ table td:nth-child(2){
 .endDocu-container input:checked ~ .endDocu-checkmark:after { display: inline; }
 .endDocu-container .endDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
-.checkbox_wrap{position: relative;}

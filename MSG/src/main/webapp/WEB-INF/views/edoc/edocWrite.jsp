@@ -19,22 +19,46 @@
 	<script src="${pageContext.request.contextPath }/resources/jsTree/dist/jstree.min.js"></script>
     <script>
   		var jq = jQuery.noConflict();
-  		// ajax demo
-  		jq('#ajax').jstree({
-  			'core' : {
-  				'data' : {
-  					"url" : "edoc\root.json",
-  					"dataType" : "json" // needed only if you do not supply JSON headers
-  				}
-  			}
+  		
+  		function getContextPath() { // contextPath 구하기
+  			return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+  		}
+  		
+  		// 여기서부터 jstree
+
+  		var selectedTree;
+  		var flowLine = new Array();
+  		var coopLine = new Array();
+  		var referLine = new Array();
+  		
+  		jq.ajax({
+  		    type:"get",
+  		    url: "/msg/edoc/jstree.do",
+  		    dataType: "json",
+  		    success: function(response){
+  		 		jq("#ajax_jstree")
+  		 		.on("changed.jstree", function (e, data) {
+					if(data.selected.length) {
+						selectedTree = data.instance.get_node(data.selected[0]).text;
+						/* console.log("선택된 요소입니다"+selectedTree); */
+					}
+				})
+  		 		.jstree({
+  		            core: {
+  		                data: response
+					}
+  		        
+  		        })
+  		    }
   		});
+    
+
 	</script>
     <title>edocWrite</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <section>
-        <div>
             <article>
                 <div class="subNav">
                     <h3>전자결재</h3>
@@ -265,6 +289,7 @@
                                 <td>
                                     <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-m-d D"
                                     data-language="ko" id='timepicker-startend' class="datepicker-here"/>
+                                    
                                     <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
                                 </td>
                                 <td>잔여휴가</td>
@@ -394,13 +419,24 @@
                     </tr>
                     <tr>
                         <td rowspan="6">
-                            <div id="ajax" class="demo"></div>
+                            <div id="ajax_jstree" class="demo"></div>
                         </td>
                         <td>
-                            <i class="fas fa-angle-double-right arrowIcon" style="font-size:48px;color:#333333"></i>
+                            <div id="flowArrow">
+	                            <i class="fas fa-angle-double-right arrowIcon" style="font-size:48px;color:#333333"></i>                            
+                            </div>
                         </td>
-                        <td class="flowBox">
+                        <td  class="flowBox">
+							<form action="">
+								<table id="flowLineTb" class="flowLineTable">
+									<tr id="deadline">
+										<th colspan=3>이름</th>
+										<th>전결</th>
+										<th>삭제</th>
+									</tr>
 
+								</table>
+							</form>
                         </td>
                     </tr>
                     <tr>
@@ -445,9 +481,56 @@
                     <button type="button" id="closeBoxBtn" class="close whiteBtn commonBtn">취소</button>
                 </div>
             </div>
-
         </div>
     </div>
-      
+    <script>
+		
+		$("#flowArrow").click(function(){
+	  		$.ajax({
+	  		    type:"get",
+	  		    url: "/msg/edoc/jstreeMem.do",
+	  		    data: {
+	  		    	name : selectedTree
+	  		    },
+	  		    dataType: "json",
+	  		    success: function(response){
+/* 	  		 		console.log("dept"+response['dept']);
+	  		 		console.log("name"+response['name']); */
+	  		 		var tmp = [response['dept'],response['name']];
+					flowLine.push(tmp);
+	  		 		/* console.log(flowLine.length); */
+	  		 		if(flowLine.length > 5){
+	  		 			alert("결재선은 최대 5명까지 지정 가능합니다.");
+	  		 			flowLine.splice(5,1);
+	  		 			return;
+	  		 		}
+	  		 		var i = flowLine.length - 1;
+					$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+response['dept']+"</td><td></td><td>"+response['name']+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+					/* console.log(flowLine); */
+	  		    }
+	  		});
+		});
+		
+		function removeFlow(obj){
+			jq("#deadline").siblings("tr").remove();
+			var indexStr = jq(obj).parent().parent("tr").attr("id");
+			/* console.log(indexStr); */
+			var indexNo = indexStr.substr(indexStr.length-1);
+			/* console.log(indexNo); */
+			flowLine.splice(indexNo,1);
+			/* console.log(flowLine); */
+			
+ 			for(var i in flowLine){
+				$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+flowLine[i][0]+"</td><td></td><td>"+flowLine[i][1]+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+			}
+			
+		};
+		
+		$('#timepicker-startend').datepicker({
+			onSelect: function onSelect (fd) {
+				console.log(fd)
+		    }
+		})
+	</script>
 </body>
 </html>

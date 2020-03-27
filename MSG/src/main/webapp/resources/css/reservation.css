@@ -23,7 +23,7 @@ input{font-family: 'Noto Sans KR';}
 .center1200 li:first-of-type{margin-left:60px;}
 .center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 .float{float:left;}
-#whitecontent{width:1080px; margin:0 auto; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
+#whitecontent{width:1080px; margin:0 auto; text-align:left; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
 #whitecontent>span{font-size:30px; margin-left: 30px;}
 #timepicker-start, #timepicker-end{width:210px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
 #timepicker-startend{width:250px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
@@ -34,6 +34,8 @@ input{font-family: 'Noto Sans KR';}
 #getreserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:235px;}
 #getreserv:hover{font-weight:bold; color:#333; border:none; background-color: #f4ca25; cursor: pointer;}
 #res-table{width: 100%; line-height: 46px; margin-top: 20px;}
+.narrow-td{width: 10% !important;}
+.wide-td {width:32% !important;}
 #res-table th, #res-table td{color: #333; width: 25%; text-align: center;}
 #res-table tr{ width:980px; display:flex; border-bottom: 1px solid #999;}
 #res-table tr:first-child{ border-top: 4px solid #999;}

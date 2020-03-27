@@ -12,7 +12,8 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.kh.msg">
-		<level value="debug" />
+		<level value="trace" />
+
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

@@ -157,6 +157,7 @@ var calendar = $('#calendar').fullCalendar({
   /* ****************
    *  일정 받아옴 
    * ************** */
+  /** 이 부 분을 고 쳐 써 야 해  **/
   events: function (start, end, timezone, callback) {
     $.ajax({
       type: "get",
