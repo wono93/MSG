@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+	<select id="schedList" resultType="schedule">
+	select * 
+	from sched_tb
+	</select>
+	<insert id="insert">
+	insert into sched_tb
+	values(
+		seq_sche_schecode.nextval,
+		#{edit-type},
+		#{empNo},
+		#{edit-title},
+		#{edit-start},
+		#{edit-end},
+		#{edit-color},
+		#{edit-desc}
+	)
+	<!-- (sche_code, sche_cate, emp_no, sche_name, sche_start, sche_end, sche_color, sche_ex) -->
+	</insert>
+	<!-- <update id="update">
+	update sched_tb
+	set 
+		sche_cate = #{scheCate},
+		sche_name = #{scheName},
+		sche_start = #{scheStart},
+		sche_end = #{scheEnd},
+		sche_color = #{scheColor},
+		sche_ex = #{scheEx}
+	where emp_no = #{empNo}
+	</update>
+	<delete id="delete">
+	delete from sched_tb
+	where sche_code = #{scheCode}
+	</delete> -->
+</mapper>
