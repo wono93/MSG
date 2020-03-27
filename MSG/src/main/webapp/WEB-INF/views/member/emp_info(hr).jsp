@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/listForm.css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>  
     <title>송종기 대리 :: 인적사항</title>
 <style>
 body{font-family: 'Noto Sans KR', sans-serif;}
@@ -173,6 +172,7 @@ article > .content{background-color: #FEFEFE; border:1px solid black; width: 900
 <title>사원 정보</title>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
     <section>
         <div>
             <article>
