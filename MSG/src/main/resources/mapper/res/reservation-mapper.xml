@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="res">
+	<select id="selectConfList" resultType="conferenceroom">
+	select *
+	from conf_room_tb
+	order by croom_size asc, croom_code
+	</select>
+	<insert id="confInsert">
+	insert into conf_rsvn_tb
+	values(seq_confrsvn_confcode.nextval, 1, #{croomCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	<!-- resCode, empNo, croomCode, resEnrolldate, resUsedate, resReturndate -->
+	</insert>
+	<select id="selectCarList" resultType="car">
+	select *
+	from car_tb
+	order by car_cate asc, car_code
+	</select>
+	<insert id="carInsert">
+	insert into car_rsvn_tb
+	values(seq_carrsvn_carcode.nextval, 1, #{carCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	<!-- resCode, empNo, carCode, resEnrolldate, resUsedate, resReturndate -->
+	</insert>
+	<select id="selectAllMyConfResList" resultType="resview">
+	select r.croom_code "thing_code",
+		   c.croom_name "thing_name",
+		   c.croom_size "thing_size",
+		   round(r.res_returndate - r.res_usedate)*24*60 "how_long",
+		   r.res_usedate "res_use_date",
+		   r.res_returndate "res_return_date"
+	from conf_rsvn_tb r join conf_room_tb c on r.croom_code = c.croom_code
+	where emp_no = 1
+	order by r.res_usedate desc
+	</select>
+	<select id="selectAllMyCarResList" resultType="resview">
+	select r.car_code "thing_code",
+		   c.car_company ||'  '|| c.car_type "thing_name",
+		   c.car_size "thing_size",
+		   round(r.res_returndate - r.res_usedate)*24*60 "how_long",
+		   r.res_usedate "res_use_date",
+		   r.res_returndate "res_return_date"
+	from car_rsvn_tb r join car_tb c on r.car_code = c.car_code
+	where emp_no = 1
+	order by r.res_usedate desc
+	</select>
+</mapper>

@@ -35,7 +35,7 @@ public class MemberController {
 	MemberService memberService;
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
-
+  
 	@PostMapping("/login.do")
 	public String login(@RequestParam("userId") String userId, @RequestParam("password") String password,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -64,6 +64,7 @@ public class MemberController {
 		}
 
 		return "common/welcome";
+
 	}
 
 	@GetMapping("/empLogBoard.do")
@@ -136,5 +137,6 @@ public class MemberController {
 		}
 		
 		return workingDays;
+
 	}
 }

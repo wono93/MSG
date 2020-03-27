@@ -63,10 +63,10 @@
 			        <div id="contextMenu" class="dropdown clearfix">
 			            <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
 			                style="display:block;position:static;margin-bottom:5px;">
-			                <li><a tabindex="-1" href="#">카테고리1</a></li>
-			                <li><a tabindex="-1" href="#">카테고리2</a></li>
-			                <li><a tabindex="-1" href="#">카테고리3</a></li>
-			                <li><a tabindex="-1" href="#">카테고리4</a></li>
+			                <li><a tabindex="-1" href="#">개인일정</a></li>
+			                <li><a tabindex="-1" href="#">팀 일정</a></li>
+			                <li><a tabindex="-1" href="#">부서 일정</a></li>
+			                <li><a tabindex="-1" href="#">회사 일정</a></li>
 			                <li class="divider"></li>
 			                <li><a tabindex="-1" href="#" data-role="close">Close</a></li>
 			            </ul>
@@ -82,83 +82,82 @@
 			        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 			            <div class="modal-dialog" role="document">
 			                <div class="modal-content">
-			                    <div class="modal-header">
-			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-			                                aria-hidden="true">&times;</span></button>
-			                        <h4 class="modal-title"></h4>
-			                    </div>
-			                    <div class="modal-body">
-			
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4" for="edit-allDay">하루종일</label>
-			                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox"></label>
-			                            </div>
-			                        </div>
-			
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-title">일정명</label>
-			                                <input class="inputModal" type="text" name="edit-title" id="edit-title"
-			                                    required="required" />
-			                            </div>
-			                        </div>
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-start">시작</label>
-			                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
-			                            </div>
-			                        </div>
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-end">끝</label>
-			                                <input class="inputModal" type="text" name="edit-end" id="edit-end" />
-			                            </div>
-			                        </div>
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-type">구분</label>
-			                                <select class="inputModal" type="text" name="edit-type" id="edit-type">
-			                                    <option value="카테고리1">카테고리1</option>
-			                                    <option value="카테고리2">카테고리2</option>
-			                                    <option value="카테고리3">카테고리3</option>
-			                                    <option value="카테고리4">카테고리4</option>
-			                                </select>
-			                            </div>
-			                        </div>
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-color">색상</label>
-			                                <select class="inputModal" name="color" id="edit-color">
-			                                    <option value="#D25565" style="background-color:#D25565; color:#fefefe;">빨간색</option>
-			                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-			                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-			                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-			                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-			                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-			                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-			                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-			                                    <option value="#495057" style="color:#495057;">검정색</option>
-			                                </select>
-			                            </div>
-			                        </div>
-			                        <div class="row">
-			                            <div class="col-xs-12">
-			                                <label class="col-xs-4 mt10" for="edit-desc">설명</label>
-			                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
-			                                    id="edit-desc"></textarea>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="modal-footer modalBtnContainer-addEvent">
-			                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-			                        <button type="button" class="btn btn-primary" id="save-event">저장</button>
-			                    </div>
-			                    <div class="modal-footer modalBtnContainer-modifyEvent">
-			                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-			                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-			                        <button type="button" class="btn btn-primary" id="updateEvent">저장</button>
-			                    </div>
+			                	<form name="schedFrm" action="${pageContext.request.contextPath}/sched/insert.do" method="post">
+				                    <div class="modal-header">
+				                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+				                                aria-hidden="true">&times;</span></button>
+				                        <h4 class="modal-title"></h4>
+				                    </div>
+				                    <div class="modal-body">
+				
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4" for="edit-allDay">하루종일</label>
+				                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox"></label>
+				                            </div>
+				                        </div>
+				
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-title">일정명</label>
+				                                <input class="inputModal" type="text" name="edit-title" id="edit-title"
+				                                    required="required" />
+				                            </div>
+				                        </div>
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-start">시작</label>
+				                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
+				                            </div>
+				                        </div>
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-end">끝</label>
+				                                <input class="inputModal" type="text" name="edit-end" id="edit-end" />
+				                            </div>
+				                        </div>
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-type">구분</label>
+				                                <select class="inputModal" type="text" name="edit-type" id="edit-type">
+				                                    <option value="S1">개인일정</option>
+				                                    <option value="S2">팀 일정</option>
+				                                    <option value="S3">부서 일정</option>
+				                                    <option value="S4">회사 일정</option>
+				                                </select>
+				                            </div>
+				                        </div>
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-color">색상</label>
+				                                <select class="inputModal" name="color" id="edit-color">
+				                                    <option value="#f4ca25" style="color:#f4ca25;">회의</option>
+				                                    <option value="#f2ab39" style="color:#f2ab39;">외근</option>
+				                                    <option value="#ee6a22" style="color:#ee6a22;">휴가</option>
+				                                    <option value="#bd8e62" style="color:#bd8e62;">출장</option>
+				                                    <option value="#69491a" style="color:#69491a;">지울까...?</option>
+				                                    <option value="#370d00" style="color:#370d00;">데드라인</option>
+				                                </select>
+				                            </div>
+				                        </div>
+				                        <div class="row">
+				                            <div class="col-xs-12">
+				                                <label class="col-xs-4 mt10" for="edit-desc">설명</label>
+				                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+				                                    id="edit-desc"></textarea>
+				                            </div>
+				                        </div>
+				                    </div>
+				                    <div class="modal-footer modalBtnContainer-addEvent">
+				                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				                        <button type="button" class="btn btn-primary" id="save-event">저장</button>
+				                    </div>
+				                    <div class="modal-footer modalBtnContainer-modifyEvent">
+				                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
+				                        <input type="submit" class="btn btn-primary" id="updateEvent">저장</button>
+				                    </div>
+				                 </form>
 			                </div><!-- /.modal-content -->
 			            </div><!-- /.modal-dialog -->
 			        </div><!-- /.modal -->
@@ -175,10 +174,10 @@
 			                    <label for="calendar_view">구분별</label>
 			                    <div class="input-group">
 			                        <select class="filter" id="type_filter" multiple="multiple">
-			                            <option value="카테고리1">카테고리1</option>
-			                            <option value="카테고리2">카테고리2</option>
-			                            <option value="카테고리3">카테고리3</option>
-			                            <option value="카테고리4">카테고리4</option>
+			                            <option value="S1">카테고리1</option>
+			                            <option value="S2">카테고리2</option>
+			                            <option value="S3">카테고리3</option>
+			                            <option value="S4">카테고리4</option>
 			                        </select>
 			                    </div>
 			                </div>

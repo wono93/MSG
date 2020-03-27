@@ -6,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/edocConfirm.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/edocConfirm.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/edocConfirm.js"></script>
     <title>edocConfirm</title>
 </head>
 <body>
@@ -196,10 +196,10 @@
         </div>
     </section>
     <!-- The Modal -->
-    <div id="flowModal" class="modal">
+    <div id="flowModal" class="flowModal">
         <!-- Modal content -->
         <div class="modal-content">
-            <div class="flowTitle">
+            <div class="flowModalTitle">
                 <h1>결재하기</h1>
                 <h4>경영지원부 부장 안영이</h4>
             </div>                                                         
@@ -220,8 +220,8 @@
                     <textarea name="" id="" cols="65" rows="8" style="resize: none;"></textarea>
                 </div>
                 <div class="divBtn">
-                    <button type="button" id="flowBtn" class="whiteBtn commonBtn">확인</button>
-                    <button type="button" id="closeBtn" class="close whiteBtn commonBtn">취소</button>
+                    <button type="button" id="flowModalBtn" class="whiteBtn commonBtn">확인</button>
+                    <button type="button" id="closeBoxBtn" class="close whiteBtn commonBtn">취소</button>
                 </div>
             </form>
         </div>

@@ -565,7 +565,7 @@ table .textIpt {
 .flowModalTb tr:nth-child(2) td:nth-child(2),.flowModalTb tr:nth-child(4) td:first-child,.flowModalTb tr:nth-child(6) td:first-child {
     text-align: center;
 }
-.flowModalTb tr:nth-child(2) td:nth-child(2):hover,.flowModalTb tr:nth-child(4) td:first-child:hover,.flowModalTb tr:nth-child(6) td:first-child:hover {
+.arrowIcon {
     cursor: pointer;
 }
 .marginTd{
@@ -590,7 +590,6 @@ table .textIpt {
 
 
 
-/* ebebeb */
 
 /* 결재내용 버튼 */
 .flowAllow-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
@@ -612,3 +611,64 @@ table .textIpt {
 .flowDeny-container input:checked ~ .flowDeny-checkmark:after { display: inline; }
 .flowDeny-container .flowDeny-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+                                    
+                                    
+/* 여기서부터 결재선 테이블 css */
+
+.flowLine-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.flowLine-container input {position: absolute; opacity: 0; cursor: pointer; }
+.flowLine-checkmark { position: absolute; top: -10px; left: -12px; height: 25px; width: 25px; background-color: #fefefe;}
+.flowLine-container:hover input ~ .flowLine-checkmark { background-color: #ccc;}
+.flowLine-container input:checked ~ .flowLine-checkmark { background-color: #F4CA25; }
+.flowLine-checkmark:after { content: ""; position: absolute; display: none; } /* 클릭시 체크생성 */
+.flowLine-container input:checked ~ .flowLine-checkmark:after { display: inline; }
+.flowLine-container .flowLine-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+
+.flowBox {
+	padding : 10px;
+	overflow: scroll;
+	overflow-x:hidden;
+}
+.flowLineTable {
+    height: 130px;
+	
+}
+
+.flowLineTable * {
+	padding: 0px !important;
+	text-align: center;
+	margin-bottom : none !important;
+}
+.flowLineTable td{
+	height: 40px !important;
+}
+.flowBoxX{
+	width : 10px;
+	padding
+}
+.flowLineTable td:first-child {
+	width: 110px;
+}
+.flowLineTable td:nth-child(2) {
+	width: 60px;
+}
+.flowLineTable td:nth-child(3) {
+	width: 80px;
+}
+.flowLineTable td:nth-child(4) {
+	width: 50px;
+
+}
+.flowLineTable td:last-child {
+	width: 50px;
+}
+.flowLineTable {
+	border-top : none !important;
+}
+.flowLineTable * {
+	border: none !important;
+}
+.flowLineTable th {
+	border-bottom: 2px solid #999999 !important;
+}

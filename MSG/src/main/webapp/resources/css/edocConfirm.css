@@ -403,7 +403,7 @@ table tr:last-child {
 
 /* 모달 */
 /* The Modal (background) */
-.modal {
+.flowModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -430,10 +430,10 @@ table tr:last-child {
     width: 95%;
     margin-bottom: 30px;
 }
-.flowTitle h1{
+.flowModalTitle h1{
     float: left;
 }
-.flowTitle h4{
+.flowModalTitle h4{
     float: right;
 }
 .checkbox_wrap *{

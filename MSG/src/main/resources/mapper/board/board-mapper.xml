@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<resultMap type="board" id="board"></resultMap>
+	<select id="selectBoardList" resultMap="board">
+		SELECT * FROM BRD_TB
+	</select>
+	
+	<insert id="insertBoard">
+		insert into
+			brd_tb
+		values (
+			seq_brd_no.nextval,
+			#{title},
+			#{content},
+			default,
+			0,
+			#{catag},
+			1)
+		<selectKey keyProperty="no" resultType="_int" 
+				   order="AFTER">
+			select seq_brd_no.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAttachment">
+		insert into
+			atcmt_tb
+		values (
+			seq_atcmt_no.nextval,
+			#{brdNo},
+			#{file},
+			#{refile},
+			default,
+			default,
+			default)
+	</insert>
+	<insert id="insertComment">
+		insert into
+			cmt_tb
+		values (
+			seq_cmt_no.nextval,
+			#{cmtContent},
+			default,
+			default,
+			0,
+			1,
+			#{brdNo})
+	</insert>
+	
+	<select id="selectOne" resultMap="boardCollection">
+			select b.*, a.no as ano, a.*, c.no as cno, c.*
+            from brd_tb b
+            left join atcmt_tb a
+            on b.no = a.brd_no
+            left join cmt_tb c
+            on b.no = c.brd_no
+			where b.no = #{boardNo}
+	</select>
+	
+	<resultMap type="board" id="boardCollection">
+		<id column='no' property="no"/>
+		<result column='title' property="title"/>
+		<result column='content' property="content"/>
+		<result column='date' property="date"/>
+		<result column='cnt' property="cnt"/>
+		<result column='catag' property="catag"/>
+		<result column='emp_no' property="empNo"/>
+		<collection property="attachList" ofType="attachment">
+			<id column="ano" property="no"/>
+			<result column="brd_no" property="brdNo"/>
+			<result column="file" property="file"/>
+			<result column="refile" property="refile"/>
+			<result column="dwn_cnt" property="dwnCnt"/>
+			<result column="status" property="status"/>
+			<result column="date" property="date"/>
+		</collection>
+		<collection property="commentList" ofType="comment">
+			<id column="cno" property="no"/>
+			<result column="cmt_content" property="cmtContent"/>
+			<result column="date" property="date"/>
+			<result column="level" property="level"/>
+			<result column="cmt_no" property="cmtNo"/>
+			<result column="emp_no" property="empNo"/>
+			<result column="brd_no" property="brdNo"/>
+		</collection>
+	</resultMap>
+	<update id="boardUpdate">
+		update
+			brd_tb
+		set
+			title = #{title},
+			content = #{content},
+			catag = #{catag}
+		where
+			no = #{no}
+	</update>	
+	<!-- 
+	<update id="attachmentUpdate">
+		update
+			atcmt_tb
+		set
+			file = #{file}
+		where
+			no = #{no}
+	</update> 
+	-->
+	<update id="cntUp">
+		update
+			brd_tb
+		set
+			cnt =+ 1
+		where
+			no = #{no}
+	</update>
+	<delete id="deleteComment">
+		delete from
+			cmt_tb
+		where no = #{no}
+	</delete>
+	<delete id="deleteCommentBoard">
+		delete from
+			cmt_tb
+		where brd_no = #{brdNo}
+	</delete>
+	<delete id="deleteAttachment">
+		delete from
+			atcmt_tb
+		where brd_no = #{brdNo}
+	</delete>
+	<delete id="deleteBoard">
+		delete from
+			brd_tb
+		where no = #{no}
+	</delete>
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*) FROM brd_tb
+	</select>
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectBoard" resultType="Board">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT * 
+							FROM brd_tb 
+							ORDER BY no DESC 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+</mapper>

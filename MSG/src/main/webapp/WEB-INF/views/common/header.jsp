@@ -9,12 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>MSG</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
-    <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
 		var hdjq = jQuery.noConflict();
     </script>
@@ -62,20 +65,20 @@
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/res/cal.do">
+                <a href="${pageContext.request.contextPath}/sched/cal.do">
                     <i class="icon far fa-calendar-alt" style="font-size:24px"></i> 일정관리
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/res/carRes.do">
+                <a href="${pageContext.request.contextPath}/res/confRes.do">
                     <i class="icon far fa-check-square" style="font-size:24px"></i> 예약관리
                 </a>
             </li>
-            <li>
+<!--             <li>
                 <a href="#">
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
-            </li>
+            </li> -->
             <ul class="secnav">
                 <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus.png" id="plus-icon" alt=""></p>
                 <li>
@@ -109,130 +112,40 @@
             </ul>
         </ul>
     </nav>
-
+	<!--  Direct Message -->
     <side class="dmBar">
+    <%-- 
         <div id="title-container">
                 <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" id="dmClose">
-                <div id="name-span">최원호 대리</div>
+                <div id="name-span">${d.empName }</div>
         </div>
-            <div id="dm-container">
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
+        <div id="dm-container">
             
             <div id="from-dm">
                 <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">
-                <div id="from-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
+                <div id="from-dm-content" class="dm-content">${d.msgContent}</div>
                 <span id="from-dm-time" class="dm-time">12:00 AM</span>
-            </div>
+            </div> --%>
             
-            <div id="hr-container">
+           <!--  <div id="hr-container">
                 <hr class="dmHr" id="hr-left" align="left">
                 <span id="span-date">
                     2020년 00월 00일 월요일
                 </span>
                 <hr class="dmHr" id="hr-right" align="right">
-            </div>
+            </div> -->
 
-            <div id="to-dm">
+            <%-- <div id="to-dm">
                 <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">
-                <div id="to-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
+                <div id="to-dm-content" class="dm-content"></div>
                 <div id="to-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-            
-            <div id="from-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">
-                <div id="from-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="from-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-
-            <div id="to-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">
-                <div id="to-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="to-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-            
-            <div id="from-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">
-                <div id="from-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="from-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-
-            <div id="to-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">
-                <div id="to-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="to-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-            
-            <div id="from-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">
-                <div id="from-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="from-dm-time" class="dm-time">12:00 AM</div>
-            </div>
-            
-            <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div>
-
-            <div id="to-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">
-                <div id="to-dm-content" class="dm-content">안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요</div>
-                <div id="to-dm-time" class="dm-time">12:00 AM</div>
-            </div>
+            </div> --%>
             
         </div>
         
         <div id="send-dm-container">
-            <textarea name="" id="send-dm-content" cols="62" rows="7"></textarea>
-            <button id="send-dm-button" class="dmButton">전송</button>
+            <textarea name="" id="send-dm-content" cols="60" rows="5"></textarea>
+            <button id="send-dm-button" class="dmButton" onclick="sendDM();">전송</button>
         </div>
     </side>    
 

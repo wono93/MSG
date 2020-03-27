@@ -14,7 +14,7 @@
     <link href="${pageContext.request.contextPath }/resources/css/select_box.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/paging.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/hrBoard.css" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
+   https://github.com/ISeeTheFuture/MSG/pull/13/conflict?name=MSG%252Fsrc%252Fmain%252Fwebapp%252FWEB-INF%252Fviews%252Fmember%252FempLogBoard.jsp&ancestor_oid=aed079561a45c951e8c8838a5d78cb20a4d99262&base_oid=5f1c655121f605710149d13b0f19e82d7c26b0e3&head_oid=d5a9288b17885141d2b36b4bfab2f0ff14408310 <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
@@ -50,6 +50,7 @@
 			                    <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 			            <span>~</span>
 			            <input type='text' id='timepicker-end' name="endDate" class='datepicker-here' data-language='ko' 
+
 			                    data-date-format="yyyy-mm-dd" autocomplete="off" />
 			            <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 			            <h1>총 영업일  ${bsnsDay } 일</h1>
@@ -71,6 +72,7 @@
 				                <td>${hr.deptName }</td>
 				                <td>${hr.empName }</td>
 				                <td>${bsnsDay - hr.vctnCount<=0?0:bsnsDay - hr.vctnCount }</td>
+
 				                <td>${hr.vctnCount }일</td>
 				                <td>${hr.lateCount }일</td>
 				                <td>${hr.absentCount }일</td>
@@ -234,7 +236,7 @@
         	let by = $("input[name='searchBy']").val();
         	alert(by);
         }
-        
+
     </script>
 </body>
 </html>
