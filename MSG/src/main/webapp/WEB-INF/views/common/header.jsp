@@ -47,7 +47,7 @@
         <br>
         <ul class="firnav">
             <li>
-                <a href="${pageContext.request.contextPath}/member/list.do">
+                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">
                     <i class="icon far fa-id-card" style="font-size:24px"></i> 인사관리
                 </a>
             </li>
