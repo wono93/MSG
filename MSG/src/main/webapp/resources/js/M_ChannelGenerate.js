@@ -1,4 +1,4 @@
-$(document).ready(function(){
+hdjq(document).ready(function(){
     // Get the modal
     var channelModal = document.getElementById("channelGenModal");
 

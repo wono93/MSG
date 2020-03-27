@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MSG</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
@@ -71,11 +72,11 @@
                     <i class="icon far fa-check-square" style="font-size:24px"></i> 예약관리
                 </a>
             </li>
-            <li>
+<!--             <li>
                 <a href="#">
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
-            </li>
+            </li> -->
             <ul class="secnav">
                 <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus.png" id="plus-icon" alt=""></p>
                 <li>

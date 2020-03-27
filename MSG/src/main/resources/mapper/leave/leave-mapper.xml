@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="leave">
+	<resultMap type="leave" id="leave"></resultMap>
+	<select id="selectLeaveList" resultMap="leave">
+		SELECT
+		a.vctn_dtl_no
+		,a.vctn_stdt
+		, a.vctn_endt
+		, a.app_dt
+		, a.vctn_used
+		, b.emp_name
+		,
+		d.dept_name
+		, c.vctn_nm
+		FROM VCTN_HIS_TB A
+		, EMP_TB B
+		, VCTN_TYPE_TB C
+		,
+		DEPT_TB D
+		WHERE 1=1
+		AND A.EMP_NO = B.EMP_NO
+		AND A.VCTN_CD = C.VCTN_CD
+		AND
+		B.DEPT_CD = D.DEPT_CD
+		order by a.vctn_dtl_no desc
+	</select>
+	<resultMap type="leaveSet" id="leaveSet"></resultMap>
+	<select id="selectLeaveList2" resultMap="leaveSet">
+		SELECT
+		B.EMP_NO
+		,E.VCTN_NO
+		,D.DEPT_NAME
+		,B.EMP_NAME
+		,TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,B.HIRE_DATE)/12,0) ) Longevity
+		,E.ANNUAL
+		,E.REWARD
+		FROM
+		EMP_TB B
+		, DEPT_TB D
+		,VCTN_TB E
+		WHERE 1=1
+		AND B.DEPT_CD = D.DEPT_CD
+		AND B.EMP_NO = E.EMP_NO
+		ORDER by B.EMP_NO
+		asc
+	</select>
+	<resultMap type="leavePlus" id="leavePlus"></resultMap>
+	<select id="selectLeaveList3" resultMap="leavePlus">
+		SELECT SUM(A.VCTN_USED) VCTN_USED
+		, A.EMP_NO
+		, MAX(a.vctn_dtl_no)  DTL_NO
+		, A.VCTN_CD
+		FROM VCTN_HIS_TB A
+		GROUP BY a.vctn_cd, A.EMP_NO
+		ORDER BY a.emp_no 
+		asc
+	</select>
+</mapper>

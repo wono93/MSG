@@ -1,15 +1,14 @@
-package com.kh.msg.edoc.model.service;
+package com.kh.msg.edoc.model.dao;
 
 import java.util.List;
 
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
 
-public interface EdocService {
+public interface EdocDAO {
 
 	List<Jstree> selectJstree();
 
 	JstreeMem selectJstreeMem(String name);
 
-	
 }
