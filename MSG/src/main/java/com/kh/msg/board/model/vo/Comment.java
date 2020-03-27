@@ -20,7 +20,7 @@ public class Comment implements Serializable {/**
 	private static final long serialVersionUID = 1L;
 	
 	private int no;
-	private String content;
+	private String cmtContent;
 	private Date date;
 	private int level;
 	private int cmtNo;
