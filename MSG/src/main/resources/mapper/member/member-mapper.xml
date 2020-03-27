@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<select id="selectHrMngList" resultType="HrMntList">
+		SELECT EMP_NO,EMP_NAME, D.DEPT_NAME,
+	        (SELECT COUNT(*) FROM LATE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) late_count,
+	        (SELECT COUNT(*) FROM LEAVE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) leave_count,
+	        (SELECT COUNT(*) FROM ABSENT_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) absent_count
+		FROM EMP_TB E LEFT JOIN DEPT_TB D
+		USING (DEPT_CD)
+		ORDER BY JOB_CD
+	</select>
+	<select id="selectVacationCount" resultType="Vacation">
+		SELECT EMP_NO, VCTN_DTL_NO, VCTN_STDT, VCTN_ENDT
+		FROM EMP_TB LEFT JOIN VCTN_HIS_TB
+		USING (EMP_NO)
+		WHERE VCTN_STDT BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
+	</select>
+	<select id="selectOne" resultType="member">
+		select * from emp_tb where user_id = #{userId}
+	</select>
+	
+
+</mapper>
