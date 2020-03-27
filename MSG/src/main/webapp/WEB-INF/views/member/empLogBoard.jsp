@@ -201,15 +201,12 @@
         }
         
         function calcDate(date1,date2) {
-          /*   var date1 = new Date(2017, 10, 30); // 2017-11-30
-            var date2 = new Date(2017, 11, 6); // 2017-12-6 */
 
             var count = 0;
 
 	        while(true) {  
 	            var temp_date = date1;
 	            if(temp_date.getTime() > date2.getTime()) {
-	                alert("count : " + count);
 	                break;
 	            } else {
 	                var tmp = temp_date.getDay();
