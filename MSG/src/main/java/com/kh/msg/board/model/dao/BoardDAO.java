@@ -31,8 +31,6 @@ public interface BoardDAO {
 
 	int attachmentUpdate(Attachment attachment);
 
-	int cntUp(Board board);
-
 	int countBoard();
 
 	Object selectBoard(PagingVo vo);

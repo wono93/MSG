@@ -138,20 +138,20 @@
 	<!-- 총 게시글 갯수 출력 -->
 	<select id="countBoard" resultType="int">
 		SELECT COUNT(*) FROM brd_tb
+		
 	</select>
-	
 	<!-- 페이징 처리 후 게시글 조회 -->
 	<select id="selectBoard" resultType="Board">
 		SELECT * 
 			FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
-							SELECT * 
-							FROM brd_tb 
-							ORDER BY no DESC 
-							) A
+							select * 
+							from brd_tb 
+							where catag like #{catag}
+							order by no desc
+							) a
 					)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-	
 </mapper>

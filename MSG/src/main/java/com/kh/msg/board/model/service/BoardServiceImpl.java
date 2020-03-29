@@ -91,13 +91,7 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.attachmentUpdate(attachment);
 	}
 
-	@Override
-	public int cntUp(Board board, int boardNo) {
-		// TODO Auto-generated method stub
-		board.setNo(boardNo);
-		return boardDAO.cntUp(board);
-	}
-
+	
 	@Override
 	public int countBoard() {
 		// TODO Auto-generated method stub
@@ -106,7 +100,6 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Object selectBoard(PagingVo vo) {
-		// TODO Auto-generated method stub
 		return boardDAO.selectBoard(vo);
 	}
 

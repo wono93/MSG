@@ -22,9 +22,45 @@
     		location.href = "${pageContext.request.contextPath}/board/view.do?boardNo="+boardNo;
     	});
     });
-    
+   /* 
+    function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}*/
+    </script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		$("#catag1").click(function(){
+			    var catag = 
+    			
+    			$.ajax({
+    				type:"POST",
+    				url:'${pageContext.request.contextPath}/board/list.do',
+    				data : catag,
+    				success: function(){
+    					alert("완료!");
+    		            window.opener.location.reload();
+    		            self.close();
+    				}
+    			});
+    		});
+    		$("#catag2").click(function(){
+    			$.ajax({
+    				type:"POST",
+    				url:'${pageContext.request.contextPath}/board/list.do',
+    				success: function(){
+    					alert("완료!");
+    		            window.opener.location.reload();
+    		            self.close();
+    				}
+    			});
+    		});
+    		
+    	});
+    	
     </script>
     <title>boardListForm</title>
+    
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -45,11 +81,11 @@
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd3" value="1" name="Ben1" checked="checked"/>
-                                    <p class="select-box__input-text">건의사항</p>
+                                    <p class="select-box__input-text">전체 보기</p>
                                 </div>
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd4" value="2" name="Ben1" checked="checked"/>
-                                    <p class="select-box__input-text">자유게시판</p>
+                                    <p class="select-box__input-text">건의사항</p>
                                 </div>
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd5" value="3" name="Ben1" checked="checked"/>
@@ -57,7 +93,7 @@
                                 </div>
                                  <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd6" value="4" name="Ben1" checked="checked"/>
-                                    <p class="select-box__input-text">전체 보기</p>
+                                    <p class="select-box__input-text">자유게시판</p>
                                 </div> 
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
@@ -65,22 +101,34 @@
                             <ul class="select-box__list">
                                 <div id="1">
                                     <li>
-                                        <label class="select-box__option" for="asd3" aria-hidden="aria-hidden">건의사항</label>
+                                        <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
+                                        		전체보기
+                                        	<input type="hidden" id="catagg1" name="catag" value="%%"/>		
+                                      	</label>
                                     </li>
                                 </div>
                                 <div id="2">
                                     <li>
-                                        <label class="select-box__option" for="asd4" aria-hidden="aria-hidden">자유게시판</label>
+                                        <label id="catag2" class="select-box__option" for="asd4" aria-hidden="aria-hidden">
+                                       		건의사항
+                                       		<input type="hidden" name="catag" value="건의"/>		
+                                      	</label>
                                     </li>
                                 </div>
                                 <div id="3">
                                     <li>
-                                        <label class="select-box__option" for="asd5" aria-hidden="aria-hidden">공지&행사</label>
+                                        <label id="catag3" class="select-box__option" for="asd5" aria-hidden="aria-hidden">
+                                        	공지&행사
+                                        	<input type="hidden" name="catag" value="공지,행사"/>		
+                                        </label>
                                     </li>
                                 </div>
                                 <div id="4">
                                     <li>
-                                        <label class="select-box__option" for="asd6" aria-hidden="aria-hidden">전체보기</label>
+                                        <label  id="catag4" class="select-box__option" for="asd6" aria-hidden="aria-hidden">
+                                        	자유게시판
+                                        	<input type="hidden" name="catag" value="자유"/>		
+                                        </label>
                                     </li>
                                 </div>
                             </ul>
@@ -122,6 +170,8 @@
                                 </li> -->
                             </ul>
                         </div>
+                        
+                        
 
                         <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/write.do'"><i class="far fa-edit"></i> 글쓰기</button>
 
@@ -140,7 +190,7 @@
                         
                         </tr>
                        
-                        <c:forEach items="${list }" var="b">
+                        <c:forEach items="${viewAll }" var="b">
 	                        <tr style="z-index:999; color: rgb(93, 93, 253);" data-board-no="${b.no}">
 						  
 	                            <td>${b.no }</td>
@@ -157,30 +207,9 @@
 	                            </td>
 	                        </tr>
                         </c:forEach>
-                       
-                        <tr>
-                            <td>96</td>
-                            
-                            <td>장그래</td>
-                            <td>건의</td>
-                            <td>관현악이며, 그러므로 어디 대중을 싸인 </td>
-                            <td></td>
-                            <td>2020/02/29</td>
-                            <td>5</td>
-                        </tr>
-                        <tr style="color: #a5a3a3;">
-                            <td>96</td>
-                            
-                            <td>장그래</td>
-                            <td>건의</td>
-                            <td>관현악이며, 그러므로 어디 대중을 싸인 </td>
-                            <td></td>
-                            <td>2020/02/29</td>
-                            <td>5</td>
-                        </tr>
                     </table>
                 </div>
-                    <div class="pagination">
+                    <!-- 
                         <a href="#" class="arrow">&laquo;</a>
                         <a href="#">1</a>
                         <a href="#" class="active">2</a>
@@ -188,11 +217,45 @@
                         <a href="#">4</a>
                         <a href="#">5</a>
                         <a href="#" class="arrow">&raquo;</a>
-                    </div>
+                         -->
+                    <div class="pagination">
+                    <c:if test="${paging.startPage != 1 }">
+						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&laquo;</a>
+					</c:if>
+					<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+						<c:choose>
+							<c:when test="${p == paging.nowPage }">
+								<a class="active">${p }</a>
+							</c:when>
+							<c:when test="${p != paging.nowPage }">
+								<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}" >${p }</a>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&raquo;</a>
+					</c:if>
+					</div>
+					
                     <div class="srchBar">
                         <input type="text" name="" id="srchWord">
                         <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
                     </div>
+                    
+                   
+					<div style="float: right;">
+						<select id="cntPerPage" name="sel" onchange="selChange()">
+							<option value="5"
+								<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+							<option value="10"
+								<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+							<option value="15"
+								<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
+							<option value="20"
+								<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+						</select>
+					</div> <!-- 옵션선택 끝 -->
+
                 </div>
             </article>
         </div>

@@ -127,7 +127,7 @@
                         <c:if test="${board.commentList[0].no != 0 }" >
 							<c:forEach items="${board.commentList}" var="c">
 							<form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${c.brdNo }"
+						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">

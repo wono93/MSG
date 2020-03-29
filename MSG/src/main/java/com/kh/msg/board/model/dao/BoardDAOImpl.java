@@ -84,12 +84,6 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int cntUp(Board board) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("board.cntUp", board);
-	}
-
-	@Override
 	public int countBoard() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board.countBoard");
@@ -98,6 +92,6 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public Object selectBoard(PagingVo vo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("board.selectBoard", vo);
+		return sqlSession.selectList("board.selectBoard", vo);
 	}
 }

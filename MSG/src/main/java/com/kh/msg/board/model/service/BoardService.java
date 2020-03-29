@@ -29,8 +29,6 @@ public interface BoardService {
 
 	int attachmentUpdate(Attachment attachment);
 
-	int cntUp(Board board, int boardNo);
-
 	int countBoard();
 
 	Object selectBoard(PagingVo vo);
