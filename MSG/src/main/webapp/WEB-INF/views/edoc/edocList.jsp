@@ -31,24 +31,20 @@
                             <h1>문서 유형</h1>
                             <div class="checkbox_wrap">
                                 <label class="myDocu-container kor float" for="myDocu">내 기안문서
-                                            <input type="checkbox" name="myDocu" id="myDocu">
+                                            <input type="checkbox" name="myDocu" id="myDocu" class="docuCheck" value="myDocu" checked="checked">
                                             <span class="myDocu-checkmark"></span>
                                </label>
                                 <label class="reqDocu-container kor float" for="reqDocu">결재요청문서
-                                            <input type="checkbox" name="reqDocu" id="reqDocu">
+                                            <input type="checkbox" name="reqDocu" id="reqDocu" class="docuCheck" value="reqDocu" checked="checked">
                                             <span class="reqDocu-checkmark"></span>
                                </label>
                                 <label class="compDocu-container kor float" for="compDocu">결재완료문서
-                                            <input type="checkbox" name="compDocu" id="compDocu">
+                                            <input type="checkbox" name="compDocu" id="compDocu" class="docuCheck" value="compDocu" checked="checked">
                                             <span class="compDocu-checkmark"></span>
                                </label>
-                                <label class="refDocu-container kor float" for="refDocu">참조된 문서
-                                            <input type="checkbox" name="refDocu" id="refDocu">
+                                <label class="refDocu-container kor float" for="refDocu">참조 문서
+                                            <input type="checkbox" name="refDocu" id="refDocu" class="docuCheck" value="refDocu" checked="checked">
                                             <span class="refDocu-checkmark"></span>
-                               </label>
-                                <label class="endDocu-container kor float" for="endDocu">종결된 문서
-                                            <input type="checkbox" name="endDocu" id="endDocu">
-                                            <span class="endDocu-checkmark"></span>
                                </label>
                             </div>
                         </div>
@@ -226,34 +222,34 @@
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="0" value="1" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="Ben"/>
                                 <p class="select-box__input-text">제목</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="1" value="2" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="Ben"/>
                                 <p class="select-box__input-text">기안자</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="2" value="3" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="Ben"/>
                                 <p class="select-box__input-text">문서종류</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>
+                                <input class="select-box__input" type="radio" id="D3" value="all" name="Ben" checked="checked"/>
                                 <p class="select-box__input-text">전체</p>
                                 </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             <ul class="select-box__list">
                                 <li>
-                                <label class="select-box__option" for="3" aria-hidden="aria-hidden">전체</label>
+                                <label class="select-box__option" for="D3" aria-hidden="aria-hidden">전체</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="0" aria-hidden="aria-hidden">제목</label>
+                                <label class="select-box__option" for="D0" aria-hidden="aria-hidden">제목</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="1" aria-hidden="aria-hidden">기안자</label>
+                                <label class="select-box__option" for="D1" aria-hidden="aria-hidden">기안자</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="2" aria-hidden="aria-hidden">문서종류</label>
+                                <label class="select-box__option" for="D2" aria-hidden="aria-hidden">문서종류</label>
                                 </li>
                             </ul>
                         </div>
@@ -264,5 +260,69 @@
             </article>
         </div>
     </section>
+    <script>
+    $(document).ready(function(){
+    	$("tr[data-edoc-no]").on("click", function() {
+			let edocId = $(this).attr("data-edoc-no");
+			console.log(edocId);
+			location.href="${pageContext.request.contextPath}/edoc/srchDtl.do?edocId="+edocId;
+		});
+ 	});
+
+    
+	$("#srchBtn").click(function(){
+		$("#srchBtn").trigger("srchStart");	
+	})
+	$(".docuCheck").change(function(){ // 상단 체크박스를 submit과 연동해 즉시 발동하도록 처리
+		$("#srchBtn").trigger("srchStart");	
+	})
+		
+	$("#srchBtn").bind("srchStart", function(){
+		var arrayDocuCheck = new Array();
+		$(".docuCheck:checked").each(function(){
+			arrayDocuCheck.push($(this).val());
+		});
+		
+		//폼 태그 생성
+        var form = document.createElement('form');
+        //폼 속성 set attribute
+        form.name = 'newForm';
+        form.method = 'get';
+        form.action = '/msg/edoc/list.do';
+        form.target = '_self';        
+        //input 태그 생성
+        var input1 = document.createElement('input');
+        var input2 = document.createElement('input');
+        var input3 = document.createElement('input');
+        var input4 = document.createElement('input');
+        //input태그에 set attribute
+        input1.setAttribute("type", "hidden");
+        input1.setAttribute("name", "member");
+        input1.setAttribute("value", session.getAttribute("memberLoggedIn"));
+        input2.setAttribute("type", "hidden");
+        input2.setAttribute("name", "srchWord");
+        input2.setAttribute("value", $("#srchWord").val());        
+        input3.setAttribute("type", "hidden");
+        input3.setAttribute("name", "srchType");
+        input3.setAttribute("value", $("select-box__input:checked").val());
+        input4.setAttribute("type", "hidden");
+        input4.setAttribute("name", "arrayDocuCheck");
+        input4.setAttribute("value", arrayDocuCheck);
+        //완성된 input 태그를 form에 append
+        form.appendChild(input1);
+        form.appendChild(input2);
+        form.appendChild(input3);
+        form.appendChild(input4);
+        //form 태그
+        document.body.appendChild(form);
+        // form 제출
+        form.submit();
+	});
+	
+
+
+	
+    
+    </script>
 </body>
 </html>

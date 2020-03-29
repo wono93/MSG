@@ -2,7 +2,10 @@ package com.kh.msg.edoc.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,12 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.msg.edoc.model.service.EdocService;
+import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
+import com.kh.msg.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -30,19 +36,127 @@ public class EdocController {
 	EdocService edocService;
 
 	@GetMapping("/list.do")
-	public String list() {
-		return "edoc/edocList";
+	public String list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="{myDocu, reqDocu, compDocu, refDocu}")String[] arrayDocuCheck, Member member) {
+		log.debug("=========내 전자문서 페이지=========");
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage = 15;
+		
+		String myDocu = "y"; 
+		String reqDocu = "y"; 
+		String compDocu = "y"; 
+		String refDocu = "y";
+		
+		if(!Arrays.stream(arrayDocuCheck).anyMatch("myDocu"::equals)) myDocu="n";
+		if(!Arrays.stream(arrayDocuCheck).anyMatch("reqDocu"::equals)) reqDocu="n";
+		if(!Arrays.stream(arrayDocuCheck).anyMatch("compDocu"::equals)) compDocu="n";
+		if(!Arrays.stream(arrayDocuCheck).anyMatch("refDocu"::equals)) refDocu="n";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("srchWord", srchWord);
+		map.put("srchType", srchType);
+		map.put("empNo", 123+"");//member.getEmpNo()+""
+		map.put("myDocu", myDocu);
+		map.put("reqDocu", reqDocu);
+		map.put("compDocu", compDocu);
+		map.put("refDocu", refDocu);
+		
+		List<EdocSrch> list = edocService.selectMyList(cPage, numPerPage, map);
+		
+		int totalContents = edocService.selectMyEdocTotalContents(map);
+		
+		
+//		여기서부터 페이징
+		final int totalPage = (int)(Math.ceil((double)totalContents/numPerPage));
+		final int pageBarSize = 5;
+		final int pageStart = ((cPage-1)/pageBarSize)*pageBarSize+1;
+		final int pageEnd = (pageStart+pageBarSize)-1;
+		int pageNo = pageStart;
+		
+		String pageBar = "";
+		if(pageNo == 1) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+(pageNo-1)+"'>&laquo;</a>";
+		}
+		
+		while(pageNo <= pageEnd  && pageNo <= totalPage) {
+			if(pageNo == cPage) {
+				pageBar += "<span class='active'>"+pageNo+"</span>";
+			}
+			else {
+				pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;
+		};
+		if(pageNo > totalPage) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>&raquo;</a>";
+		};
+		
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("cPage", cPage);
+		
+		mav.setViewName("edoc/edocList");
+		
+		return "edoc/edocList"; // mav로
 	}
 
 	@GetMapping("/srch.do")
-	public String srch() {
-		return "edoc/edocSrch";
-	}
-	@PostMapping("/srch.do")
-	public void srchList() {
+	public String srch(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType) {
+		log.debug("=========전자문서 검색 페이지=========");
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage = 15;
 		
 		
+		List<EdocSrch> list = edocService.selectList(cPage, numPerPage, srchWord, srchType);
 		
+		int totalContents = edocService.selectEdocTotalContents(srchWord, srchType);
+		
+		
+		mav.addObject("list", list);
+		mav.addObject("totalContents", totalContents);
+		
+//		여기서부터 페이징
+		final int totalPage = (int)(Math.ceil((double)totalContents/numPerPage));
+		final int pageBarSize = 5;
+		final int pageStart = ((cPage-1)/pageBarSize)*pageBarSize+1;
+		final int pageEnd = (pageStart+pageBarSize)-1;
+		int pageNo = pageStart;
+		
+		String pageBar = "";
+		if(pageNo == 1) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+(pageNo-1)+"'>&laquo;</a>";
+		}
+		
+		while(pageNo <= pageEnd  && pageNo <= totalPage) {
+			if(pageNo == cPage) {
+				pageBar += "<span class='active'>"+pageNo+"</span>";
+			}
+			else {
+				pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;
+		};
+		if(pageNo > totalPage) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>&raquo;</a>";
+		};
+		
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("cPage", cPage);
+		
+		
+		mav.setViewName("edoc/edocSrch");
+		
+		return "edoc/edocSrch"; //mav로
 	}
 	@GetMapping("/confirm.do")
 	public String confirm() {
@@ -93,7 +207,7 @@ public class EdocController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 	@GetMapping("/jstreeMem.do")
 	public void jstreeMem(HttpServletRequest request, HttpServletResponse response) {

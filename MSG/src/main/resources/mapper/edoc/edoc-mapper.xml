@@ -12,4 +12,174 @@
 	<select id="jstreeMem" resultType="jstreeMem">
 		select * from jstree_mem_tb where name = #{name}
 	</select>
+	
+	<select id="srchList" resultMap="EdocSrchFlowCollection">
+		select
+			*
+		from
+			edoc_all_tb
+		<where>
+			<if test="srchType == 'all'">
+				edoc_title like '%' ||  #{srchWord} || '%'
+				or
+				emp_name like '%' ||  #{srchWord} || '%'
+				or
+				form_nm like '%' ||  #{srchWord} || '%'
+				or
+				edoc_id like '%' ||  #{srchWord} || '%'
+				and edoc_end = 'y'
+			</if>
+			<if test="srchType != 'all'">
+				#{srchType} like '%' ||  #{srchWord} || '%'
+				and edoc_end = 'y'
+			</if>		
+		</where>
+		order by edoc_dt desc
+	</select>
+	<select id="selectEdocTotalContents" resultType="_int">
+		select
+			count(*)
+		from
+			edoc_tb
+		where
+			edoc_org_id is null
+			and edoc_end = 'y'
+	</select>
+	
+	<select id="myList" resultMap="EdocSrchFlowCollection">	
+		select
+			*
+		from
+			(select
+				*
+			from
+				edoc_all_tb
+			<where>
+				<if test="srchType == 'all'">
+					edoc_title like '%' ||  #{srchWord} || '%'
+					or
+					emp_name like '%' ||  #{srchWord} || '%'
+					or
+					form_nm like '%' ||  #{srchWord} || '%'
+					or
+					edoc_id like '%' ||  #{srchWord} || '%'
+				</if>
+				<if test="srchType != 'all'">
+					#{srchType} like '%' ||  #{srchWord} || '%'
+				</if>
+			</where>
+			)
+		<where>
+			<if test='myDocu == "y"'>
+				or
+				(emp_no = ${empNo}
+				and edoc_end != 'y')
+			</if>
+			<if test='reqDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_st != 'y'
+				and flow_NM = '결재')
+			</if>
+			<if test='compDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_st = 'y'
+				and edoc_end != 'y'
+				and flow_NM = '결재')
+			</if>
+			<if test='refDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_NM = '참조')
+			</if>
+		</where>
+		order by edoc_dt desc
+	</select>
+	<select id="selectMyEdocTotalContents" resultType="_int">
+		select
+			count(*)
+		from
+			(select
+				*
+			from
+				edoc_all_tb
+			<where>
+				<if test="srchType == 'all'">
+					edoc_title like '%' ||  #{srchWord} || '%'
+					or
+					emp_name like '%' ||  #{srchWord} || '%'
+					or
+					form_nm like '%' ||  #{srchWord} || '%'
+					or
+					edoc_id like '%' ||  #{srchWord} || '%'
+				</if>
+				<if test="srchType != 'all'">
+					#{srchType} like '%' ||  #{srchWord} || '%'
+				</if>
+			</where>
+			)
+		<where>
+			<if test='myDocu == "y"'>
+				or
+				(emp_no = ${empNo}
+				and edoc_end != 'y')
+			</if>
+			<if test='reqDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_st != 'y'
+				and flow_NM = '결재')
+			</if>
+			<if test='compDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_st = 'y'
+				and edoc_end != 'y'
+				and flow_NM = '결재')
+			</if>
+			<if test='refDocu == "y"'>
+				or
+				(flow_emp_no = ${empNo}
+				and flow_ord != 1
+				and flow_NM = '참조')
+			</if>
+		</where>
+		order by edoc_dt desc
+	</select>
+	
+	
+	
+	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
+		<id column="edoc_id" property="edocId"/>
+		<result column="secu_cd" property="secuCd"/>
+		<result column="prsv_cd" property="prsvCd"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="emp_mod_no" property="empModNo"/>
+		<result column="edoc_title" property="edocTitle"/>
+		<result column="edoc_ver" property="edocVer"/>
+		<result column="edoc_org_id" property="edocOrgId"/>
+		<result column="edoc_dt" property="edocDt"/>
+		<result column="edoc_end" property="edocEnd"/>
+		<result column="edoc_end_dt" property="edocEndDt"/>
+		<result column="type_cd" property="typeCd"/>
+		<result column="form_nm" property="formNm"/>
+		<result column="prsv_amt" property="prsvAmt"/>
+		<result column="secu_nm" property="secuNm"/>
+		<result column="emp_name" property="empName"/>
+		<collection property="SrchFlowList" ofType="EdocSrchFlow">
+			<result column="flow_cd" property="flowCd"/>
+			<result column="flow_nm" property="flowNm"/>
+			<result column="flow_emp_no" property="flowEmpNo"/>
+			<result column="flow_ord" property="flowOrd"/>
+			<result column="flow_st" property="flowSt"/>
+		</collection>
+	</resultMap>
+	
+	
 </mapper>

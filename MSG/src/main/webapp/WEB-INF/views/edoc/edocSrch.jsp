@@ -27,199 +27,72 @@
                 </div>
                 <div class="content">
                     <div class="control">
+                    	<p>총 ${totalContents }건의 전자문서가 있습니다.</p>
                     </div>
                     <table>
                         <tr>
-                            <th></th>
+                            <th>문서ID</th>
                             <th>문서종류</th>
                             <th>제목</th>
                             <th>기안자</th>
                             <th>보안등급</th>
-                            <th>결재일</th>
+                            <th>기안일</th>
                             <th>보존연한</th>
                         </tr>
-                            <style>
-                            .forTest:hover{
-                            	cursor: pointer;
-                            }
-                            </style>
-                        <tr class="forTest" onclick="location.href='${pageContext.request.contextPath}/edoc/read.do'">
-                            <td>110</td>
-                            <td>재직증명서</td>
-                            <td>재직증명서 발급 요청</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>2030/02/29</td>
-                        </tr>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>영구</td>
-                        </tr>
+						<c:forEach items="${list }" var="ed">
+						<tr data-edoc-no="${ed.edocId }">
+							<td>${ed.edocId }</td>
+							<td>${ed.formNm }</td>
+							<td>${ed.edocTitle }</td>
+							<td>${ed.empName }</td>
+							<td>${ed.secuNm }</td>		
+							<td>${ed.edocDt }</td>		
+							<td>${ed.prsvAmt }년</td>		
+						</tr>
+						</c:forEach>
                     </table>
                     <div class="pagination">
-                        <a href="#" class="arrow">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="active">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#" class="arrow">&raquo;</a>
+						${pageBar }
                     </div>
                     <div class="srchBar">
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="0" value="1" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="Ben"/>
                                 <p class="select-box__input-text">제목</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="1" value="2" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="Ben"/>
                                 <p class="select-box__input-text">기안자</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="2" value="3" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="Ben"/>
                                 <p class="select-box__input-text">문서종류</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>
+                                <input class="select-box__input" type="radio" id="D3" value="edoc_id" name="Ben"/>
+                                <p class="select-box__input-text">문서ID</p>
+                                </div>
+                                <div class="select-box__value">
+                                <input class="select-box__input" type="radio" id="D4" value="all" name="Ben" checked="checked"/>
                                 <p class="select-box__input-text">전체</p>
                                 </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             <ul class="select-box__list">
                                 <li>
-                                <label class="select-box__option" for="3" aria-hidden="aria-hidden">전체</label>
+                                <label class="select-box__option" for="D4" aria-hidden="aria-hidden">전체</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="0" aria-hidden="aria-hidden">제목</label>
+                                <label class="select-box__option" for="D0" aria-hidden="aria-hidden">제목</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="1" aria-hidden="aria-hidden">기안자</label>
+                                <label class="select-box__option" for="D1" aria-hidden="aria-hidden">기안자</label>
                                 </li>
                                 <li>
-                                <label class="select-box__option" for="2" aria-hidden="aria-hidden">문서종류</label>
+                                <label class="select-box__option" for="D2" aria-hidden="aria-hidden">문서종류</label>
+                                </li>
+								<li>
+                                <label class="select-box__option" for="D3" aria-hidden="aria-hidden">문서ID</label>
                                 </li>
                             </ul>
                         </div>
@@ -230,5 +103,18 @@
             </article>
         </div>
     </section>
+    <script>
+
+    $(document).ready(function(){
+		$("tr[data-edoc-no]").on("click", function() {
+			let edocId = $(this).attr("data-edoc-no");
+			console.log(edocId);
+			location.href="${pageContext.request.contextPath}/edoc/srchDtl.do?edocId="+edocId;
+		});
+		
+ 	});
+
+    
+    </script>
 </body>
 </html>
