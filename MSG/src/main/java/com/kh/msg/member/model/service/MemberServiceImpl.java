@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.orgChart;
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
@@ -27,8 +28,20 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+	public List<orgChart> orgChart(Map<String, String> map) {
 		
 		return memberDAO.orgChart(map);
+	}
+
+	@Override
+	public orgChart empInfo(String empNo) {
+		
+		return memberDAO.empInfo(empNo);
+	}
+
+	@Override
+	public int updateEmp(Map<String, String> map) {
+		
+		return memberDAO.updateEmp(map);
 	}
 }

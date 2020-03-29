@@ -45,10 +45,10 @@
 			            <c:forEach items="${list }" var="emp" varStatus="vs">
 			            <tr>
 			                <td>${vs.count }</td>
-			                <td><a href="#">${emp.deptName }</a></td>
-			                <td><a href="emp_info.html">${emp.empNo }</a></td>
-			                <td><a href="emp_info.html">${emp.empName }</a></td>
-			                <td><a href="emp_info.html">${emp.userId }</a></td>
+			                <td>${emp.deptName }</td>
+			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empNo }</a></td>
+			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empName }</a></td>
+			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.userId }</a></td>
 			                <td>${emp.jobName }</td>
 			            </tr>
 		            	</c:forEach>

@@ -15,4 +15,8 @@ public interface MemberService {
 
 	List<orgChart> orgChart(Map<String, String> map);
 
+	orgChart empInfo(String empNo);
+
+	int updateEmp(Map<String, String> map);
+
 }

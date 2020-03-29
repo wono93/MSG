@@ -14,5 +14,9 @@ public interface MemberDAO {
 	List<HrMntList> selectList(Map<String, String> map);
 
 	List<orgChart> orgChart(Map<String, String> map);
+
+	orgChart empInfo(String empNo);
+
+	int updateEmp(Map<String, String> map);
 	
 }

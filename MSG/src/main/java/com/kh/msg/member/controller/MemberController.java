@@ -2,11 +2,15 @@ package com.kh.msg.member.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,8 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
@@ -146,6 +152,89 @@ public class MemberController {
 		
 		model.addAttribute("list",list);
 		return "member/org_chart";
+	}
+	
+	@GetMapping("/empInfo.do")
+	public String empInfo(Model model,@RequestParam(value="empNo",required=false) String empNo) {
+		orgChart emp = null;
+		
+		emp = memberService.empInfo(empNo);
+		if(emp != null) {
+			//주민번호에서 생일 추출
+			model.addAttribute("birthDay",getBirthDay(emp.getEmpRRNNo()));
+		}
+		model.addAttribute("emp",emp);
+		return "member/emp_info(hr)";
+	}
+	
+	@PostMapping("/updateEmp.do")
+    public String insert(
+    					 Model model,
+    				     @RequestParam(value="empNo", required=false) String empNo,
+    					 @RequestParam(value="empImage", required=false) MultipartFile empImage,
+    					 @RequestParam(value="empEmail", required=false) String empEmail,
+    					 @RequestParam(value="empContact", required=false) String empContact,
+    					 @RequestParam(value="empAddress", required=false) String empAddress,
+    					 @RequestParam(value="auth", required=false) String authority,
+    					 HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	
+		Map<String, String> map = new HashMap<String, String>();
+			
+		
+    	map.put("empNo", empNo);
+    	map.put("authority", authority);
+		
+//		log.debug("empImage = {}", empImage );
+    	try {
+    		if(!empImage.isEmpty()) {
+    			//파일명 재생성 renamedFileName으로 저장하기
+    			String file = empImage.getOriginalFilename();
+    			String renamedFile = Utils.getRefile(file);
+    			
+    			//파일이동
+    			String saveDirectory
+    			= request.getServletContext()
+    			.getRealPath("/resources/upload/empImg");
+    			
+    			empImage.transferTo(new File(saveDirectory, renamedFile));
+    			
+    			map.put("empImage", renamedFile);
+    		}
+
+			if(empEmail != "")
+				map.put("empEmail", empEmail);
+			if(empContact != "")
+				map.put("empContact", empContact);
+			if(empAddress != "")
+				map.put("empAddress", empAddress);
+			
+			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	int result = memberService.updateEmp(map);
+	    		
+    	redirectAttributes.addFlashAttribute("msg", result>0?"등록성공!":"등록실패!");
+    	
+    	Member emp = null;
+    	
+    	emp = memberService.empInfo(empNo);
+		if(emp != null) {
+			//주민번호에서 생일 추출
+			model.addAttribute("birthDay",getBirthDay(emp.getEmpRRNNo()));
+		}
+		model.addAttribute("emp",emp);
+    	
+    	return "/member/emp_info(hr)";
+    }
+	
+	public String getBirthDay(String empRRNNo) {
+		char flag = empRRNNo.charAt(6);
+		String birthDay = flag == '1'|| flag == '2' ? "19" : "20";
+		birthDay = birthDay + empRRNNo.substring(0,2) + "-" + empRRNNo.substring(2,4) + "-" + empRRNNo.substring(4,6);
+
+		return birthDay;
 	}
 	
 	public int calculateDate(String srcDateStart, String srcDateEnd) {

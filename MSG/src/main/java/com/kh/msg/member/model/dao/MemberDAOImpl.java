@@ -12,9 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.msg.member.model.vo.HrMntList;
-import com.kh.msg.member.model.vo.Member;
-import com.kh.msg.member.model.vo.Vacation;
+import com.kh.msg.member.model.vo.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,5 +84,16 @@ public class MemberDAOImpl implements MemberDAO {
 	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
 		
 		return sqlSession.selectList("member.orgChart",map);
+	}
+
+	@Override
+	public orgChart empInfo(String empNo) {
+		
+		return sqlSession.selectOne("member.empInfo",empNo);
+	}
+
+	@Override
+	public int updateEmp(Map<String, String> map) {
+		return sqlSession.update("member.updateEmp",map);
 	}
 }

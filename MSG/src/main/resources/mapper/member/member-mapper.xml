@@ -39,9 +39,32 @@
 		</if>
 		ORDER BY DEPT_CD
 	</select>
-	<select id="selectOne" resultType="member">
+	<select id="selectOne" resultType="Member">
 		select * from emp_tb where user_id = #{userId}
 	</select>
+	<select id="empInfo" resultType="OrgChart">
+		SELECT * 
+		FROM 
+			EMP_TB E LEFT JOIN DEPT_TB D
+			USING (DEPT_CD)
+			LEFT JOIN JOB_TB J
+			USING (JOB_CD) 
+		WHERE 
+			EMP_NO = #{EMP_NO}
+		
+	</select>
 	
+	<update id="updateEmp">
+		UPDATE EMP_TB 
+		SET 
+			EMP_EMAIL = #{empEmail}, EMP_CONTACT = #{empContact}
+			, EMP_ADDRESS = #{empAddress} , AUTHORITY = #{authority}
+			<if test="empImage != null and empImage != ''">
+			, EMP_IMAGE = #{empImage}
+			</if> 
+		WHERE
+			EMP_NO = #{empNo}
+	
+	</update>
 
 </mapper>
