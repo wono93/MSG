@@ -23,6 +23,7 @@ import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.orgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,7 +67,9 @@ public class MemberController {
 		return "common/welcome";
 
 	}
-
+	
+	
+	//메인페이지에서 근태 페이지 첫 소환
 	@GetMapping("/empLogBoard.do")
 	public String empLogBoard(Model model) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
@@ -97,12 +100,24 @@ public class MemberController {
 		return "member/empLogBoard";
 	}
 
+	//첫 소환후, 각종 검색 처리
 	@GetMapping("/empLogList.do")
-	public String empLogList(@RequestParam("startDate") String srcDateStart, @RequestParam("endDate") String srcDateEnd,
-			@RequestParam("bsnsDay") int bsnsDay, Model model) {
+	public String empLogList(@RequestParam("startDate") String srcDateStart, 
+			@RequestParam("endDate") String srcDateEnd,
+			@RequestParam(value="searchBy",required=false) String searchBy,
+			@RequestParam(value="keyword",required=false) String keyword,
+			Model model) {
 
 		List<HrMntList> list = null;
 		Map<String, String> map = new HashMap<>();
+		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
+		log.debug("searchBy = {}", searchBy);
+		log.debug("keyword = {}", keyword);
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
+		
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
 		
@@ -117,6 +132,22 @@ public class MemberController {
 		return "member/empLogBoard";
 	}
 
+	@GetMapping("/orgChart.do")
+	public String orgChart(Model model,@RequestParam(value="searchBy",required=false) String searchBy,
+			@RequestParam(value="keyword",required=false) String keyword) {
+		List<orgChart> list = null;
+		Map<String, String> map = new HashMap<>();
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
+		
+		list = memberService.orgChart(map);
+		
+		model.addAttribute("list",list);
+		return "member/org_chart";
+	}
+	
 	public int calculateDate(String srcDateStart, String srcDateEnd) {
 		int workingDays = 0;
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");

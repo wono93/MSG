@@ -25,4 +25,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDAO.selectList(map);
 	}
+
+	@Override
+	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+		
+		return memberDAO.orgChart(map);
+	}
 }

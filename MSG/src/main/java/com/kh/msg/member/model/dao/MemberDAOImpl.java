@@ -38,7 +38,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Date today = null;
 		Date vctnEndt = null;
 		Date vctnStdt = null;
-		
+		log.debug("map = {}", map);
 		List<HrMntList> hrmntlist = sqlSession.selectList("member.selectHrMngList",map);
 		log.debug("HrMntList = {} ",hrmntlist);
 		List<Vacation> vac = sqlSession.selectList("member.selectVacationCount",map);
@@ -50,10 +50,10 @@ public class MemberDAOImpl implements MemberDAO {
 						vctnEndt = fmt.parse(v.getVctnEndt());
 						vctnStdt = fmt.parse(v.getVctnStdt());
 						int compare = today.compareTo(vctnEndt);
-						//현재 기준 휴가가 진행중인경우
+						// 현재 기준, 휴가가 진행중인경우
+						// 두날짜의 차이 구하기 
+						// 현재날짜-휴가시작일
 						if(compare < 0) {
-							//오늘-휴가시작일
-							// 두날짜의 차이 구하기 
 									
 							// 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
 							long diff = today.getTime() - vctnStdt.getTime();
@@ -62,8 +62,10 @@ public class MemberDAOImpl implements MemberDAO {
 							hr.setVctnCount(hr.getVctnCount()+(int)diffDays+1);
 
 						}
+						// 현재 기준, 이미 휴가가 종료된 경우
+						// 두날짜의 차이 구하기 
+						// 휴가종료일-휴가시작일
 						else {
-							//휴가종료일-휴가시작일
 							long diff = vctnEndt.getTime() - vctnStdt.getTime();
 							long diffDays = diff / (24 * 60 * 60 * 1000);
 
@@ -78,5 +80,11 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 		
 		return hrmntlist;
+	}
+
+	@Override
+	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+		
+		return sqlSession.selectList("member.orgChart",map);
 	}
 }

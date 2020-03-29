@@ -14,7 +14,6 @@
     <link href="${pageContext.request.contextPath }/resources/css/select_box.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/paging.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/hrBoard.css" rel="stylesheet" type="text/css">
-   https://github.com/ISeeTheFuture/MSG/pull/13/conflict?name=MSG%252Fsrc%252Fmain%252Fwebapp%252FWEB-INF%252Fviews%252Fmember%252FempLogBoard.jsp&ancestor_oid=aed079561a45c951e8c8838a5d78cb20a4d99262&base_oid=5f1c655121f605710149d13b0f19e82d7c26b0e3&head_oid=d5a9288b17885141d2b36b4bfab2f0ff14408310 <link href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
@@ -33,15 +32,15 @@
                 <div class="subNav">
                     <h3>인사관리</h3>
                     <ul>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/list.do'">근태관리</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/member/io.do'">출입기록</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/org.do'">조직도</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
                      </ul>
                 </div>
                 
-			    <form>
+			    <form action="${pageContext.request.contextPath}/member/empLogList.do" method="get">
 			    <div class="content">
 			        <div class="control">
 			            <h2>조회날짜</h2>
@@ -93,24 +92,19 @@
 				            <div class="select-box">
 				                <div class="select-box__current" tabindex="1">
 				                    <div class="select-box__value">
-				                        <input class="select-box__input" type="radio" id="R1" value="byAll" name="searchBy"
+				                        <input class="select-box__input" type="radio" id="R1" value="dept_name" name="searchBy"
 				                            checked="checked" />
-				                        <p class="select-box__input-text">전체</p>
-				                    </div>
-				                    <div class="select-box__value">
-				                        <input class="select-box__input" type="radio" id="R2" value="byDept" name="searchBy"
-				                            />
 				                        <p class="select-box__input-text">부서</p>
 				                    </div>
 				                    <div class="select-box__value">
-				                        <input class="select-box__input" type="radio" id="R3" value="byJob" name="searchBy"
+				                        <input class="select-box__input" type="radio" id="R2" value="job_name" name="searchBy"
 				                            />
 				                        <p class="select-box__input-text">직위</p>
 				                    </div>
 				                    <div class="select-box__value">
-				                        <input class="select-box__input" type="radio" id="R4" value="byEmpNo" name="searchBy"
+				                        <input class="select-box__input" type="radio" id="R3" value="emp_name" name="searchBy"
 				                            />
-				                        <p class="select-box__input-text">사번</p>
+				                        <p class="select-box__input-text">이름</p>
 				                        
 				                        
 				                        
@@ -120,20 +114,17 @@
 				                </div>
 				                <ul class="select-box__list">
 				                    <li>
-				                        <label class="select-box__option" for="R1" aria-hidden="aria-hidden">전체</label>
+				                        <label class="select-box__option" for="R1" aria-hidden="aria-hidden">부서</label>
 				                    </li>
 				                    <li>
-				                        <label class="select-box__option" for="R2" aria-hidden="aria-hidden">부서</label>
+				                        <label class="select-box__option" for="R2" aria-hidden="aria-hidden">직위</label>
 				                    </li>
 				                    <li>
-				                        <label class="select-box__option" for="R3" aria-hidden="aria-hidden">직위</label>
-				                    </li>
-				                    <li>
-				                        <label class="select-box__option" for="R4" aria-hidden="aria-hidden">사번</label>
+				                        <label class="select-box__option" for="R3" aria-hidden="aria-hidden">이름</label>
 				                    </li>
 				                </ul>
 				            </div>
-				            <input type="text" name="" id="srchWord">
+				            <input type="text" name="keyword" id="srchWord">
 				            <button type="submit" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search"
 				                    style="font-size:15px"></i> 검색</button>
 				        </div>
