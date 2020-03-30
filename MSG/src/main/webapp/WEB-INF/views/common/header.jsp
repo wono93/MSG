@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,26 +23,19 @@
     </script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
+    
 </head>
 <body>
-    <input id="hamburger" class="hamburger" type="checkbox" />
-    <label for="hamburger" class="hamburger">
-        <i></i>
-<%-- 	<text>
-        <close>close</close>
-        <open>menu</open>
-	</text> --%>
-    </label>
-
-
+	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
+		<i class="fas fa-sign-out-alt" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"></i>
         <div class="userinfo">
             <user id="user">
-                <img src="https://randomuser.me/api/portraits/women/85.jpg" />
+                <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />
                 <idSection>
                     <idSection>
-                        <name>누구지</name>
-                        <actions><a href="#">사업부</a> | <a href="#">과장</a></actions>
+                        <name>${memberLoggedIn.empName }</name>
+                        <actions><a href="#">${memberLoggedIn.deptName }</a> | <a href="#">${memberLoggedIn.jobName }</a></actions>
                     </idSection>
                 </idSection>
             </user>
@@ -112,6 +105,9 @@
             </ul>
         </ul>
     </nav>
+    <label for="hamburger" class="hamburger"> 
+		<i></i>
+	</label>
 	<!--  Direct Message -->
     <side class="dmBar">
     <%-- 
@@ -250,6 +246,8 @@
                     </form>
                 </div>
             </div>
-        </div>
+	</div>
+        
+        
 </body>
 </html>

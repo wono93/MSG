@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
-import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.orgChart;
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -16,7 +15,7 @@ public class MemberServiceImpl implements MemberService {
 	MemberDAO memberDAO;
 
 	@Override
-	public Member selectOne(String userId) {
+	public orgChart selectOne(String userId) {
 		
 		return memberDAO.selectOne(userId);
 	}

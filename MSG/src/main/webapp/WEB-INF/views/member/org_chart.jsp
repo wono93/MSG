@@ -42,16 +42,32 @@
 			                <th>아이디</th>
 			                <th>직위</th>
 			            </tr>
-			            <c:forEach items="${list }" var="emp" varStatus="vs">
-			            <tr>
-			                <td>${vs.count }</td>
-			                <td>${emp.deptName }</td>
-			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empNo }</a></td>
-			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empName }</a></td>
-			                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.userId }</a></td>
-			                <td>${emp.jobName }</td>
-			            </tr>
-		            	</c:forEach>
+			            <c:choose>
+				            <c:when test="${memberLoggedIn.authority eq 'H' || memberLoggedIn.authority eq 'A' }">
+					            <c:forEach items="${list }" var="emp" varStatus="vs">
+						            <tr>
+						                <td>${vs.count }</td>
+						                <td>${emp.deptName }</td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empNo }</a></td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.empName }</a></td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfo.do?empNo=${emp.empNo}">${emp.userId }</a></td>
+						                <td>${emp.jobName }</td>
+						            </tr>
+				            	</c:forEach>
+			            	</c:when>
+		            		<c:otherwise> 
+			            		<c:forEach items="${list }" var="emp" varStatus="vs">
+				            		<tr>
+						                <td>${vs.count }</td>
+						                <td>${emp.deptName }</td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfoThird.do?empNo=${emp.empNo}">${emp.empNo }</a></td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfoThird.do?empNo=${emp.empNo}">${emp.empName }</a></td>
+						                <td><a href="${pageContext.request.contextPath}/member/empInfoThird.do?empNo=${emp.empNo}">${emp.userId }</a></td>
+						                <td>${emp.jobName }</td>
+						            </tr>
+				            	</c:forEach>
+		            		</c:otherwise>	
+		            	</c:choose>
 			        </table>
 			        <div class="pagination">
 			            <a href="emp_info.html" class="arrow">&laquo;</a>

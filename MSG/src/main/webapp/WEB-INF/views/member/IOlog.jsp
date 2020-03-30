@@ -94,10 +94,10 @@
                 <div class="subNav">
                     <h3>인사관리</h3>
                     <ul>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/list.do'">근태관리</li>
+                       	<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/member/io.do'">출입기록</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/org.do'">조직도</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
+	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
                      </ul>
                 </div>
@@ -148,7 +148,7 @@
 			                <div class="select-box">
 			                    <div class="select-box__current" tabindex="1">
 			                        <div class="select-box__value">
-			                            <input class="select-box__input" type="radio" id="3" value="4" name="Ben"
+			                            <input class="select-box__input" type="radio" id="empName" value="empName" name="searchBy"
 			                                checked="checked" />
 			                            <p class="select-box__input-text">이름</p>
 			                        </div><img class="select-box__icon"
@@ -157,7 +157,7 @@
 			                    </div>
 			                    <ul class="select-box__list">
 			                        <li>
-			                            <label class="select-box__option" for="3" aria-hidden="aria-hidden">이름</label>
+			                            <label class="select-box__option" for="empName" aria-hidden="aria-hidden">이름</label>
 			                        </li>
 			                    </ul>
 			                </div>

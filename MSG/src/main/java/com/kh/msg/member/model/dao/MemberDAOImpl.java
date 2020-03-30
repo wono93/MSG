@@ -24,9 +24,9 @@ public class MemberDAOImpl implements MemberDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public Member selectOne(String userId) {
+	public orgChart selectOne(String userId) {
 		
-		return sqlSession.selectOne("member.selectOne",userId);
+		return sqlSession.selectOne("member.logIn",userId);
 	}
 
 	@Override

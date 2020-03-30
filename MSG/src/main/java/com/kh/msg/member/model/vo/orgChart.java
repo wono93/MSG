@@ -1,9 +1,10 @@
 package com.kh.msg.member.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 
-public class orgChart extends Member {
+public class orgChart extends Member implements Serializable{
 	/**
 	 * 
 	 */

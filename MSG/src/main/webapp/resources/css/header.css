@@ -477,6 +477,6 @@
   
   label.hamburger {
     position: fixed;
-    top: 10px;
     left: 17px;
+    bottom: 27px;
   }
