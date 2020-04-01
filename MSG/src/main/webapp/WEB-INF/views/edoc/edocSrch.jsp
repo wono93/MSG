@@ -36,17 +36,17 @@
                             <th>제목</th>
                             <th>기안자</th>
                             <th>보안등급</th>
-                            <th>기안일</th>
+                            <th>결재완료일</th>
                             <th>보존연한</th>
                         </tr>
-						<c:forEach items="${list }" var="ed">
+						<c:forEach items="${srchList }" var="ed">
 						<tr data-edoc-no="${ed.edocId }">
 							<td>${ed.edocId }</td>
 							<td>${ed.formNm }</td>
 							<td>${ed.edocTitle }</td>
 							<td>${ed.empName }</td>
 							<td>${ed.secuNm }</td>		
-							<td>${ed.edocDt }</td>		
+							<td>${ed.edocEndDt }</td>		
 							<td>${ed.prsvAmt }년</td>		
 						</tr>
 						</c:forEach>

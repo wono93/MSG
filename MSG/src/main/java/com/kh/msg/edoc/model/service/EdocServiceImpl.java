@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.msg.edoc.model.dao.EdocDAO;
 import com.kh.msg.edoc.model.vo.EdocSrch;
-import com.kh.msg.edoc.model.vo.EdocSrchFlow;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
+import com.kh.msg.member.model.vo.Member;
 
 @Service
 public class EdocServiceImpl implements EdocService {
@@ -24,8 +24,8 @@ public class EdocServiceImpl implements EdocService {
 	}
 
 	@Override
-	public JstreeMem selectJstreeMem(String name) {
-		return edocDAO.selectJstreeMem(name);
+	public JstreeMem selectJstreeMem(String id) {
+		return edocDAO.selectJstreeMem(id);
 	}
 
 	@Override

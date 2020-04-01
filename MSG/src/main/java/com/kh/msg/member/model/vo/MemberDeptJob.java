@@ -1,9 +1,7 @@
-package com.kh.msg.edoc.model.vo;
+package com.kh.msg.member.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
-
-import com.kh.msg.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,13 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class JstreeMem extends Member implements Serializable{
+public class MemberDeptJob extends Member implements Serializable{
 	/**
 	 * 
 	 */
@@ -33,7 +30,7 @@ public class JstreeMem extends Member implements Serializable{
 	}
 
 
-	public JstreeMem(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
+	public MemberDeptJob(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
 			String empName, String empImage, String empContact, String empEmail, String empAddress, String authority,
 			Date hireDate, String quitYn, String empMsg, String jobName, String deptName, String superDept) {
 		super(empNo, jobCd, deptCd, userId, isManager, userPwd, empName, empImage, empContact, empEmail, empAddress, authority,

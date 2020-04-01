@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,10 +37,12 @@ public class EdocController {
 	EdocService edocService;
 
 	@GetMapping("/list.do")
-	public String list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="{myDocu, reqDocu, compDocu, refDocu}")String[] arrayDocuCheck, Member member) {
+	public ModelAndView list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="{myDocu, reqDocu, compDocu, refDocu}")String[] arrayDocuCheck, HttpSession session) {
 		log.debug("=========내 전자문서 페이지=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
+		
+		Member member = (Member)session.getAttribute("memberLoggedIn");
 		
 		String myDocu = "y"; 
 		String reqDocu = "y"; 
@@ -63,6 +66,8 @@ public class EdocController {
 		List<EdocSrch> list = edocService.selectMyList(cPage, numPerPage, map);
 		
 		int totalContents = edocService.selectMyEdocTotalContents(map);
+		
+		mav.addObject("myEdocList", list);
 		
 		
 //		여기서부터 페이징
@@ -101,11 +106,11 @@ public class EdocController {
 		
 		mav.setViewName("edoc/edocList");
 		
-		return "edoc/edocList"; // mav로
+		return mav;
 	}
 
 	@GetMapping("/srch.do")
-	public String srch(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType) {
+	public ModelAndView srch(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType) {
 		log.debug("=========전자문서 검색 페이지=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
@@ -116,7 +121,7 @@ public class EdocController {
 		int totalContents = edocService.selectEdocTotalContents(srchWord, srchType);
 		
 		
-		mav.addObject("list", list);
+		mav.addObject("srchList", list);
 		mav.addObject("totalContents", totalContents);
 		
 //		여기서부터 페이징
@@ -156,7 +161,7 @@ public class EdocController {
 		
 		mav.setViewName("edoc/edocSrch");
 		
-		return "edoc/edocSrch"; //mav로
+		return mav;
 	}
 	@GetMapping("/confirm.do")
 	public String confirm() {
@@ -171,11 +176,6 @@ public class EdocController {
 	@GetMapping("/write.do")
 	public String write() {
 		return "edoc/edocWrite";
-	}
-
-	@GetMapping("/treetest.do")
-	public String treetest() {
-		return "edoc/treeTest";
 	}
 
 	@GetMapping("/jstree.do")
@@ -211,25 +211,47 @@ public class EdocController {
 	}
 	@GetMapping("/jstreeMem.do")
 	public void jstreeMem(HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-			log.debug("name Parameter@EdocController.jstreeMem:"+request.getParameter("name"));
-			JstreeMem memOne = edocService.selectJstreeMem(request.getParameter("name"));
-			log.debug("memOne@EdocController"+memOne.toString());
-			
-			JSONObject sObject = new JSONObject(); 
-			sObject.put("dept", memOne.getDept());
-			sObject.put("name", memOne.getName());
-			
-			response.setCharacterEncoding("UTF-8");
-			PrintWriter out;
-			out = response.getWriter();
-			out.write(sObject.toString());
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(request.getParameter("id").charAt(0) == 'D') {
+			try {
+				JSONObject sObject = new JSONObject(); 
+				sObject.put("empNo", "fail");
+				sObject.put("dept", "fail");
+				sObject.put("job", "fail");
+				sObject.put("name", "fail");
+				
+				response.setCharacterEncoding("UTF-8");
+				PrintWriter out;
+				out = response.getWriter();
+				out.write(sObject.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
+		else {
+			try {
+				log.debug("id Parameter@EdocController.jstreeMem:"+request.getParameter("id"));
+				JstreeMem memOne = edocService.selectJstreeMem(request.getParameter("id"));
+				
+				log.debug("memOne@EdocController"+memOne.toString());
+				
+				JSONObject sObject = new JSONObject(); 
+				sObject.put("empNo", memOne.getEmpNo());
+				sObject.put("dept", memOne.getDeptName());
+				sObject.put("job", memOne.getJobName());
+				sObject.put("name", memOne.getEmpName());
+				
+				response.setCharacterEncoding("UTF-8");
+				PrintWriter out;
+				out = response.getWriter();
+				out.write(sObject.toString());
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
 	}
 }

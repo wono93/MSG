@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.msg.edoc.model.vo.EdocSrch;
-import com.kh.msg.edoc.model.vo.EdocSrchFlow;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
 
@@ -26,8 +25,10 @@ public class EdocDAOImpl implements EdocDAO {
 	}
 
 	@Override
-	public JstreeMem selectJstreeMem(String name) {
-		return sqlSession.selectOne("edoc.jstreeMem", name);
+	public JstreeMem selectJstreeMem(String id) {
+		Map map = new HashMap<String, String>();
+		map.put("empNo", id);
+		return sqlSession.selectOne("edoc.jstreeMem", map);
 	}
 
 	@Override

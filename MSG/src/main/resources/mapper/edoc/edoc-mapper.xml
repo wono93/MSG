@@ -6,11 +6,18 @@
 
 
 	<select id="jstree" resultType="jstree">
-		select * from jstree_tb
+		select * from jstree_view
 	</select>
 
 	<select id="jstreeMem" resultType="jstreeMem">
-		select * from jstree_mem_tb where name = #{name}
+		select
+			*
+		from
+			emp_tb
+			join job_tb using(job_cd)
+			join dept_tb using(dept_cd)
+		where
+			emp_no = ${empNo}
 	</select>
 	
 	<select id="srchList" resultMap="EdocSrchFlowCollection">

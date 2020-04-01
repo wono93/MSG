@@ -48,8 +48,6 @@ select * from ((select * from car_rsvn_view) union (select * from conf_rsvn_view
 select count(*) from edoc_tb where edoc_org_id is null;
 
 
-
-
 -- SEQ_EDOC_ID 초기화용 프로시저 등록
 CREATE OR REPLACE PROCEDURE PROC_SEQ_EDOC_ID_RESET(SEQ_EDOC_ID IN VARCHAR2)
 IS
@@ -65,7 +63,34 @@ END;
 --문서번호 예시, 아쉽게도 칼럼 default로 seq와 같은 의사 칼럼을 주는 것은 불가능하다
 select 'ED-'||to_char(sysdate + 9/24,'yymmdd')||'-'||seq_edoc_id.NEXTVAL from dual;
 
-
-
---더미데이터 생성
+select * from emp_tb join job_tb using(job_cd) join dept_tb using(dept_cd);
+select * from job_tb;
+select * from dept_tb;
+--더미데이터 생성 / 일단 보류
 select * from edoc_all_tb WHERE flow_emp_no = 13 order by edoc_dt desc;
+
+-- flow 여기서부터 다시
+select to_char(emp_no) id, dept_cd parent, job_name||' '||emp_name text, 'jstree-file' icon from emp_tb E join job_tb J on E.job_cd=J.job_cd
+union
+select dept_cd id, super_dept parent, dept_name text, '' icon from dept_tb;
+
+
+-------------시퀀스 매일 초기화 하기------------------
+-- 시퀀스 초기화 프로시저
+create or replace PROCEDURE PROC_SEQ_EDOC_ID_RESET(SEQ_EDOC_ID IN VARCHAR2)
+IS
+    L_VAL NUMBER;
+BEGIN
+    EXECUTE IMMEDIATE 'SELECT '|| SEQ_EDOC_ID ||'.NEXTVAL FROM DUAL' INTO L_VAL;
+    EXECUTE IMMEDIATE 'ALTER SEQUENCE '|| SEQ_EDOC_ID ||' INCREMENT BY -'|| L_VAL ||' MINVALUE 0';
+    EXECUTE IMMEDIATE 'SELECT '|| SEQ_EDOC_ID ||'.NEXTVAL FROM DUAL' INTO L_VAL;
+    EXECUTE IMMEDIATE 'ALTER SEQUENCE '|| SEQ_EDOC_ID ||' INCREMENT BY 1 MINVALUE 0';
+END;
+/
+-- 시퀀스 nextval 값 늘리기
+select seq_edoc_id.nextval from dual;
+--프로시저 실행하기
+EXEC PROC_SEQ_EDOC_ID_RESET();
+
+EXEC proc_insert_work_clock;
+select * from temp_work_tb;

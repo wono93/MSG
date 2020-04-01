@@ -7,12 +7,13 @@ import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.EdocSrchFlow;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
+import com.kh.msg.member.model.vo.Member;
 
 public interface EdocService {
 
 	List<Jstree> selectJstree();
 
-	JstreeMem selectJstreeMem(String name);
+	JstreeMem selectJstreeMem(String id);
 
 	List<EdocSrch> selectList(int cPage, int numPerPage, String srchWord, String srchType);
 

@@ -51,172 +51,76 @@
                     </div>
                     <table>
                         <tr>
-                            <th></th>
+                            <th>문서ID</th>
                             <th>문서종류</th>
                             <th>제목</th>
                             <th>기안자</th>
                             <th>보안등급</th>
-                            <th>작성일</th>
+                            <th>기안일</th>
                             <th>유형</th>
                             <th>상태</th>
                         </tr>
-                            <style>
-                            .forTest:hover{
-                            	cursor: pointer;
-                            }
-                            </style>
-                        <tr class="forTest" onclick="location.href='${pageContext.request.contextPath}/edoc/confirm.do'">
-                            <td>110</td>
-                            <td>재직증명서</td>
-                            <td>재직증명서 발급 요청</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
-                        <tr>
-                            <td>109</td>
-                            <td>휴가신청서</td>
-                            <td>휴가 신청</td>
-                            <td>천광웅</td>
-                            <td>B</td>
-                            <td>2020/02/29</td>
-                            <td>결재요청</td>
-                            <td>대기</td>
-                        <tr>
-                            <td>110</td>
-                            <td>기타양식</td>
-                            <td>사직서</td>
-                            <td>장그래</td>
-                            <td>C</td>
-                            <td>2020/02/29</td>
-                            <td>기안한문서</td>
-                            <td>반려</td>
-                        </tr>
+					<c:forEach items="${myEdocList }" var="ed">
+						<tr data-edoc-no="${ed.edocId }">
+							<td>${ed.edocId }</td>
+							<td>${ed.formNm }</td>
+							<td>${ed.edocTitle }</td>
+							<td>${ed.empName }</td>
+							<td>${ed.secuNm }</td>
+						<c:if test="${ed.edocEnd =='y' }">
+							<td>내 기안 문서</td>
+							<c:set var="flowStVal" value="false"/>
+							<c:forEach items="${myEdocList.SrchFlowList	}" var="sf">
+								<c:if test="${sf.flowSt = 'n'}">
+									<c:set var="flowStVal" value="true"/>
+								</c:if>
+							</c:forEach>
+							<c:if test="${flowStVal } == 'true'">
+								<td>반려</td>
+							</c:if>
+							<c:if test="${flowStVal } == 'false'">
+								<td>대기</td>
+							</c:if>
+						</c:if>
+						<c:if test="${ed.edocEnd !='y' }">
+							<c:forEach items="${myEdocList.srchFlowList }" var="sf">
+								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } != 'y' and ${sf.flowNm } == '결재'">
+									<td>
+										결재요청문서
+									</td>
+									<td>
+									
+									</td>								
+								</c:if>
+								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } == 'y' and ${sf.flowNm } == '결재'">
+									<td>
+										결재완료문서
+									</td>
+									<c:if test="${empty sf.flowSt }">
+										<td>
+											대기
+										</td>																	
+									</c:if>
+									<c:if test="${sf.flowSt } == 'n'">
+										<td>
+											반려
+										</td>																	
+									</c:if>
+								</c:if>
+								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } != 'y' and ${sf.flowNm } == '결재'">
+									<td>
+										참조문서
+									</td>
+									<td>
+									</td>
+								</c:if>
+							</c:forEach>
+						</c:if>
+						</tr>
+					</c:forEach>
                     </table>
                     <div class="pagination">
-                        <a href="#" class="arrow">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="active">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#" class="arrow">&raquo;</a>
+						${pageBar }
                     </div>
                     <div class="srchBar">
                         <div class="select-box">
