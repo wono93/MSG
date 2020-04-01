@@ -96,4 +96,15 @@ public class MemberDAOImpl implements MemberDAO {
 	public int updateEmp(Map<String, String> map) {
 		return sqlSession.update("member.updateEmp",map);
 	}
+
+	@Override
+	public void loginLog(int empNo) {
+		//그 날의 첫번째 로그인 기록인지 검사
+//		if(sqlSession.selectOne("member.isFirstIn",empNo) == null) {
+//			//그날의 첫번째 로그인 기록이 9시 혹은 임의출근시간이 넘으면 지각 처리하는 프로시져 호출
+//			sqlSession.insert("member.isLate",empNo);
+//		}
+			
+			sqlSession.insert("member.loginLog", empNo);
+	}
 }

@@ -56,11 +56,29 @@
 			EMP_TB E LEFT JOIN DEPT_TB D
 			USING (DEPT_CD)
 			LEFT JOIN JOB_TB J
-			USING (JOB_CD) 
+			USING (JOB_CD)
+			LEFT JOIN LOG_TB
+			USING (EMP_NO) 
 		WHERE 
 			USER_ID = #{userId}
-		
 	</select>
+	<insert id="loginLog">
+		INSERT INTO LOG_TB VALUES(
+			TO_DATE(TO_CHAR(SYSDATE,'YYYY-DD-MM'))
+			,#{empNo}
+			,SYSDATE
+			,'I'
+		) 
+	</insert> 
+	<select id="isFirstIn" resultType="IOLog">
+		SELECT * FROM LOG_TB WHERE TO_CHAR(DAY,'YYYY/MM/DD') = TO_CHAR(SYSDATE,'YYYY/MM/DD') AND INOUT_FG IN 'I' AND EMP_NO = #{empNo}
+	</select>
+	
+	<select id="isLate">
+	
+	
+	</select>
+	
 	
 	<update id="updateEmp">
 		UPDATE EMP_TB 

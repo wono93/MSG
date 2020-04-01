@@ -71,7 +71,6 @@
 				                <td>${hr.deptName }</td>
 				                <td>${hr.empName }</td>
 				                <td>${bsnsDay - hr.vctnCount<=0?0:bsnsDay - hr.vctnCount }</td>
-
 				                <td>${hr.vctnCount }일</td>
 				                <td>${hr.lateCount }일</td>
 				                <td>${hr.absentCount }일</td>

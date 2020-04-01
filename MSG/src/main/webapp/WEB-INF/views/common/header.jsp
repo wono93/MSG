@@ -43,7 +43,14 @@
         <br>
         <ul class="firnav">
             <li>
-                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">
+            	<c:choose>
+            		<c:when test="${memberLoggedIn.authority ne 'N' }">
+		                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">    		
+            		</c:when>
+            		<c:otherwise>
+		                <a href="${pageContext.request.contextPath}/member/empLog.do?empNo=${memberLoggedIn.empNo}">    		
+            		</c:otherwise>
+            	</c:choose>
                     <i class="icon far fa-id-card" style="font-size:24px"></i> 인사관리
                 </a>
             </li>

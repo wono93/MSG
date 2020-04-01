@@ -30,6 +30,7 @@ import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
+import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.orgChart;
 
@@ -44,7 +45,7 @@ public class MemberController {
 	MemberService memberService;
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
-  
+	
 	
 	@PostMapping("/login.do")
 	public String login(@RequestParam("userId") String userId, @RequestParam("password") String password,
@@ -53,7 +54,11 @@ public class MemberController {
 			// 로그인 처리
 			// 1. memberId 로 member 객체 조회
 			// bcryptPasswordEncoder를 이용한 비교
+			
 			orgChart member = memberService.selectOne(userId);
+			
+			
+			
 			log.debug("member={}", member);
 			log.debug(bcryptPasswordEncoder.encode(password));
 
@@ -61,6 +66,8 @@ public class MemberController {
 			if (member != null && bcryptPasswordEncoder.matches(password, member.getUserPwd())) {
 				// 로그인 성공
 				model.addAttribute("memberLoggedIn", member);
+				//로그인 성공시, 출입기록에 기록
+//				memberService.loginLog(member.getEmpNo()); 
 			} else {
 				// 로그인 실패
 				redirectAttributes.addFlashAttribute("msg", "입력한 아이디 또는 비밀번호가 일치하지 않습니다");
@@ -81,13 +88,42 @@ public class MemberController {
 		log.debug("[" + member.getUserId() + "] 가 로그아웃 했습니다.");
 		if (!sessionStatus.isComplete())
 			sessionStatus.setComplete();
-
 		return "redirect:/";
 	}
 	
+
 	
+	@GetMapping("/empLog.do")
+	public String empLog(Model model,@RequestParam("empNo") String empNo) {
+		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
+		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		Date monthAgoDate = monthAgo.getTime();
+		String srcDateStart = fmt.format(monthAgoDate);
+		String srcDateEnd = fmt.format(curDate);
+		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
+
+		log.debug("srcDateStart={}", srcDateStart);
+		log.debug("srcDateEnd={}", srcDateEnd);
+
+		List<HrMntList> list = null;
+		Map<String, String> map = new HashMap<>();
+		map.put("srcDateStart", srcDateStart);
+		map.put("srcDateEnd", srcDateEnd);
+
+		list = memberService.selectList(map);
+
+		model.addAttribute("list", list);
+		model.addAttribute("srcDateStart", srcDateStart);
+		model.addAttribute("srcDateEnd", srcDateEnd);
+		model.addAttribute("bsnsDay", bsnsDay);
+		
+		
+		return "/member/empLog";
+	}
 	
-	//메인페이지에서 근태 페이지 첫 소환
+	//메인페이지에서 인사관리자/관리자의 근태 페이지 첫 소환
 	@GetMapping("/empLogBoard.do")
 	public String empLogBoard(Model model) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));

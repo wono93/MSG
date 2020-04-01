@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.msg.member.model.vo.HrMntList;
+import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.orgChart;
 
 public interface MemberDAO {
@@ -17,5 +18,7 @@ public interface MemberDAO {
 	orgChart empInfo(String empNo);
 
 	int updateEmp(Map<String, String> map);
+
+	void loginLog(int empNo);
 	
 }

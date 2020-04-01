@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
+import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.orgChart;
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -42,5 +43,10 @@ public class MemberServiceImpl implements MemberService {
 	public int updateEmp(Map<String, String> map) {
 		
 		return memberDAO.updateEmp(map);
+	}
+
+	@Override
+	public void loginLog(int empNo) {
+		memberDAO.loginLog(empNo);
 	}
 }
