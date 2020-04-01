@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/js/channelGenerate.js">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <title>DocuForm</title>
     <script>
@@ -237,7 +239,7 @@
                         <div id="ch-member-list">
                             <table id="ch-member-table">
                                 <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
+                                    <td><img src="${pageContext.request.contextPath}/resources/image/20200330_132246034_539.jpg" id="ch-member-list-img" class="ch-member-img"></td>
                                     <td>가디01</td>
                                     <td>해외영업부</td>
                                     <td>과장</td>
@@ -245,7 +247,7 @@
                                     <td><img src="X-icon.png" alt="" class="x-icon" id=""></td>
                                 </tr>
                                 <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
+                                    <td><img src="${pageContext.request.contextPath}/resources/image/20200330_132246034_539.jpg" id="ch-member-list-img" class="ch-member-img"></td>
                                     <td>가디01</td>
                                     <td>해외영업부</td>
                                     <td>과장</td>
@@ -253,7 +255,7 @@
                                     <td><img src="X-icon.png" alt="" class="x-icon" id=""></td>
                                 </tr>
                                 <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
+                                    <td><img src="${pageContext.request.contextPath}/resources/image/20200330_132246034_539.jpg" id="ch-member-list-img" class="ch-member-img"></td>
                                     <td>가디01</td>
                                     <td>해외영업부</td>
                                     <td>과장</td>
@@ -261,7 +263,7 @@
                                     <td><img src="X-icon.png" alt="" class="x-icon" id=""></td>
                                 </tr>
                                 <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
+                                    <td><img src="${pageContext.request.contextPath}/resources/image/20200330_132246034_539.jpg" id="ch-member-list-img" class="ch-member-img"></td>
                                     <td>가디01</td>
                                     <td>해외영업부</td>
                                     <td>과장</td>

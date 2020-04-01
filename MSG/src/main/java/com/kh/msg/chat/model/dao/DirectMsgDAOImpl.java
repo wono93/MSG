@@ -34,6 +34,11 @@ public class DirectMsgDAOImpl implements DirectMsgDAO {
 	public DirectMsg selectOne(String toId) {
 		return sqlSession.selectOne("directMsg.selectOne",toId);
 	}
+
+	@Override
+	public List<DirectMsg> headerDmList(String fromId) {
+		return sqlSession.selectList("directMsg.headerDmList",fromId);
+	}
 	
 	
 }

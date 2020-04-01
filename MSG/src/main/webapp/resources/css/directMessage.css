@@ -57,14 +57,24 @@
         max-width: 238px;
 /*         max-width: calc(100% - 200px); */
         max-height: calc(100% - 70px);
-	    overflow-y: scroll;
+	    /* overflow-y: scroll; */
         margin: 0 10px;
         float: inherit;
+        position: relative;
     }
     .dm-time{
         color: #999999;
-        float: inherit;
+        /* float: inherit; */
         font-size: 5px;
+        top:79%;
+        width:50px;
+        position: absolute;
+    }
+    #from-dm-time{
+        left: 103%;
+    }
+    #to-dm-time{
+        right: 97%;
     }
     /* to dm */
     #to-dm{
@@ -88,7 +98,7 @@
     #send-dm-container{
         background-color: #EBEBEB;
         width: 400px;
-        height: 82px;
+        height: 108px;
         padding: 10px 10px;
     }
     #send-dm-button{
@@ -103,7 +113,6 @@
         background-color: #FEFEFE;
         border: none;
     }
-
     #title-container{
         background-color: #ffffff;
         width: 400px;
@@ -121,3 +130,7 @@
         width: 20px;
         margin: 5px 5px 0 0;
     }
+    #entire-container {
+    width: fit-content;
+    box-shadow: -5px -5px 30px 5px grey;
+}

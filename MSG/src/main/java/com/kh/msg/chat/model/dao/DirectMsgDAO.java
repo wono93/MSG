@@ -15,4 +15,6 @@ public interface DirectMsgDAO {
 
 	DirectMsg selectOne(String toId);
 
+	List<DirectMsg> headerDmList(String fromId);
+
 }
