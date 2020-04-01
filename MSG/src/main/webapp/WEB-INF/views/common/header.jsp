@@ -26,8 +26,18 @@
     <script>
 		var hdjq = jQuery.noConflict();
     </script>
+    <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
+<%
+	Member m = (Member)session.getAttribute("memberLoggedIn");
+	String userId = m.getUserId();
+	int empNo = m.getEmpNo();
+%>
+<script>	
+	var fromId = '<%=userId%>';
+	var empNo = '<%=empNo%>';
+</script>
 </head>
 <body>
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
