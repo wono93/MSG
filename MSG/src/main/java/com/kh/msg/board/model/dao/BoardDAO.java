@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
 
@@ -31,10 +32,19 @@ public interface BoardDAO {
 
 	int attachmentUpdate(Attachment attachment);
 
-	int cntUp(Board board);
-
-	int countBoard();
+	int countBoard(Board board);
 
 	Object selectBoard(PagingVo vo);
+
+	int insertScrap(BoardScrap boardScrap);
+
+	BoardScrap selectScrap(int boardNo);
+
+	int deleteScrap(BoardScrap boardScrap);
+
+	int getBoardScrap(BoardScrap voScrap);
+
+	int attachUpdate(Attachment attachment);
+
 	
 }

@@ -24,14 +24,14 @@
 		where
 		    ((D.to_id = #{toId} and D.from_id = #{fromId})
             	OR (D.to_id = #{fromId} and D.from_id = #{toId}))
-                    and D.msg_no > (select max(D.msg_no) - #{msgNo} from dm_tb)
+                    and D.msg_no > (select max(D.msg_no) - ${msgNo} from dm_tb)
 		order by D.msg_date
 	</select>
 	<insert id="insert">
 		insert into
 			dm_tb
 		values
-			(seq_msg_no.nextval,1,#{fromId},#{msgContent},default,#{toId})
+			(seq_msg_no.nextval,${empNo},#{fromId},#{msgContent},default,#{toId})
 	</insert>
 	<select id="selectOne" resultType="DirectMsg">
 		select
@@ -40,6 +40,14 @@
 		    emp_tb E left join dm_tb D
 		        on E.emp_no = D.emp_no
 		where
-		     D.msg_no = (select max(msg_no) from dm_tb where to_id = #{toId})
+		     D.msg_no = (select max(msg_no) from dm_tb where from_id = #{toId})
+	</select>
+	<select id="headerDmList" resultType="DirectMsg">
+		select 
+			* 
+		from 
+			HEADER_DM_LIST_VIEW 
+		where 
+			to_id = #{from_id}
 	</select>
 </mapper>

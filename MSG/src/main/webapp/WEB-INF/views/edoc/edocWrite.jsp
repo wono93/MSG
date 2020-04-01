@@ -38,8 +38,9 @@
   		    success: function(response){
   		 		jq("#ajax_jstree")
   		 		.on("changed.jstree", function (e, data) {
+  		 			/* console.log(data); */
 					if(data.selected.length) {
-						selectedTree = data.instance.get_node(data.selected[0]).text;
+						selectedTree = data.instance.get_node(data.selected[0]).id;
 						/* console.log("선택된 요소입니다"+selectedTree); */
 					}
 				})
@@ -58,6 +59,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+
     <section>
             <article>
                 <div class="subNav">
@@ -127,15 +129,15 @@
                         <table class="docuInfoTb">
                             <tr>
                                 <td>문서번호</td>
-                                <td>2020-G0001-001</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>기안자</td>
-                                <td>경영지원부 과장 장그래</td>
+                                <td><%= memberLoggedIn.getEmpName() %></td>
                             </tr>
                             <tr>
                                 <td>기안일자</td>
-                                <td>2020/02/28</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>보안등급</td>
@@ -236,21 +238,21 @@
                                 <th rowspan="3" class="NoRBorder">결 재</th>
                                 <th></th>
                                 <th></th>
-                                <th>장그래</th>
-                                <th>안영이</th>
-                                <th class="NoRBorder">천관웅</th>
+                                <th></th>
+                                <th></th>
+                                <th class="NoRBorder"></th>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td>장그래<br>직인</td>
+                                <td></td>
                                 <td></td>
                                 <td class="NoRBorder"></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td>2020/02/28</td>
+                                <td></td>
                                 <td></td>
                                 <td class="NoRBorder"></td>
                             </tr>
@@ -297,7 +299,7 @@
                             </tr>
                             <tr>
                                 <td>사용일수</td>
-                                <td></td>
+                                <td><input type="number" name="" id="leaveAmt" /></td>
                                 <td>구분</td>
                                 <td>
                                     <form action="">
@@ -484,28 +486,36 @@
         </div>
     </div>
     <script>
-		
+
 		$("#flowArrow").click(function(){
 	  		$.ajax({
 	  		    type:"get",
 	  		    url: "/msg/edoc/jstreeMem.do",
 	  		    data: {
-	  		    	name : selectedTree
+	  		    	id : selectedTree
 	  		    },
 	  		    dataType: "json",
 	  		    success: function(response){
-/* 	  		 		console.log("dept"+response['dept']);
-	  		 		console.log("name"+response['name']); */
-	  		 		var tmp = [response['dept'],response['name']];
+	  		 		var tmp = [response['empNo'],response['dept'], response['job'], response['name']];
+	  		 		if(tmp[0]==('fail')){
+	  		 			alert("결재선에 부서를 추가할 수는 없습니다.다시 선택하세요.");
+	  		 			return;
+	  		 		}
+	  		 		for(var i in flowLine){
+		  		 		if(flowLine[i][0] == tmp[0]){
+		  		 			alert("결재선이 중복됩니다. 다시 선택하세요.");
+		  		 			return;
+		  		 		}	  		 			
+	  		 		}
 					flowLine.push(tmp);
 	  		 		/* console.log(flowLine.length); */
-	  		 		if(flowLine.length > 5){
+	  		 		if(flowLine.length > 5){ // 결재선 5명 제한
 	  		 			alert("결재선은 최대 5명까지 지정 가능합니다.");
 	  		 			flowLine.splice(5,1);
 	  		 			return;
 	  		 		}
 	  		 		var i = flowLine.length - 1;
-					$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+response['dept']+"</td><td></td><td>"+response['name']+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+					$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+response['dept']+"</td><td>"+response['job']+"</td><td>"+response['name']+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
 					/* console.log(flowLine); */
 	  		    }
 	  		});
@@ -521,7 +531,7 @@
 			/* console.log(flowLine); */
 			
  			for(var i in flowLine){
-				$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+flowLine[i][0]+"</td><td></td><td>"+flowLine[i][1]+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+				$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+flowLine[i][1]+"</td><td>"+flowLine[i][2]+"</td><td>"+flowLine[i][3]+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
 			}
 			
 		};
@@ -531,6 +541,20 @@
 				console.log(fd)
 		    }
 		})
+		
+		$("#flowBoxBtn").click(function(){
+			for(var i = 0; i < 6; i++){ // 결재선 표시 초기화
+				var j = i+1;
+				$(".docuFlowTb").find("th:nth-child("+j+")").html("");
+			}
+			for(var i in flowLine){ // 결재선 배열(flowLine)을 읽어 결재선 표시
+				var j = 6-i;
+				var k = flowLine.length-i-1;
+				$(".docuFlowTb").find("th:nth-child("+j+")").html(flowLine[k][3]);
+			}
+			
+		})
+		
 	</script>
 </body>
 </html>

@@ -34,6 +34,11 @@ public class DirectMsgServiceImpl implements DirectMsgService {
 	public DirectMsg selectOne(String toId) {
 		return directMsgDAO.selectOne(toId);
 	}
+
+	@Override
+	public List<DirectMsg> headerDmList(String fromId) {
+		return directMsgDAO.headerDmList(fromId);
+	}
 	
 
 }

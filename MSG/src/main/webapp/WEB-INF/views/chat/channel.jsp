@@ -7,181 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channel.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/js/channel.js">
 </head>
-<style>
-    section{
-/*         position: relative;
-        width: 1000px;
-        padding: 50px 100px;
-        background-color: #EBEBEB; */
-		position: absolute;
-	    text-align: center;
-	    width: 100%;
-	    height: 100%;
-	    left: 0;
-	    top: 0;
-    }
-    section > div {
-	    display: inline-block;
-	    width: 1200px;
-	    height: 100%;
-	    vertical-align: middle;
-	    /* border: 1px solid black; */
-	}
-    article > .content {
-	    display: inline-block;
-	    width: 1020px;
-	    height: 100%;
-	    vertical-align: middle;
-	    /* border: 1px solid black; */
-	    background-color: #fefefe;
-	}
-	article > .subNav {
-	    display: inline-block;
-	    width: 1020px;
-	    height: 230px;
-	    vertical-align: middle;
-		/*border: 1px solid red; */
-	}
-	.content > .control {
-	    display: inline-block;
-	    width: 940px;
-	    border-bottom: 2px solid #999999;
- 	    padding: 40px 40px;
-    	text-align : left;
-	}
-    .control > p{
-	    text-align: left;
-    }
-    .control > .btnGrp, #member-container {
-    	display: inline-block;
-   	}
-    
-    
-    /* subNav */
-	.subNav::after{
-		content:"";
-		display:block;
-		clear:both;
-	}
-	.subNav > h3{
-		margin:75px 0 0 0px;
-		font-size:36px;
-		font-weight:900;
-		text-align: left;
-	}
-	.subNav li{
-		list-style: none;
-		float: left;
-		margin: 45px 45px 30px 0px;
-		font-size: 21px;
-		font-family: "Noto Sans KR";
-		color:#999;
-		cursor: pointer;
-	}
-    
-    #title{
-        font-weight: 800;
-        font-size: 28px;
-        margin: 0 0 17px 0;
-    }
-    .button{
-        font-size: 14px;
-        padding: 13px 20px;
-        background: #999999;
-        margin-right: 5px;
-    }
-    .button:hover{
-        background: #F4CA25;
-
-    }
-    #channel-container{
-        width: 860px;
-        padding: 65px 80px;
-        background-color: #FEFEFE;
-        height: 600px;
-        overflow-y: scroll;
-    }
-    /* member img */
-    .member-img{
-        width: 50px; 
-        height: 50px;
-        object-position: top;
-        object-fit: cover;
-        border-radius: 50%;
-        float: inherit;
-    }
-    #member-container{
-        float: right;
-    }
-    /* hr date */
-    #hr-container{
-        text-align: center;
-        color: #999999;
-        font-size: 15px;
-    }
-    hr{
-        width: 313px;
-        display: inline-block;
-    }
-    #span-date{
-        position: relative;
-        left: 10px
-    }
-    #hr-right{
-        position: relative;
-        float: right;
-    }
-    /* msg */
-    .msg-content{
-        padding: 15px;
-        max-width: calc(100% - 500px);
-        max-height: calc(100% - 70px);
-	    overflow-y: scroll;
-        margin: 0 10px;
-        float: inherit;
-    }
-    .msg-time{
-        color: #999999;
-        width: 70px;
-        float: inherit;
-    }
-    /* to msg */
-    #to-msg{
-        float: right;
-        margin: 20px;
-    }
-    #to-msg-content{
-        background: #F4CA25;
-    }
-    /* from msg */
-    #from-msg{
-        float: left;
-        margin: 20px;
-    }
-    #from-msg-content{
-        background-color: #EBEBEB;
-    }
-    /* send msg */
-    #send-msg-container{
-        background-color: #FEFEFE;
-        width: 860px;
-        padding: 60px 80px;
-    }
-    #send-msg-container textarea{
-		background-color: #EBEBEB;
-    }
-    #send-msg-button{
-        float: right;
-        margin: 10px 0;
-    }
-    #send-msg-content{
-        /* margin: 14px 0px 0px 77px; */
-        border: none;
-        resize: none;
-    }
-
-</style>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <section>
@@ -193,7 +21,7 @@
                         <li onclick="#">이메일</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/chat/channel.do'">팀채널</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
-                        	<form action="${pageContext.request.contextPath}/chat/msgList.do" method="GET">
+                        	<%-- <form action="${pageContext.request.contextPath}/chat/msgList.do" method="GET">
 		                        <input type="hidden" name="toId" value="admin"/>
 		                    	<!-- <input type="hidden" name="fromId" value="jhaeil"/>
 		                    	<input type="hidden" name="msgNo" value="1"/>
@@ -202,7 +30,7 @@
 		                        <li>
 			                        <button type="submit">DM</button>
 		                        </li>
-                        	</form>
+                        	</form> --%>
                      </ul>
                 </div>
 				<div class="content">

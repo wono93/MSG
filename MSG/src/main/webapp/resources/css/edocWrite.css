@@ -447,11 +447,11 @@ table tr:last-child {
 .docuContentTb td:nth-child(4){
     width: 198px;
 }
-table textarea {
+/* table textarea {
     border: 0;
     padding-left : 15px;
     font-size: 13pt;
-}
+} */
 table .textIpt {
     border: 0;
     height: 40px;
@@ -617,12 +617,12 @@ table .textIpt {
 
 .flowLine-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .flowLine-container input {position: absolute; opacity: 0; cursor: pointer; }
-.flowLine-checkmark { position: absolute; top: -10px; left: -12px; height: 25px; width: 25px; background-color: #fefefe;}
+.flowLine-checkmark { position: absolute; top: -10px; left: -12px; height: 20px; width: 20px; background-color: #fefefe;}
 .flowLine-container:hover input ~ .flowLine-checkmark { background-color: #ccc;}
 .flowLine-container input:checked ~ .flowLine-checkmark { background-color: #F4CA25; }
 .flowLine-checkmark:after { content: ""; position: absolute; display: none; } /* 클릭시 체크생성 */
 .flowLine-container input:checked ~ .flowLine-checkmark:after { display: inline; }
-.flowLine-container .flowLine-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+.flowLine-container .flowLine-checkmark:after { left: 7px; top: 4px; width: 3px; height: 7px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
 
 .flowBox {
@@ -642,6 +642,7 @@ table .textIpt {
 }
 .flowLineTable td{
 	height: 40px !important;
+	font-size: 16px;
 }
 .flowBoxX{
 	width : 10px;

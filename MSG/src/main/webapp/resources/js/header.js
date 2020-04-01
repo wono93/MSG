@@ -40,14 +40,3 @@ hdjq(function(){
     });
 })
 
-hdjq(function(){
-    hdjq(".dmBar").hide();
-})
-hdjq(function(){
-	hdjq("#dmWindow").click(function(){
-			hdjq(".dmBar").fadeIn(100);
-        })
-        hdjq("#dmClose").click(function(){
-        	hdjq(".dmBar").fadeOut(100);
-        })
-})

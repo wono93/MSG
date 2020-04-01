@@ -19,15 +19,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.msg.board.model.service.BoardService;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
 import com.kh.msg.common.util.Utils;
@@ -47,7 +49,7 @@ public class BoardController {
 	
 	@Autowired
 	ResourceLoader resourceLoader;
-	
+	/*
 	@GetMapping("/list.do")
 	public ModelAndView selectBoardList(ModelAndView modelAndView){
 		log.debug("게시판 목록페이지!");
@@ -63,21 +65,52 @@ public class BoardController {
 		mav.setViewName("board/boardList");
 		return mav;
 	}
+	*/
 	
 	@GetMapping("/view.do")
-	public String view(@RequestParam("boardNo") int boardNo, Board board,
+	public String view(
+			@RequestParam("boardNo") int boardNo, 
+			
+			Board board,
 			 Model model) {
 
 		board = boardService.selectOne(boardNo);
-		
 		//조회수 증가
-		int result = boardService.cntUp(board, boardNo);
-		log.debug("result================"+result);
+	//int result = boardService.cntUp(board, boardNo);
+	//	log.debug("result================"+result);
 		log.debug("board================"+board);
 		
     	model.addAttribute("board", board);
     	return "board/boardView";
 	}
+	
+		@ResponseBody
+	    @RequestMapping(value = "/heart", method = RequestMethod.POST, produces = "application/json")
+	    public int heart(HttpServletRequest httpRequest) throws Exception {
+	
+	        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
+	        int boardNo = Integer.parseInt(httpRequest.getParameter("boardNo"));
+	        //int userid = ((UserVO) httpRequest.getSession().getAttribute("login")).getUserId();
+	        int empNo = Integer.parseInt(httpRequest.getParameter("empNo"));
+	        
+	        BoardScrap voScrap = new BoardScrap();
+	        
+	        voScrap.setNo(boardNo);
+		   	voScrap.setEmpNo(empNo);
+		   	
+	        System.out.println(heart);
+	
+	        if(heart >= 1) {
+	            boardService.deleteScrap(voScrap);
+	            heart=0;
+	        } else {
+	        	boardService.insertScrap(voScrap);
+	            heart=1;
+	        }
+	
+	        return heart;
+	
+	    }
 	
 	@PostMapping("/deleteComment.do")
 	public String commentDelete(@RequestParam("boardNo") int boardNo,
@@ -89,7 +122,6 @@ public class BoardController {
 
 		return "redirect:/board/view.do?boardNo="+boardNo;
 	}
-	
 	
 	@PostMapping("/insertComment.do")
 	public String commentInsert(@RequestParam("boardNo") int boardNo, Comment comment,
@@ -218,7 +250,7 @@ public class BoardController {
     }
     
     @GetMapping("/update.do")
-    public String update(@RequestParam("boardNo") int boardNo, 
+    public String update(@RequestParam("boardNo") int boardNo,
 			 Model model) {
     	Board board = boardService.selectOne(boardNo);
     	
@@ -230,22 +262,73 @@ public class BoardController {
     @PostMapping("/update.do")
 	public String update(@RequestParam("boardNo") int boardNo,
 			Board board, Attachment attachment,
+			 @RequestParam(value="upFile", required=false) 
+			 MultipartFile[] upFiles,
+			 HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
-	int result1 = boardService.boardUpdate(board);
-	log.debug("boardupdate===="+board);
-	
-	redirectAttributes.addFlashAttribute("msg", result1>0?"수정 성공!":"수정 실패!");
-	
-	return "redirect:/board/view.do?boardNo="+boardNo;
+    	//먼저 첨부파일 삭제 후 -> 파일첨부와 게시판 수정
+    	attachment.setBrdNo(boardNo);
+    	int result1 = boardService.deleteAttachment(attachment);
+    	
+    	try {
+    		
+	    	List<Attachment> attachList = new ArrayList<>();
+	    	
+	    	for(MultipartFile f : upFiles) {
+	    		
+	    		//비어있는 MultipartFile객체가 전달된 경우(파일하나만 업로드)
+	    		if(f.isEmpty()) continue;
+	    		
+	//    		log.debug("filename={}",f.getOriginalFilename());
+	//    		log.debug("size={}",f.getSize());
+	    		
+	    		//파일명 재생성 renamedFileName으로 저장하기
+	    		String file = f.getOriginalFilename();
+	    		String refile = Utils.getRefile(file);
+	    		
+	    		//파일이동
+	    		String saveDirectory
+	    			= request.getServletContext()
+	    					 .getRealPath("/resources/upload/board");
+	    		
+	    		try {
+					f.transferTo(new File(saveDirectory, refile));
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+	    		
+	    		//실제 파일데이터 originalFileName, renamedFileName을 db에 저장
+	    		//Attachment객체
+	    		Attachment attach = new Attachment();
+	    		attach.setFile(file);
+	    		attach.setRefile(refile);
+	    		
+	    		attachList.add(attach);
+	    	}
+	    	
+	    	log.debug("attachList={}",attachList);
+	    	
+	    	int result = boardService.updateBoard(board, attachList);
+	    	
+	    	redirectAttributes.addFlashAttribute("msg", result>0?"수정성공!":"수정실패!");
+	    	
+    	} catch(Exception e) {
+    		log.error("게시판 수정 오류! ", e);
+    	}
+		return "redirect:/board/view.do?boardNo="+boardNo;
 	
     }
     
-    @GetMapping("boardList")
-    public String boardList(PagingVo vo, Model model
+    @GetMapping("/list.do")
+    public String boardList(PagingVo vo, Model model, Board board
+    		, @RequestParam(value="catagkeyword", required=false)String catagkeyword
+    		, @RequestParam(value="keyword", required=false)String keyword
     		, @RequestParam(value="nowPage", required=false)String nowPage
-    		, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-    	
-    	int total = boardService.countBoard();
+    		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+    		) {
+    	board.setCatagkeyword(catagkeyword);
+    	board.setKeyword(keyword);
+    	int total = boardService.countBoard(board);
     	if (nowPage == null && cntPerPage == null) {
     		nowPage = "1";
     		cntPerPage = "15";
@@ -254,10 +337,28 @@ public class BoardController {
     	} else if (cntPerPage == null) { 
     		cntPerPage = "15";
     	}
+    	
     	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-    	model.addAttribute("paging", vo);
-    	model.addAttribute("viewAll", boardService.selectBoard(vo));
-    	return "board/boardPaging";
+    	vo.setKeyword(keyword);
+    	vo.setCatagkeyword(catagkeyword);
+    	
+    	model.addAttribute("keyword", keyword);
+    	model.addAttribute("catagkeyword", catagkeyword);
+        model.addAttribute("paging", vo);
+     	model.addAttribute("viewAll", boardService.selectBoard(vo));
+    	//model.addAttribute("gunBoard", boardService.selectGunBoard(vo));//건의게시판
+    	//model.addAttribute("jaBoard", boardService.selectJaBoard(vo));//자유게시판
+    	//model.addAttribute("gongBoard", boardService.selectGongBoard(vo));//공지&행사게시판
+    	return "board/boardList";
+    }
+    
+    @PostMapping("/attachUpdate.do")
+    public String attachUpdate(@RequestParam("attachNo") int attachNo, @RequestParam("boardNo") int boardNo,
+    		Attachment attachment,Model model, RedirectAttributes redirectAttributes) {
+    	attachment.setNo(attachNo);
+    	int result = boardService.attachUpdate(attachment);
+    	
+		return "redirect:/board/update.do?boardNo="+boardNo;
     }
     
     

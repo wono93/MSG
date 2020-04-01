@@ -16,4 +16,6 @@ public interface DirectMsgService {
 
 	DirectMsg selectOne(String toId);
 
+	List<DirectMsg> headerDmList(String fromId);
+
 }

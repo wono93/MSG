@@ -27,16 +27,22 @@ public class Board implements Serializable {/**
 	private int cnt;
 	private String catag;
 	private int empNo;
+	private String keyword;
+	private String catagkeyword;
 	
 	private List<Attachment> attachList;
 	
 	private List<Comment> commentList;
 	
+	private List<BoardScrap> scrapList;
+	
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	public Board(int no, String title, String content, Date date, int cnt, String catag, int empNo) {
+	public Board(int no, String title, String content, Date date, int cnt, String catag, int empNo,
+			String keyword, String catagkeyword ) {
 		super();
 		this.no = no;
 		this.title = title;
@@ -45,6 +51,8 @@ public class Board implements Serializable {/**
 		this.cnt = cnt;
 		this.catag = catag;
 		this.empNo = empNo;
+		this.keyword = keyword;
+		this.catagkeyword = catagkeyword;
 	}
 	
 

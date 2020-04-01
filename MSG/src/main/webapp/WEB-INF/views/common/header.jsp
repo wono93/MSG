@@ -1,9 +1,14 @@
 <!DOCTYPE html>
+<%@page import="com.kh.msg.member.model.vo.Member"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -12,8 +17,8 @@
     <title>MSG</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/M_ChannelGenerate.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/directMessage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
@@ -23,7 +28,6 @@
     </script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
-    
 </head>
 <body>
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
@@ -92,24 +96,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="secnav">
-                <p>Direct Message</p>
-                <li>
-                    <a href="#" id="dmWindow">
-                        <img src="https://randomuser.me/api/portraits/women/85.jpg">　누구지 부장
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="https://randomuser.me/api/portraits/women/85.jpg">　누구지 대리
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="https://randomuser.me/api/portraits/women/85.jpg">　누구지 사원
-                    </a>
-                </li>
-            </ul>
+            <ul class="secnav" id="dmList"></ul>
         </ul>
     </nav>
     <label for="hamburger" class="hamburger"> 
@@ -117,41 +104,23 @@
 	</label>
 	<!--  Direct Message -->
     <side class="dmBar">
-    <%-- 
-        <div id="title-container">
-                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" id="dmClose">
-                <div id="name-span">${d.empName }</div>
+    	<div id="entire-container">
+			<div id="title-container">
+				<img src="${pageContext.request.contextPath}/resources/image/X-icon.png" id="dmClose">
+				<div id="name-span">${dm.empName}</div>
+			</div>
+			
+			<div id="dm-container"></div>
+			
+			<div id="send-dm-container">
+					<textarea id="msgContent" style="width:78%; height:96%;"></textarea>
+				<button id="send-dm-button" class="dmButton"
+					onclick="submitFunction();">전송</button>
+			</div>
+		
         </div>
-        <div id="dm-container">
-            
-            <div id="from-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">
-                <div id="from-dm-content" class="dm-content">${d.msgContent}</div>
-                <span id="from-dm-time" class="dm-time">12:00 AM</span>
-            </div> --%>
-            
-           <!--  <div id="hr-container">
-                <hr class="dmHr" id="hr-left" align="left">
-                <span id="span-date">
-                    2020년 00월 00일 월요일
-                </span>
-                <hr class="dmHr" id="hr-right" align="right">
-            </div> -->
-
-            <%-- <div id="to-dm">
-                <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">
-                <div id="to-dm-content" class="dm-content"></div>
-                <div id="to-dm-time" class="dm-time">12:00 AM</div>
-            </div> --%>
-            
-        </div>
-        
-        <div id="send-dm-container">
-            <textarea name="" id="send-dm-content" cols="60" rows="5"></textarea>
-            <button id="send-dm-button" class="dmButton" onclick="sendDM();">전송</button>
-        </div>
-    </side>    
-
+    </side> 
+    
 	        <div id="channelGenModal" class="ch-modal">
             <!-- Modal content -->
             <div class="ch-modal-content">

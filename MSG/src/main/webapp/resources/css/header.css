@@ -203,7 +203,7 @@
   }
   
   .secnav {
-    margin-left: 68px;
+    margin-left: 58px;
     margin-bottom: 10px;
     overflow: hidden;
     font-size: 13pt;
@@ -247,12 +247,14 @@
     -webkit-box-align: end;
             align-items: flex-end;
   }
-
   .userinfo {
     position: relative;
     display: flex;
     height: 260px;
     padding-top: 35px;
+  }
+  .headerlistname{
+  	margin-left: 10px;
   }
   user {
     padding: 5px;

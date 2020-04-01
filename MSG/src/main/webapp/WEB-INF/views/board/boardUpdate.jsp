@@ -37,8 +37,23 @@
         function update(no){
 			location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
 		}
-       
         
+		$(()=>{
+		        	
+	        	$("[name=upFile]").on("change", e => {
+	        		let $file = $(e.target); //사용자가 작성한 file input 태그
+	        		
+	        		//취소한 경우
+	        		if($file.prop('files')[0] === undefined){
+	        			$file.next(".custom-file-label").html("파일을 선택하세요.");
+	        		}
+	        		else{
+	        			let fileName = $file.prop('files')[0].name;
+	        			$file.next(".custom-file-label").html(fileName);
+	        		}
+	        	});
+	        });
+		
       </script>
     <title>boardWrite</title>
 </head>
@@ -63,7 +78,6 @@
                      </ul>
                 </div>
                   
-                    <div class="boardBC">
                 <div class="content">
                     <div class="control">
                         
@@ -72,6 +86,7 @@
                             <p class="com4">제 목</p>
                         </div>
                    
+                    <div class="boardBC">
 				 
                     </div>
                         <div style="top: 20px;" id="first1" class="select-box1">
@@ -129,36 +144,65 @@
                             <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
                         </div>
                     </div>
-
                 </div>
-                
-                <!--
-                <c:forEach items="${board.attachList }" var="f">
-                -->
-	                <div id="file">
-	                    <p id="com5">
-	                    <!-- 
-		                   <input type="file" name="upFile" id="upFile1" value="${f.file }" style="bottom: 10px;"/>
-		                   <input type="hidden" name="no" value="${f.no }"/>
-	                    </p>
-	                     -->
-                    	<p id="com5">
-                    		0 MB / 50MB
-                   		</p>
-	                </div>
-                <!-- 
-                </c:forEach>
-                 -->
-                
                 
                 <div id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content">${board.content }</textarea>
                       </div>
                 </div>
+                 <!--
+								<button type="button" style="text-align: left;" onclick="fileDownload('${a.file}','${a.refile }');">
+									첨부파일${vs.count} - ${a.file }
+								</button>--> 
+                <div id="file">
+                	<div id="fileDiv">
+                		<c:if test="${board.attachList[0].no != 0 }" >
+							<c:forEach items="${board.attachList}" var="a" varStatus="vs">
+								<p>
+									<button type="file" style="text-align: left;">
+										${a.file }
+									</button>
+				                 	<a style="" href="#this" class="btn" id="delete" name="delete">삭제</a>
+		                    	</p>
+		                    	<br>
+							</c:forEach>
+						</c:if>
+		                    <p>
+			                    <input type="file" id="upFile0" name="upFile">
+				                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
+		                    </p>
+                	</div>
+                    <!-- <input type="file"/> -->
+	                <br/><br/>
+	                <a style="float:left;" href="#this" class="btn" id="addFile">파일 추가</a> 
+                 </div>
+	        <script type="text/javascript">
+	
+	        var gfv_count = 1;
+	        $(document).ready(function(){
+		        $("#addFile").on("click", function(e){ //파일 추가 버튼 
+		        	e.preventDefault(); fn_addFile(); 
+		        	});
+		        $("a[name='delete']").on("click", function(e){ //삭제 버튼 e.preventDefault(); 
+			        fn_deleteFile($(this)); 
+			        });
+	        });
+	        
+	        function fn_addFile(){ 
+	        	var str = "<p><input type='file' id='upFile"+(gfv_count++)+"' name='upFile'><a href='#this' class='btn' name='delete'>삭제</a></p>";
+	        	$("#fileDiv").append(str); 
+	        	$("a[name='delete']").on("click", function(e){//삭제 버튼
+	        		e.preventDefault(); fn_deleteFile($(this)); 
+	        		}); 
+	        	}
+	        function fn_deleteFile(obj){
+	        	obj.parent().remove(); 
+	        	}
+	
+	      </script>
                     <div class="srchBar">
                         <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/view.do?boardNo=${board.no }'"> 취  소 </button>
-             
                         <button type="submit" name="" id="yellowBtn" class="btn" onclick="update(${board.no});">수정하기</button>
                     </div>
                 </div>
