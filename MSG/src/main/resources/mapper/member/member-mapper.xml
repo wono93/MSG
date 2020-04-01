@@ -4,13 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	<select id="selectHrMngList" resultType="HrMntList">
-		SELECT EMP_NO,EMP_NAME, D.DEPT_NAME,
+		SELECT EMP_NO,EMP_NAME, D.DEPT_NAME, J.JOB_NAME,
 	        (SELECT COUNT(*) FROM LATE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) late_count,
 	        (SELECT COUNT(*) FROM LEAVE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) leave_count,
 	        (SELECT COUNT(*) FROM ABSENT_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) absent_count
-		FROM EMP_TB E LEFT JOIN DEPT_TB D
-		USING (DEPT_CD)
-		ORDER BY JOB_CD
+		FROM EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+		<if test="searchBy != null and searchBy != ''">
+		WHERE
+			${searchBy} IN #{keyword}
+		</if>
+		ORDER BY DEPT_CD
 	</select>
 	<select id="selectVacationCount" resultType="Vacation">
 		SELECT EMP_NO, VCTN_DTL_NO, VCTN_STDT, VCTN_ENDT
@@ -18,9 +25,76 @@
 		USING (EMP_NO)
 		WHERE VCTN_STDT BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
 	</select>
-	<select id="selectOne" resultType="member">
-		select * from emp_tb where user_id = #{userId}
+	
+	<select id="orgChart" resultType="OrgChart">
+		SELECT EMP_NO, USER_ID, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+		FROM EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+		<if test="searchBy != null and searchBy != ''">
+		WHERE
+			${searchBy} IN #{keyword}
+		</if>
+		ORDER BY DEPT_CD
+	</select>
+	<select id="empInfo" resultType="OrgChart">
+		SELECT * 
+		FROM 
+			EMP_TB E LEFT JOIN DEPT_TB D
+			USING (DEPT_CD)
+			LEFT JOIN JOB_TB J
+			USING (JOB_CD) 
+		WHERE 
+			EMP_NO = #{EMP_NO}
+		
+	</select>
+	<select id="logIn" resultType="OrgChart">
+		SELECT * 
+		FROM 
+			EMP_TB E LEFT JOIN DEPT_TB D
+			USING (DEPT_CD)
+			LEFT JOIN JOB_TB J
+			USING (JOB_CD)
+			LEFT JOIN LOG_TB
+			USING (EMP_NO) 
+		WHERE 
+			USER_ID = #{userId}
+	</select>
+	<insert id="loginLog">
+		INSERT INTO LOG_TB VALUES(
+			TO_DATE(TO_CHAR(SYSDATE,'YYYY-DD-MM'))
+			,#{empNo}
+			,SYSDATE
+			,'I'
+		) 
+	</insert> 
+	<select id="isFirstIn" resultType="IOLog">
+		SELECT * FROM LOG_TB WHERE TO_CHAR(DAY,'YYYY/MM/DD') = TO_CHAR(SYSDATE,'YYYY/MM/DD') AND INOUT_FG IN 'I' AND EMP_NO = #{empNo}
 	</select>
 	
+	<select id="isLate">
+	
+	
+	</select>
+	
+	
+	<update id="updateEmp">
+		UPDATE EMP_TB 
+		SET 
+			EMP_EMAIL = #{empEmail}, EMP_CONTACT = #{empContact}
+			, EMP_ADDRESS = #{empAddress} , EMP_MSG = #{empMsg}
+			<if test="empImage != null and empImage != ''">
+			, EMP_IMAGE = #{empImage}
+			</if>
+			<if test="authority != null and authority != ''">
+			, AUTHORITY = #{authority}
+			</if>
+			 
+		WHERE
+			EMP_NO = #{empNo}
+	
+	</update>
 
 </mapper>

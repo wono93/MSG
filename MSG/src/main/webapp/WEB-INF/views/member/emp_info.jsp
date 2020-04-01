@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -320,17 +323,11 @@ to {
 	padding: 5px;
 	width: 180px;
 }
-
-.picture p.imgStatus {
-	color: gray;
-	font-size: 0.3em;
-}
 </style>
 </head>
 <title>사원 정보</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 	<section>
 		<div>
 			<article>
@@ -349,10 +346,6 @@ to {
 							<img class="profileImg"
 								src="${pageContext.request.contextPath }/resources/upload/empImg/${emp.empImage}"
 								alt="${emp.empName }.png" />
-							<p class="imgStatus" style="display: none;">새로운 이미지가
-								등록대기중입니다....</p>
-							<input type="file" name="empImage" class="uploadImg"
-								style="display: none;" />
 							<p>${emp.deptName } ${emp.jobName }</p>
 							<p>${emp.empName }</p>
 						</div>
@@ -362,10 +355,12 @@ to {
 									<td>사번</td>
 									<td>${emp.empNo }</td>
 								</tr>
-								<tr>
-									<td>입사일</td>
-									<td>${emp.hireDate }</td>
-								</tr>
+								<c:if test="${memberLoggedIn.userId eq emp.userId }">
+									<tr>
+										<td>입사일</td>
+										<td>${emp.hireDate }</td>
+									</tr>
+								</c:if>
 								<tr>
 									<td>아이디</td>
 									<td>${emp.userId }</td>
@@ -376,6 +371,7 @@ to {
 										type="text" name="empEmail" class="email hidden"
 										value="${emp.empEmail }"></td>
 								</tr>
+								<c:if test="${memberLoggedIn.userId eq emp.userId }">
 								<tr>
 									<td>생일</td>
 									<td>${birthDay }</td>
@@ -392,111 +388,38 @@ to {
 										type="text" name="empAddress" class="address hidden"
 										value="${emp.empAddress }"></td>
 								</tr>
+								</c:if>
 							</table>
 						</div>
+						<div class="statusbox">
+							<i class='fas fa-quote-left quote-left' style='font-size: 50px'></i>
+							<textarea name="status" id="status" class="status">${emp.empMsg }</textarea>
+							<i class='fas fa-quote-right quote-right' style='font-size: 50px'></i>
+						</div>
 						<div class="buttons">
-							<div class="select-box">
-								<div class="select-box__current" tabindex="1">
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="H" value="H"
-											name="auth" >
-										<p class="select-box__input-text">인사관리</p>
-									</div>
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="N" value="N"
-											name="auth" />
-										<p class="select-box__input-text">일반사원</p>
-									</div>
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="A" value="A"
-											name="auth" />
-										<p class="select-box__input-text">관리자</p>
-									</div>
-									<img class="select-box__icon"
-										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
-										alt="Arrow Icon" aria-hidden="true" />
-								</div>
-								<ul class="select-box__list">
-									<li><label class="select-box__option" for="H"
-										aria-hidden="aria-hidden">인사관리</label></li>
-									<li><label class="select-box__option" for="N"
-										aria-hidden="aria-hidden">일반사원</label></li>
-									<li><label class="select-box__option" for="A"
-										aria-hidden="aria-hidden">관리자</label></li>
-								</ul>
-							</div>
-							<button type="button" class="temp_pwd">임시비밀번호발급</button>
-							<button type="submit" class="submit">수정</button>
+							<button type="submit" class="submit" >수정</button>
 						</div>
 					</div>
 				</form>
 			</article>
 		</div>
 	</section>
-	<script>
-		$(document).ready(function(){
-			$("#${emp.authority}").prop("checked", true);
-		})
-		$(function() {
-			$(".temp_pwd").click(function() {
-				alert("임시 비밀번호가 sjong@gmail.com 으로 전송되었습니다.");
-			});
-
-			$(".status").focus(function() {
-				$("#status").css('border-bottom', '1px solid #999');
-				$(".quote-left,.quote-right").addClass('change-quote-color');
-			});
-			$(".status").blur(
-					function() {
-						$("#status").css('border-bottom', '0px solid #999');
-						$(".quote-left,.quote-right").removeClass(
-								'change-quote-color');
-					});
-			$("span.email").click(function() {
-				let text = $("span.email").text();
-				$("input.email").removeClass('hidden').focus();
-				$("span.email").addClass('hidden');
-			});
-			$("span.contact").click(function() {
-				let text = $("span.contact").text();
-				$("input.contact").removeClass('hidden').focus();
-				$("span.contact").addClass('hidden');
-			});
-			$("span.address").click(function() {
-				let text = $("span.address").text();
-				$("input.address").removeClass('hidden').focus();
-				$("span.address").addClass('hidden');
-			});
-			$("input.email").focusout(function() {
-				let text = $("input.email").val();
-				if (text != "") {
-					$("input.email").addClass('hidden');
-					$("span.email").removeClass('hidden').text(text);
-				}
-			});
-			$("input.contact").focusout(function() {
-				let text = $("input.contact").val();
-				if (text != "") {
-					$("input.contact").addClass('hidden');
-					$("span.contact").removeClass('hidden').text(text);
-				}
-			});
-			$("input.address").focusout(function() {
-				let text = $("input.address").val();
-				if (text != "") {
-					$("input.address").addClass('hidden');
-					$("span.address").removeClass('hidden').text(text);
-				}
-			});
-
-			$(".profileImg").click(function() {
-				$(".uploadImg").click();
+	<c:if test="${memberLoggedIn.userId eq emp.userId }">
+		<script>
+			$(document).ready(function(){
+				$("#status").prop('disabled',false);
+				$(".submit").show();
 			})
-
-			$(".uploadImg").change(function(e) {
-				$(".imgStatus").show();
+		</script>
+		
+	</c:if>
+	<c:if test="${memberLoggedIn.userId ne emp.userId }">
+		<script>
+			$(document).ready(function(){
+				$("#status").prop('disabled',true);
+				$(".submit").hide();
 			})
-		});
-	</script>
+		</script>
+	</c:if>
 </body>
 </html>

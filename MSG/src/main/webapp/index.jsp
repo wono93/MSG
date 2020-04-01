@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -51,7 +54,15 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
 .checkbox_wrap{position: relative;}
                                     
 </style>
-<script></script>
+<!-- RedirectAttributes 를 통해 session 에 저장된 msg 속성이 있을 경우만 실행 -->
+<c:if test="${not empty msg }">
+	<script>
+	$(()=>{
+		alert("${msg}");
+	});
+</script>
+<% session.removeAttribute("msg"); %>
+</c:if>
 </head>
 <body id="loginForm">
     <h3 class="thick kor">로그인</h3>
@@ -61,15 +72,9 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
             <p class="kor login-label">아이디</p>
             <input type="text" name="userId" id="userId"  class="kor"
                    placeholder="아이디를 입력하세요"/>
-            <%-- <% if(msg == "존재하지 않는 아이디입니다."){ %> --%>
-            <p class="kor hidden-space">존재하지 않는 아이디입니다.</p>
-           	<%-- <% } %> --%>
             <p class="kor login-label">비밀번호</p>
             <input type="password" name="password" id="password"  class="kor"
                    placeholder="비밀번호를 입력하세요"/>
-           	<%-- <% if(msg == "비밀번호가 틀렸습니다."){ %> --%>
-            <p class="kor hidden-space">비밀번호가 틀렸습니다.</p>
-            <%-- <% } %> --%>
             <div id="float-form">
                  <div class="checkbox_wrap">
                     <label class="saveId-container kor float" for="saveId">아이디 저장

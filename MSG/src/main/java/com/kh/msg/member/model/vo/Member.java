@@ -3,8 +3,6 @@ package com.kh.msg.member.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.springframework.stereotype.Repository;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +26,7 @@ public class Member implements Serializable{
 	private String isManager;
 	private String userPwd;
 	private String empName;
+	private String empRRNNo;
 	private String empImage;
 	private String empContact;
 	private String empEmail;

@@ -8,9 +8,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@page import="com.kh.msg.member.model.vo.Member"%>
-<% Member memberLoggedIn = (Member)session.getAttribute("memberLoggedIn"); %>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +27,19 @@
 		var hdjq = jQuery.noConflict();
     </script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
-	<script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
-<%
-	Member m = (Member)session.getAttribute("memberLoggedIn");
-	String userId = m.getUserId();
-	int empNo = m.getEmpNo();
-%>
-<script>	
-	var fromId = '<%=userId%>';
-	var empNo = '<%=empNo%>';
-</script>
+    <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
 </head>
 <body>
-    <input id="hamburger" class="hamburger" type="checkbox" />
-    <label for="hamburger" class="hamburger">
-        <i></i>
-<%-- 	<text>
-        <close>close</close>
-        <open>menu</open>
-	</text> --%>
-    </label>
-
-
+	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
+		<i class="fas fa-sign-out-alt" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"></i>
         <div class="userinfo">
             <user id="user">
-                <img src="${pageContext.request.contextPath}/resources/image/<%=m.getEmpImage() %>" />
+                <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />
                 <idSection>
                     <idSection>
-                        <name><%=m.getEmpName() %></name>
-                        <actions><a href="#"><%=m.getDeptCd() %></a> | <a href="#"><%=m.getJobCd() %></a></actions>
+                        <name>${memberLoggedIn.empName }</name>
+                        <actions><a href="#">${memberLoggedIn.deptName }</a> | <a href="#">${memberLoggedIn.jobName }</a></actions>
                     </idSection>
                 </idSection>
             </user>
@@ -65,7 +47,14 @@
         <br>
         <ul class="firnav">
             <li>
-                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">
+            	<c:choose>
+            		<c:when test="${memberLoggedIn.authority ne 'N' }">
+		                <a href="${pageContext.request.contextPath}/member/empLogBoard.do">    		
+            		</c:when>
+            		<c:otherwise>
+		                <a href="${pageContext.request.contextPath}/member/empLog.do?empNo=${memberLoggedIn.empNo}">    		
+            		</c:otherwise>
+            	</c:choose>
                     <i class="icon far fa-id-card" style="font-size:24px"></i> 인사관리
                 </a>
             </li>
@@ -110,6 +99,9 @@
             <ul class="secnav" id="dmList"></ul>
         </ul>
     </nav>
+    <label for="hamburger" class="hamburger"> 
+		<i></i>
+	</label>
 	<!--  Direct Message -->
     <side class="dmBar">
     	<div id="entire-container">
@@ -230,6 +222,8 @@
                     </form>
                 </div>
             </div>
-        </div>
+	</div>
+        
+        
 </body>
 </html>

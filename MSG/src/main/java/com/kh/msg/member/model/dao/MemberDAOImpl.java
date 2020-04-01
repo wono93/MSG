@@ -12,9 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.msg.member.model.vo.HrMntList;
-import com.kh.msg.member.model.vo.Member;
-import com.kh.msg.member.model.vo.Vacation;
+import com.kh.msg.member.model.vo.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,9 +24,9 @@ public class MemberDAOImpl implements MemberDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public Member selectOne(String userId) {
+	public orgChart selectOne(String userId) {
 		
-		return sqlSession.selectOne("member.selectOne",userId);
+		return sqlSession.selectOne("member.logIn",userId);
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Date today = null;
 		Date vctnEndt = null;
 		Date vctnStdt = null;
-		
+		log.debug("map = {}", map);
 		List<HrMntList> hrmntlist = sqlSession.selectList("member.selectHrMngList",map);
 		log.debug("HrMntList = {} ",hrmntlist);
 		List<Vacation> vac = sqlSession.selectList("member.selectVacationCount",map);
@@ -50,10 +48,10 @@ public class MemberDAOImpl implements MemberDAO {
 						vctnEndt = fmt.parse(v.getVctnEndt());
 						vctnStdt = fmt.parse(v.getVctnStdt());
 						int compare = today.compareTo(vctnEndt);
-						//현재 기준 휴가가 진행중인경우
+						// 현재 기준, 휴가가 진행중인경우
+						// 두날짜의 차이 구하기 
+						// 현재날짜-휴가시작일
 						if(compare < 0) {
-							//오늘-휴가시작일
-							// 두날짜의 차이 구하기 
 									
 							// 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
 							long diff = today.getTime() - vctnStdt.getTime();
@@ -62,8 +60,10 @@ public class MemberDAOImpl implements MemberDAO {
 							hr.setVctnCount(hr.getVctnCount()+(int)diffDays+1);
 
 						}
+						// 현재 기준, 이미 휴가가 종료된 경우
+						// 두날짜의 차이 구하기 
+						// 휴가종료일-휴가시작일
 						else {
-							//휴가종료일-휴가시작일
 							long diff = vctnEndt.getTime() - vctnStdt.getTime();
 							long diffDays = diff / (24 * 60 * 60 * 1000);
 
@@ -78,5 +78,33 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 		
 		return hrmntlist;
+	}
+
+	@Override
+	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+		
+		return sqlSession.selectList("member.orgChart",map);
+	}
+
+	@Override
+	public orgChart empInfo(String empNo) {
+		
+		return sqlSession.selectOne("member.empInfo",empNo);
+	}
+
+	@Override
+	public int updateEmp(Map<String, String> map) {
+		return sqlSession.update("member.updateEmp",map);
+	}
+
+	@Override
+	public void loginLog(int empNo) {
+		//그 날의 첫번째 로그인 기록인지 검사
+//		if(sqlSession.selectOne("member.isFirstIn",empNo) == null) {
+//			//그날의 첫번째 로그인 기록이 9시 혹은 임의출근시간이 넘으면 지각 처리하는 프로시져 호출
+//			sqlSession.insert("member.isLate",empNo);
+//		}
+			
+			sqlSession.insert("member.loginLog", empNo);
 	}
 }
