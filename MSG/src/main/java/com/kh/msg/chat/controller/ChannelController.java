@@ -32,12 +32,26 @@ import net.sf.json.JSONObject;
 @Slf4j
 @Controller
 @RequestMapping("/chat")
-public class DirectMsgController {
+public class ChannelController {
 	
 	@Autowired
 	DirectMsgService directMsgService;
 	
-	@GetMapping("/headerDmList.do")
+	@GetMapping("/channel.do")
+	public String channel() {
+		return "chat/channel";
+	}
+	
+	@GetMapping("/channelList.do")
+	public void directMsgList(@RequestParam("toId") String toId, Model model){
+		
+		DirectMsg dm = directMsgService.selectOne(toId);
+		
+		model.addAttribute("dm", dm);
+		
+	}
+	
+	@GetMapping("/chat/headerDmList.do")
 	public void headerDmList(HttpSession session, HttpServletResponse response) {
 		
 		try {
@@ -74,7 +88,7 @@ public class DirectMsgController {
 	
 	
 	
-	@PostMapping("/msgInsert.do")
+	@PostMapping("/chat/msgInsert.do")
 	public void directMsginsert(@RequestParam("toId") String toId,
 							   @RequestParam("fromId") String fromId,
 							   @RequestParam("msgContent") String msgContent,
@@ -115,7 +129,7 @@ public class DirectMsgController {
 			e.printStackTrace();
 		}
 	}
-	@PostMapping("/msgList.do")
+	@PostMapping("/chat/msgList.do")
 	public void directMsgList(@RequestParam("toId") String toId,
 							  @RequestParam("fromId") String fromId,
 							  HttpServletRequest request,

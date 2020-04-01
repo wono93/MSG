@@ -1,3 +1,4 @@
+<%@page import="com.kh.msg.member.model.vo.Member"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,18 +11,15 @@
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath }/resources/css/M_DirectMessage.css">
-<style>
-#entire-container {
-	margin-left: 200px;
-    width: fit-content;
-    box-shadow: -5px -5px 30px 5px grey;
-}
-</style>
+	href="${pageContext.request.contextPath }/resources/css/directMessage.css">
 <%
-	String userId = "admin";
-	String toId = "jhaeil";
+	Member m = (Member)session.getAttribute("memberLoggedIn");
+	String userId = m.getUserId();
+	String toId = "sdongil";
 %>
+<style>
+
+</style>
 <script>
 	var lastID = 0;
 
@@ -96,17 +94,15 @@
 						hour = hour.substring(1,2);
 					}
 					var msgTime = hour+":"+minute+" "+timeType;
-					addChat(result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate);
+					addChat(result[i][1].value, result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate);
 				}
 				lastID = Number(parsed.last);
 			}
 		});
 	}
 
-	function addChat(toId, msgContent, msgTime, hrDate, hideDate) {
-        let style = {
-	            display: "none"
-	        };
+	function addChat(fromId, toId, msgContent, msgTime, hrDate, hideDate) {
+        let style = {display: "none"};
 		var selHideDate =hdjq("#dm-container").children().children("p:last").text();
 		if(selHideDate != hideDate){
 			hdjq("#dm-container").append(
@@ -118,14 +114,15 @@
 						                +'<hr class="dmHr" id="hr-right" align="right">'
 						                +'</div>');
 		}
-		if(toId == 'admin'){
+		if(fromId != '<%=userId%>'){
 			hdjq("#dm-container").append(
 										'<div id="from-dm">'
 						                +'<img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="from-dm-img" class="member-img">'
-						                +'<div id="from-dm-content" class="dm-content">'+msgContent+'</div>'
+						                +'<div id="from-dm-content" class="dm-content">'+msgContent
 						                +'<span id="from-dm-time" class="dm-time">'
 						                +msgTime
 										+'</span>'
+										+'</div>'
 										+'<p>'
 										+hideDate
 										+'</p>'
@@ -134,10 +131,11 @@
 			hdjq("#dm-container").append(
 										'<div id="to-dm">'
 							            +'<img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="to-dm-img" class="member-img">'
-							            +'<div id="to-dm-content" class="dm-content">'+msgContent+'</div>'
+							            +'<div id="to-dm-content" class="dm-content">'+msgContent
 							            +'<span id="to-dm-time" class="dm-time">'
 							            +msgTime
 							            +'</span>'
+							            +'</div>'
 							            +'<p>'
 										+hideDate
 										+'</p>'
@@ -149,7 +147,7 @@
 	function getInfiniteChat() {
 		setInterval(function() {
  			chatListFunction(lastID);
-		}, 1000);
+		}, 10000);
 	}
 
 </script>

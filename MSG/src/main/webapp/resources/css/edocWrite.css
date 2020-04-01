@@ -447,11 +447,11 @@ table tr:last-child {
 .docuContentTb td:nth-child(4){
     width: 198px;
 }
-table textarea {
+/* table textarea {
     border: 0;
     padding-left : 15px;
     font-size: 13pt;
-}
+} */
 table .textIpt {
     border: 0;
     height: 40px;
