@@ -27,22 +27,44 @@
 	select r.croom_code "thing_code",
 		   c.croom_name "thing_name",
 		   c.croom_size "thing_size",
-		   round(r.res_returndate - r.res_usedate)*24*60 "how_long",
+		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
 		   r.res_returndate "res_return_date"
 	from conf_rsvn_tb r join conf_room_tb c on r.croom_code = c.croom_code
-	where emp_no = 1
 	order by r.res_usedate desc
 	</select>
 	<select id="selectAllMyCarResList" resultType="resview">
 	select r.car_code "thing_code",
 		   c.car_company ||'  '|| c.car_type "thing_name",
 		   c.car_size "thing_size",
-		   round(r.res_returndate - r.res_usedate)*24*60 "how_long",
+		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
 		   r.res_returndate "res_return_date"
 	from car_rsvn_tb r join car_tb c on r.car_code = c.car_code
-	where emp_no = 1
 	order by r.res_usedate desc
 	</select>
+	<select id="selectAllMyRList" resultType="resview">
+	select * from
+	((select * from car_rsvn_view) union (select * from conf_rsvn_view))
+	
+	order by "res_use_date" desc
+	</select>
+	<insert id="addConferenceRoom">
+	insert into conf_room_tb
+	values(???, #{room-title}, #{size})
+	<!-- croom_code, croom_name, croom_size -->
+	</insert>
+	<insert id="addCar">
+	insert into car_tb
+	values(
+		#{carCode}, #{carCate}, #{carCompany}, #{carType}, #{carNo}, #{carSize})
+	<!-- car_code, car_cate, car_type, car_no, car_size -->
+	</insert>
+	<select id="getNextval" resultType="_int">
+	select ${seq}.nextval from dual
+	</select>
+	<delete id="delCar">
+	delete from car_tb
+	where car_code = #{carCode}
+	</delete>
 </mapper>

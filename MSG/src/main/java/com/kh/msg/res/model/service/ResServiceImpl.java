@@ -1,6 +1,7 @@
 package com.kh.msg.res.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,34 @@ public class ResServiceImpl implements ResService {
 	public List<ResView> selectAllMyCarResList() {
 		return resDAO.selectAllMyCarResList();
 	}
+
+	@Override
+	public List<ResView> selectAllMyRList() {
+		return resDAO.selectAllMyRList();
+	}
+
+	@Override
+	public int addConferenceRoom(ConferenceRoom c) {
+		return resDAO.addConferenceRoom(c);
+	}
+
+	@Override
+	public int addCar(Car c) { 
+		return resDAO.addCar(c);
+		
+	}
+
+	@Override
+	public int getNextval(String seq) {
+		return resDAO.getNextval(seq);
+	}
+
+	@Override
+	public int delCar(String carCode) {
+		return resDAO.delCar(carCode);
+	}
+	
+	
 
 
 }

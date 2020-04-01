@@ -1,19 +1,6 @@
 @charset "UTF-8";
-section{
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-}
-section > div {
-    display: inline-block;
-    width: 1200px;
-    height: 100%;
-    vertical-align: middle;
-    /* border: 1px solid black; */
-}
+section{ position: absolute; text-align: center; width: 100%; height: 100%; left: 0; top: 0;}
+section > div { display: inline-block; width: 1200px; height: 100%; vertical-align: middle;}
 
 
 input{font-family: 'Noto Sans KR';}
@@ -26,21 +13,25 @@ input{font-family: 'Noto Sans KR';}
 #whitecontent{width:1080px; margin:0 auto; text-align:left; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
 #whitecontent>span{font-size:30px; margin-left: 30px;}
 #timepicker-start, #timepicker-end{width:210px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
-#timepicker-startend{width:250px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
+#timepicker-startend{width:280px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
 #timepicker-start:focus + .starticon, #timepicker-end:focus + .endicon, #timepicker-startend:focus + .startendicon{color:#f4ca25;}
 #timepicker-end{margin-left: 30px;}
 .starticon,.endicon,.startendicon {color:#999; margin-left: 10px; cursor: pointer;}
 .starticon:hover,.endicon:hover,.startendicon:hover{color:#333;}
-#getreserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:235px;}
+#add-conf, #add-car, #update-car{width:140px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 663px;}
+#update-conf, #del-conf, #update-car, #del-car{width:70px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 15px;}
+#add-conf:hover, #add-car:hover, #update-car:hover, #del-car:hover{color:#fefefe; background-color:#999; cursor:pointer;}
+#update-conf:hover, #del-conf:hover{color:#fefefe; background-color:#999; cursor:pointer;}
+#getreserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:280px;}
 #getreserv:hover{font-weight:bold; color:#333; border:none; background-color: #f4ca25; cursor: pointer;}
-#res-table{width: 100%; line-height: 46px; margin-top: 20px;}
+.res-table{width: 100%; line-height: 46px; margin-top: 20px;}
 .narrow-td{width: 10% !important;}
 .wide-td {width:32% !important;}
-#res-table th, #res-table td{color: #333; width: 25%; text-align: center;}
-#res-table tr{ width:980px; display:flex; border-bottom: 1px solid #999;}
-#res-table tr:first-child{ border-top: 4px solid #999;}
-#res-table tr:last-child{ margin-bottom:50px;}
-/* 아이디저장 체크박스*/
+.res-table th, .res-table td{color: #333; width: 25%; text-align: center;}
+.res-table tr{ width:980px; display:flex; border-bottom: 1px solid #999;}
+.res-table tr:first-child{ border-top: 4px solid #999;}
+.res-table tr:last-child{ margin-bottom:25px;}
+/* 체크박스*/
 .saveId-container { display: inline; position: relative; padding-left: 25px; top:7px; left:69px; cursor: pointer; font-size: 20px;}
 .saveId-container input {position: absolute; opacity: 0; cursor: pointer; }
 .saveId-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #EBEBEB;}
@@ -76,10 +67,24 @@ input{font-family: 'Noto Sans KR';}
     font-size: 19px;
     color: #333333;
   }
+  
+.select-box-addCar {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: "Noto Sans KR";
+    font-size: 17px;
+    color: #333333;
+}
   @media (min-width: 110px) {
     .select-box {
       width: 110px;
       float:right;
+    }
+  @media (min-width: 110px) {
+    .select-box-addCar {
+      width: 110px;
+      float:left;
     }
   }
   .select-box__current {
@@ -206,4 +211,22 @@ input{font-family: 'Noto Sans KR';}
     margin-left: 100px;
     margin-right: 100px;
 }
+
+#addConf-title, #addCar-no, #updateCar-no{ background-color: #ebebeb; color: #333333; height: 30px;
+            width: 590px; border: none; border-bottom: 3px solid #999999; 
+            padding: 12px 19px; margin-bottom: 15px; font-size: 15px; clear:both; }
+#addCar-company, #addCar-type, #updateCar-company, #updateCar-type
+{background-color: #ebebeb; color: #333333; height: 23px;
+            width: 150px; border: none; border-bottom: 3px solid #999999; float:left;
+            padding: 12px 19px; margin-bottom: 20px; font-size: 15px; margin-left: 15px;}
+#addCar-type, #updateCar-type{width: 260px;}
+.minusBtn, .plusBtn{background-color: #ebebeb; width: 40px; height: 40px; border-radius: 40px; border: solid #ebebeb;
+  					color: #333; font: bold; font-size: 20px; cursor: pointer;}
+.minusBtn:hover, .plusBtn:hover{ background-color: #f4ca25; color: white; border: solid #f4ca25;}
+#person, #person_{ width: 70px; text-align: center; font-size: 20px; font: bold; border:none;}
+.mLeft50{margin-left: 50px;}
+.close{cursor:pointer;}
+.doBtn{width:130px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 20px 0 0 495px; cursor:pointer;}
+.doBtn:hover{cursor:pointer; color:#fefefe; background-color:#999;}
+
   

@@ -1,6 +1,7 @@
 package com.kh.msg.res.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.msg.res.model.vo.Car;
 import com.kh.msg.res.model.vo.CarReservation;
@@ -22,5 +23,15 @@ public interface ResDAO {
 	List<ResView> selectAllMyConfResList();
 	
 	List<ResView> selectAllMyCarResList();
+
+	List<ResView> selectAllMyRList();
+
+	int addConferenceRoom(ConferenceRoom c);
+
+	int addCar(Car c);
+
+	int getNextval(String seq);
+
+	int delCar(String carCode);
 
 }

@@ -17,51 +17,78 @@
         <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
         <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
         <script>
-            //아이콘 클릭 시 dateTimePicker focus
-            $(function(){
+           //아이콘 클릭 시 dateTimePicker focus
+           $(document).ready(function(){
                 $('.startendicon').click(function(){
                     $("#timepicker-startend").focus();
                 });
                 
                 //기본상태 : 회의실예약내역 + 차량예약내역
-                $.ajax({
-                	
-                });
-            });    
+           		$("#confList-div").hide();
+           		$("#carList-div").hide();
                 
-                $('#0').click(function(){
+               $("[name=cate]").change(()=>{
                 	
-                
-		           	$.ajax({
-		           			url:"${pageContext.request.contextPath}/crawling/crawlingTest1.do",	
-		           	
-		           			dataType : "json",
-		           			data: { 데이터키 : 변수명},
-		           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                	if($("#cconf").is(":checked")){
+	                	//드롭다운에서 회의실 선택시 회의실예약내역 출력
+	                	$.ajax({
+		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
+		           			type: "get",
+		           			dataType : "text",
 		           			success : data => {
-		           				console.log(data);
-		           				$table= $("#tableCL1");
-		            				$.each(data, function(idx, value){					
-		           					$tr = $("<tr></tr>");
-		           					$td = $tr.append("<td>"+idx+"</td><td>"+value+"</td>");	
-		           					$table.append($td);				
-		           					console.log(idx);
-		           					console.log(value);
-		           					
-		           					
-		           				});
+		           					$("#confList-div").show();
+		           					$("#rList-div").hide();
+		           					$("#carList-div").hide();
 		            				
 		           			},
 		           			error : (x, s, e) => {
-		           				//x : xhr
-		           				//s : textStatus
-		           				//e : errorThrown
-		           				console.log("error");
-		
-		           			}			 
-		           	});
-		           
-            });
+		           				console.log(x, s, e);
+							}
+		           			
+		           		});
+                		
+                	}
+                	else if($("#ccar").is(":checked")){
+                		
+                		$.ajax({
+		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
+		           			type: "get",
+		           			dataType : "text",
+		           			success : data => {
+		           					$("#confList-div").hide();
+		           					$("#rList-div").hide();
+		           					$("#carList-div").show();
+		            				
+		           			},
+		           			error : (x, s, e) => {
+		           				console.log(x, s, e);
+							}
+		           			
+		           		});
+                	}
+               
+                	else{
+                		$.ajax({
+                        	url: "${pageContext.request.contextPath}/res/myResView.do",
+                        	type: "get",
+                        	dataType:"text",
+                        	success: data =>{
+                        		$("#rList-div").show();
+                        		$("#confList-div").hide();
+                        		$("#carList-div").hide();
+                        	},
+                        	error: (x, s, e) =>{
+                        		console.log(x, s, e);
+                        	}
+                        });
+                	}
+                });
+               
+               
+                
+               
+            });    
+                
            /*  //ajax-smart 참고
             $("#reservTest").click(function(){
         		console.log("테스트중입니다");
@@ -146,23 +173,26 @@
 			             </ul>
 			    </div>
 			    <div id="whitecontent">
-			        <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-m-d D"
+			        <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-mm-dd D"
+			    			name="srchDate"
 			    			data-language="ko" id='timepicker-startend' class="datepicker-here"/>
-			                <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
+	                <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
+			        <input type="hidden" name="srchStart" id="srchStart" />
+			        <input type="hidden" name="srchEnd" id="srchEnd" />
 			        
 			        <div class="srchBar">
 			                <div class="select-box">
 			                    <div class="select-box__current" tabindex="1">
 			                        <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="cconf" value="1" name="Ben" checked="checked"/>
+			                        <input class="select-box__input" type="radio" id="cconf" value="1" name="cate"/>
 			                        <p class="select-box__input-text">회의실</p>
 			                        </div>
 			                        <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="ccar" value="2" name="Ben" checked="checked"/>
+			                        <input class="select-box__input" type="radio" id="ccar" value="2" name="cate" />
 			                        <p class="select-box__input-text">법인차량</p>
 			                        </div>
 			                        <div class="select-box__value">
-			                        <input class="select-box__input" type="radio" id="wwhole" value="4" name="Ben" checked="checked"/>
+			                        <input class="select-box__input" type="radio" id="wwhole" value="4" name="cate" checked="checked"/>
 			                        <p class="select-box__input-text">전체</p>
 			                        </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
 			                    </div>
@@ -178,8 +208,8 @@
 			                        </li>
 			                    </ul>
 			                </div>
-			                <div>
-				           		<table id="res-table">
+			                <div id="rList-div">
+				           		<table class="res-table">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -201,13 +231,107 @@
 											</c:if>
 				                    		<td>${r.thingName }</td>
 				                    		<td class="narrow-td">${r.thingSize }</td>
+				                    		<c:set var="d" value="${r.howLong / 60 / 24 }"/>
+				                    		<fmt:parseNumber var="day" integerOnly="true" value="${d }"/>
+				                    		<c:set var="h" value="${(r.howLong) / 60 % 24 }"/>
+				                    		<fmt:parseNumber var="hour" integerOnly="true" value="${h }"/>
+				                    		<c:set var="m" value="${r.howLong % 60 }"/>
+				                    		<fmt:parseNumber var="min" integerOnly="true" value="${m }"/>
+				                    		<td>
+				                    			<c:if test="${day > 0 }">${day }일 
+				                    			</c:if>
+				                    			<c:if test="${hour > 0 }">${hour }시간 
+				                    			</c:if>
+				                    			<c:if test="${min > 0 }">${min }분
+				                    			</c:if>
+				                    		</td>
+				                    		<td class="wide-td"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="wide-td"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    	</tr>
+				                    </c:forEach>
+					            </table>
+					            <div class="pagingg">
+					                <div class="pagination">
+					                    <a href="#" class="arrow">&laquo;</a>
+					                    <a href="#">1</a>
+					                    <a href="#" class="active">2</a>
+					                    <a href="#">3</a>
+					                    <a href="#">4</a>
+					                    <a href="#">5</a>
+					                    <a href="#" class="arrow">&raquo;</a>
+					                </div>        
+					            </div>
+					        </div>
+					         <div id="confList-div">
+				           		<table class="res-table">
+				                    <tr>
+				                        <th class="narrow-td"></th>
+				                        <th>구분</th>
+				                        <th>대여명</th>
+				                        <th class="narrow-td">수용</th>
+				                        <th>대여시간</th>
+				                        <th class="wide-td">대여시작</th>
+				                        <th class="wide-td">대여종료</th>
+				                    </tr>
+				                    <c:forEach items="${confList }" var="c" varStatus="vs">
+				                    	<tr>
+				                    		<td class="narrow-td">${vs.count }</td>
+											<td>회의실</td>
+				                    		<td>${c.thingName }</td>
+				                    		<td class="narrow-td">${c.thingSize }</td>
+				                    		<c:set var="d" value="${c.howLong/60/24 }"/>
+				                    		<fmt:parseNumber var="day" integerOnly="true" value="${d }"/>
+				                    		<c:set var="h" value="${(r.howLong) / 60 % 24 }"/>
+				                    		<fmt:parseNumber var="hour" integerOnly="true" value="${h }"/>
+				                    		<c:set var="m" value="${r.howLong % 60 }"/>
+				                    		<fmt:parseNumber var="min" integerOnly="true" value="${m }"/>
+				                    		<td>
+				                    			<c:if test="${day > 0 }">${day }일 
+				                    			</c:if>
+				                    			<c:if test="${hour > 0 }">${hour }시간 
+				                    			</c:if>
+				                    			<c:if test="${min > 0 }">${min }분
+				                    			</c:if>
+				                    		</td>
+				                    		<td class="wide-td"><fmt:formatDate value="${c.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="wide-td"><fmt:formatDate value="${c.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    	</tr>
+				                    </c:forEach>
+					            </table>
+					            <div class="pagingg">
+					                <div class="pagination">
+					                    <a href="#" class="arrow">&laquo;</a>
+					                    <a href="#">1</a>
+					                    <a href="#" class="active">2</a>
+					                    <a href="#">3</a>
+					                    <a href="#">4</a>
+					                    <a href="#">5</a>
+					                    <a href="#" class="arrow">&raquo;</a>
+					                </div>        
+					            </div>
+					        </div>
+					         <div id="carList-div">
+				           		<table class="res-table">
+				                    <tr>
+				                        <th class="narrow-td"></th>
+				                        <th>구분</th>
+				                        <th>대여명</th>
+				                        <th class="narrow-td">수용</th>
+				                        <th>대여시간</th>
+				                        <th class="wide-td">대여시작</th>
+				                        <th class="wide-td">대여종료</th>
+				                    </tr>
+				                    <c:forEach items="${carList }" var="r" varStatus="vs">
+				                    	<tr>
+				                    		<td class="narrow-td">${vs.count }</td>
+											<td>법인차량</td>
+				                    		<td>${r.thingName }</td>
+				                    		<td class="narrow-td">${r.thingSize }</td>
 				                    		<c:set var="d" value="${r.howLong/60/24 }"/>
 				                    		<fmt:parseNumber var="day" integerOnly="true" value="${d }"/>
-				                    		<%-- <c:set var="h" value="${(r.howLong-d*60*24)/60 }"/> --%>
-				                    		<c:set var="h" value="${(r.howLong)/60 }"/>
+				                    		<c:set var="h" value="${(r.howLong) / 60 % 24 }"/>
 				                    		<fmt:parseNumber var="hour" integerOnly="true" value="${h }"/>
-				                    		<%-- <c:set var="m" value="${r.howLong-d*60*24-h*60 }"/> --%>
-				                    		<c:set var="m" value="${r.howLong }"/>
+				                    		<c:set var="m" value="${r.howLong % 60 }"/>
 				                    		<fmt:parseNumber var="min" integerOnly="true" value="${m }"/>
 				                    		<td>
 				                    			<c:if test="${day > 0 }">${day }일 
@@ -240,10 +364,23 @@
         </div>
     </section>
     <script>
-    function hL(i){
-    	i = parseInt(i);
-    	return i;
-    };
+	$('#timepicker-startend').datepicker({
+		onSelect: function onSelect (date) {
+			
+			//검색받은 대여시작시간, 종료시간
+		    startDate = new Date(date.substr(0,11));
+		    endDate = new Date(date.substr(15,11));
+		    
+		    //input:hidden에 입력받은 검색시간 넣어주기
+		    $("#srchStart").val(startDate);
+		    if(date.length == 27){
+		    	$("#srchEnd").val(endDate);
+		    }
+		    
+		    /* console.log($("#srchStart").val());
+		    console.log($("#srchEnd").val()); */
+	    }
+	});
     </script>
 </body>
 </html>

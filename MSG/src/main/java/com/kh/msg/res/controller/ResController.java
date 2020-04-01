@@ -3,16 +3,22 @@ package com.kh.msg.res.controller;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -48,21 +54,13 @@ public class ResController {
 	
 	//회의실 예약하기
 	@PostMapping("/confInsert.do")
-	public ModelAndView confInsert( ConfReservation cr,
-//									@RequestParam(value = "resUseDate") String resUseDate,
-//									@RequestParam(value = "resReturnDate") String resReturnDate,
-									RedirectAttributes redirectAttributes) {
+	public ModelAndView confInsert( ConfReservation cr, RedirectAttributes redirectAttributes) {
 		ModelAndView mav = new ModelAndView();
 		
 		log.debug("confReservation={}", cr);
 		
 		int result = resService.confInsert(cr);
-//		String msg = result>0?"등록 성공!":"등록 실패!";
-//		log.debug(cr.getCroomCode() + msg);
-//		
-//		redirectAttributes.addFlashAttribute("msg", msg);
-//		
-//		return "redirect:/res/view.do";
+
 		mav.setViewName("redirect:/res/myResView.do");
 		return mav;
 	}
@@ -95,6 +93,7 @@ public class ResController {
 	 
 	
 	//자신의 예약내역 보기
+	@ResponseBody
 	@GetMapping("/myResView.do")
 	public ModelAndView selectAllMyResList() {
 		ModelAndView mav = new ModelAndView();
@@ -105,20 +104,22 @@ public class ResController {
 		log.debug("confList={}", confList);
 		log.debug("carList={}", carList);
 		
-		List<ResView> rList = new ArrayList<>();
+//		List<ResView> rList = new ArrayList<>();
+//		
+//		for(int i=0; i<confList.size(); i++) {
+//			rList.add(confList.get(i));
+//		}
+//		
+//		int k = 0;
+//		for(int j=confList.size(); j<confList.size()+carList.size(); j++) {
+//			rList.add(carList.get(k));
+//			log.debug("carList(k)={}", carList.get(k));
+//			k++;
+//		}
+//		
+//		Collections.sort(rList);
 		
-		for(int i=0; i<confList.size(); i++) {
-			rList.add(confList.get(i));
-		}
-		
-		int k = 0;
-		for(int j=confList.size(); j<confList.size()+carList.size(); j++) {
-			rList.add(carList.get(k));
-			log.debug("carList(k)={}", carList.get(k));
-			k++;
-		}
-		
-		Collections.sort(rList);
+		List<ResView> rList = resService.selectAllMyRList();
 		
 		log.debug("rList={}", rList);
 		
@@ -129,6 +130,58 @@ public class ResController {
 		mav.setViewName("res/resView");
 		return mav;
 	}
+	
+	@PostMapping("/addConf.do")
+	public ModelAndView addConf( ConferenceRoom c) {
+		ModelAndView mav = new ModelAndView();
+		
+		log.debug("conferenceRoom={}", c);
+		
+		int result = resService.addConferenceRoom(c);
+		
+		mav.setViewName("redirect:/res/confRes.do");
+		return mav;
+	}
+	
+	@PostMapping("/addCar.do")
+	public ModelAndView addConf( Car c) {
+		ModelAndView mav = new ModelAndView();
+//		log.debug("car111={}", c);
+		
+		  String seq = "SEQ_"+c.getCarCate()+"_CODE"; //input에 해당하는 시퀀스 int carSeq =
+		  log.debug("seq="+seq);
+		  
+		  int carSeq = resService.getNextval(seq); //seq를 이용해 input의 carCode설정
+		  log.debug("carSeq="+carSeq);
+		  
+		  //현재 sequence 값이 10 미만이라면 0을 붙여 carCate 뒤에 붙여줌 (ex.CAR104)
+		  if(carSeq < 10) {
+			  c.setCarCode(c.getCarCate()+"0"+carSeq); 
+		  }
+		  else {
+			  c.setCarCode(c.getCarCate()+carSeq); 
+		  }
+		  
+		  int result = resService.addCar(c);
+		 
+		
+		mav.setViewName("redirect:/res/carRes.do");
+		return mav;
+		}
+
+	@DeleteMapping(value="/delCar/{carCode}")
+	public Map<String, String> delCar(@PathVariable("carCode") String carCode){
+		
+		//log.debug("삭제할 차량코드 = "+carCode);
+		String msg = resService.delCar(carCode)>0?"선택하신 차량이 삭제되었습니다.":"선택 차량을 삭제하는 데 실패했습니다.";
+		
+		//String 전송하면 클라이언트에서 json parse error -> map 전송
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+		
+	}
+		
 }
 
 //	@PostMapping("/test.do")
