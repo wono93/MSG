@@ -49,7 +49,8 @@
         		}
         	});
         });
-      </script>
+        </script>
+        
     <title>boardWrite</title>
 </head>
 <body>
@@ -61,7 +62,6 @@
 		  enctype="multipart/form-data">
     <section>
         <div>
-        
             <article style="width: 1200; height: 100%;">
                 <div class="subNav">
                     <h3>커뮤니케이션</h3>
@@ -72,7 +72,6 @@
                      </ul>
                 </div>
                   
-                    <div class="boardBC">
                 <div class="content">
                     <div class="control">
                         
@@ -82,6 +81,7 @@
                         </div>
                    
 				 
+                <div class="boardBC">
                     </div>
                         <div style="top: 20px;" id="first1" class="select-box1">
                            <!--<div id="boardBB">-->
@@ -139,20 +139,49 @@
                     </div>
 
                 </div>
-                <div id="file">
-                    <!-- <input type="file"/> -->
-                    <p id="com5">
-                        	여기로 파일을 끌고 오거나 직접 선택 
-                     <input type="file" name="upFile" id="upFile1" style="bottom: 10px;" >
-                     <input type="file" name="upFile" id="upFile2" style="bottom: 10px;" >
-                    </p>
-                    <p id="com5">0 MB / 50MB</p>
-                </div>
+                
                 <div id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content"></textarea>
                       </div>
                 </div>
+                    <!-- <input type="file" name="upFile" id="upFile1" style="bottom: 10px;" /> --> 
+                <div id="file">
+                	<div id="fileDiv">
+	                    <p>
+		                    <input type="file" id="upFile0" name="upFile">
+			                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
+	                    </p>
+                	</div>
+                    <!-- <input type="file"/> -->
+	                <br/><br/>
+	                <a style="float:left;" href="#this" class="btn" id="addFile">파일 추가</a> 
+                 </div>
+        <script type="text/javascript">
+
+        var gfv_count = 1;
+        $(document).ready(function(){
+	        $("#addFile").on("click", function(e){ //파일 추가 버튼 
+	        	e.preventDefault(); fn_addFile(); 
+	        	});
+	        $("a[name='delete']").on("click", function(e){ //삭제 버튼 e.preventDefault(); 
+		        fn_deleteFile($(this)); 
+		        });
+        });
+        
+        function fn_addFile(){ 
+        	var str = "<p><input type='file' id='upFile"+(gfv_count++)+"' name='upFile'><a href='#this' class='btn' name='delete'>삭제</a></p>";
+        	$("#fileDiv").append(str); 
+        	$("a[name='delete']").on("click", function(e){//삭제 버튼
+        		e.preventDefault(); fn_deleteFile($(this)); 
+        		}); 
+        	}
+        function fn_deleteFile(obj){
+        	obj.parent().remove(); 
+        	}
+
+      </script>
+      
                     <div class="srchBar">
                         <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
                         <button type="submit" name="" id="yellowBtn" class="btn">글쓰기</button>

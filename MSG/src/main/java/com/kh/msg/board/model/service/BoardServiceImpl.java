@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.board.model.dao.BoardDAO;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
 
@@ -93,9 +94,9 @@ public class BoardServiceImpl implements BoardService{
 
 	
 	@Override
-	public int countBoard() {
+	public int countBoard(Board board) {
 		// TODO Auto-generated method stub
-		return boardDAO.countBoard();
+		return boardDAO.countBoard(board);
 	}
 
 	@Override
@@ -103,7 +104,58 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectBoard(vo);
 	}
 
-
 	
 
+	@Override
+	public BoardScrap selectScrap(int boardNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectScrap(boardNo);
+	}
+
+
+	@Override
+	public int insertScrap(BoardScrap voScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.insertScrap(voScrap);
+	}
+
+	@Override
+	public int deleteScrap(BoardScrap voScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.deleteScrap(voScrap);
+	}
+
+	@Override
+	public int getBoardScrap(BoardScrap voScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.getBoardScrap(voScrap);
+	}
+
+	@Override
+	public int updateBoard(Board board, List<Attachment> attachList) {
+		// TODO Auto-generated method stub
+		 //게시판 update랑 파일첨부 insert로 나눠짐
+		int result = 0;
+		result = boardDAO.boardUpdate(board);
+		
+		if(result == 0)
+			System.out.println("게시글 수정오류");
+			
+		for(Attachment attach : attachList) {
+			attach.setBrdNo(board.getNo());
+			result = boardDAO.insertAttachment(attach);
+			
+			if(result == 0)
+				System.out.println("첨부파일 등록 오류");
+		}
+		return result;	
+	}
+
+	@Override
+	public int attachUpdate(Attachment attachment) {
+		// TODO Auto-generated method stub
+		return boardDAO.attachUpdate(attachment);
+	}
+	
+	
 }

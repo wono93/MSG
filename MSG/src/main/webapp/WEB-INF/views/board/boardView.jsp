@@ -11,26 +11,76 @@
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script>
-    
-         $(function(){
-                $('#star').on('click',function(){
-                    $("#star").html("<i id='star1' class='fas fa-star'></i>");
-                })
-                
-            });
-         function fileDownload(oName, rName){
+    	function fileDownload(oName, rName){
         		//한글파일명이 있을 수 있으므로, 명시적으로 encoding
         		oName = encodeURIComponent(oName);
         		location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
         	}
-		function update(no){
-				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
-			}
-		function insertComment(no){
-			location.href = "${pageContext.request.contextPath}/board/insertComment.do?boardNo="+no;
-		}
+
+ 		function update(no){
+ 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+ 			}
+		 		
 		
+		function insertComment(no){
+				location.href = "${pageContext.request.contextPath}/board/insertComment.do?boardNo="+no;
+			}
+		
+		/*
+		function insertScrap(no){
+			location.href = "${pageContext.request.contextPath}/board/insertScrap.do?boardNo="+no;
+			}
+		*/
     </script>
+    <!-- 
+		    $(document).ready(function () {
+		 		
+		 		$("fileDownload").on("click", function(oName, rName){ //파일 추가 버튼 
+		 			oName = encodeURIComponent(oName);
+	        		location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
+		        	});
+		 		$("update").on("click", function(no){ //파일 추가 버튼 
+		 			location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+		        	});
+		 		
+		        var heartval = ${heart};
+		
+		        if(heartval>0) {
+		            console.log(heartval);
+		            $("#heart").prop("src", "${pageContext.request.contextPath}/resources/image/star1.png");
+		            $(".heart").prop('name',heartval)
+		        }
+		        
+		        else {
+		            console.log(heartval);
+		            $("#heart").prop("src", "${pageContext.request.contextPath}/resources/image/star0.jpg");
+		            $(".heart").prop('name',heartval)
+		        }
+		
+		        $(".heart").on("click", function () {
+		
+		            var that = $(".heart");
+		
+		            var sendData = {'boardNo' : '${board.no}','heart' : that.prop('name')};
+		            $.ajax({
+		                url :'/board/view.do',
+		                type :'POST',
+		                data : sendData,
+		                success : function(data){
+		                    that.prop('name',data);
+		                    if(data==1) {
+		                        $('#heart').prop("src","${pageContext.request.contextPath}/resources/image/star1.png");
+		                    }
+		                    else{
+		                        $('#heart').prop("src","${pageContext.request.contextPath}/resources/image/star0.jpg");
+		                    }
+		
+		
+		                }
+		            });
+		        });
+		    });
+		 		-->
     <title>boardView</title>
 </head>
 <body>
@@ -58,10 +108,14 @@
                                 </p>
                             </div>
 
-                            <!--스크립트 별변경-->
-                            <div id="star">
-                                <i id='star1' class='far fa-star'></i>
-                            </div>
+                           
+							<!-- 1은 현재로그인한 사용자 -->
+							<div id="star">
+						       <a class="btn btn-outline-dark heart">
+						           <img style="width: 30px; height: 30px;" id="heart" src="">
+						       </a>
+						   </div>
+					
 
                             <div id="member">
                                 <p class="com3">사업부</p>
@@ -95,6 +149,7 @@
                         </p>
                         <c:if test="${board.attachList[0].no != 0 }" >
 							<c:forEach items="${board.attachList}" var="a" varStatus="vs">
+							
 								<button type="button" style="text-align: left;" onclick="fileDownload('${a.file}','${a.refile }');">
 									첨부파일${vs.count} - ${a.file }
 								</button>
@@ -105,8 +160,10 @@
                     <div>
                         <div style="margin-top:35px; width: 100%; height: 100%; z-index: 100; position: relative; 
                             display: inline-block;">
-                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update(${board.no});">수정</button>
-                             <form name="boardFrm" 
+                            
+                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}');">수정</button>
+                            
+                            <form name="boardFrm" 
 							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
 							  method="post" 
 							  onsubmit="return boardValidate();"
@@ -114,8 +171,7 @@
 							  
                             	<button type="submit" name="" id="grayBtn1" class="btn">삭제</button>
                             	<input type="hidden" name="no" value="${board.no }" />
-							  <input type="hidden" name="brdNo" value="${board.no }" /> 			
-							  </form>
+							</form>
                         </div>
                     </div>
                     <div style="height: 100%;" id="commentContent">
@@ -155,7 +211,7 @@
 							</c:if>
 		  				
                         <form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}"
+						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${board.empNo}"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">

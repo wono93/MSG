@@ -16,10 +16,12 @@
     $(()=>{
     	$("tr[data-board-no]").on("click", function(e){
     		console.log(this, e.target);//tr, td
-    		let boardNo = $(this).attr("data-board-no"); 
+    		let boardNo = $(this).attr("data-board-no");
+    		let empNo = $(this).attr("data-emp-no");
     		console.log(boardNo);
+    		console.log(empNo);
     		
-    		location.href = "${pageContext.request.contextPath}/board/view.do?boardNo="+boardNo;
+    		location.href = "${pageContext.request.contextPath}/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
     	});
     });
    /* 
@@ -80,54 +82,50 @@
                         <div id="first" class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd3" value="1" name="Ben1" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="asd3" value="%%" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">전체 보기</p>
                                 </div>
                                 <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd4" value="2" name="Ben1" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="asd4" value="건의" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">건의사항</p>
                                 </div>
                                 <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd5" value="3" name="Ben1" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="asd5" value="공지,행사" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">공지&행사</p>
                                 </div>
                                  <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd6" value="4" name="Ben1" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="asd6" value="자유" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">자유게시판</p>
                                 </div> 
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             
                             <ul class="select-box__list">
-                                <div id="1">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=&catagkeyword='"  id="1">
                                     <li>
                                         <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
                                         		전체보기
-                                        	<input type="hidden" id="catagg1" name="catag" value="%%"/>		
                                       	</label>
                                     </li>
                                 </div>
-                                <div id="2">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=건의'"  id="2">
                                     <li>
                                         <label id="catag2" class="select-box__option" for="asd4" aria-hidden="aria-hidden">
                                        		건의사항
-                                       		<input type="hidden" name="catag" value="건의"/>		
                                       	</label>
                                     </li>
                                 </div>
-                                <div id="3">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=공지,행사'"  id="3">
                                     <li>
                                         <label id="catag3" class="select-box__option" for="asd5" aria-hidden="aria-hidden">
-                                        	공지&행사
-                                        	<input type="hidden" name="catag" value="공지,행사"/>		
+                                        	공지&행사	
                                         </label>
                                     </li>
                                 </div>
-                                <div id="4">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=자유'" id="4">
                                     <li>
                                         <label  id="catag4" class="select-box__option" for="asd6" aria-hidden="aria-hidden">
-                                        	자유게시판
-                                        	<input type="hidden" name="catag" value="자유"/>		
+                                        	자유게시판		
                                         </label>
                                     </li>
                                 </div>
@@ -141,7 +139,7 @@
                                     <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
                                     <p class="select-box__input-text">모두 보기</p>
                                 </div>
-                                <div class="select-box__value">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=${keyword }&catagkeyword=${catagkeyword }&boardMy=${board.empNo }'" class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd1" value="2" name="Ben" checked="checked"/>
                                     <p class="select-box__input-text">내가 쓴 글</p>
                                 </div>
@@ -185,19 +183,20 @@
                             <th>제목</th>
                             <th>첨부파일</th>
                             <th>작성일</th>
-                            <th>조회수
-                            </th>
-                        
+                            <th>조회수</th>
                         </tr>
-                       
-                        <c:forEach items="${viewAll }" var="b">
-	                        <tr style="z-index:999; color: rgb(93, 93, 253);" data-board-no="${b.no}">
-						  
+                      
+                        <c:forEach items="${viewAll }" var="b" varStatus="vs">
+                         <c:if test="${b.date}">
+	                        <tr style="z-index:999; color: rgb(93, 93, 253);">
+						 </c:if>
 	                            <td>${b.no }</td>
 	                            <td>${b.empNo }</td>
 	                            <td>${b.catag }</td>
 	                            <td>
+	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}">
 	                                ${b.title }
+	                            </a>
 	                                <img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
 	                            </td>
 	                            <td></td>
@@ -207,9 +206,10 @@
 	                            </td>
 	                        </tr>
                         </c:forEach>
+                      
                     </table>
                 </div>
-                    <!-- 
+                    	<!-- 
                         <a href="#" class="arrow">&laquo;</a>
                         <a href="#">1</a>
                         <a href="#" class="active">2</a>
@@ -220,7 +220,7 @@
                          -->
                     <div class="pagination">
                     <c:if test="${paging.startPage != 1 }">
-						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&laquo;</a>
+						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&keyword=${keyword}&catagkeyword=${catagkeyword}" class="arrow">&laquo;</a>
 					</c:if>
 					<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 						<c:choose>
@@ -228,7 +228,7 @@
 								<a class="active">${p }</a>
 							</c:when>
 							<c:when test="${p != paging.nowPage }">
-								<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}" >${p }</a>
+								<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&keyword=${keyword}&catagkeyword=${catagkeyword}" >${p }</a>
 							</c:when>
 						</c:choose>
 					</c:forEach>
@@ -238,11 +238,19 @@
 					</div>
 					
                     <div class="srchBar">
-                        <input type="text" name="" id="srchWord">
-                        <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
+                    <form name="boardFrm" 
+						  action="${pageContext.request.contextPath}/board/list.do"
+						  method="get" 
+						  onsubmit="return boardValidate();"
+						  enctype="multipart/form-data">
+                        <input type="text" name="keyword" id="srchWord"/>
+                         <input type="hidden" name="catagkeyword" value="asda2131qwe" id="srchWord"/>
+                        <button type="submit" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
+                    </form>
+                  
                     </div>
-                    
-                   
+
+                   <!--  
 					<div style="float: right;">
 						<select id="cntPerPage" name="sel" onchange="selChange()">
 							<option value="5"
@@ -254,8 +262,9 @@
 							<option value="20"
 								<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
 						</select>
-					</div> <!-- 옵션선택 끝 -->
-
+					</div>
+					옵션선택 끝 
+					-->
                 </div>
             </article>
         </div>

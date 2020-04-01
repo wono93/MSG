@@ -18,6 +18,8 @@ public class PagingVo{
 	private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 	private int cntPage = 5;
 	private String catag;
+	private String keyword;
+	private String catagkeyword;
 	
 	public PagingVo(int total, int nowPage, int cntPerPage) {
 		setNowPage(nowPage);

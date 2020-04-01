@@ -50,13 +50,20 @@
 			#{brdNo})
 	</insert>
 	
+	<select id="selectSrap" resultType="BoardScrap">
+		select * from brd_scp_tb where no = #{no}
+	</select>
+	
 	<select id="selectOne" resultMap="boardCollection">
-			select b.*, a.no as ano, a.*, c.no as cno, c.*
+			select b.*, a.no as ano, a.*, c.no as cno, c.*, s.no as sno, s.*
+			
             from brd_tb b
             left join atcmt_tb a
             on b.no = a.brd_no
             left join cmt_tb c
             on b.no = c.brd_no
+            left join brd_scp_tb s
+            on b.no = s.no
 			where b.no = #{boardNo}
 	</select>
 	
@@ -85,6 +92,12 @@
 			<result column="cmt_no" property="cmtNo"/>
 			<result column="emp_no" property="empNo"/>
 			<result column="brd_no" property="brdNo"/>
+		</collection>
+		<collection property="scrapList" ofType="boardScrap">
+			<id column="sno" property="no"/>
+			<result column="emp_no" property="empNo"/>
+			<result column="memo" property="memo"/>
+			<result column="date" property="date"/>
 		</collection>
 	</resultMap>
 	<update id="boardUpdate">
@@ -138,7 +151,10 @@
 	<!-- 총 게시글 갯수 출력 -->
 	<select id="countBoard" resultType="int">
 		SELECT COUNT(*) FROM brd_tb
-		
+				WHERE emp_no like '%'||#{keyword}||'%'
+				OR content like '%'||#{keyword}||'%'
+				OR title like '%'||#{keyword}||'%'
+				OR catag like '%'||#{catagkeyword}||'%'
 	</select>
 	<!-- 페이징 처리 후 게시글 조회 -->
 	<select id="selectBoard" resultType="Board">
@@ -148,10 +164,39 @@
 					FROM (
 							select * 
 							from brd_tb 
-							where catag like #{catag}
+							WHERE emp_no like '%'||#{keyword}||'%'
+							OR content like '%'||#{keyword}||'%'
+							OR title like '%'||#{keyword}||'%'
+							OR catag like '%'||#{catagkeyword}||'%'
 							order by no desc
 							) a
 					)
 		WHERE RN BETWEEN #{start} AND #{end}
+		order by no desc
 	</select>
+	<insert id="insertScrap">
+		insert into brd_scp_tb values(
+			#{no}, 
+			#{empNo}, 
+			default, default)
+	</insert>
+	<!-- 
+	INSERT INTO tbl_board_like (board_id, user_id)
+            VALUES (#{boardId}, #{userId})
+	 -->
+            
+	<delete id="deleteScrap">
+            DELETE FROM brd_scp_tb
+            WHERE no = #{no} AND empNo = #{empNo}
+    </delete>
+    
+    <select id="getBoardScrap" resultType="int">
+        SELECT COUNT(no) FROM brd_scp_tb WHERE no = #{no} AND emp_no = #{empNo}
+    </select>
+    
+    <delete id="attachUpdate">
+    	delete from
+			atcmt_tb
+		where no = #{no}
+    </delete>
 </mapper>
