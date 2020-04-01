@@ -1,6 +1,8 @@
 package com.kh.msg.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
 
@@ -84,20 +87,46 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int cntUp(Board board) {
+	public int countBoard(Board board) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("board.cntUp", board);
-	}
-
-	@Override
-	public int countBoard() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("board.countBoard");
+		return sqlSession.selectOne("board.countBoard", board);
 	}
 
 	@Override
 	public Object selectBoard(PagingVo vo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("board.selectBoard", vo);
+		Map<String, String> map = new HashMap<String, String>();
+		return sqlSession.selectList("board.selectBoard", vo);
 	}
+
+	@Override
+	public int insertScrap(BoardScrap boardScrap) {
+		return sqlSession.insert("board.insertScrap", boardScrap);
+	}
+
+	@Override
+	public BoardScrap selectScrap(int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.selectScrap", boardNo);
+	}
+
+	@Override
+	public int deleteScrap(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board.deleteScrap", boardScrap);
+	}
+
+	@Override
+	public int getBoardScrap(BoardScrap voScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.getBoardScrap", voScrap);
+	}
+
+	@Override
+	public int attachUpdate(Attachment attachment) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("board.attachUpdate", attachment);
+	}
+
+	
 }

@@ -27,7 +27,7 @@
 <script>
 	function selChange() {
 		var sel = document.getElementById('cntPerPage').value;
-		location.href="boardList?nowPage=${paging.nowPage}&cntPerPage="+sel;
+		location.href="/msg/board/boardList.do?nowPage=${paging.nowPage}&cntPerPage="+sel;
 	}
 </script>
 <body>
@@ -56,10 +56,10 @@
 		</tr>
 		<c:forEach items="${viewAll }" var="list">
 			<tr>
-				<td>${list.seq }</td>
-				<td><a href='detail?seq=${list.seq }'>${list.title }</a></td>
-				<td>${list.writer }</td>
-				<td><fmt:formatDate value="${list.regdate }" pattern="yyyy.MM.dd"/> </td>
+				<td>${list.no }</td>
+				<td><a href='detail?seq=${list.no }'>${list.title }</a></td>
+				<td>${list.empNo }</td>
+				<td><fmt:formatDate value="${list.date }" pattern="yyyy.MM.dd"/> </td>
 				<td>${list.cnt }</td>
 			</tr>
 		</c:forEach>
