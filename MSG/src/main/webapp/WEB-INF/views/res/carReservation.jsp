@@ -277,11 +277,11 @@ $(document).ready(function(){
 			}
 			
 			
-			if(howLong_car > new Date().setDate(14)){
+			if(howLong_car > 1209600000){ //2주
 				alert("차량은 2주일 이상 예약할 수 없습니다. \n2주 이내의 시간을 선택해주세요.");
 				return false;
 			}
-			if(howLong_car < new Date().setMinutes(30)){
+			if(howLong_car < 1800000){ //30분
 				alert("차량은 최소 30분 이상 대여하셔야 합니다. \n30분 이상 선택해주세요.");
 				return false;
 			}

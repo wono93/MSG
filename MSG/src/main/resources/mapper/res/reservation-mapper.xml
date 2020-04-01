@@ -21,13 +21,13 @@
 	<insert id="carInsert">
 	insert into car_rsvn_tb
 	values(seq_carrsvn_carcode.nextval, 1, #{carCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
-	<!-- resCode, empNo, carCode, resEnrolldate, resUsedate, resReturndate -->
 	</insert>
 	<select id="selectAllMyConfResList" resultType="resview">
 	select r.croom_code "thing_code",
 		   c.croom_name "thing_name",
 		   c.croom_size "thing_size",
 		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
+	<!-- resCode, empNo, carCode, resEnrolldate, resUsedate, resReturndate -->
 		   r.res_usedate "res_use_date",
 		   r.res_returndate "res_return_date"
 	from conf_rsvn_tb r join conf_room_tb c on r.croom_code = c.croom_code
