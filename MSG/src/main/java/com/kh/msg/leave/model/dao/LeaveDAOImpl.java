@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.msg.leave.model.vo.Leave;
+import com.kh.msg.leave.model.vo.LeaveInfoPlus;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
+import com.kh.msg.leave.model.vo.MyLeave;
+import com.kh.msg.member.model.vo.Member;
 
 @Repository
 public class LeaveDAOImpl implements LeaveDAO {
@@ -37,5 +40,19 @@ public class LeaveDAOImpl implements LeaveDAO {
 	
 		return sqlSession.selectList("leave.selectLeaveList3");
 	}
+
+	@Override
+	public List<MyLeave> selectLeaveList4(Member member) {
+		
+		return sqlSession.selectList("leave.selectLeaveList4", member);
+	}
+
+
+	@Override
+	public List<LeaveInfoPlus> selectleaveListInfoPlus(Member member) {
+		
+		return sqlSession.selectList("leave.selectleaveListInfoPlus",member);
+	}
+	
 	
 }

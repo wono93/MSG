@@ -42,20 +42,75 @@
 		, DEPT_TB D
 		,VCTN_TB E
 		WHERE 1=1
-		AND B.DEPT_CD = D.DEPT_CD
+		AND
+		B.DEPT_CD = D.DEPT_CD
 		AND B.EMP_NO = E.EMP_NO
 		ORDER by B.EMP_NO
 		asc
 	</select>
 	<resultMap type="leavePlus" id="leavePlus"></resultMap>
 	<select id="selectLeaveList3" resultMap="leavePlus">
-		SELECT SUM(A.VCTN_USED) VCTN_USED
+		SELECT SUM(A.VCTN_USED)
+		VCTN_USED
 		, A.EMP_NO
-		, MAX(a.vctn_dtl_no)  DTL_NO
+		, MAX(a.vctn_dtl_no) DTL_NO
 		, A.VCTN_CD
-		FROM VCTN_HIS_TB A
+		FROM
+		VCTN_HIS_TB A
 		GROUP BY a.vctn_cd, A.EMP_NO
-		ORDER BY a.emp_no 
+		ORDER BY a.emp_no
 		asc
 	</select>
+	<resultMap type="myLeave" id="myLeave"></resultMap>
+	<select id="selectLeaveList4" parameterType="Member" resultMap="myLeave">
+		SELECT
+		A.EMP_NO
+		,B.VCTN_DTL_NO
+		,B.VCTN_STDT
+		,B.VCTN_ENDT
+		,A.USER_ID
+		,B.VCTN_REASON
+		,C.VCTN_NM
+		,c.VCTN_CD
+		,B.VCTN_USED
+		FROM
+		EMP_TB A
+		,VCTN_HIS_TB B
+		,VCTN_TYPE_TB C
+		WHERE A.EMP_NO = #{empNo}
+		AND
+		A.EMP_NO=B.EMP_NO
+		AND B.VCTN_CD=C.VCTN_CD
+		ORDER BY B.VCTN_DTL_NO DESC
+	</select>
+
+	<resultMap type="leaveInfoPlus" id="leaveInfoPlus"></resultMap>
+	<select id="selectleaveListInfoPlus" parameterType="Member" resultMap="leaveInfoPlus">
+		SELECT
+		A.EMP_NO
+		,E.DEPT_NAME
+		,F.JOB_NAME
+		,A.EMP_NAME
+		,A.USER_ID
+		,B.ANNUAL
+		,B.REWARD
+		,D.VCTN_CD
+		,D.VCTN_NM
+		,C.VCTN_USED
+		FROM
+		EMP_TB A
+		,VCTN_TB B
+		,VCTN_HIS_TB C
+		,VCTN_TYPE_TB D
+		,DEPT_TB E
+		,JOB_TB F
+		WHERE A.EMP_NO =#{empNo}
+		AND A.EMP_NO=C.EMP_NO
+		AND A.EMP_NO = B.EMP_NO
+		AND C.VCTN_CD=D.VCTN_CD
+		AND A.DEPT_CD = E.DEPT_CD
+		AND A.JOB_CD = F.JOB_CD
+	</select>
+
 </mapper>
+
