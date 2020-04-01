@@ -7,6 +7,7 @@ $(document).ready(function(){
     var flowBtn = document.getElementById("flowBtn");
     
     // Get the <span> element that closes the modal
+    var flowConfirm = document.getElementById("flowBoxBtn");
     var flowSpan = document.getElementById("closeBoxBtn");
     
     // When the user clicks on the button, open the modal
@@ -18,11 +19,14 @@ $(document).ready(function(){
     flowSpan.onclick = function() {
       flowModal.style.display = "none";
     }
+    flowConfirm.onclick = function() {
+    	flowModal.style.display = "none";
+    }
+    
     $(function(){
     	$('.startendicon').click(function(){
     		$('#timepicker-startend').focus();
     	});
     });
-    
     
 });
