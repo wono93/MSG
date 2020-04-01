@@ -10,6 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
@@ -17,86 +18,7 @@
 	
         <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
         <script>
-            $(document).ready(function(){
-            //아이콘 클릭 시 dateTimePicker focus
-            	$('.starticon').click(function(){
-                    $('#timepicker-start').focus();
-                });
-                $('.endicon').click(function(){
-                    $('#timepicker-end').focus();
-                });
-                
-                //체크된 회의실코드 input:hidden에 담아주기
-                $('input[name="conf"]').click(function () {
-                    let radioVal = $('input[name="conf"]:checked').val();
-                	$('#croomCode').val(radioVal);
-                	console.log($('#croomCode').val());
-                });
-            });
-            
-            
-
-
-            // Initialization
-            $('#my-element').datepicker(minutesStep)
-            // Access instance of plugin
-            $('#my-element').data('datepicker')
-
-            // Create start date
-            var start = new Date(),
-                prevDay,
-                startHours = 9;
-        
-            // 09:00 AM
-            start.setHours(9);
-            start.setMinutes(0);
-        
-            // If today is Saturday or Sunday set 10:00 AM
-            if ([6, 0].indexOf(start.getDay()) != -1) {
-                start.setHours(10);
-                startHours = 10
-            }
-        
-            $('#timepicker-start').datepicker({
-                timepicker: true,
-                language: 'ko',
-                startDate: start,
-                minHours: startHours,
-                maxHours: 18,
-                minutesStep: 30,
-                onSelect: function (fd, d, picker) {
-                	$(picker.el).trigger('change');
-                	
-                    // Do nothing if selection was cleared
-                    if (!d) return;
-                    
-                    console.log(fd);
-                    console.log(d);
-                    console.log(picker);
-                    
-        
-                    var day = d.getDay();
-        
-                    // Trigger only if date is changed
-                    if (prevDay != undefined && prevDay == day) return;
-                    prevDay = day;
-        
-                    // If chosen day is Saturday or Sunday when set
-                    // hour value for weekends, else restore defaults
-                    if (day == 6 || day == 0) {
-                        picker.update({
-                            minHours: 10,
-                            maxHours: 16
-                        })
-                    } else {
-                        picker.update({
-                            minHours: 9,
-                            maxHours: 18
-                        })
-                    }
-                }
-            
-            });
+           
             
             /* function requestCrawling() {
            	 if(e.key == 13){
@@ -220,7 +142,7 @@
 				        <input type="hidden" name="resEnrolldate" />
 				        <button id="getreserv"type="submit">예약하기</button>
 				        <!-- <button  id="reservTest" onclick="requestAjax()"></button> -->
-				        <table id="res-table">
+				        <table class="res-table">
 				            <tr>
 				                <th></th>
 				                <th>회의실명</th>
@@ -241,11 +163,41 @@
 				            </c:forEach>
 				        </table>
 				        <input type="hidden" id="croomCode" name="croomCode" />
+				        <button id="add-conf" type="button">회의실 추가</button>
+				        <button id="update-conf" type="button" onclick="location.href='${pageContext.request.contextPath }/res/updateConf.do'" >수정</button>
+				        <button id="del-conf" type="button" onclick="location.href='${pageContext.request.contextPath }/res/delConf.do'" >삭제</button>
 				     </form>
 			    </div>
-                </article>
+             </article>
         </div>
     </section>
+    <div id="addConfModal" class="ch-modal">
+            <!-- Modal content -->
+            <div class="ch-modal-content">
+                
+                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close confClose" id="close-btn">
+                <div id="ch-content">
+                    <form action="${pageContext.request.contextPath }/res/addConf.do">
+
+                        <div class="channelGenTitle">
+                            <h3>회의실 추가</h3>
+                        </div>
+
+                        <input type="text" name="room-title" id="addConf-title" placeholder="새로운 회의실 이름을 입력해주세요.">
+                        <p>
+						<div class="updown custom">
+							수용인원
+							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+							<input type="text" id="person" value="4" name="size" readonly="true" />
+							<button type="button" class="plusBtn" onclick="plus();">+</button>
+						</div>
+						</p>
+                        <input type="submit" class="addBtn" value="추가하기" />
+                    </form>
+               	</div>
+            </div>
+     </div>
+                        
 <script>
 	function transform(time){
 		var valuee = time.getFullYear().toString()+"-"+((time.getMonth()+1).toString().length==2?(time.getMonth()+1).toString():"0"+(time.getMonth()+1).toString())+"-"+(time.getDate().toString().length==2?time.getDate().toString():"0"+time.getDate().toString())+"T"+(time.getHours().toString().length==2?time.getHours().toString():"0"+time.getHours().toString())+":"+((parseInt(time.getMinutes()/5)*5).toString().length==2?(parseInt(time.getMinutes()/5)*5).toString():"0"+(parseInt(time.getMinutes()/5)*5).toString())+":00";
