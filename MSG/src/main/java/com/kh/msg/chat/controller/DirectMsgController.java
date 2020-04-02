@@ -117,11 +117,12 @@ public class DirectMsgController {
 	@PostMapping("/msgList.do")
 	public void directMsgList(@RequestParam("toId") String toId,
 							  @RequestParam("fromId") String fromId,
+							  @RequestParam("listType") String listType,
 							  HttpServletRequest request,
 							  HttpServletResponse response){
 		
 		
-		String listType = request.getParameter("listType");
+//		String listType = request.getParameter("listType");
 		
 		log.debug("fromId="+fromId+", toId="+toId+" listType="+listType);
 		try {

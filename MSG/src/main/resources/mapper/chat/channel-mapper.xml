@@ -2,43 +2,31 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ChannelInfo">
+<mapper namespace="Channel">
 	<select id="headerChList" resultType="ChannelInfo">
-		
-	</select>
-	<select id="directMsgListByRecent" resultType="DirectMsg">
 		select
-		    D.msg_no,E.emp_no,E.user_id,E.emp_name,E.emp_image,D.to_id,D.from_id,D.msg_content,D.msg_date
+		    A.*, M.emp_no, E.user_id, E.emp_name
 		from
-		    emp_tb E left join dm_tb D
-		        on E.emp_no = D.emp_no
-		where
-		    ((D.to_id = #{toId} and D.from_id = #{fromId})
-            	OR (D.to_id = #{fromId} and D.from_id = #{toId}))
-                    and D.msg_no > (select max(D.msg_no) - ${msgNo} from dm_tb)
-		order by D.msg_date
+		    (select I.ch_no ch_no, I.ch_name ch_name, I.ch_ex ch_ex, M.msg_date msg_date, m.msg_content msg_content
+		    from ch_info_tb I join
+		    (select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
+		    (select max(rowid) from ch_msg_tb group by ch_no)) M on I.ch_no=M.ch_no) A join ch_member_tb M on A.ch_no = M.ch_no left join emp_tb E on M.emp_no = E.emp_no
+		where E.user_id = #{fromId}
 	</select>
-	<insert id="insert">
-		insert into
-			dm_tb
-		values
-			(seq_msg_no.nextval,${empNo},#{fromId},#{msgContent},default,#{toId})
-	</insert>
-	<select id="selectOne" resultType="DirectMsg">
-		select
-		    *
-		from
-		    emp_tb E left join dm_tb D
-		        on E.emp_no = D.emp_no
-		where
-		     D.msg_no = (select max(msg_no) from dm_tb where from_id = #{toId})
-	</select>
-	<select id="headerDmList" resultType="DirectMsg">
+	<select id="channelListByNumber" resultType="ChannelMsg">
 		select 
-			* 
+			M.ch_no,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
 		from 
-			HEADER_DM_LIST_VIEW 
+			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no
 		where 
-			to_id = #{from_id}
+			M.ch_no = ${chNo} and M.msg_no > ${msgNo}
+	</select>
+	<select id="channelListByRecent" resultType="ChannelMsg">
+		select 
+			M.ch_no,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
+		from 
+			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no
+		where 
+			M.ch_no = ${chNo} and M.msg_no > (select max(M.msg_no) - ${msgNo} from ch_msg_tb)
 	</select>
 </mapper>

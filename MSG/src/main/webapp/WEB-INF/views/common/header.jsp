@@ -26,6 +26,7 @@
     <script>
 		var hdjq = jQuery.noConflict();
     </script>
+    <script src="${pageContext.request.contextPath }/resources/js/channelList.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
@@ -93,8 +94,8 @@
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
             </li> -->
-            <ul class="secnav">
-                <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus.png" id="plus-icon" alt=""></p>
+            <ul class="secnav" id="channelList">
+                <%-- <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus-icon.png" id="plus-icon" alt=""></p>
                 <li>
                     <a href="${pageContext.request.contextPath}/chat/channel.do">
                         <i class="fas fa-circle" style="font-size:15px"></i>　경영지원 1팀
@@ -104,7 +105,7 @@
                     <a href="${pageContext.request.contextPath}/chat/channel.do">
                         <i class="fas fa-circle" style="font-size:15px"></i>　미식가들
                     </a>
-                </li>
+                </li> --%>
             </ul>
             <ul class="secnav" id="dmList"></ul>
         </ul>
