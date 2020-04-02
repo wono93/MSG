@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.leave.model.dao.LeaveDAO;
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
+import com.kh.msg.leave.model.vo.LeaveModal;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.MyLeave;
@@ -49,6 +50,18 @@ public class LeaveServiceImpl implements LeaveService {
 	public List<LeaveInfoPlus> selectleaveListInfoPlus(Member member) {
 		
 		return leaveDAO.selectleaveListInfoPlus(member);
+	}
+
+	/*
+	 * @Override public List<LeaveModal> selectModalList() {
+	 * 
+	 * return leaveDAO.selectModalList(); }
+	 */
+
+	@Override
+	public List<LeaveModal> selectModalList(int empNo) {
+	
+		return leaveDAO.selectModalList(empNo);
 	}
 
 
