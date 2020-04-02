@@ -13,6 +13,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.member.model.vo.Member;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -126,6 +127,24 @@ public class BoardDAOImpl implements BoardDAO {
 	public int attachUpdate(Attachment attachment) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("board.attachUpdate", attachment);
+	}
+
+	@Override
+	public Member selectMember(int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.selectMember", empNo);
+	}
+
+	@Override
+	public List<Member> selectMemberList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectMemberList");
+	}
+
+	@Override
+	public List<Attachment> selectAttachList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectAttachList");
 	}
 
 	

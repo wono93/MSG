@@ -20,6 +20,7 @@ public class PagingVo{
 	private String catag;
 	private String keyword;
 	private String catagkeyword;
+	private int empNo;
 	
 	public PagingVo(int total, int nowPage, int cntPerPage) {
 		setNowPage(nowPage);

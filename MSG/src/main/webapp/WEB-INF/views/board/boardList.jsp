@@ -101,7 +101,7 @@
                             </div>
                             
                             <ul class="select-box__list">
-                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=&catagkeyword='"  id="1">
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do'"  id="1">
                                     <li>
                                         <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
                                         		전체보기
@@ -139,7 +139,7 @@
                                     <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
                                     <p class="select-box__input-text">모두 보기</p>
                                 </div>
-                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=${keyword }&catagkeyword=${catagkeyword }&boardMy=${board.empNo }'" class="select-box__value">
+                                <div  class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd1" value="2" name="Ben" checked="checked"/>
                                     <p class="select-box__input-text">내가 쓴 글</p>
                                 </div>
@@ -154,15 +154,22 @@
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             <ul class="select-box__list">
+                            <div onclick="location.href='${pageContext.request.contextPath }/board/list.do'">
                                 <li>
                                     <label class="select-box__option" for="asd0" aria-hidden="aria-hidden">모두 보기</label>
                                 </li>
+                            </div>
+                            <!--  onclick="location.href='${pageContext.request.contextPath}/board/list.do?empNo=${memberLoggedIn.empNo}'" -->
+                            <div>                     
                                 <li>
                                     <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
                                 </li>
+                            </div>
+                            <div>
                                 <li>
                                     <label class="select-box__option" for="asd2" aria-hidden="aria-hidden">스크랩 글</label>
                                 </li>
+                            </div>
                                 <!-- <li>
                                 <label class="select-box__option" for="2" aria-hidden="aria-hidden">문서종류</label>
                                 </li> -->
@@ -183,30 +190,43 @@
                             <th>제목</th>
                             <th>첨부파일</th>
                             <th>작성일</th>
-                            <th>조회수</th>
+                            <th>조회수 </th>
                         </tr>
-                      
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
-                         <c:if test="${b.date}">
-	                        <tr style="z-index:999; color: rgb(93, 93, 253);">
-						 </c:if>
-	                            <td>${b.no }</td>
-	                            <td>${b.empNo }</td>
+							<c:if test="${b.dateb<2 }">
+	                        	<tr style="z-index:999; color: rgb(93, 93, 253);">
+							</c:if>
+								<c:if test="${b.dateb>=2 }">
+									<tr style="z-index:999;">
+								</c:if>
+	                            	<td>${b.no }</td>
+	                            <c:forEach items="${memberList }" var="m">
+		                            <c:if test="${m.empNo == b.empNo }">
+		                            	<td>${m.empName }</td>
+		                        	</c:if>
+		                        </c:forEach>    
 	                            <td>${b.catag }</td>
 	                            <td>
-	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}">
+	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}">
 	                                ${b.title }
 	                            </a>
-	                                <img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
+	                            	<c:if test="${b.dateb<2 }">
+	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
+	                                </c:if>
 	                            </td>
-	                            <td></td>
-	                            <td>${b.date }</td>
+	                            		<td>
+		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
+			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
+			                            			<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
+			                            	</c:if>
+	                            	</c:forEach>
+                            			</td>
+	                            <td>${b.bdate }</td>
 	                            <td>${b.cnt }
 	                            	<input type="hidden" name="no" value="${b.no }"/>
 	                            </td>
 	                        </tr>
                         </c:forEach>
-                      
                     </table>
                 </div>
                     	<!-- 
@@ -250,21 +270,7 @@
                   
                     </div>
 
-                   <!--  
-					<div style="float: right;">
-						<select id="cntPerPage" name="sel" onchange="selChange()">
-							<option value="5"
-								<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-							<option value="10"
-								<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-							<option value="15"
-								<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-							<option value="20"
-								<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-						</select>
-					</div>
-					옵션선택 끝 
-					-->
+                
                 </div>
             </article>
         </div>
