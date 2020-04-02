@@ -23,12 +23,13 @@ public class Board implements Serializable {/**
 	private int no;
 	private String title;
 	private String content;
-	private Date date;
+	private Date bdate;
 	private int cnt;
 	private String catag;
 	private int empNo;
 	private String keyword;
 	private String catagkeyword;
+	private int dateb;
 	
 	private List<Attachment> attachList;
 	
@@ -41,18 +42,19 @@ public class Board implements Serializable {/**
 		return serialVersionUID;
 	}
 	
-	public Board(int no, String title, String content, Date date, int cnt, String catag, int empNo,
-			String keyword, String catagkeyword ) {
+	public Board(int no, String title, String content, Date bdate, int cnt, String catag, int empNo,
+			String keyword, String catagkeyword, int dateb ) {
 		super();
 		this.no = no;
 		this.title = title;
 		this.content = content;
-		this.date = date;
+		this.bdate = bdate;
 		this.cnt = cnt;
 		this.catag = catag;
 		this.empNo = empNo;
 		this.keyword = keyword;
 		this.catagkeyword = catagkeyword;
+		this.dateb = dateb;
 	}
 	
 

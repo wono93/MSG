@@ -77,6 +77,11 @@ public class ResDAOImpl implements ResDAO {
 	public int delCar(String carCode) {
 		return sqlSession.delete("res.delCar", carCode);
 	}
+
+	@Override
+	public List<Car> selectCarListStart(String resUseDate) {
+		return sqlSession.selectList("res.selectCarListStart", resUseDate);
+	}
 	
 	
 

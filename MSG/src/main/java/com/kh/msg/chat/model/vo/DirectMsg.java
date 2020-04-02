@@ -3,7 +3,7 @@ package com.kh.msg.chat.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DirectMsg extends Member implements Serializable{
+public class DirectMsg extends OrgChart implements Serializable{
 
 	/**
 	 * 

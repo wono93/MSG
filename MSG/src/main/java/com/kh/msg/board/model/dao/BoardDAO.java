@@ -7,6 +7,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.member.model.vo.Member;
 
 public interface BoardDAO {
 
@@ -45,6 +46,12 @@ public interface BoardDAO {
 	int getBoardScrap(BoardScrap voScrap);
 
 	int attachUpdate(Attachment attachment);
+
+	Member selectMember(int empNo);
+
+	List<Member> selectMemberList();
+
+	List<Attachment> selectAttachList();
 
 	
 }

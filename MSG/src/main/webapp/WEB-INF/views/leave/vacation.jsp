@@ -129,7 +129,7 @@
 						</tr>
 						<c:forEach items="${listSum}" var="leave" varStatus="vs">
 							<tr>
-								<td>   </td>
+								<td></td>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
 								<td>${leave.longevity}</td>
@@ -140,7 +140,7 @@
 								<td>${leave.otherUsed }</td>
 								<td><p>
 										<a href="#test" rel="modal:open">
-											<button class="penbutton">
+											<button class="penbutton" value="${leave.empNo}">
 												<i class='fas fa-pencil-alt'> </i>
 											</button>
 										</a>
@@ -229,12 +229,23 @@
 						<th class="modalth3">근거</th>
 						<th class="modalth4">일시</th>
 					</tr>
-					<tr>
-						<td>포상</td>
-						<td>+3</td>
-						<td>전자문서:2020-G001-0D2</td>
-						<td>2020-03-02 13:30</td>
-					</tr>
+					<c:forEach items="${listSum}" var="list" varStatus="va">
+					<c:forEach items="${modalList}" var="modal" varStatus="vs">
+						<tr>
+							<td>${modal.vctnNm}</td>
+							<td>${modal.vctnAmt}</td>
+							<c:choose>
+								<c:when test="${empty modal.edocId}">
+									<td>${modal.vctnReason }</td>
+								</c:when>
+								<c:otherwise>
+									<td>${modal.edocId}</td>
+								</c:otherwise>
+							</c:choose>
+							<td>${modal.vctnUpdtDt}</td>
+						</tr>
+					</c:forEach>
+					</c:forEach>
 					<tr>
 						<td>연차</td>
 						<td>-2</td>

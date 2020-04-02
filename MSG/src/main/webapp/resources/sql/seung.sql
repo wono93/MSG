@@ -16,6 +16,7 @@ insert into jstree_mem_tb values('총무부', '사원 김그래');
 
 select * from jstree_mem_tb where name = '부장 천관웅';
 
+select * from emp_tb;
 
 select * from conf_rsvn_view;
 
@@ -94,3 +95,33 @@ EXEC PROC_SEQ_EDOC_ID_RESET();
 
 EXEC proc_insert_work_clock;
 select * from temp_work_tb;
+
+
+-- 휴가 테이블
+select * from absent_tb;
+
+
+-----
+
+select*from ch_member_tb M join;
+(select*from ch_info_tb I left join
+(select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
+(select max(rowid) from ch_msg_tb group by ch_no)) R
+on I.ch_no = R.ch_no);
+on M.ch_no = ch_no
+where M.emp_no = 1;
+
+-- 사번, 채널명, 메시지 온 순서
+select * from ch_msg_tb;
+select * from ch_info_tb;
+select * from ch_member_tb;
+
+select A.*, M.emp_no from
+(select I.ch_no ch_no, I.ch_name ch_name, I.ch_ex ch_ex, M.msg_date msg_date, m.msg_content msg_content
+from ch_info_tb I join
+(select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
+(select max(rowid) from ch_msg_tb group by ch_no)) M on I.ch_no=M.ch_no) A join ch_member_tb M on A.ch_no = M.ch_no
+where emp_no = 1;
+
+(select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
+(select max(rowid) from ch_msg_tb group by ch_no));

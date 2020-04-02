@@ -11,6 +11,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.member.model.vo.Member;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -155,6 +156,24 @@ public class BoardServiceImpl implements BoardService{
 	public int attachUpdate(Attachment attachment) {
 		// TODO Auto-generated method stub
 		return boardDAO.attachUpdate(attachment);
+	}
+
+	@Override
+	public Member selectMember(int empNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectMember(empNo);
+	}
+
+	@Override
+	public List<Member> selectMemberList() {
+		// TODO Auto-generated method stub
+		return boardDAO.selectMemberList();
+	}
+
+	@Override
+	public List<Attachment> selectAttachList() {
+		// TODO Auto-generated method stub
+		return boardDAO.selectAttachList();
 	}
 	
 	

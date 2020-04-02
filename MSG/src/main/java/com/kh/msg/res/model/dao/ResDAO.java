@@ -34,4 +34,6 @@ public interface ResDAO {
 
 	int delCar(String carCode);
 
+	List<Car> selectCarListStart(String resUseDate);
+
 }

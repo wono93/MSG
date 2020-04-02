@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
+import com.kh.msg.leave.model.vo.LeaveModal;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.MyLeave;
@@ -52,6 +53,20 @@ public class LeaveDAOImpl implements LeaveDAO {
 	public List<LeaveInfoPlus> selectleaveListInfoPlus(Member member) {
 		
 		return sqlSession.selectList("leave.selectleaveListInfoPlus",member);
+	}
+
+
+	/*
+	 * @Override public List<LeaveModal> selectModalList() {
+	 * 
+	 * return sqlSession.selectList("leave.selectModalList"); }
+	 */
+
+
+	@Override
+	public List<LeaveModal> selectModalList(int empNo) {
+		
+		return sqlSession.selectList("leave.selectModalList",empNo);
 	}
 	
 	

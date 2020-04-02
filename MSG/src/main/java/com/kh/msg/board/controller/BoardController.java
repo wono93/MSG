@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.msg.board.model.service.BoardService;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
@@ -33,6 +32,7 @@ import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
 import com.kh.msg.common.util.Utils;
+import com.kh.msg.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,17 +69,20 @@ public class BoardController {
 	
 	@GetMapping("/view.do")
 	public String view(
-			@RequestParam("boardNo") int boardNo, 
-			
-			Board board,
+			@RequestParam("boardNo") int boardNo,
+			@RequestParam("empNo") int empNo,
+			Board board, Member member,
 			 Model model) {
-
+		member = boardService.selectMember(empNo);
 		board = boardService.selectOne(boardNo);
+		List<Member> memberList = boardService.selectMemberList();
 		//조회수 증가
-	//int result = boardService.cntUp(board, boardNo);
-	//	log.debug("result================"+result);
+		//int result = boardService.cntUp(board, boardNo);
+		//	log.debug("result================"+result);
 		log.debug("board================"+board);
 		
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("member", member);
     	model.addAttribute("board", board);
     	return "board/boardView";
 	}
@@ -114,22 +117,25 @@ public class BoardController {
 	
 	@PostMapping("/deleteComment.do")
 	public String commentDelete(@RequestParam("boardNo") int boardNo,
+			@RequestParam("empNo") int empNo,
 			Comment comment, RedirectAttributes redirectAttributes) {
 		
     	int result = boardService.deleteComment(comment);
     	
     	log.debug("comment delete="+comment);
 
-		return "redirect:/board/view.do?boardNo="+boardNo;
+		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
 	}
 	
 	@PostMapping("/insertComment.do")
-	public String commentInsert(@RequestParam("boardNo") int boardNo, Comment comment,
+	public String commentInsert(@RequestParam("boardNo") int boardNo,
+			@RequestParam("empNo") int empNo,
+			Comment comment,
 		Model model, RedirectAttributes redirectAttributes) {
 		
     	int result = boardService.insertComment(comment, boardNo); 
 		
-		return "redirect:/board/view.do?boardNo="+boardNo;
+		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
 	}
 	
 	@PostMapping("/deleteBoard.do")
@@ -261,6 +267,7 @@ public class BoardController {
     
     @PostMapping("/update.do")
 	public String update(@RequestParam("boardNo") int boardNo,
+			@RequestParam("empNo") int empNo,
 			Board board, Attachment attachment,
 			 @RequestParam(value="upFile", required=false) 
 			 MultipartFile[] upFiles,
@@ -315,7 +322,7 @@ public class BoardController {
     	} catch(Exception e) {
     		log.error("게시판 수정 오류! ", e);
     	}
-		return "redirect:/board/view.do?boardNo="+boardNo;
+    	return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
 	
     }
     
@@ -323,11 +330,13 @@ public class BoardController {
     public String boardList(PagingVo vo, Model model, Board board
     		, @RequestParam(value="catagkeyword", required=false)String catagkeyword
     		, @RequestParam(value="keyword", required=false)String keyword
+    		//, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
     		) {
     	board.setCatagkeyword(catagkeyword);
     	board.setKeyword(keyword);
+    	//board.setEmpNo(empNo);
     	int total = boardService.countBoard(board);
     	if (nowPage == null && cntPerPage == null) {
     		nowPage = "1";
@@ -339,11 +348,50 @@ public class BoardController {
     	}
     	
     	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-    	vo.setKeyword(keyword);
     	vo.setCatagkeyword(catagkeyword);
+    	vo.setKeyword(keyword);
+    	//vo.setEmpNo(empNo);
+    	List<Member> memberList = boardService.selectMemberList();
+    	List<Attachment> attachList = boardService.selectAttachList();
     	
+    	model.addAttribute("attachList", attachList);
+    	model.addAttribute("memberList", memberList);
     	model.addAttribute("keyword", keyword);
     	model.addAttribute("catagkeyword", catagkeyword);
+        model.addAttribute("paging", vo);
+     	model.addAttribute("viewAll", boardService.selectBoard(vo));
+    	return "board/boardList";
+    }
+    //내글보기
+    /*
+    @GetMapping("/myList.do")
+    public String myList(PagingVo vo, Model model, Board board
+    		
+    		, @RequestParam(value="empNo", required=false)int empNo
+    		, @RequestParam(value="nowPage", required=false)String nowPage
+    		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+    		) {
+    	
+    	board.setEmpNo(empNo);
+    	int total = boardService.countBoard(board);
+    	if (nowPage == null && cntPerPage == null) {
+    		nowPage = "1";
+    		cntPerPage = "15";
+    	} else if (nowPage == null) {
+    		nowPage = "1";
+    	} else if (cntPerPage == null) { 
+    		cntPerPage = "15";
+    	}
+    	
+    	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+    	vo.setEmpNo(empNo);
+    	List<Member> memberList = boardService.selectMemberList();
+    	List<Attachment> attachList = boardService.selectAttachList();
+    	
+    	model.addAttribute("attachList", attachList);
+    	model.addAttribute("memberList", memberList);
+    	model.addAttribute("empNo", empNo);
         model.addAttribute("paging", vo);
      	model.addAttribute("viewAll", boardService.selectBoard(vo));
     	//model.addAttribute("gunBoard", boardService.selectGunBoard(vo));//건의게시판
@@ -351,6 +399,7 @@ public class BoardController {
     	//model.addAttribute("gongBoard", boardService.selectGongBoard(vo));//공지&행사게시판
     	return "board/boardList";
     }
+    */
     
     @PostMapping("/attachUpdate.do")
     public String attachUpdate(@RequestParam("attachNo") int attachNo, @RequestParam("boardNo") int boardNo,
