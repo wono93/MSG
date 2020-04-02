@@ -351,7 +351,7 @@ to {
 								alt="${emp.empName }.png" />
 							<p class="imgStatus" style="display: none;">새로운 이미지가
 								등록대기중입니다....</p>
-							<input type="file" name="empImage" class="uploadImg"
+							<input type="file" name="empImage_" class="uploadImg"
 								style="display: none;" />
 							<p>${emp.deptName } ${emp.jobName }</p>
 							<p>${emp.empName }</p>

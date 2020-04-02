@@ -32,7 +32,7 @@ import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.Member;
-import com.kh.msg.member.model.vo.orgChart;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +55,7 @@ public class MemberController {
 			// 1. memberId 로 member 객체 조회
 			// bcryptPasswordEncoder를 이용한 비교
 			
-			orgChart member = memberService.selectOne(userId);
+			OrgChart member = memberService.selectOne(userId);
 			
 			
 			
@@ -66,8 +66,8 @@ public class MemberController {
 			if (member != null && bcryptPasswordEncoder.matches(password, member.getUserPwd())) {
 				// 로그인 성공
 				model.addAttribute("memberLoggedIn", member);
-				//로그인 성공시, 출입기록에 기록
-//				memberService.loginLog(member.getEmpNo()); 
+				//로그인 성공시, 로그에 로그인 기록과 동시에 지각여부 체크
+				memberService.loginLog(member.getEmpNo()); 
 			} else {
 				// 로그인 실패
 				redirectAttributes.addFlashAttribute("msg", "입력한 아이디 또는 비밀번호가 일치하지 않습니다");
@@ -88,13 +88,13 @@ public class MemberController {
 		log.debug("[" + member.getUserId() + "] 가 로그아웃 했습니다.");
 		if (!sessionStatus.isComplete())
 			sessionStatus.setComplete();
+		//로그아웃 성공시, 로그에 로그아웃 기록
+		memberService.logoutLog(member.getEmpNo()); 
 		return "redirect:/";
 	}
 	
-
-	
 	@GetMapping("/empLog.do")
-	public String empLog(Model model,@RequestParam("empNo") String empNo) {
+	public String empLog(Model model,@RequestParam("empNo") int empNo) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
 		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
@@ -106,14 +106,17 @@ public class MemberController {
 
 		log.debug("srcDateStart={}", srcDateStart);
 		log.debug("srcDateEnd={}", srcDateEnd);
-
+		
 		List<HrMntList> list = null;
-		Map<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
+		map.put("empNo",empNo);
 
 		list = memberService.selectList(map);
-
+//		IOLog log = memberService.getLog(empNo);
+		
+		
 		model.addAttribute("list", list);
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
@@ -139,13 +142,14 @@ public class MemberController {
 		log.debug("srcDateEnd={}", srcDateEnd);
 
 		List<HrMntList> list = null;
-		Map<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
 
 		list = memberService.selectList(map);
 
 		model.addAttribute("list", list);
+		
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
 		model.addAttribute("bsnsDay", bsnsDay);
@@ -163,7 +167,7 @@ public class MemberController {
 			Model model) {
 
 		List<HrMntList> list = null;
-		Map<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 		log.debug("searchBy = {}", searchBy);
 		log.debug("keyword = {}", keyword);
@@ -186,11 +190,10 @@ public class MemberController {
 		return "member/empLogBoard";
 	}
 
-	
 	@GetMapping("/orgChart.do")
 	public String orgChart(Model model,@RequestParam(value="searchBy",required=false) String searchBy,
 			@RequestParam(value="keyword",required=false) String keyword) {
-		List<orgChart> list = null;
+		List<OrgChart> list = null;
 		Map<String, String> map = new HashMap<>();
 		if(searchBy != "" && keyword != "") {
 			map.put("searchBy", searchBy);
@@ -203,11 +206,10 @@ public class MemberController {
 		return "member/org_chart";
 	}
 	
-	
 	//관리자/인사관리자 용 조직도 세부 페이지
 	@GetMapping("/empInfo.do")
 	public String empInfo(Model model,@RequestParam(value="empNo",required=false) String empNo) {
-		orgChart emp = null;
+		OrgChart emp = null;
 		
 		emp = memberService.empInfo(empNo);
 		if(emp != null) {
@@ -221,7 +223,7 @@ public class MemberController {
 	//일반 사원용 조직도 세부페이지
 	@GetMapping("/empInfoThird.do")
 	public String empInfoThird(Model model, @RequestParam(value="empNo",required=false) String empNo) {
-		orgChart emp = null;
+		OrgChart emp = null;
 		
 		emp = memberService.empInfo(empNo);
 		if(emp != null) {
@@ -234,12 +236,11 @@ public class MemberController {
 	}
 	
 	
-	
 	@PostMapping("/updateEmp.do")
     public String insert(
     					 Model model,
     				     @RequestParam(value="empNo", required=false) String empNo,
-    					 @RequestParam(value="empImage", required=false) MultipartFile empImage,
+    					 @RequestParam(value="empImage_", required=false) MultipartFile empImage,
     					 @RequestParam(value="empEmail", required=false) String empEmail,
     					 @RequestParam(value="empContact", required=false) String empContact,
     					 @RequestParam(value="empAddress", required=false) String empAddress,

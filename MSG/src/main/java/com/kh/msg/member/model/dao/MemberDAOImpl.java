@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
@@ -24,13 +25,13 @@ public class MemberDAOImpl implements MemberDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public orgChart selectOne(String userId) {
+	public OrgChart selectOne(String userId) {
 		
 		return sqlSession.selectOne("member.logIn",userId);
 	}
 
 	@Override
-	public List<HrMntList> selectList(Map<String, String> map) {
+	public List<HrMntList> selectList(HashMap<String, Object> map) {
 		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		Date today = null;
@@ -81,13 +82,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+	public List<com.kh.msg.member.model.vo.OrgChart> orgChart(Map<String, String> map) {
 		
 		return sqlSession.selectList("member.orgChart",map);
 	}
 
 	@Override
-	public orgChart empInfo(String empNo) {
+	public OrgChart empInfo(String empNo) {
 		
 		return sqlSession.selectOne("member.empInfo",empNo);
 	}
@@ -100,11 +101,22 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void loginLog(int empNo) {
 		//그 날의 첫번째 로그인 기록인지 검사
-//		if(sqlSession.selectOne("member.isFirstIn",empNo) == null) {
-//			//그날의 첫번째 로그인 기록이 9시 혹은 임의출근시간이 넘으면 지각 처리하는 프로시져 호출
-//			sqlSession.insert("member.isLate",empNo);
-//		}
-			
-			sqlSession.insert("member.loginLog", empNo);
+		//그 날의 첫번째 로그인 기록이 9시 혹은 임의출근시간이 넘으면 지각 처리하는 프로시져 호출
+		sqlSession.insert("member.isLate",empNo);
+		
+		//로그에 로그인 기록
+		sqlSession.insert("member.loginLog", empNo);
+	}
+
+	@Override
+	public void logoutLog(int empNo) {
+		//로그에 로그인 기록
+		sqlSession.insert("member.logoutLog", empNo);
+	}
+
+	@Override
+	public IOLog getLog(int empNo) {
+		
+		return sqlSession.selectOne("member.selectIOLog", empNo);
 	}
 }

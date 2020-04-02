@@ -1,5 +1,6 @@
 package com.kh.msg.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,32 +10,32 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
-import com.kh.msg.member.model.vo.orgChart;
+import com.kh.msg.member.model.vo.OrgChart;
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO memberDAO;
 
 	@Override
-	public orgChart selectOne(String userId) {
+	public OrgChart selectOne(String userId) {
 		
 		return memberDAO.selectOne(userId);
 	}
 
 	@Override
-	public List<HrMntList> selectList(Map<String, String> map) {
+	public List<HrMntList> selectList(HashMap<String, Object> map) {
 		
 		return memberDAO.selectList(map);
 	}
 
 	@Override
-	public List<orgChart> orgChart(Map<String, String> map) {
+	public List<OrgChart> orgChart(Map<String, String> map) {
 		
 		return memberDAO.orgChart(map);
 	}
 
 	@Override
-	public orgChart empInfo(String empNo) {
+	public OrgChart empInfo(String empNo) {
 		
 		return memberDAO.empInfo(empNo);
 	}
@@ -48,5 +49,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void loginLog(int empNo) {
 		memberDAO.loginLog(empNo);
+	}
+
+	@Override
+	public void logoutLog(int empNo) {
+		memberDAO.logoutLog(empNo);
+	}
+
+	@Override
+	public IOLog getLog(int empNo) {
+		
+		return memberDAO.getLog(empNo);
 	}
 }
