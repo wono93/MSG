@@ -67,9 +67,10 @@
 	delete from car_tb
 	where car_code = #{carCode}
 	</delete>
-	<select id="selectCarListStart" resultType="car">
-	select c.*
+	<select id="selectCarListEnd" resultType="car">
+	select distinct c.*
 	from car_tb c join car_rsvn_view r on c.car_code = r."thing_code"
-	where #{resUseDate} between r."res_use_date" and r."res_return_date"
+	where to_date(#{resUseDate}, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= r."res_use_date" and
+		  to_date(#{resReturnDate}, 'YYYY-MM-DD HH24:MI:SS') >= r."res_return_date"
 	</select>
 </mapper>
