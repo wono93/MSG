@@ -23,4 +23,6 @@ public interface EdocDAO {
 
 	int selectMyEdocTotalContents(Map<String, String> map);
 
+	String newEdocId();
+
 }

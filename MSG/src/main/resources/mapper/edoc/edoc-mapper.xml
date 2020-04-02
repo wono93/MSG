@@ -160,6 +160,12 @@
 		order by edoc_dt desc
 	</select>
 	
+	<select id="newEdocId" resultType="string">
+	select
+		'ED-'||to_char(sysdate + 9/24,'yymmdd')||'-'||seq_edoc_id.NEXTVAL
+	from
+		dual
+	</select>
 	
 	
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">

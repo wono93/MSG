@@ -66,6 +66,12 @@ public class EdocDAOImpl implements EdocDAO {
 	public int selectMyEdocTotalContents(Map<String, String> map) {
 		return sqlSession.selectOne("edoc.selectMyEdocTotalContents", map);
 	}
+
+	@Override
+	public String newEdocId() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("edoc.newEdocId");
+	}
 	
 	
 }

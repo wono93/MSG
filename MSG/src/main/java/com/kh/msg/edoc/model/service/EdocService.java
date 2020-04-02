@@ -23,5 +23,7 @@ public interface EdocService {
 
 	int selectMyEdocTotalContents(Map<String, String> map);
 
+	String newEdocId();
+
 	
 }

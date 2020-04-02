@@ -2,6 +2,8 @@ package com.kh.msg.edoc.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.msg.edoc.model.service.EdocService;
+import com.kh.msg.edoc.model.vo.EdocAtt;
+import com.kh.msg.edoc.model.vo.EdocFlow;
+import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
@@ -187,11 +192,41 @@ public class EdocController {
 		return "edoc/edocWrite";
 	}
 	@PostMapping("/write.do")
-	public void edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt, String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String flowLine) {
-		log.debug("parameters@EdocController.edocWrite : "+empNo);
-		log.debug("parameters@EdocController.edocWrite : "+secuCd);
-		log.debug("parameters@EdocController.edocWrite : "+flowLine);
+	public void edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt,
+			String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String[] flowLine, String flowCd) {
 		
+		String edocId = edocService.newEdocId();
+		
+		List<EdocFlow> edocFlowList = new ArrayList<>();
+		List<EdocAtt> edocAttList = new ArrayList<>();
+		EdocLeaveLtt edocLeaveLtt = new EdocLeaveLtt();
+		
+		edocLeaveLtt.setEdocId(edocId);
+		edocLeaveLtt.setSecuCd(secuCd);
+		edocLeaveLtt.setPrsvCd(prsvCd);
+		edocLeaveLtt.setEmpNo(Integer.parseInt(empNo));
+		edocLeaveLtt.setEdocTitle(edocTitle);
+		edocLeaveLtt.setVctnCd(vctnCd);
+		edocLeaveLtt.setStartDt(startDt);
+		edocLeaveLtt.setEndDt(endDt);
+		edocLeaveLtt.setLeaveAmt(Integer.parseInt(leaveAmt));
+		edocLeaveLtt.setLeavePurpose(leavePurpose);
+		edocLeaveLtt.setLeaveContact(leaveContact);
+		edocLeaveLtt.setSurEmpNo(Integer.parseInt(surEmpNo));
+		edocLeaveLtt.setTypeCd(typeCd);
+		
+		for(int i = 0; i < flowLine.length; i++) {
+			EdocFlow ef = new EdocFlow();
+			ef.setEdocId(edocId);
+			// F1 : 결재, F2 : 전결
+			if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
+			else ef.setFlowCd("F1");
+			ef.setFlowEmpNo(Integer.parseInt(flowLine[i].substring(0, 1)));
+			ef.setFlowOrd(i+1);
+			edocFlowList.add(ef);
+		}
+		
+//		int result = edocService.edocWrite();
 		
 		
 	}
@@ -249,7 +284,6 @@ public class EdocController {
 		}
 		else {
 			try {
-				log.debug("id Parameter@EdocController.jstreeMem:"+request.getParameter("id"));
 				JstreeMem memOne = edocService.selectJstreeMem(request.getParameter("id"));
 				
 				log.debug("memOne@EdocController"+memOne.toString());

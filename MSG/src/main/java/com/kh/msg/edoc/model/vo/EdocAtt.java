@@ -26,7 +26,7 @@ public class EdocAtt implements Serializable{
 	private String edocId;
 	private String originFilename;
 	private String renamedFilename;
-	private Date uploadDate;
+	private String uploadDate;
 	private String attachStatus;
 	
 	public static long getSerialversionuid() {

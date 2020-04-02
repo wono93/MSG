@@ -49,6 +49,12 @@ public class EdocServiceImpl implements EdocService {
 	@Override
 	public int selectMyEdocTotalContents(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return 0;
+		return edocDAO.selectMyEdocTotalContents(map);
+	}
+
+	@Override
+	public String newEdocId() {
+		// TODO Auto-generated method stub
+		return edocDAO.newEdocId();
 	}
 }
