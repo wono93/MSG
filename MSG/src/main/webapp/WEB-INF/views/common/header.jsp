@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.kh.msg.member.model.vo.OrgChart"%>
 <%@page import="com.kh.msg.member.model.vo.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
@@ -30,9 +31,9 @@
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
 <%
-	Member m = (Member)session.getAttribute("memberLoggedIn");
-	String userId = m.getUserId();
-	int empNo = m.getEmpNo();
+	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
+	String userId = oc.getUserId();
+	int empNo = oc.getEmpNo();
 %>
 <script>	
 	var fromId = '<%=userId%>';
@@ -117,7 +118,7 @@
     	<div id="entire-container">
 			<div id="title-container">
 				<img src="${pageContext.request.contextPath}/resources/image/X-icon.png" id="dmClose">
-				<div id="name-span">${dm.empName}</div>
+				<div id="name-span"></div>
 			</div>
 			
 			<div id="dm-container"></div>

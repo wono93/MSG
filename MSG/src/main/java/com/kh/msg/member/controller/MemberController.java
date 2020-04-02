@@ -32,7 +32,7 @@ import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.Member;
-import com.kh.msg.member.model.vo.orgChart;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +55,7 @@ public class MemberController {
 			// 1. memberId 로 member 객체 조회
 			// bcryptPasswordEncoder를 이용한 비교
 			
-			orgChart member = memberService.selectOne(userId);
+			OrgChart member = memberService.selectOne(userId);
 			
 			
 			
@@ -190,7 +190,7 @@ public class MemberController {
 	@GetMapping("/orgChart.do")
 	public String orgChart(Model model,@RequestParam(value="searchBy",required=false) String searchBy,
 			@RequestParam(value="keyword",required=false) String keyword) {
-		List<orgChart> list = null;
+		List<OrgChart> list = null;
 		Map<String, String> map = new HashMap<>();
 		if(searchBy != "" && keyword != "") {
 			map.put("searchBy", searchBy);
@@ -207,7 +207,7 @@ public class MemberController {
 	//관리자/인사관리자 용 조직도 세부 페이지
 	@GetMapping("/empInfo.do")
 	public String empInfo(Model model,@RequestParam(value="empNo",required=false) String empNo) {
-		orgChart emp = null;
+		OrgChart emp = null;
 		
 		emp = memberService.empInfo(empNo);
 		if(emp != null) {
@@ -221,7 +221,7 @@ public class MemberController {
 	//일반 사원용 조직도 세부페이지
 	@GetMapping("/empInfoThird.do")
 	public String empInfoThird(Model model, @RequestParam(value="empNo",required=false) String empNo) {
-		orgChart emp = null;
+		OrgChart emp = null;
 		
 		emp = memberService.empInfo(empNo);
 		if(emp != null) {
