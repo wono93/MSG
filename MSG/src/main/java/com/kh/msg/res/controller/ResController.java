@@ -181,6 +181,21 @@ public class ResController {
 		return map;
 		
 	}
+	
+	
+	@GetMapping("/carListEnd")
+	public ModelAndView selectCarListEnd(@RequestParam("resUseDate") String resUseDate,
+										 @RequestParam("resReturnDate") String resReturnDate) {
+		ModelAndView mav = new ModelAndView();
+		
+		log.debug("대여 시작할 시간="+resUseDate);
+		
+		List<Car> list = resService.selectCarListStart(resUseDate);
+		mav.addObject("list", list);
+		
+		mav.setViewName("redirect:/res/carRes.do");
+		return mav;
+	}
 		
 }
 

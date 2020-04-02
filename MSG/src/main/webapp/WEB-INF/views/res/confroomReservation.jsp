@@ -129,7 +129,7 @@
 			             </ul>
 			    </div>
 			    <div id="whitecontent">
-			    	<form action="${pageContext.request.contextPath }/res/confInsert.do" method="post">
+			    	<form action="${pageContext.request.contextPath }/res/confInsert.do" method="post" id="confResFrm">
 				        <input type='text' id='timepicker-start' name='resUsedate' class='datepicker-here' data-language='ko' 
 				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
@@ -140,7 +140,7 @@
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
 				        <input type="hidden" name="resEnrolldate" />
-				        <button id="getreserv"type="submit">예약하기</button>
+				        <button id="getConfReserv"type="button">예약하기</button>
 				        <!-- <button  id="reservTest" onclick="requestAjax()"></button> -->
 				        <table class="res-table">
 				            <tr>
@@ -197,54 +197,6 @@
                	</div>
             </div>
      </div>
-                        
-<script>
-	function transform(time){
-		var valuee = time.getFullYear().toString()+"-"+((time.getMonth()+1).toString().length==2?(time.getMonth()+1).toString():"0"+(time.getMonth()+1).toString())+"-"+(time.getDate().toString().length==2?time.getDate().toString():"0"+time.getDate().toString())+"T"+(time.getHours().toString().length==2?time.getHours().toString():"0"+time.getHours().toString())+":"+((parseInt(time.getMinutes()/5)*5).toString().length==2?(parseInt(time.getMinutes()/5)*5).toString():"0"+(parseInt(time.getMinutes()/5)*5).toString())+":00";
-		return valuee;
-		
-	}
-	//대여시작시간
-	$('#timepicker-start').datepicker({
-		onSelect: function onSelect (start) {
-			
-			//start : 2020-03-11 수 00:32
-			//use : Wed Mar 11 2020 00:37:00 GMT+0900 (대한민국 표준시)
-			
-			let use = new Date(start.substr(0,11)+start.substr(13)); 
-			console.log(use);
-			
-			use = transform(use);
-			$("[name=resUseDate]").val(use);
-			console.log($("[name=resUseDate]").val());
-			
-			 //date.getMonth() date.getDate()  date.getHours() date.getMinutes()
-	    }
-	});
-
-
-	
-	//반납시간
-	$('#timepicker-end').datepicker({
-		onSelect: function onSelect (end){
-			
-			let retrn = new Date(end.substr(0,11)+end.substr(13));
-			console.log(retrn);
-			
-			retrn = transform(retrn);
-			$("[name=resReturnDate]").val(retrn);
-			console.log($("[name=resReturnDate]").val());
-		}
-	});
-	
-	$(document).ready(function(){
-		$("#getreserv").click(function(){
-			
-			let now = new Date();
-			now = transform(now);
-			$("[name=resEnrolldate]").val(now);
-		});
-	});
-</script>
+     <script src="${pageContext.request.contextPath }/resources/js/res_footer.js"></script>
 </body>
 </html>
