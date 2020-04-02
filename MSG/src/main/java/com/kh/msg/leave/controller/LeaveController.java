@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.msg.leave.model.service.LeaveService;
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
+import com.kh.msg.leave.model.vo.LeaveModal;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
@@ -50,11 +52,11 @@ public class LeaveController {
 	}
 
 	@GetMapping("/select.do")
-	public ModelAndView leave3(ModelAndView mav,
-							  HttpSession session) {
+	public ModelAndView leave3(ModelAndView mav, HttpSession session) {
 		log.debug("leaveService={}", leaveService.getClass());
 		List<MyLeave> leaveList4 = leaveService.selectLeaveList4((Member) session.getAttribute("memberLoggedIn"));
-		List<LeaveInfoPlus> leaveListInfoPlus = leaveService.selectleaveListInfoPlus((Member) session.getAttribute("memberLoggedIn"));
+		List<LeaveInfoPlus> leaveListInfoPlus = leaveService
+				.selectleaveListInfoPlus((Member) session.getAttribute("memberLoggedIn"));
 		LeaveInfoPlus lip = new LeaveInfoPlus();
 		int au = 0;
 		int ru = 0;
@@ -99,8 +101,8 @@ public class LeaveController {
 		lip.setUnpaidUsed(uu);
 		lip.setOtherUsed(ou);
 		lip.setAnnualNotUsed(lip.getAnnual() - lip.getAnnualUsed());
-		lip.setRewardNotused(lip.getReward()- lip.getRewardUsed());
-		
+		lip.setRewardNotused(lip.getReward() - lip.getRewardUsed());
+
 		leaveListInfoPlus.add(lip);
 
 		mav.addObject("leaveList4", leaveList4);
@@ -110,16 +112,22 @@ public class LeaveController {
 
 		return mav;
 	}
-	@PostMapping("/update.do")
-	public ModelAndView leaveModal(ModelAndView mav) {
-		
-		
-		return mav;
-	}
+
+	/*
+	 * @PostMapping("/update.do") public String LeaveSetting(@RequestParam("") int
+	 * boardNo, Comment comment, Model model, RedirectAttributes redirectAttributes)
+	 * {
+	 * 
+	 * int result = leaveService.insertComment(comment, boardNo);
+	 * 
+	 * return "redirect:/board/view.do?boardNo="+boardNo; }
+	 */
 
 	@GetMapping("/update.do")
-	public ModelAndView leave2(ModelAndView mav) {
-
+	public ModelAndView leave2(ModelAndView mav,LeaveSum leaveSum) {
+		
+		log.debug("leaveService={}", leaveService.getClass());
+		List<LeaveModal> modalList = leaveService.selectModalList(leaveSum.getEmpNo());
 		List<LeaveSet> leaveList2 = leaveService.selectLeaveList2();
 		List<LeavePlus> leaveList3 = leaveService.selectLeaveList3();
 		List<LeaveSum> listSum = new ArrayList<>();
@@ -156,8 +164,9 @@ public class LeaveController {
 			ls.setOtherUsed(ot);
 			listSum.add(ls);
 		}
-		System.out.println("listSum" + listSum);
+		
 
+		mav.addObject("modalList", modalList);
 		mav.addObject("listSum", listSum);
 
 		mav.setViewName("leave/vacation");
