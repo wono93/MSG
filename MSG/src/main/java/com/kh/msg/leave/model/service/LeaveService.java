@@ -26,5 +26,5 @@ public interface LeaveService {
 
 	List<LeaveModal> selectModalList(int empNo);
 
-
+;
 }
