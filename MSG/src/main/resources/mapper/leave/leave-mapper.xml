@@ -3,6 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="leave">
+
+	<!-- <insert id="insert"> insert into dev values ( seq_dev_no.nextval, #{devName}, 
+		#{devCareer}, #{devEmail}, #{devGender}, #{devLang, typeHandler=strArrTypeHandler} 
+		) </insert> -->
+	<resultMap type="leaveModal" id="leaveModal"></resultMap>
+	<select id="selectModalList" resultMap="leaveModal">
+		SELECT
+		E.EMP_NO
+		,C.ANNUAL
+		,C.REWARD
+		,C.VCTN_NO
+		,A.VCTN_CD
+		,A.VCTN_NM
+		,B.VCTN_AMT
+		,B.VCTN_UPDT_DT
+		,B.VCTN_REASON
+		,B.EDOC_ID
+		FROM
+		VCTN_TYPE_TB A
+		,VCTN_UPDT_TB B
+		,VCTN_TB C
+		,EMP_TB E
+		WHERE 1=1
+		AND B.VCTN_CD = A.VCTN_CD
+		AND
+		B.VCTN_NO = C.VCTN_NO
+		AND C.EMP_NO = E.EMP_NO
+	</select>
 	<resultMap type="leave" id="leave"></resultMap>
 	<select id="selectLeaveList" resultMap="leave">
 		SELECT
@@ -18,13 +46,11 @@
 		FROM VCTN_HIS_TB A
 		, EMP_TB B
 		, VCTN_TYPE_TB C
-		,
-		DEPT_TB D
+		,DEPT_TB D
 		WHERE 1=1
 		AND A.EMP_NO = B.EMP_NO
 		AND A.VCTN_CD = C.VCTN_CD
-		AND
-		B.DEPT_CD = D.DEPT_CD
+		AND B.DEPT_CD = D.DEPT_CD
 		order by a.vctn_dtl_no desc
 	</select>
 	<resultMap type="leaveSet" id="leaveSet"></resultMap>
@@ -62,7 +88,8 @@
 		asc
 	</select>
 	<resultMap type="myLeave" id="myLeave"></resultMap>
-	<select id="selectLeaveList4" parameterType="Member" resultMap="myLeave">
+	<select id="selectLeaveList4" parameterType="Member"
+		resultMap="myLeave">
 		SELECT
 		A.EMP_NO
 		,B.VCTN_DTL_NO
@@ -85,7 +112,8 @@
 	</select>
 
 	<resultMap type="leaveInfoPlus" id="leaveInfoPlus"></resultMap>
-	<select id="selectleaveListInfoPlus" parameterType="Member" resultMap="leaveInfoPlus">
+	<select id="selectleaveListInfoPlus" parameterType="Member"
+		resultMap="leaveInfoPlus">
 		SELECT
 		A.EMP_NO
 		,E.DEPT_NAME
@@ -104,10 +132,12 @@
 		,VCTN_TYPE_TB D
 		,DEPT_TB E
 		,JOB_TB F
-		WHERE A.EMP_NO =#{empNo}
+		WHERE
+		A.EMP_NO =#{empNo}
 		AND A.EMP_NO=C.EMP_NO
 		AND A.EMP_NO = B.EMP_NO
-		AND C.VCTN_CD=D.VCTN_CD
+		AND
+		C.VCTN_CD=D.VCTN_CD
 		AND A.DEPT_CD = E.DEPT_CD
 		AND A.JOB_CD = F.JOB_CD
 	</select>

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.msg.chat.model.dao.DirectMsgDAOImpl;
-import com.kh.msg.chat.model.service.DirectMsgService;
+import com.kh.msg.chat.model.service.ChannelService;
+import com.kh.msg.chat.model.vo.ChannelInfo;
+import com.kh.msg.chat.model.vo.ChannelMsg;
 import com.kh.msg.chat.model.vo.DirectMsg;
 import com.kh.msg.member.model.vo.Member;
 
@@ -35,23 +35,24 @@ import net.sf.json.JSONObject;
 public class ChannelController {
 	
 	@Autowired
-	DirectMsgService directMsgService;
+	ChannelService channelService;
 	
 	@GetMapping("/channel.do")
-	public String channel() {
+	public String directMsgList(@RequestParam("userId") String userId,
+								@RequestParam("chNo") int chNo, Model model){
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("userId", userId);
+		param.put("chNo", chNo);
+		
+		ChannelMsg cm = channelService.selectOne(param);
+		
+		model.addAttribute("cm", cm);
+		
 		return "chat/channel";
 	}
 	
-	@GetMapping("/channelList.do")
-	public void directMsgList(@RequestParam("toId") String toId, Model model){
-		
-		DirectMsg dm = directMsgService.selectOne(toId);
-		
-		model.addAttribute("dm", dm);
-		
-	}
-	
-	@GetMapping("/chat/headerDmList.do")
+	@GetMapping("/chat/headerChList.do")
 	public void headerDmList(HttpSession session, HttpServletResponse response) {
 		
 		try {
@@ -60,7 +61,7 @@ public class ChannelController {
 			
 			String fromId = m.getUserId();
 			
-			List<DirectMsg> list = directMsgService.headerDmList(fromId);
+			List<ChannelInfo> list = channelService.headerChList(fromId);
 			
 			log.debug("list@DirectController"+list.toString());
 			
@@ -68,10 +69,7 @@ public class ChannelController {
 			
 			for(int i = 0; i < list.size(); i++) {
 				JSONObject sObject = new JSONObject(); 
-				sObject.put("empImage", list.get(i).getEmpImage());
-				sObject.put("empName", list.get(i).getEmpName());
-				sObject.put("toId", list.get(i).getUserId());
-//				sObject.put("jobName", list.get(i).getJobName());
+				sObject.put("chName", list.get(i).getChName());
 				
 				jsonArr.add(sObject);
 			}

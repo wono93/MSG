@@ -1,9 +1,7 @@
-package com.kh.msg.chat.model.vo;
+package com.kh.msg.edoc.model.vo;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import com.kh.msg.member.model.vo.OrgChart;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,25 +9,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChannelMsg extends OrgChart implements Serializable {
+public class EdocAtt implements Serializable{
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private int msgNo;
-	private int chNo;
-	private int empNo;
-	private String userId;
-	private String msgContent;
-	private Date msgDate;
+
+	private String attachId;
+	private String edocId;
+	private String originFilename;
+	private String renamedFilename;
+	private Date uploadDate;
+	private String attachStatus;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 }

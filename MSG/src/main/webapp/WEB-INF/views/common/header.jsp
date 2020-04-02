@@ -30,9 +30,9 @@
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
 <%
-	OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
-	String userId = m.getUserId();
-	int empNo = m.getEmpNo();
+	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
+	String userId = oc.getUserId();
+	int empNo = oc.getEmpNo();
 %>
 <script>	
 	var fromId = '<%=userId%>';
@@ -42,7 +42,7 @@
 <body>
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
-		<i class="fas fa-sign-out-alt" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"></i>
+		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
         <div class="userinfo">
             <user id="user">
                 <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />
@@ -117,7 +117,7 @@
     	<div id="entire-container">
 			<div id="title-container">
 				<img src="${pageContext.request.contextPath}/resources/image/X-icon.png" id="dmClose">
-				<div id="name-span">${dm.empName}</div>
+				<div id="name-span"></div>
 			</div>
 			
 			<div id="dm-container"></div>

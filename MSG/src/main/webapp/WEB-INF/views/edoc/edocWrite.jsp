@@ -133,7 +133,7 @@
                             </tr>
                             <tr>
                                 <td>기안자</td>
-                                <td><%= memberLoggedIn.getEmpName() %></td>
+                                <td><%=m.getDeptName() %> <%=m.getJobName() %> <%=m.getEmpName() %></td>
                             </tr>
                             <tr>
                                 <td>기안일자</td>
@@ -147,19 +147,19 @@
                                             <div class="select-box">
                                                 <div class="select-box__current" tabindex="1">
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S0" value="1" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="S0" value="S0" name="SecuCheck"/>
                                                     <p class="select-box__input-text">C</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S1" value="2" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="S1" value="S1" name="SecuBox"/>
                                                     <p class="select-box__input-text">B</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S2" value="3" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="S2" value="S2" name="SecuBox"/>
                                                     <p class="select-box__input-text">A</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S3" value="4" name="Ben" checked="checked"/>
+                                                    <input class="select-box__input" type="radio" id="S3" value="S3" name="SecuBox" checked="checked"/>
                                                     <p class="select-box__input-text">S</p>
                                                     </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                                 </div>
@@ -190,23 +190,23 @@
                                             <div class="select-box">
                                                 <div class="select-box__current" tabindex="1">
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="P0" value="1" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="P0" value="P0" name="periodCheck"/>
                                                     <p class="select-box__input-text">1년</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="P1" value="2" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="P1" value="P1" name="periodCheck"/>
                                                     <p class="select-box__input-text">3년</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="P2" value="3" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="P2" value="P2" name="periodCheck"/>
                                                     <p class="select-box__input-text">5년</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="P3" value="4" name="Ben"/>
+                                                    <input class="select-box__input" type="radio" id="P3" value="P3" name="periodCheck"/>
                                                     <p class="select-box__input-text">10년</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="P4" value="5" name="Ben" checked="checked"/>
+                                                    <input class="select-box__input" type="radio" id="P4" value="P4" name="periodCheck" checked="checked"/>
                                                     <p class="select-box__input-text">영구</p>
                                                     </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                                 </div>
@@ -300,7 +300,7 @@
                             <tr>
                                 <td>사용일수</td>
                                 <td><input type="number" name="" id="leaveAmt" /></td>
-                                <td>구분</td>
+                                <td>구 분</td>
                                 <td>
                                     <form action="">
                                         <div id="selectVac" class="select-box">
@@ -362,7 +362,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>사유</td>
+                                <td>사 유</td>
                                 <td colspan="3">
                                     <textarea name="" id="" cols="85" rows="6" placeholder="사유를 입력하세요" style="resize: none;"></textarea>
                                 </td>
@@ -391,7 +391,7 @@
                     <div class="btnGrp">
                         <button type="button" id="cancleBtn" class="whiteBtn commonBtn">취 소</button>
                         <button type="button" id="tmpBtn" class="whiteBtn commonBtn">임시저장</button>
-                        <button type="button" id="saveBtn" class="yellowBtn commonBtn">문서상신</button>
+                        <button type="button" id="saveBtn" class="yellowBtn commonBtn" onclick="edocSubmit();">문서상신</button>
                     </div>
                 </div> 
             </article>
@@ -555,6 +555,40 @@
 			
 		})
 		
+		function edocSubmit(){
+			console.log("문서 제출 이벤트");
+			var empNo = <%=m.getEmpNo() %>;
+			var secuCd = $(""); // 보안등급
+			var prsvCd; // 보존연한
+			var edocTitle; // 문서제목
+			
+			//여기서부터 휴가 양식
+			var vctnCd;
+			var startDt;
+			var endDt;
+			var leaveAmt;
+			var leavePurpose;
+			var leaveContact;
+			var typeCd;
+			
+			//여기서부터 결재선...은 이미
+			flowLine;
+			
+			
+	  		$.ajax({
+	  		    type:"post",
+	  		    url: "/msg/edoc/write.do",
+	  		    data: {
+	  		    	
+	  		    	flowLine : flowLine
+	  		    },
+	  		    dataType: "json",
+	  		    success: function(response){
+
+	  		    }
+	  		});
+			
+		}
 	</script>
 </body>
 </html>

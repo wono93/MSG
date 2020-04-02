@@ -11,7 +11,6 @@ hdjq(function(){
     	hdjq("#name-span").empty();
     	hdjq(".dmBar").fadeOut(100);
     	toId = "";
-    	console.log(toId);
     })
 });
 hdjq(document).ready(function(){
@@ -41,7 +40,7 @@ function addList(empImage, empName, jobName, toId) {
 			             '<a onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
 						 '<img src="/msg/resources/image/'+empImage+'">'+
 						 '<span class="headerlistname">'+empName+' '+
-//						 jobName+
+						 jobName+
 						 '</span>'+
 						 '</a>'+
 						 '</li>');
@@ -54,14 +53,13 @@ function dmWindow(paramId, empName){
 	hdjq(".dmBar").fadeIn(100);
 	toId = paramId;
 	chatListFunction(0, toId, fromId);
-	console.log("dmWindow@JS=toId:"+toId+", fromId:"+fromId);
+//	console.log("dmWindow@JS=toId:"+toId+", fromId:"+fromId);
 	
 	var repeat = setInterval(function() {
 		chatListFunction(lastID, toId, fromId);
 	}, 1000);
 	
 	hdjq("#dmClose").click(function(){
-		console.log("닫기");
 		clearInterval(repeat);
 	});
 	
@@ -101,7 +99,7 @@ function submitFunction() {
 }
 
 function chatListFunction(type, toId, fromId) {
-	console.log("chatList@JS=toId:"+toId+", fromId:"+fromId);
+//	console.log("chatList@JS=toId:"+toId+", fromId:"+fromId);
 	hdjq.ajax({
 		cache: false,
 		type : "POST",
@@ -149,7 +147,7 @@ function chatListFunction(type, toId, fromId) {
 function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) {
 		let style = {display: "none"};
 	var selHideDate =hdjq("#dm-container").children().children("p:last").text();
-	console.log("작성자: "+toId+", 내용: "+msgContent);
+//	console.log("작성자: "+toId+", 내용: "+msgContent);
 	if(selHideDate != hideDate){
 		hdjq("#dm-container").append(
 									'<div id="hr-container">'

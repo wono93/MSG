@@ -3,8 +3,6 @@ package com.kh.msg.chat.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.kh.msg.member.model.vo.OrgChart;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,18 +14,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChannelMsg extends OrgChart implements Serializable {
+public class ChannelInfo extends ChannelMsg implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int msgNo;
 	private int chNo;
-	private int empNo;
-	private String userId;
-	private String msgContent;
-	private Date msgDate;
+	private String chName;
+	private String chEx;
+	private Date chGenDate;
+	private String regId;
+	private String chStatus;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
