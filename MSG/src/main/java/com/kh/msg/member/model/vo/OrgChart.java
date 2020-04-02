@@ -3,6 +3,7 @@ package com.kh.msg.member.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+
 public class OrgChart extends Member implements Serializable{
 	/**
 	 * 
@@ -26,6 +27,7 @@ public class OrgChart extends Member implements Serializable{
 		this.jobName = jobName;
 	}
 
+
 	public OrgChart(String deptName, String jobName) {
 		super();
 		this.deptName = deptName;
@@ -37,7 +39,6 @@ public class OrgChart extends Member implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 
 	public OrgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
@@ -74,5 +75,9 @@ public class OrgChart extends Member implements Serializable{
 		return "orgChart [deptName=" + deptName + ", jobName=" + jobName + "]";
 	}
 
+
+	
+	
+	
 	
 }

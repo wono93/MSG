@@ -1,5 +1,6 @@
 package com.kh.msg.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public interface MemberService {
 
 	com.kh.msg.member.model.vo.OrgChart selectOne(String userId);
 
-	List<HrMntList> selectList(Map<String, String> map);
+	List<HrMntList> selectList(HashMap<String, Object> map);
 
 	List<OrgChart> orgChart(Map<String, String> map);
 
@@ -20,5 +21,9 @@ public interface MemberService {
 	int updateEmp(Map<String, String> map);
 
 	void loginLog(int empNo);
+
+	void logoutLog(int empNo);
+
+	IOLog getLog(int empNo);
 
 }

@@ -16,15 +16,34 @@
 		<if test="searchBy != null and searchBy != ''">
 		WHERE
 			${searchBy} IN #{keyword}
-		</if>
 		ORDER BY DEPT_CD
+		</if>
+		<if test="empNo != null and empNo != ''">
+		WHERE 
+			EMP_NO = #{empNo}
+		</if>
 	</select>
+	<select id="selectIOLog" resultType="IOLog">
+		SELECT * 
+		FROM LOG_TB
+		WHERE
+			TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
+			<if test="empNo != null and empNo != ''">
+				And EMP_NO = #{empNo}
+			</if>
+			
+	</select>
+	
 	<select id="selectVacationCount" resultType="Vacation">
 		SELECT EMP_NO, VCTN_DTL_NO, VCTN_STDT, VCTN_ENDT
 		FROM EMP_TB LEFT JOIN VCTN_HIS_TB
 		USING (EMP_NO)
 		WHERE VCTN_STDT BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
+		<if test="empNo">
+		AND EMP_NO = #{empNo}
+		</if>
 	</select>
+	
 	
 	<select id="orgChart" resultType="OrgChart">
 		SELECT EMP_NO, USER_ID, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
@@ -62,20 +81,24 @@
 	</select>
 	<insert id="loginLog">
 		INSERT INTO LOG_TB VALUES(
-			TO_DATE(TO_CHAR(SYSDATE,'YYYY-DD-MM'))
-			,#{empNo}
+			#{empNo}
 			,SYSDATE
 			,'I'
 		) 
 	</insert> 
-	<select id="isFirstIn" resultType="IOLog">
-		SELECT * FROM LOG_TB WHERE TO_CHAR(DAY,'YYYY/MM/DD') = TO_CHAR(SYSDATE,'YYYY/MM/DD') AND INOUT_FG IN 'I' AND EMP_NO = #{empNo}
-	</select>
+	<insert id="logoutLog">
+		INSERT INTO LOG_TB VALUES(
+			#{empNo}
+			,SYSDATE
+			,'O'
+		) 
+	</insert> 
 	
-	<select id="isLate">
-	
-	
-	</select>
+	<insert id="isLate" statementType="CALLABLE">
+	{
+		call PROC_INSERT_LATE_TB(#{empNo})
+	}
+	</insert>
 	
 	
 	<update id="updateEmp">

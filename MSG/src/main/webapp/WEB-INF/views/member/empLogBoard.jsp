@@ -45,12 +45,12 @@
 			        <div class="control">
 			            <h2>조회날짜</h2>
 			            <input type='text' id='timepicker-start' name="startDate" class='datepicker-here' data-language='ko' 
-			                    data-date-format="yyyy-mm-dd" autocomplete="off"/>
+			                    data-date-format="yyyy-mm-dd" autocomplete="off" minutesStep="10"/>
 			                    <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 			            <span>~</span>
 			            <input type='text' id='timepicker-end' name="endDate" class='datepicker-here' data-language='ko' 
 
-			                    data-date-format="yyyy-mm-dd" autocomplete="off" />
+			                    data-date-format="yyyy-mm-dd" autocomplete="off" minutesStep="10"/>
 			            <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 			            <h1>총 영업일  ${bsnsDay } 일</h1>
 			        </div>

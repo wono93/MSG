@@ -1,5 +1,6 @@
 package com.kh.msg.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<HrMntList> selectList(Map<String, String> map) {
+	public List<HrMntList> selectList(HashMap<String, Object> map) {
 		
 		return memberDAO.selectList(map);
 	}
@@ -48,5 +49,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void loginLog(int empNo) {
 		memberDAO.loginLog(empNo);
+	}
+
+	@Override
+	public void logoutLog(int empNo) {
+		memberDAO.logoutLog(empNo);
+	}
+
+	@Override
+	public IOLog getLog(int empNo) {
+		
+		return memberDAO.getLog(empNo);
 	}
 }
