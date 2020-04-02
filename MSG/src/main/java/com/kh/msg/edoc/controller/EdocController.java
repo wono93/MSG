@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +23,7 @@ import com.kh.msg.edoc.model.service.EdocService;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
-import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -37,12 +38,12 @@ public class EdocController {
 	EdocService edocService;
 
 	@GetMapping("/list.do")
-	public ModelAndView list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="{myDocu, reqDocu, compDocu, refDocu}")String[] arrayDocuCheck, HttpSession session) {
+	public ModelAndView list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="myDocu,reqDocu,compDocu,refDocu")String[] arrayDocuCheck, HttpSession session) {
 		log.debug("=========내 전자문서 페이지=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
 		
-		Member member = (Member)session.getAttribute("memberLoggedIn");
+		OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
 		
 		String myDocu = "y"; 
 		String reqDocu = "y"; 
@@ -54,10 +55,16 @@ public class EdocController {
 		if(!Arrays.stream(arrayDocuCheck).anyMatch("compDocu"::equals)) compDocu="n";
 		if(!Arrays.stream(arrayDocuCheck).anyMatch("refDocu"::equals)) refDocu="n";
 		
+		Map<String, String> docuCheckMap = new HashMap<String, String>();
+		docuCheckMap.put("myDocu", myDocu);
+		docuCheckMap.put("reqDocu", reqDocu);
+		docuCheckMap.put("compDocu", compDocu);
+		docuCheckMap.put("refDocu", refDocu);
+		
 		Map<String, String> map = new HashMap<>();
 		map.put("srchWord", srchWord);
 		map.put("srchType", srchType);
-		map.put("empNo", 123+"");//member.getEmpNo()+""
+		map.put("empNo", m.getEmpNo()+"");//member.getEmpNo()+""
 		map.put("myDocu", myDocu);
 		map.put("reqDocu", reqDocu);
 		map.put("compDocu", compDocu);
@@ -103,6 +110,8 @@ public class EdocController {
 		
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("cPage", cPage);
+		mav.addObject("docuCheckMap", docuCheckMap);
+		
 		
 		mav.setViewName("edoc/edocList");
 		
@@ -177,6 +186,13 @@ public class EdocController {
 	public String write() {
 		return "edoc/edocWrite";
 	}
+	@PostMapping("/write.do")
+	public void edocWrite() {
+		
+		
+		
+	}
+
 
 	@GetMapping("/jstree.do")
 	public void jstree(HttpServletResponse response) {
