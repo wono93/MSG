@@ -72,32 +72,32 @@
                 </div>
                 <div class="content">
                     <div class="control">
-                        <input type="text" name="" id="" placeholder="제목을 입력하세요">
+                        <input type="text" name="" id="edocTitle" placeholder="제목을 입력하세요">
                         <form action="">
                             <div id="selectDocu" class="select-box">
                                 <div id="currentExp" class="select-box__current" tabindex="1">
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D0" value="1" name="Ben"/>
+                                    <input class="select-box__input" type="radio" id="D0" value="D0" name="typeCd"/>
                                     <p class="select-box__input-text">기타양식</p>
                                     </div>
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D1" value="2" name="Ben"/>
+                                    <input class="select-box__input" type="radio" id="D1" value="D1" name="typeCd"/>
                                     <p class="select-box__input-text">공 문</p>
                                     </div>
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D2" value="3" name="Ben"/>
+                                    <input class="select-box__input" type="radio" id="D2" value="D2" name="typeCd"/>
                                     <p class="select-box__input-text">비용정산서</p>
                                     </div>
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D3" value="4" name="Ben"/>
+                                    <input class="select-box__input" type="radio" id="D3" value="D3" name="typeCd"/>
                                     <p class="select-box__input-text">구매요청서</p>
                                     </div>
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D4" value="5" name="Ben"/>
+                                    <input class="select-box__input" type="radio" id="D4" value="D4" name="typeCd"/>
                                     <p class="select-box__input-text">지출결의서</p>
                                     </div>
                                     <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="D5" value="6" name="Ben" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="D5" value="D5" name="typeCd" checked="checked"/>
                                     <p class="select-box__input-text">휴가신청서</p>
                                     </div><img id="iconExp" class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                 </div>
@@ -133,7 +133,7 @@
                             </tr>
                             <tr>
                                 <td>기안자</td>
-                                <td><%=m.getDeptName() %> <%=m.getJobName() %> <%=m.getEmpName() %></td>
+                                <td><%=oc.getDeptName() %> <%=oc.getJobName() %> <%=oc.getEmpName() %></td>
                             </tr>
                             <tr>
                                 <td>기안일자</td>
@@ -147,19 +147,19 @@
                                             <div class="select-box">
                                                 <div class="select-box__current" tabindex="1">
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S0" value="S0" name="SecuCheck"/>
+                                                    <input class="select-box__input" type="radio" id="S0" value="S0" name="secuCheck"/>
                                                     <p class="select-box__input-text">C</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S1" value="S1" name="SecuBox"/>
+                                                    <input class="select-box__input" type="radio" id="S1" value="S1" name="secuCheck"/>
                                                     <p class="select-box__input-text">B</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S2" value="S2" name="SecuBox"/>
+                                                    <input class="select-box__input" type="radio" id="S2" value="S2" name="secuCheck"/>
                                                     <p class="select-box__input-text">A</p>
                                                     </div>
                                                     <div class="select-box__value">
-                                                    <input class="select-box__input" type="radio" id="S3" value="S3" name="SecuBox" checked="checked"/>
+                                                    <input class="select-box__input" type="radio" id="S3" value="S3" name="secuCheck" checked="checked"/>
                                                     <p class="select-box__input-text">S</p>
                                                     </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                                 </div>
@@ -289,7 +289,7 @@
                             <tr>
                                 <td>일 시</td>
                                 <td>
-                                    <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-m-d D"
+                                    <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-mm-dd D"
                                     data-language="ko" id='timepicker-startend' class="datepicker-here"/>
                                     
                                     <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
@@ -364,17 +364,17 @@
                             <tr>
                                 <td>사 유</td>
                                 <td colspan="3">
-                                    <textarea name="" id="" cols="85" rows="6" placeholder="사유를 입력하세요" style="resize: none;"></textarea>
+                                    <textarea name="" id="leavePurpose" cols="85" rows="6" placeholder="사유를 입력하세요" style="resize: none;"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td>연락처</td>
                                 <td>
-                                    <input type="text" name="" id="" class="textIpt" placeholder="비상 연락처를 입력하세요">
+                                    <input type="text" name="" id="leaveContact" class="textIpt" placeholder="비상 연락처를 입력하세요">
                                 </td>
                                 <td>업무/결재<br>대행</td>
                                 <td>
-                                    <input type="text" name="" id="" class="textIpt" placeholder="검색할 이름을 입력하세요">
+                                    <input type="text" name="" id="surEmpNo" class="textIpt" placeholder="검색할 이름을 입력하세요">
                                 </td>
                             </tr>
                         </table>
@@ -535,10 +535,10 @@
 			}
 			
 		};
-		
+		var timePick;
 		$('#timepicker-startend').datepicker({
 			onSelect: function onSelect (fd) {
-				console.log(fd)
+				timePick = fd; 
 		    }
 		})
 		
@@ -557,34 +557,54 @@
 		
 		function edocSubmit(){
 			console.log("문서 제출 이벤트");
-			var empNo = <%=m.getEmpNo() %>;
-			var secuCd = $(""); // 보안등급
-			var prsvCd; // 보존연한
-			var edocTitle; // 문서제목
+			var empNo = <%=oc.getEmpNo() %>;
+			var secuCd = $("input[name=secuCheck]:checked").val(); // 보안등급
+			var prsvCd = $("input[name=periodCheck]:checked").val(); // 보존연한
+			var edocTitle = $("#edocTitle").val(); // 문서제목
 			
 			//여기서부터 휴가 양식
-			var vctnCd;
-			var startDt;
+			var vctnCd = $("input[name=periodCheck]:checked").val();
+			
+			timePick = timePick.split(" ~ ");
+			var startDt = timePick[0].substr(0,10);
 			var endDt;
-			var leaveAmt;
-			var leavePurpose;
-			var leaveContact;
-			var typeCd;
+			if(timePick[1]==null){
+				endDt = timePick[0].substr(0,10);
+			} else{
+				endDt = timePick[1].substr(0,10);
+			}
+			var leaveAmt = $("#leaveAmt").val();
+			var leavePurpose = $("#leavePurpose").val();
+			var leaveContact = $("#leaveContact").val();
+			var typeCd = $("input[name=typeCd]:checked").val();
+			var surEmpNo = $("#surEmpNo").val();
 			
-			//여기서부터 결재선...은 이미
-			flowLine;
-			
-			
+			console.log(flowLine);
+			// 결재선은 이미 flowLine 객체에 들어 있음.
+			/* flowLine; */
+
+
 	  		$.ajax({
-	  		    type:"post",
-	  		    url: "/msg/edoc/write.do",
-	  		    data: {
-	  		    	
+				type:"post",
+				url: "/msg/edoc/write.do",
+				data: {
+					empNo : empNo,
+					secuCd : secuCd,
+					prsvCd : prsvCd,
+					edocTitle : edocTitle,
+					vctnCd : vctnCd,
+					startDt : startDt,
+					endDt : endDt,
+					leaveAmt :leaveAmt,
+					leavePurpose : leavePurpose,
+					leaveContact : leaveContact,
+					typeCd : typeCd,
+					surEmpNo : surEmpNo,
 	  		    	flowLine : flowLine
 	  		    },
 	  		    dataType: "json",
 	  		    success: function(response){
-
+	  		    	
 	  		    }
 	  		});
 			

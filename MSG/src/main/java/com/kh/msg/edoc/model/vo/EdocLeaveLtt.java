@@ -27,6 +27,7 @@ public class EdocLeaveLtt extends Edoc implements Serializable {
 	private int leaveAmt;
 	private String leavePurpose;
 	private String leaveContact;
+	private String surEmpNo;
 	
 	
 	public EdocLeaveLtt(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle,
@@ -39,6 +40,7 @@ public class EdocLeaveLtt extends Edoc implements Serializable {
 		this.leaveAmt = leaveAmt;
 		this.leavePurpose = leavePurpose;
 		this.leaveContact = leaveContact;
+		this.surEmpNo = surEmpNo;
 	}
 
 }
