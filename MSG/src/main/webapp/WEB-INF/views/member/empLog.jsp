@@ -104,15 +104,15 @@
 								<th>퇴근시각</th>
 								<th>처리</th>
 							</tr>
-							<c:forEach items="list" var="list" varStatus="vs">
+							<%-- <c:forEach items="log" var="log" varStatus="vs"> --%>
 								<tr>
-									<td>vs</td>
-									<%-- <td>${list. }</td> --%>
+									<td>1</td>
+									<td>2020년 3월20일</td>
 									<td>09:00</td>
 									<td>18:00</td>
 									<td>정상</td>
 								</tr>
-							</c:forEach>
+							<%-- </c:forEach> --%>
 						</table>
 					</div>
 					<div class="pagination">

@@ -84,12 +84,19 @@ public class MemberController {
 	}
 	
 	@GetMapping("/logout.do")
-	public String logout(SessionStatus sessionStatus, @ModelAttribute("memberLoggedIn") Member member) {
+	public String logout(SessionStatus sessionStatus,HttpServletRequest request, @ModelAttribute("memberLoggedIn") Member member) {
 		log.debug("[" + member.getUserId() + "] 가 로그아웃 했습니다.");
-		if (!sessionStatus.isComplete())
-			sessionStatus.setComplete();
-		//로그아웃 성공시, 로그에 로그아웃 기록
-		memberService.logoutLog(member.getEmpNo()); 
+		
+		
+		//세션에 request 담아서 넘기기
+//		request.getSession().setAttribute("req", request);
+		
+		
+		request.getSession().invalidate();
+		
+		//session 리셋
+//		if (!sessionStatus.isComplete())
+//			sessionStatus.setComplete();
 		return "redirect:/";
 	}
 	
@@ -118,9 +125,11 @@ public class MemberController {
 		
 		
 		model.addAttribute("list", list);
+//		model.addAttribute("log", log);
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
 		model.addAttribute("bsnsDay", bsnsDay);
+		
 		
 		
 		return "/member/empLog";

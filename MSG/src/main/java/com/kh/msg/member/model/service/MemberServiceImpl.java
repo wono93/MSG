@@ -11,7 +11,7 @@ import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.OrgChart;
-@Service
+@Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO memberDAO;
