@@ -281,9 +281,9 @@
 				                    		<td class="narrow-td">${c.thingSize }</td>
 				                    		<c:set var="d" value="${c.howLong/60/24 }"/>
 				                    		<fmt:parseNumber var="day" integerOnly="true" value="${d }"/>
-				                    		<c:set var="h" value="${(r.howLong) / 60 % 24 }"/>
+				                    		<c:set var="h" value="${(c.howLong) / 60 % 24 }"/>
 				                    		<fmt:parseNumber var="hour" integerOnly="true" value="${h }"/>
-				                    		<c:set var="m" value="${r.howLong % 60 }"/>
+				                    		<c:set var="m" value="${c.howLong % 60 }"/>
 				                    		<fmt:parseNumber var="min" integerOnly="true" value="${m }"/>
 				                    		<td>
 				                    			<c:if test="${day > 0 }">${day }일 
@@ -341,8 +341,8 @@
 				                    			<c:if test="${min > 0 }">${min }분
 				                    			</c:if>
 				                    		</td>
-				                    		<td class="wide-td"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
-				                    		<td class="wide-td"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="wide-td resUseDate"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="wide-td resReturnDate"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -381,6 +381,25 @@
 		    console.log($("#srchEnd").val()); */
 	    }
 	});
+	
+	 $(document).ready(function(){
+		
+		 //어우씨,, 대여시작 == 대여종료면 대여종료에서 0000-00-00 (금) 빼기 실패쓰
+         /* var eTime = $(".resReturnDate");   //.text() : 2020-03-31 (화) 14 : 15
+         var eTimeSibling = eTime.prev();
+         var sTime = $(".resUseDate");  //.text() : 2020-04-09 (목) 14 : 50
+         
+         console.log(eTime.html().substr(0,10));
+         console.log(eTimeSibling.html().substr(0,10));
+         console.log(sTime.html().substr(0,10));
+         
+         
+         if(eTimeSibling.text().substr(0,10) == sTime.text().substr(0,10)){
+      	   eTime.html(eTime.html().substr(16));
+         } 
+          */
+         
+	 });
     </script>
 </body>
 </html>

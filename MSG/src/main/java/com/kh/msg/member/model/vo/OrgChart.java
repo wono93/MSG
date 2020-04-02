@@ -74,6 +74,5 @@ public class OrgChart extends Member implements Serializable{
 		return "orgChart [deptName=" + deptName + ", jobName=" + jobName + "]";
 	}
 
-
 	
 }

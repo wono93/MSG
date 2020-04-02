@@ -39,18 +39,18 @@
 			            </ul>
 			    </div>
 			    <div id="whitecontent">
-			    	<form action="${pageContext.request.contextPath }/res/carInsert.do" method="post" id="carFrm">
-				        <input type='text' id='timepicker-start' name="resUsedate" class='datepicker-here' data-language='ko' 
+			    	<form action="${pageContext.request.contextPath }/res/carInsert.do" method="post" id="carResFrm">
+				        <input type='text' id='timepicker-start-car' name="resUsedate" class='datepicker-here' data-language='ko' 
 				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 				        <span>~</span>
-				        <input type='text' id='timepicker-end' name="resReturndate" class='datepicker-here' data-language='ko' 
+				        <input type='text' id='timepicker-end-car' name="resReturndate" class='datepicker-here' data-language='ko' 
 				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10"/>
 				                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
 				        <input type="hidden" name="resEnrolldate" />
-				        <button id="getreserv"type="submit">예약하기</button>
+				        <button id="getCarReserv"type="button">예약하기</button>
 				        <table class="res-table">
 				            <tr>
 				                <th></th>
@@ -61,7 +61,7 @@
 				                <th>선택</th>
 				            </tr>
 				            <c:forEach items="${list }" var="c" varStatus="vs">
-				            	<tr>
+				            	<tr class="ajaxHide">
 				            		<td>${vs.count }</td>
 				            		<td>${c.carCate }</td>
 				            		<td>${c.carCompany } / ${c.carType }</td>
@@ -202,96 +202,6 @@
                	</div>
             </div>
      </div>
-<script>
-$(document).ready(function(){
-	
-    	
-    	
-    
-});
-	function transform(time){
-		var valuee = time.getFullYear().toString()+"-"+((time.getMonth()+1).toString().length==2?(time.getMonth()+1).toString():"0"+(time.getMonth()+1).toString())+"-"+(time.getDate().toString().length==2?time.getDate().toString():"0"+time.getDate().toString())+"T"+(time.getHours().toString().length==2?time.getHours().toString():"0"+time.getHours().toString())+":"+((parseInt(time.getMinutes()/5)*5).toString().length==2?(parseInt(time.getMinutes()/5)*5).toString():"0"+(parseInt(time.getMinutes()/5)*5).toString())+":00";
-		return valuee;
-		
-	}
-	
-	let useCar = "";
-	let retrnCar = "";
-	
-	//대여시작시간
-	$('#timepicker-start').datepicker({
-		minDate: new Date(),
-		onSelect: function onSelect (start) {
-			
-			//start : 2020-03-11 수 00:32
-			//use : Wed Mar 11 2020 00:37:00 GMT+0900 (대한민국 표준시)
-			
-			useCar = new Date(start.substr(0,11)+start.substr(13)); 
-			console.log("use="+useCar);
-			
-			use_ = transform(useCar);
-			$("[name=resUseDate]").val(use_);
-			//console.log("use_"+$("[name=resUseDate]").val());
-			
-			 //date.getMonth() date.getDate()  date.getHours() date.getMinutes()
-	    }
-	});
-
-
-	
-	//반납시간
-	$('#timepicker-end').datepicker({
-		minDate: new Date(),
-		onSelect: function onSelect (end){
-			
-			retrnCar = new Date(end.substr(0,11)+end.substr(13));
-			console.log(retrnCar);
-			
-			//대여시간 -- 274번째 줄로 보내기
-			let howLong_car = retrnCar - useCar;
-			
-			console.log(howLong_car);
-			console.log(new Date().setDate(14));
-			console.log(new Date().setMinutes(30));
-			
-			retrn_ = transform(retrnCar);
-			$("[name=resReturnDate]").val(retrn_);
-			console.log($("[name=resReturnDate]").val());
-			
-		}
-	});
-	
-	$(document).ready(function(){
-		$("#getreserv").click(function(){
-			
-			//대여시작시간 null시
-			if(useCar == ""){
-				alert("대여 시작시간을 선택해주세요.");
-				return false;
-			}
-			
-			//반납시간 null시
-			if(retrnCar == ""){
-				alert("반납할 시간을 선택해주세요.");
-				return false;
-			}
-			
-			
-			if(howLong_car > 1209600000){ //2주
-				alert("차량은 2주일 이상 예약할 수 없습니다. \n2주 이내의 시간을 선택해주세요.");
-				return false;
-			}
-			if(howLong_car < 1800000){ //30분
-				alert("차량은 최소 30분 이상 대여하셔야 합니다. \n30분 이상 선택해주세요.");
-				return false;
-			}
-			
-			//대여신청한 시간 정해주고 DB보내기
-			let now = new Date();
-			now = transform(now);
-			$("[name=resEnrolldate]").val(now);
-		});
-	});
-</script>
+     <script src="${pageContext.request.contextPath }/resources/js/res_footer.js"></script>  
 </body>
 </html>
