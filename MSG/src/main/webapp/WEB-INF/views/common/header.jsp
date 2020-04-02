@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@page import="com.kh.msg.member.model.vo.OrgChart"%>
-<%@page import="com.kh.msg.member.model.vo.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
@@ -43,7 +42,7 @@
 <body>
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
-		<i class="fas fa-sign-out-alt" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"></i>
+		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
         <div class="userinfo">
             <user id="user">
                 <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />

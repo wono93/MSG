@@ -40,7 +40,7 @@ public class DirectMsgController {
 		
 		try {
 			
-			Member m = (Member)session.getAttribute("memberLoggedIn");
+			OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
 			
 			String fromId = m.getUserId();
 			
@@ -56,6 +56,7 @@ public class DirectMsgController {
 				sObject.put("empName", list.get(i).getEmpName());
 				sObject.put("toId", list.get(i).getUserId());
 				sObject.put("jobName", list.get(i).getJobName());
+
 				
 				jsonArr.add(sObject);
 			}
