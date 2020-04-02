@@ -25,7 +25,7 @@
 		,VCTN_UPDT_TB B
 		,VCTN_TB C
 		,EMP_TB E
-		WHERE 1=1
+		WHERE E.EMP_NO= #{empNo}
 		AND B.VCTN_CD = A.VCTN_CD
 		AND
 		B.VCTN_NO = C.VCTN_NO

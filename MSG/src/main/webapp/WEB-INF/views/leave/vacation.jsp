@@ -140,7 +140,8 @@
 								<td>${leave.otherUsed }</td>
 								<td><p>
 										<a href="#test" rel="modal:open">
-											<button class="penbutton" value="${leave.empNo}">
+											<button class="penbutton" id="modalBtn" name="modalNm"
+												value="${leave.empNo}" onclick="modal(this);">
 												<i class='fas fa-pencil-alt'> </i>
 											</button>
 										</a>
@@ -222,47 +223,60 @@
 			<p>
 			<div class="setting custom">
 				기조정내역 <br> <br>
-				<table class="modaltb">
+				<table class="modaltb" id="modalAjax">
 					<tr class="modaltr">
 						<th class="modalth1">종류</th>
 						<th class="modalth2">조절량</th>
 						<th class="modalth3">근거</th>
 						<th class="modalth4">일시</th>
 					</tr>
-					<c:forEach items="${listSum}" var="list" varStatus="va">
-					<c:forEach items="${modalList}" var="modal" varStatus="vs">
-						<tr>
-							<td>${modal.vctnNm}</td>
-							<td>${modal.vctnAmt}</td>
-							<c:choose>
-								<c:when test="${empty modal.edocId}">
-									<td>${modal.vctnReason }</td>
-								</c:when>
-								<c:otherwise>
-									<td>${modal.edocId}</td>
-								</c:otherwise>
-							</c:choose>
-							<td>${modal.vctnUpdtDt}</td>
-						</tr>
-					</c:forEach>
-					</c:forEach>
-					<tr>
-						<td>연차</td>
-						<td>-2</td>
-						<td>근속년수 계산 오류</td>
-						<td>2020-03-01 13:30</td>
-					</tr>
 				</table>
 			</div>
 			</p>
 			<br> <br>
 			<button type="submit" id="modalsub">확인</button>
-			<a href="#" rel="modal:close"><button id="modalclo">취소</button></a>
+			<a href="#" rel="modal:close"><button id="modalclo"
+					onclick="modalDel(this);">취소</button></a>
 			<!-- 닫기버튼 -->
 		</div>
 		</div>
 
 	</section>
+
+	<script>
+		
+		/* function modalDel(btn){
+			
+			
+		} */
+	
+	
+		function modal(btn) {
+			/* let empNo = $(btn).val(); */
+
+			var btnNo = $(btn).val();
+			console.log("empNo =", empNo);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/leave/modal",
+				type : "GET",
+				data : {
+					empNo : btnNo
+				},
+				success : function(data) {
+					var str = '<tr>';
+					$.each(data, function(i, item) {
+						str += '<td>' + item.vctnNm + '</td><td>'
+								+ item.vctnAmt + '</td><td>' + item.edocId
+								+ '</td><td>' + item.vctnUpdtDt + '</td>';
+						str += '</tr>'
+					});
+					$("#modalAjax").append(str);
+				}
+
+			});
+		};
+	</script>
 
 </body>
 </html>
