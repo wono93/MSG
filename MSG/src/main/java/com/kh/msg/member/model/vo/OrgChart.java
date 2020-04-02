@@ -3,17 +3,6 @@ package com.kh.msg.member.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class OrgChart extends Member implements Serializable{
 	/**
 	 * 
@@ -36,6 +25,19 @@ public class OrgChart extends Member implements Serializable{
 		this.deptName = deptName;
 		this.jobName = jobName;
 	}
+
+	public OrgChart(String deptName, String jobName) {
+		super();
+		this.deptName = deptName;
+		this.jobName = jobName;
+	}
+
+
+	public OrgChart() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 	public OrgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
