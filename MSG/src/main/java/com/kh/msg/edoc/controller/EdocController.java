@@ -187,7 +187,10 @@ public class EdocController {
 		return "edoc/edocWrite";
 	}
 	@PostMapping("/write.do")
-	public void edocWrite() {
+	public void edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt, String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String flowLine) {
+		log.debug("parameters@EdocController.edocWrite : "+empNo);
+		log.debug("parameters@EdocController.edocWrite : "+secuCd);
+		log.debug("parameters@EdocController.edocWrite : "+flowLine);
 		
 		
 		
