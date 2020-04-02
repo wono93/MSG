@@ -2,6 +2,9 @@ package com.kh.msg.board.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+
+import com.kh.msg.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +29,7 @@ public class Comment implements Serializable {/**
 	private int cmtNo;
 	private int empNo;
 	private int brdNo;
+	private List<Member> memberList;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

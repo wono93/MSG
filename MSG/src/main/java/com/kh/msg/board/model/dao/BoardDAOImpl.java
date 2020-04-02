@@ -147,5 +147,29 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("board.selectAttachList");
 	}
 
+	@Override
+	public int countMyBoard(Board board) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.countMyBoard", board);
+	}
+
+	@Override
+	public Object selectMyBoard(PagingVo vo) {
+		Map<String, String> map = new HashMap<String, String>();
+		return sqlSession.selectList("board.selectMyBoard", vo);
+	}
+
+	@Override
+	public int cntUp(Board board) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("board.cntUp", board);
+	}
+
+	@Override
+	public List<Comment> selectComment(int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectComment", boardNo);
+	}
+
 	
 }

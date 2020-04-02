@@ -63,6 +63,10 @@
 	<select id="selectSrap" resultType="BoardScrap">
 		select * from brd_scp_tb where no = #{no}
 	</select>
+	<resultMap type="comment" id="comment"></resultMap>
+	<select id="selectComment" resultMap="comment">
+		select * from cmt_tb where brd_no = #{boardNo}
+	</select>
 	
 	<select id="selectOne" resultMap="boardCollection">
 			select b.*, a.no as ano, a.*, c.no as cno, c.*
@@ -108,8 +112,8 @@
 			<result column="memo" property="memo"/>
 			<result column="date" property="date"/>
 		</collection>
-		
 	</resultMap>
+	
 	<update id="boardUpdate">
 		update
 			brd_tb
@@ -164,9 +168,7 @@
 				WHERE content like '%'||#{keyword}||'%'
 				OR title like '%'||#{keyword}||'%'
 				OR catag like '%'||#{catagkeyword}||'%'
-				<if test='empNo!=null'>
-				or emp_no = #{empNo}
-				</if>
+				
 	</select>
 	<!-- 페이징 처리 후 게시글 조회 -->
 	<select id="selectBoard" resultType="Board">
@@ -180,17 +182,36 @@
 							OR title like '%'||#{keyword}||'%'
 							OR catag like '%'||#{catagkeyword}||'%'
 							
-							<!--  
-							<if test='empNo!=0'>
-								or emp_no = #{empNo}
-							</if>
-							-->
 							order by no desc
 							) a
 					)
 		WHERE RN BETWEEN #{start} AND #{end}
 		order by no desc
 	</select>
+	
+	<!-- 내가쓴글 총 게시글 갯수 출력 -->
+	<select id="countMyBoard" resultType="int">
+		SELECT COUNT(*) FROM brd_tb
+				WHERE emp_no like #{empNo}
+				
+	</select>
+	<!-- 내가쓴글 페이징 처리 후 게시글 조회 -->
+	<select id="selectMyBoard" resultType="Board">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* ,(SYSDATE-BDATE)*24 as dateb
+					FROM (
+							select * 
+							from brd_tb 
+							WHERE emp_no like #{empNo}
+							order by no desc
+							) a
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+		order by no desc
+	</select>
+	
+	
 	<insert id="insertScrap">
 		insert into brd_scp_tb values(
 			#{no}, 

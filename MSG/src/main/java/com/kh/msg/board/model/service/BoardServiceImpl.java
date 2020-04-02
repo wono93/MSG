@@ -175,6 +175,32 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return boardDAO.selectAttachList();
 	}
+
+	@Override
+	public int countMyBoard(Board board) {
+		// TODO Auto-generated method stub
+		return boardDAO.countMyBoard(board);
+	}
+
+	@Override
+	public Object selectMyBoard(PagingVo vo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectMyBoard(vo);
+	}
+
+	@Override
+	public int cntUp(Board board) {
+		// TODO Auto-generated method stub
+		return boardDAO.cntUp(board);
+	}
+
+	@Override
+	public List<Comment> selectComment(int boardNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectComment(boardNo);
+	}
+
+
 	
 	
 }

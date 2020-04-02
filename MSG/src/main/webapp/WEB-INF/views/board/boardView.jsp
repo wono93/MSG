@@ -178,8 +178,8 @@
                             <br>
                         </div>
                         
-                        <c:if test="${board.commentList[0].no != 0 }" >
-							<c:forEach items="${board.commentList}" var="c">
+                       	 <c:if test="${board.commentList[0].no != null }" >
+						<c:forEach items="${board.commentList}" var="c">
 							<form name="boardFrm" 
 						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }&empNo=${board.empNo}"
 						  method="post" 
@@ -193,13 +193,15 @@
 		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
 		                                        </div>
 		                                    </td>
-		                                    <c:forEach items="${memberList }" var="m">
-			                                    <c:if test="${c.empNo == m.empNo }">
-			                                    	<td style="padding: 0; width: 166px;">
-			                                    	${m.deptCd} ${m.jobCd}  ${m.empName }
-			                                    	</td>
-			                                    </c:if>
-		                                    </c:forEach>
+			                                    <c:forEach begin="0" end="0" items="${commentList }" var="co">
+				                                    <c:forEach begin="0" end="0" items="${memberList }" var="m">
+						                                    <c:if test="${co.empNo == m.empNo}">
+						                                    	<td style="padding: 0; width: 166px;">
+						                                    		${m.deptCd} ${m.jobCd}  ${m.empName }
+						                                    	</td>
+						                                    </c:if>
+				                                    </c:forEach>
+			                                    </c:forEach>
 		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
 		                                    <td style="padding: 0; width: 166px; color: gray;">
 		                                        ${c.date }
@@ -211,11 +213,11 @@
 		                            </table>
 		                        </div>
 		                        </form>
-		                       </c:forEach>
+	                       </c:forEach>
 							</c:if>
 		  				
                         <form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${memberLoggedIn.empNo}"
+						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${board.empNo}"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">
@@ -229,6 +231,7 @@
                                         </div>
                                     </td>
                                     <td>
+                                    	<input type="hidden" value="${memberLoggedIn.empNo}" name="empNo"/>
                                         <button style="margin-bottom: 12px; bottom: 10px;
                                         right: 22px;" type="submit" name="" id="grayBtn2" class="yellowBtn">
                                           		  댓글등록

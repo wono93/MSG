@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -69,21 +71,61 @@ public class BoardController {
 	
 	@GetMapping("/view.do")
 	public String view(
+			HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam("boardNo") int boardNo,
 			@RequestParam("empNo") int empNo,
-			Board board, Member member,
+			Board board, Member member, Comment comment,
 			 Model model) {
-		member = boardService.selectMember(empNo);
-		board = boardService.selectOne(boardNo);
-		List<Member> memberList = boardService.selectMemberList();
+		
 		//조회수 증가
-		//int result = boardService.cntUp(board, boardNo);
-		//	log.debug("result================"+result);
+		Cookie[] cookies = request.getCookies();
+		Cookie boardCookie = null;
+		
+		//쿠키가 있을 경우
+		if(cookies != null && cookies.length > 0) {
+			for(int i=0; i< cookies.length; i++) {
+				if(cookies[i].getName().equals("cookie"+boardNo)) {
+					log.debug("처음 쿠키가 생성한 뒤 들어옴");
+					boardCookie = cookies[i];
+				}
+			}
+		}
+		if(board != null) {
+			log.debug("System - 해당 상세 리뷰페이지로 ㄱ");
+			
+			if(boardCookie == null) {
+				log.debug("cookie 없음");
+				Cookie newCookie = new Cookie("cookie"+ boardNo, "|" + boardNo + "|");
+				response.addCookie(newCookie);	
+				board.setNo(boardNo);
+				int result = boardService.cntUp(board);
+				log.debug("result================"+result);
+				if(result>0) {
+					log.debug("조회수 증가");
+				}
+				else{
+					log.debug("조회수 낫 증가");
+				}
+			}
+			else {
+				log.debug("쿠키 있음");
+				
+				String value= boardCookie.getValue();
+				
+				log.debug("쿠키값은?="+value);
+			}
+		}
+		board = boardService.selectOne(boardNo);
+		List<Comment> commentList = boardService.selectComment(boardNo);
+		List<Member> memberList = boardService.selectMemberList();
 		log.debug("board================"+board);
 		
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("board", board);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("member", member);
-    	model.addAttribute("board", board);
+		
+		
     	return "board/boardView";
 	}
 	
@@ -128,14 +170,15 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insertComment.do")
-	public String commentInsert(@RequestParam("boardNo") int boardNo,
+	public String commentInsert(
+			@RequestParam("boardNo") int boardNo,
 			@RequestParam("empNo") int empNo,
 			Comment comment,
-		Model model, RedirectAttributes redirectAttributes) {
+			Model model, RedirectAttributes redirectAttributes) {
 		
-    	int result = boardService.insertComment(comment, boardNo); 
-		
-		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
+    	int result = boardService.insertComment(comment, boardNo);
+		Board board = boardService.selectOne(boardNo);
+		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+board.getEmpNo();
 	}
 	
 	@PostMapping("/deleteBoard.do")
@@ -330,13 +373,12 @@ public class BoardController {
     public String boardList(PagingVo vo, Model model, Board board
     		, @RequestParam(value="catagkeyword", required=false)String catagkeyword
     		, @RequestParam(value="keyword", required=false)String keyword
-    		//, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
     		) {
     	board.setCatagkeyword(catagkeyword);
     	board.setKeyword(keyword);
-    	//board.setEmpNo(empNo);
+    	
     	int total = boardService.countBoard(board);
     	if (nowPage == null && cntPerPage == null) {
     		nowPage = "1";
@@ -351,6 +393,7 @@ public class BoardController {
     	vo.setCatagkeyword(catagkeyword);
     	vo.setKeyword(keyword);
     	//vo.setEmpNo(empNo);
+    	
     	List<Member> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
     	
@@ -362,18 +405,17 @@ public class BoardController {
      	model.addAttribute("viewAll", boardService.selectBoard(vo));
     	return "board/boardList";
     }
+    
     //내글보기
-    /*
     @GetMapping("/myList.do")
     public String myList(PagingVo vo, Model model, Board board
-    		
     		, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
     		) {
     	
     	board.setEmpNo(empNo);
-    	int total = boardService.countBoard(board);
+    	int total = boardService.countMyBoard(board);
     	if (nowPage == null && cntPerPage == null) {
     		nowPage = "1";
     		cntPerPage = "15";
@@ -393,13 +435,12 @@ public class BoardController {
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("empNo", empNo);
         model.addAttribute("paging", vo);
-     	model.addAttribute("viewAll", boardService.selectBoard(vo));
+     	model.addAttribute("viewAll", boardService.selectMyBoard(vo));
     	//model.addAttribute("gunBoard", boardService.selectGunBoard(vo));//건의게시판
     	//model.addAttribute("jaBoard", boardService.selectJaBoard(vo));//자유게시판
     	//model.addAttribute("gongBoard", boardService.selectGongBoard(vo));//공지&행사게시판
-    	return "board/boardList";
+    	return "board/boardMyList";
     }
-    */
     
     @PostMapping("/attachUpdate.do")
     public String attachUpdate(@RequestParam("attachNo") int attachNo, @RequestParam("boardNo") int boardNo,
