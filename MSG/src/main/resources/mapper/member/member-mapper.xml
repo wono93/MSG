@@ -57,8 +57,6 @@
 			USING (DEPT_CD)
 			LEFT JOIN JOB_TB J
 			USING (JOB_CD)
-			LEFT JOIN LOG_TB
-			USING (EMP_NO) 
 		WHERE 
 			USER_ID = #{userId}
 	</select>

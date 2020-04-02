@@ -24,6 +24,7 @@ import com.kh.msg.chat.model.dao.DirectMsgDAOImpl;
 import com.kh.msg.chat.model.service.DirectMsgService;
 import com.kh.msg.chat.model.vo.DirectMsg;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -42,7 +43,7 @@ public class DirectMsgController {
 		
 		try {
 			
-			Member m = (Member)session.getAttribute("memberLoggedIn");
+			OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
 			
 			String fromId = m.getUserId();
 			
@@ -57,7 +58,7 @@ public class DirectMsgController {
 				sObject.put("empImage", list.get(i).getEmpImage());
 				sObject.put("empName", list.get(i).getEmpName());
 				sObject.put("toId", list.get(i).getUserId());
-//				sObject.put("jobName", list.get(i).getJobName());
+				/* sObject.put("jobName", list.get(i).getJo); */
 				
 				jsonArr.add(sObject);
 			}

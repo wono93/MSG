@@ -15,13 +15,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class EdocSrchFlow implements Serializable{
+public class EdocFlow implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String edocId;
 	private String flowCd;
 	private String flowNm;
 	private int flowEmpNo;
