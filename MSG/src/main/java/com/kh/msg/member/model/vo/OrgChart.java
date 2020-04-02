@@ -76,7 +76,4 @@ public class OrgChart extends Member implements Serializable{
 
 
 	
-	
-	
-	
 }

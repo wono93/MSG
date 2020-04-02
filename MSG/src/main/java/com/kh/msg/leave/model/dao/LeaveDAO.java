@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
+import com.kh.msg.leave.model.vo.LeaveModal;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.MyLeave;
@@ -21,5 +22,9 @@ public interface LeaveDAO {
 	List<MyLeave> selectLeaveList4(Member member);
 
 	List<LeaveInfoPlus> selectleaveListInfoPlus(Member member);
+
+	/* List<LeaveModal> selectModalList(); */
+
+	List<LeaveModal> selectModalList(int empNo);
 
 }
