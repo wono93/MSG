@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kh.msg.res.model.service.ResService;
 import com.kh.msg.res.model.vo.Car;
 import com.kh.msg.res.model.vo.CarReservation;
@@ -31,6 +34,8 @@ import com.kh.msg.res.model.vo.ResView;
 import com.kh.msg.res.model.vo.Reservation;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @Slf4j
@@ -182,31 +187,40 @@ public class ResController {
 		
 	}
 	
-	
+	//차량예약페이지에서 대여마감시간까지 클릭시 ajax로 이미 예약된 list/빌릴 수 있는 list 구분 출력해주기
 	@GetMapping("/carListEnd")
-	public ModelAndView selectCarListEnd(@RequestParam("resUseDate") String resUseDate,
+	@ResponseBody
+	public Map<String,List<Car>> selectCarListEnd(@RequestParam("resUseDate") String resUseDate,
 										 @RequestParam("resReturnDate") String resReturnDate) {
 		ModelAndView mav = new ModelAndView();
 		
-		log.debug("대여 시작할 시간="+resUseDate);
+		//log.debug("대여 시작할 시간="+resUseDate+", 대여 마감시간="+resReturnDate);
 		
-		List<Car> list = resService.selectCarListStart(resUseDate);
-		mav.addObject("list", list);
+		List<Car> allCarList = resService.selectCarList();
+		List<Car> unborrowableList = resService.selectCarListEnd(resUseDate, resReturnDate);
 		
-		mav.setViewName("redirect:/res/carRes.do");
-		return mav;
+		
+		@SuppressWarnings("unchecked")
+		List<Car> borrowableList = ListUtils.subtract(allCarList, unborrowableList);
+		
+//		for(int i=0; i<allCarList.size(); i++) {
+//			
+//			if(!unborrowableList.contains(allCarList.get(i))) {
+//				borrowableList.add(allCarList.get(i));
+//			}
+//			
+//		}
+		
+		
+//		log.debug("allCarList={}",allCarList);
+//		log.debug("unborrowableList={}", unborrowableList);
+//		log.debug("borrowableList={}", borrowableList);
+		
+		Map<String,List<Car>> allCarMap = new HashMap<String, List<Car>>();
+		allCarMap.put("unborrowable", unborrowableList);
+		allCarMap.put("borrowable", borrowableList);
+		
+		return allCarMap;
 	}
 		
 }
-
-//	@PostMapping("/test.do")
-//	public String confInsertTest() {
-//		String pname = request.getParameter("pname");
-//		int amount = Integer.parseInt(request.getParameter("amount"));
-//		//업무로직
-//		
-//		
-//		SmartPhone smart = new SmartPhone(pname, amount, null);
-//		
-//		int result = new SmartPhoneService().smartInsert(smart);
-//	}

@@ -77,8 +77,8 @@ public class ResServiceImpl implements ResService {
 	}
 
 	@Override
-	public List<Car> selectCarListStart(String resUseDate) {
-		return resDAO.selectCarListStart(resUseDate);
+	public List<Car> selectCarListEnd(String resUseDate, String resReturnDate) {
+		return resDAO.selectCarListEnd(resUseDate, resReturnDate);
 	}
 	
 	

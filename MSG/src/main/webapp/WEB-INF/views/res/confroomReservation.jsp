@@ -130,11 +130,11 @@
 			    </div>
 			    <div id="whitecontent">
 			    	<form action="${pageContext.request.contextPath }/res/confInsert.do" method="post" id="confResFrm">
-				        <input type='text' id='timepicker-start' name='resUsedate' class='datepicker-here' data-language='ko' 
+				        <input type='text' id='timepicker-start-conf' name='resUsedate' class='datepicker-here' data-language='ko' 
 				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 				        <span>~</span>
-				        <input type='text' id='timepicker-end' name='resReturndate' class='datepicker-here' data-language='ko' 
+				        <input type='text' id='timepicker-end-conf' name='resReturndate' class='datepicker-here' data-language='ko' 
 				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format="hh:ii" autocomplete="off" minutesStep="10" />
 				                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 				        <input type="hidden" name="resUseDate" />

@@ -79,8 +79,11 @@ public class ResDAOImpl implements ResDAO {
 	}
 
 	@Override
-	public List<Car> selectCarListStart(String resUseDate) {
-		return sqlSession.selectList("res.selectCarListStart", resUseDate);
+	public List<Car> selectCarListEnd(String resUseDate, String resReturnDate) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("resUseDate", resUseDate);
+		map.put("resReturnDate", resReturnDate);
+		return sqlSession.selectList("res.selectCarListEnd", map);
 	}
 	
 	
