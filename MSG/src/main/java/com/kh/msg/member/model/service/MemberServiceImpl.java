@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
-import com.kh.msg.member.model.vo.orgChart;
+import com.kh.msg.member.model.vo.OrgChart;
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO memberDAO;
 
 	@Override
-	public orgChart selectOne(String userId) {
+	public OrgChart selectOne(String userId) {
 		
 		return memberDAO.selectOne(userId);
 	}
@@ -28,13 +28,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<orgChart> orgChart(Map<String, String> map) {
+	public List<OrgChart> orgChart(Map<String, String> map) {
 		
 		return memberDAO.orgChart(map);
 	}
 
 	@Override
-	public orgChart empInfo(String empNo) {
+	public OrgChart empInfo(String empNo) {
 		
 		return memberDAO.empInfo(empNo);
 	}

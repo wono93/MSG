@@ -24,7 +24,7 @@ public class MemberDAOImpl implements MemberDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public orgChart selectOne(String userId) {
+	public OrgChart selectOne(String userId) {
 		
 		return sqlSession.selectOne("member.logIn",userId);
 	}
@@ -81,13 +81,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<com.kh.msg.member.model.vo.orgChart> orgChart(Map<String, String> map) {
+	public List<com.kh.msg.member.model.vo.OrgChart> orgChart(Map<String, String> map) {
 		
 		return sqlSession.selectList("member.orgChart",map);
 	}
 
 	@Override
-	public orgChart empInfo(String empNo) {
+	public OrgChart empInfo(String empNo) {
 		
 		return sqlSession.selectOne("member.empInfo",empNo);
 	}

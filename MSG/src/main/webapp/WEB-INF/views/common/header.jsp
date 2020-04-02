@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page import="com.kh.msg.member.model.vo.Member"%>
+<%@page import="com.kh.msg.member.model.vo.OrgChart"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
@@ -30,7 +30,7 @@
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
 <%
-	Member m = (Member)session.getAttribute("memberLoggedIn");
+	OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
 	String userId = m.getUserId();
 	int empNo = m.getEmpNo();
 %>
@@ -42,7 +42,7 @@
 <body>
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
-		<i class="fas fa-sign-out-alt" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"></i>
+		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
         <div class="userinfo">
             <user id="user">
                 <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />

@@ -31,19 +31,19 @@
                             <h1>문서 유형</h1>
                             <div class="checkbox_wrap">
                                 <label class="myDocu-container kor float" for="myDocu">내 기안문서
-                                            <input type="checkbox" name="myDocu" id="myDocu" class="docuCheck" value="myDocu" checked="checked">
+                                            <input type="checkbox" name="myDocu" id="myDocu" class="docuCheck" value="myDocu" ${docuCheckMap["myDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="myDocu-checkmark"></span>
                                </label>
                                 <label class="reqDocu-container kor float" for="reqDocu">결재요청문서
-                                            <input type="checkbox" name="reqDocu" id="reqDocu" class="docuCheck" value="reqDocu" checked="checked">
+                                            <input type="checkbox" name="reqDocu" id="reqDocu" class="docuCheck" value="reqDocu" ${docuCheckMap["reqDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="reqDocu-checkmark"></span>
                                </label>
                                 <label class="compDocu-container kor float" for="compDocu">결재완료문서
-                                            <input type="checkbox" name="compDocu" id="compDocu" class="docuCheck" value="compDocu" checked="checked">
+                                            <input type="checkbox" name="compDocu" id="compDocu" class="docuCheck" value="compDocu" ${docuCheckMap["compDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="compDocu-checkmark"></span>
                                </label>
                                 <label class="refDocu-container kor float" for="refDocu">참조 문서
-                                            <input type="checkbox" name="refDocu" id="refDocu" class="docuCheck" value="refDocu" checked="checked">
+                                            <input type="checkbox" name="refDocu" id="refDocu" class="docuCheck" value="refDocu" ${docuCheckMap["refDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="refDocu-checkmark"></span>
                                </label>
                             </div>
@@ -185,7 +185,11 @@
 		var arrayDocuCheck = new Array();
 		$(".docuCheck:checked").each(function(){
 			arrayDocuCheck.push($(this).val());
-		});
+		}
+		if(arrayDocuCheck==null){
+			arrayDocuCheck.push("nothing");
+		}
+		);
 		
 		//폼 태그 생성
         var form = document.createElement('form');
@@ -202,7 +206,7 @@
         //input태그에 set attribute
         input1.setAttribute("type", "hidden");
         input1.setAttribute("name", "member");
-        input1.setAttribute("value", session.getAttribute("memberLoggedIn"));
+        input1.setAttribute("value", "$(memberLoggedIn.empNo)");
         input2.setAttribute("type", "hidden");
         input2.setAttribute("name", "srchWord");
         input2.setAttribute("value", $("#srchWord").val());        

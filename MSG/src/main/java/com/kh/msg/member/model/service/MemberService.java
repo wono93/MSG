@@ -5,17 +5,17 @@ import java.util.Map;
 
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
-import com.kh.msg.member.model.vo.orgChart;
+import com.kh.msg.member.model.vo.OrgChart;
 
 public interface MemberService {
 
-	com.kh.msg.member.model.vo.orgChart selectOne(String userId);
+	com.kh.msg.member.model.vo.OrgChart selectOne(String userId);
 
 	List<HrMntList> selectList(Map<String, String> map);
 
-	List<orgChart> orgChart(Map<String, String> map);
+	List<OrgChart> orgChart(Map<String, String> map);
 
-	orgChart empInfo(String empNo);
+	OrgChart empInfo(String empNo);
 
 	int updateEmp(Map<String, String> map);
 

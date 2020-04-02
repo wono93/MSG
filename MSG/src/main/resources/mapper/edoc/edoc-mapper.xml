@@ -179,7 +179,8 @@
 		<result column="prsv_amt" property="prsvAmt"/>
 		<result column="secu_nm" property="secuNm"/>
 		<result column="emp_name" property="empName"/>
-		<collection property="SrchFlowList" ofType="EdocSrchFlow">
+		<collection property="edocFlowList" ofType="EdocFlow">
+			<id column="edoc_id" property="edocId"/>
 			<result column="flow_cd" property="flowCd"/>
 			<result column="flow_nm" property="flowNm"/>
 			<result column="flow_emp_no" property="flowEmpNo"/>

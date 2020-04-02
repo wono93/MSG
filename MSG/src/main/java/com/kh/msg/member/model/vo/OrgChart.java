@@ -3,8 +3,18 @@ package com.kh.msg.member.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-public class orgChart extends Member implements Serializable{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class OrgChart extends Member implements Serializable{
 	/**
 	 * 
 	 */
@@ -18,7 +28,7 @@ public class orgChart extends Member implements Serializable{
 	}
 
 
-	public orgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
+	public OrgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
 			String empName, String empRRNNo, String empImage, String empContact, String empEmail, String empAddress, String authority,
 			Date hireDate, String quitYn, String empMsg, String deptName, String jobName) {
 		super(empNo, jobCd, deptCd, userId, isManager, userPwd, empName, empRRNNo, empImage, empContact, empEmail, empAddress, authority,
@@ -28,20 +38,7 @@ public class orgChart extends Member implements Serializable{
 	}
 
 
-	public orgChart(String deptName, String jobName) {
-		super();
-		this.deptName = deptName;
-		this.jobName = jobName;
-	}
-
-
-	public orgChart() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-	public orgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
+	public OrgChart(int empNo, String jobCd, String deptCd, String userId, String isManager, String userPwd,
 			String empName, String empRRNNo, String empImage, String empContact, String empEmail, String empAddress, String authority,
 			Date hireDate, String quitYn, String empMsg) {
 		super(empNo, jobCd, deptCd, userId, isManager, userPwd, empName, empRRNNo, empImage, empContact, empEmail, empAddress, authority,
