@@ -34,8 +34,8 @@
         	return true;
         }
 
-        function update(no){
-			location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+        function update(no, empNo){
+			location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no+"&empNo="+empNo;
 		}
         
 		$(()=>{
@@ -60,7 +60,7 @@
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<form name="boardFrm" 
-		  action="${pageContext.request.contextPath}/board/update.do?boardNo=${board.no}" 
+		  action="${pageContext.request.contextPath}/board/update.do?boardNo=${board.no}&empNo=${board.empNo}" 
 		  method="post"
 		  onsubmit="return boardValidate();"
 		  enctype="multipart/form-data">
@@ -202,8 +202,8 @@
 	
 	      </script>
                     <div class="srchBar">
-                        <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/view.do?boardNo=${board.no }'"> 취  소 </button>
-                        <button type="submit" name="" id="yellowBtn" class="btn" onclick="update(${board.no});">수정하기</button>
+                        <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/view.do?boardNo=${board.no }&empNo=${board.empNo }'"> 취  소 </button>
+                        <button type="submit" name="" id="yellowBtn" class="btn" onclick="update('${board.no}', '${board.empNo }');">수정하기</button>
                     </div>
                 </div>
             	

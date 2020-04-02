@@ -17,8 +17,8 @@
         		location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
         	}
 
- 		function update(no){
- 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no;
+ 		function update(no, empNo){
+ 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no+"&empNo="+empNo;
  			}
 		 		
 		
@@ -118,11 +118,9 @@
 					
 
                             <div id="member">
-                                <p class="com3">사업부</p>
-                                <p class="com3">1팀</p>
-                                <p class="com3">과장</p>
-                                <p class="com3">장그래</p>
-                               
+                                <p class="com3">${member.deptCd }</p>
+                                <p class="com3">${member.jobCd }</p>
+                                <p class="com3">${member.empName }</p>
                             </div>
                             
                         </div>
@@ -137,7 +135,7 @@
                                 ${board.cnt }
                                 </p>
                                 <p name="date" class="com3">
-                                ${board.date }
+                                ${board.bdate }
                                 </p>
                             </div>
                         </div>
@@ -161,7 +159,7 @@
                         <div style="margin-top:35px; width: 100%; height: 100%; z-index: 100; position: relative; 
                             display: inline-block;">
                             
-                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}');">수정</button>
+                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }');">수정</button>
                             
                             <form name="boardFrm" 
 							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
@@ -183,7 +181,7 @@
                         <c:if test="${board.commentList[0].no != 0 }" >
 							<c:forEach items="${board.commentList}" var="c">
 							<form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }"
+						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }&empNo=${board.empNo}"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">
@@ -195,7 +193,13 @@
 		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
 		                                        </div>
 		                                    </td>
-		                                    <td style="padding: 0; width: 166px;">${c.empNo }</td>
+		                                    <c:forEach items="${memberList }" var="m">
+			                                    <c:if test="${c.empNo == m.empNo }">
+			                                    	<td style="padding: 0; width: 166px;">
+			                                    	${m.deptCd} ${m.jobCd}  ${m.empName }
+			                                    	</td>
+			                                    </c:if>
+		                                    </c:forEach>
 		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
 		                                    <td style="padding: 0; width: 166px; color: gray;">
 		                                        ${c.date }
@@ -211,7 +215,7 @@
 							</c:if>
 		  				
                         <form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${board.empNo}"
+						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${memberLoggedIn.empNo}"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">

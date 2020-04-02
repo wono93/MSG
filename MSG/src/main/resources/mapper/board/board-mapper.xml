@@ -8,6 +8,16 @@
 		SELECT * FROM BRD_TB
 	</select>
 	
+	<resultMap type="member" id="member"></resultMap>
+	<select id="selectMemberList" resultMap="member">
+		select * from emp_tb
+	</select>
+	
+	<resultMap type="attachment" id="attachment"></resultMap>
+	<select id="selectAttachList" resultMap="attachment">
+    	select * from atcmt_tb 
+    </select>
+	
 	<insert id="insertBoard">
 		insert into
 			brd_tb
@@ -18,7 +28,7 @@
 			default,
 			0,
 			#{catag},
-			1)
+			#{empNo})
 		<selectKey keyProperty="no" resultType="_int" 
 				   order="AFTER">
 			select seq_brd_no.currval from dual
@@ -46,7 +56,7 @@
 			default,
 			default,
 			0,
-			1,
+			#{empNo},
 			#{brdNo})
 	</insert>
 	
@@ -55,8 +65,7 @@
 	</select>
 	
 	<select id="selectOne" resultMap="boardCollection">
-			select b.*, a.no as ano, a.*, c.no as cno, c.*, s.no as sno, s.*
-			
+			select b.*, a.no as ano, a.*, c.no as cno, c.*
             from brd_tb b
             left join atcmt_tb a
             on b.no = a.brd_no
@@ -71,7 +80,7 @@
 		<id column='no' property="no"/>
 		<result column='title' property="title"/>
 		<result column='content' property="content"/>
-		<result column='date' property="date"/>
+		<result column='bdate' property="bdate"/>
 		<result column='cnt' property="cnt"/>
 		<result column='catag' property="catag"/>
 		<result column='emp_no' property="empNo"/>
@@ -99,6 +108,7 @@
 			<result column="memo" property="memo"/>
 			<result column="date" property="date"/>
 		</collection>
+		
 	</resultMap>
 	<update id="boardUpdate">
 		update
@@ -151,23 +161,30 @@
 	<!-- 총 게시글 갯수 출력 -->
 	<select id="countBoard" resultType="int">
 		SELECT COUNT(*) FROM brd_tb
-				WHERE emp_no like '%'||#{keyword}||'%'
-				OR content like '%'||#{keyword}||'%'
+				WHERE content like '%'||#{keyword}||'%'
 				OR title like '%'||#{keyword}||'%'
 				OR catag like '%'||#{catagkeyword}||'%'
+				<if test='empNo!=null'>
+				or emp_no = #{empNo}
+				</if>
 	</select>
 	<!-- 페이징 처리 후 게시글 조회 -->
 	<select id="selectBoard" resultType="Board">
 		SELECT * 
 			FROM (
-				SELECT ROWNUM RN, A.* 
+				SELECT ROWNUM RN, A.* ,(SYSDATE-BDATE)*24 as dateb
 					FROM (
 							select * 
 							from brd_tb 
-							WHERE emp_no like '%'||#{keyword}||'%'
-							OR content like '%'||#{keyword}||'%'
+							WHERE content like '%'||#{keyword}||'%'
 							OR title like '%'||#{keyword}||'%'
 							OR catag like '%'||#{catagkeyword}||'%'
+							
+							<!--  
+							<if test='empNo!=0'>
+								or emp_no = #{empNo}
+							</if>
+							-->
 							order by no desc
 							) a
 					)
@@ -199,4 +216,9 @@
 			atcmt_tb
 		where no = #{no}
     </delete>
+    
+    <select id="selectMember" resultType="Member">
+    	select * from emp_tb where emp_no = #{empNo}
+    </select>
+   
 </mapper>

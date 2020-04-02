@@ -79,8 +79,6 @@
                             <p class="com4">게시판</p>
                             <p class="com4">제 목</p>
                         </div>
-                   
-				 
                 <div class="boardBC">
                     </div>
                         <div style="top: 20px;" id="first1" class="select-box1">
@@ -96,9 +94,9 @@
                                 <p class="select-box__input-text">자유 게시판</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" name="catag" type="radio" id="asd5" value="공지,행사" checked="checked"/>
-                                <p class="select-box__input-text">공지사항 & 행사정보</p>
-                            </div>
+	                                <input class="select-box__input" name="catag" type="radio" id="asd5" value="공지,행사" checked="checked"/>
+	                                <p class="select-box__input-text">공지사항 & 행사정보</p>
+                            	</div>
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                 <!-- <div class="select-box__value">
                                 <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>
@@ -129,12 +127,12 @@
                     </div>
                     <div id="boardBD">
                         <p class="com3">작성자</p>
-                        <p class="com3">사업부1팀</p>
-                        <p class="com3">사원</p>
-                        <p class="com3">장그래</p>
+                        <p class="com3">${memberLoggedIn.deptCd}</p>
+                        <p class="com3">${memberLoggedIn.jobCd}</p>
+                        <p class="com3">${memberLoggedIn.empName}</p>
                         <p class="com3"></p>
                         <div class="box" style="background: #BDBDBD;">
-                            <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
+                            <img class="profile" src="${memberLoggedIn.empImage}">
                         </div>
                     </div>
 
@@ -181,9 +179,9 @@
         	}
 
       </script>
-      
                     <div class="srchBar">
                         <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
+                        <input type="hidden" name="empNo" value="${memberLoggedIn.empNo}"/>
                         <button type="submit" name="" id="yellowBtn" class="btn">글쓰기</button>
                     </div>
                 </div>
