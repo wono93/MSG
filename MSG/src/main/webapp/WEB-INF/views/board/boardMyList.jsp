@@ -24,16 +24,6 @@
     		location.href = "${pageContext.request.contextPath}/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
     	});
     });
-    
-    $(()=>{
-    	$("tr[data-board-no]").on("click", function(e){
-    		console.log(this, e.target);//tr, td
-    		let empNo = $(this).attr("data-emp-no");
-    		console.log(empNo);
-    		
-    		location.href = "${pageContext.request.contextPath}/board/myList.do?empNo="+empNo;
-    	});
-    });
    /* 
     function selChange() {
 		var sel = document.getElementById('cntPerPage').value;
@@ -169,8 +159,8 @@
                                     <label class="select-box__option" for="asd0" aria-hidden="aria-hidden">모두 보기</label>
                                 </li>
                             </div >
-                            <!--  "${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}" -->
-                            <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">
+                            <!--   -->
+                            <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">                     
                                 <li>
                                     <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
                                 </li>
@@ -185,7 +175,11 @@
                                 </li> -->
                             </ul>
                         </div>
+                        
+                        
+
                         <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/write.do'"><i class="far fa-edit"></i> 글쓰기</button>
+
                     </div>
                 <div id="44">
                     <table>
@@ -202,9 +196,9 @@
 							<c:if test="${b.dateb<2 }">
 	                        	<tr style="z-index:999; color: rgb(93, 93, 253);">
 							</c:if>
-							<c:if test="${b.dateb>=2 }">
-								<tr style="z-index:999;">
-							</c:if>
+								<c:if test="${b.dateb>=2 }">
+									<tr style="z-index:999;">
+								</c:if>
 	                            	<td>${b.no }</td>
 	                            <c:forEach items="${memberList }" var="m">
 		                            <c:if test="${m.empNo == b.empNo }">
@@ -246,7 +240,7 @@
                          -->
                     <div class="pagination">
                     <c:if test="${paging.startPage != 1 }">
-						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&keyword=${keyword}&catagkeyword=${catagkeyword}" class="arrow">&laquo;</a>
+						<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" class="arrow">&laquo;</a>
 					</c:if>
 					<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 						<c:choose>
@@ -254,12 +248,12 @@
 								<a class="active">${p }</a>
 							</c:when>
 							<c:when test="${p != paging.nowPage }">
-								<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&keyword=${keyword}&catagkeyword=${catagkeyword}" >${p }</a>
+								<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" >${p }</a>
 							</c:when>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${paging.endPage != paging.lastPage}">
-						<a href="${pageContext.request.contextPath}/board/list.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&raquo;</a>
+						<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&raquo;</a>
 					</c:if>
 					</div>
 					

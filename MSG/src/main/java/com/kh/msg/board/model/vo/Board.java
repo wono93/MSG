@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import com.kh.msg.member.model.vo.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +36,8 @@ public class Board implements Serializable {/**
 	private List<Attachment> attachList;
 	
 	private List<Comment> commentList;
+	
+	private List<Member> memberList;
 	
 	private List<BoardScrap> scrapList;
 	

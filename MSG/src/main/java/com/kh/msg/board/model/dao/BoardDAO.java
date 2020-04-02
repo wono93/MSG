@@ -53,5 +53,12 @@ public interface BoardDAO {
 
 	List<Attachment> selectAttachList();
 
-	
+	int countMyBoard(Board board);
+
+	Object selectMyBoard(PagingVo vo);
+
+	int cntUp(Board board);
+
+	List<Comment> selectComment(int boardNo);
+
 }
