@@ -9,10 +9,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.msg.edoc.model.vo.EdocAtt;
+import com.kh.msg.edoc.model.vo.EdocFlow;
+import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class EdocDAOImpl implements EdocDAO {
 
@@ -71,6 +77,21 @@ public class EdocDAOImpl implements EdocDAO {
 	public String newEdocId() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("edoc.newEdocId");
+	}
+
+	@Override
+	public int edocWrite(EdocLeaveLtt edocLeaveLtt) {
+		return sqlSession.insert("edoc.edocWrite", edocLeaveLtt);
+	}
+
+	@Override
+	public int edocAttWrite(EdocAtt edocAtt) {
+		return sqlSession.insert("edoc.edocAttWrite", edocAtt);
+	}
+
+	@Override
+	public int edocFlowWrite(EdocFlow edocFlow) {
+		return sqlSession.insert("edoc.edocFlowWrite", edocFlow);
 	}
 	
 	

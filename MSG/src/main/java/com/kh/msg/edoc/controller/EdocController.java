@@ -2,7 +2,6 @@ package com.kh.msg.edoc.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,9 +15,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.msg.edoc.model.service.EdocService;
@@ -28,6 +29,7 @@ import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -188,9 +190,12 @@ public class EdocController {
 	}
 
 	@GetMapping("/write.do")
-	public String write() {
+	public String write(HttpSession session) {
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		log.debug("------------------------------------------------------------------{}",m);
 		return "edoc/edocWrite";
 	}
+	@ResponseBody
 	@PostMapping("/write.do")
 	public void edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt,
 			String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String[] flowLine, String flowCd) {
@@ -219,15 +224,18 @@ public class EdocController {
 			EdocFlow ef = new EdocFlow();
 			ef.setEdocId(edocId);
 			// F1 : 결재, F2 : 전결
-			if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
+			if(flowCd!="") {
+				if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
+			}
 			else ef.setFlowCd("F1");
 			ef.setFlowEmpNo(Integer.parseInt(flowLine[i].substring(0, 1)));
 			ef.setFlowOrd(i+1);
 			edocFlowList.add(ef);
 		}
 		
-//		int result = edocService.edocWrite();
+		int result = edocService.edocWrite(edocLeaveLtt, edocAttList, edocFlowList);
 		
+		log.debug("제발 되라되라되라"+result);
 		
 	}
 

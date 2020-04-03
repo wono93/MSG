@@ -166,8 +166,23 @@
 	from
 		dual
 	</select>
-	
-	
+	<insert id="edocWrite">
+		insert into
+			leave_ltt_view
+		values
+			(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate, NULL, NULL
+			, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt}, #{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} )
+	</insert>
+	<insert id="edocAttWrite">
+		insert into
+			edoc_att_tb
+		values
+			(seq_attach_id.NEXTVAL, #{edocId}, #{originFilename}, #{renamedFilename}, sysdate, NULL, NULL)
+	</insert>
+	<insert id="edocFlowWrite">
+		insert into flow_exe_tb values(#{edocId}, #{flowCd}, #{empNo}, #{flowOrd}, default, default, default)
+	</insert>
+
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
 		<id column="edoc_id" property="edocId"/>
 		<result column="secu_cd" property="secuCd"/>

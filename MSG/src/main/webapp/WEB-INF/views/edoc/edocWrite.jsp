@@ -374,7 +374,7 @@
                                 </td>
                                 <td>업무/결재<br>대행</td>
                                 <td>
-                                    <input type="text" name="" id="surEmpNo" class="textIpt" placeholder="검색할 이름을 입력하세요">
+                                    <input type="number" name="" id="surEmpNo" class="textIpt" placeholder="검색할 이름을 입력하세요">
                                 </td>
                             </tr>
                         </table>
@@ -576,12 +576,13 @@
 			var leaveContact = $("#leaveContact").val();
 			var typeCd = $("input[name=typeCd]:checked").val();
 			var surEmpNo = $("#surEmpNo").val();
-			
+			var flowCd = null;
 			// 결재선은 이미 flowLine 객체에 들어 있고, 전결만 보내주면 됨.
 			/* console.log(flowLine); */
-			var flowCd = $('input[name="flowLineCheck"]:checked').attr("id").substr(8); // 해당 번호의 flowLine 배열이 전결이라는 의미. 단, 번호는 1부터 매겼음에 유의.
-
-
+			if(!$('input[name="flowLineCheck"]:checked').attr("id")==null){
+				flowCd = $('input[name="flowLineCheck"]:checked').attr("id").substr(8); // 해당 번호의 flowLine 배열이 전결이라는 의미. 단, 번호는 1부터 매겼음에 유의.
+			}
+			console.log(flowCd);
 	  		$.ajax({
 				type:"post",
 				url: "/msg/edoc/write.do",
@@ -604,7 +605,13 @@
 	  		    },
 	  		    dataType: "json",
 	  		    success: function(response){
-	  		    	
+	  		    	console.log(response)
+	  		    	if(response!="0") {
+	  		    		alert("성공!")
+	  		    	}
+	  		    	else {
+	  		    		alert("실패!")
+	  		    	}
 	  		    }
 	  		});
 			
