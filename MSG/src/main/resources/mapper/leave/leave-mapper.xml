@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="leave">
 
-	<!-- <insert id="insert"> insert into dev values ( seq_dev_no.nextval, #{devName}, 
-		#{devCareer}, #{devEmail}, #{devGender}, #{devLang, typeHandler=strArrTypeHandler} 
-		) </insert> -->
+
+
+
 	<resultMap type="leaveModal" id="leaveModal"></resultMap>
 	<select id="selectModalList" resultMap="leaveModal">
 		SELECT
