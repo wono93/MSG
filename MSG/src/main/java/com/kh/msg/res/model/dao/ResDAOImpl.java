@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.res.model.vo.Car;
 import com.kh.msg.res.model.vo.CarReservation;
 import com.kh.msg.res.model.vo.ConfReservation;
@@ -27,8 +28,8 @@ public class ResDAOImpl implements ResDAO {
 	}
 	
 	@Override
-	public int confInsert(ConfReservation cr) {
-		return sqlSession.insert("res.confInsert", cr);
+	public int confResInsert(ConfReservation cr) {
+		return sqlSession.insert("res.confResInsert", cr);
 	}
 
 	@Override
@@ -37,23 +38,23 @@ public class ResDAOImpl implements ResDAO {
 	}
 
 	@Override
-	public int carInsert(CarReservation cr) {
-		return sqlSession.insert("res.carInsert", cr);
+	public int carResInsert(CarReservation cr) {
+		return sqlSession.insert("res.carResInsert", cr);
 	}
 	
 	@Override
-	public List<ResView> selectAllMyConfResList() {
-		return sqlSession.selectList("res.selectAllMyConfResList");
+	public List<ResView> selectAllConfResList(Member m) {
+		return sqlSession.selectList("res.selectAllConfResList", m);
 	}
 
 	@Override
-	public List<ResView> selectAllMyCarResList() {
-		return sqlSession.selectList("res.selectAllMyCarResList");
+	public List<ResView> selectAllCarResList(Member m) {
+		return sqlSession.selectList("res.selectAllCarResList", m);
 	}
 
 	@Override
-	public List<ResView> selectAllMyRList() {
-		return sqlSession.selectList("res.selectAllMyRList");
+	public List<ResView> selectAllRList(Member m) {
+		return sqlSession.selectList("res.selectAllRList", m);
 	}
 
 	@Override

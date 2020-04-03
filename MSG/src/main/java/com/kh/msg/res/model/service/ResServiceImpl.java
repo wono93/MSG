@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.res.model.dao.ResDAO;
 import com.kh.msg.res.model.vo.Car;
 import com.kh.msg.res.model.vo.CarReservation;
@@ -26,8 +27,8 @@ public class ResServiceImpl implements ResService {
 	}
 	
 	@Override
-	public int confInsert(ConfReservation cr) {
-		return resDAO.confInsert(cr);
+	public int confResInsert(ConfReservation cr) {
+		return resDAO.confResInsert(cr);
 	}
 
 	@Override
@@ -36,23 +37,23 @@ public class ResServiceImpl implements ResService {
 	}
 
 	@Override
-	public int carInsert(CarReservation cr) {
-		return resDAO.carInsert(cr);
+	public int carResInsert(CarReservation cr) {
+		return resDAO.carResInsert(cr);
 	}
 
 	@Override
-	public List<ResView> selectAllMyConfResList() {
-		return resDAO.selectAllMyConfResList();
+	public List<ResView> selectAllConfResList(Member m) {
+		return resDAO.selectAllConfResList(m);
 	}
 
 	@Override
-	public List<ResView> selectAllMyCarResList() {
-		return resDAO.selectAllMyCarResList();
+	public List<ResView> selectAllCarResList(Member m) {
+		return resDAO.selectAllCarResList(m);
 	}
 
 	@Override
-	public List<ResView> selectAllMyRList() {
-		return resDAO.selectAllMyRList();
+	public List<ResView> selectAllRList(Member m) {
+		return resDAO.selectAllRList(m);
 	}
 
 	@Override

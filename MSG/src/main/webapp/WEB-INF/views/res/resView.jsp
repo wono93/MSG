@@ -14,9 +14,9 @@
     
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-        <script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
+    <script>
            //아이콘 클릭 시 dateTimePicker focus
            $(document).ready(function(){
                 $('.startendicon').click(function(){
@@ -31,120 +31,33 @@
                 	
                 	if($("#cconf").is(":checked")){
 	                	//드롭다운에서 회의실 선택시 회의실예약내역 출력
-	                	$.ajax({
-		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
-		           			type: "get",
-		           			dataType : "text",
-		           			success : data => {
-		           					$("#confList-div").show();
-		           					$("#rList-div").hide();
-		           					$("#carList-div").hide();
-		            				
-		           			},
-		           			error : (x, s, e) => {
-		           				console.log(x, s, e);
-							}
-		           			
-		           		});
-                		
+	                	$("#confList-div").show();
+       					$("#rList-div").hide();
+       					$("#carList-div").hide();
                 	}
                 	else if($("#ccar").is(":checked")){
                 		
-                		$.ajax({
-		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
-		           			type: "get",
-		           			dataType : "text",
-		           			success : data => {
-		           					$("#confList-div").hide();
-		           					$("#rList-div").hide();
-		           					$("#carList-div").show();
-		            				
-		           			},
-		           			error : (x, s, e) => {
-		           				console.log(x, s, e);
-							}
-		           			
-		           		});
+                		$("#confList-div").hide();
+       					$("#rList-div").hide();
+       					$("#carList-div").show();
+		            		
                 	}
-               
-                	else{
-                		$.ajax({
-                        	url: "${pageContext.request.contextPath}/res/myResView.do",
-                        	type: "get",
-                        	dataType:"text",
-                        	success: data =>{
-                        		$("#rList-div").show();
-                        		$("#confList-div").hide();
-                        		$("#carList-div").hide();
-                        	},
-                        	error: (x, s, e) =>{
-                        		console.log(x, s, e);
-                        	}
-                        });
+               		else{
+                		$("#rList-div").show();
+                   		$("#confList-div").hide();
+                   		$("#carList-div").hide();
+                        	
+                	}
+                	
+                	if($(".ajaxHide-tr").length == 0){
+                		
+                		youHaveNoRes();
                 	}
                 });
                
-               
+              });    
                 
-               
-            });    
-                
-           /*  //ajax-smart 참고
-            $("#reservTest").click(function(){
-        		console.log("테스트중입니다");
-        		let reservation = {
-        			resUsedate :$("#timepicker-start").val(),
-        			resReturndate : $("#timepicker-end").val(),
-        		}
-        		$.ajax({
-        			url:"${pageContext.request.contextPath}/res/test.do",
-        			data:reservation,
-        			dataType:"text",
-        			success:data=>{
-        				console.log(data);
-        			},
-        			error:(x,s,e)=>{
-        				console.log(x,s,e);
-        			}
-        		});
-        	}); */
-            /* function requestCrawling2() {
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/res/test.do",	
-           			dataType : "json",
-           			method: "post",
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL2");
-            				$.each(data, function(idx, value){
-           					console.log(idx);
-           					console.log(value);
-           					console.log(value.contentsName);
-            					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value.contentsName+"</td>"+"<td><a href="+value.contentsHref+">"+value.contentsName+"</a></td>");	
-           					$table.append($td);				
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           } */
-
-
-            // Initialization
-            $('#my-element').datepicker()
+         	$('#my-element').datepicker()
             // Access instance of plugin
             $('#my-element').data('datepicker')
 
@@ -152,7 +65,8 @@
     <title>MSG :: 예약확인</title>
 </head>
 <style>
-
+.center1200 li:nth-of-type(3){color:#333;}
+.saveId-container { display: inline; position: relative; padding-left: 25px; top:7px; left:69px; cursor: pointer; font-size: 20px;}
 </style>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -220,7 +134,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${rList }" var="r" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 				                    		<%-- <c:if test="${Integer.parseInt(param.num1) > Integer.parseInt(param.num2) }"> --%>
 				                    		<c:if test="${fn:contains({r.thingCode},'CONF') }">
@@ -274,7 +188,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${confList }" var="c" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 											<td>회의실</td>
 				                    		<td>${c.thingName }</td>
@@ -322,7 +236,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${carList }" var="r" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 											<td>법인차량</td>
 				                    		<td>${r.thingName }</td>

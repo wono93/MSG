@@ -129,17 +129,19 @@
 			             </ul>
 			    </div>
 			    <div id="whitecontent">
-			    	<form action="${pageContext.request.contextPath }/res/confInsert.do" method="post" id="confResFrm">
+			    	<form action="${pageContext.request.contextPath }/res/confResInsert.do" method="post" id="confResFrm">
 				        <input type='text' id='timepicker-start-conf' name='resUsedate' class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off"/>
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off" placeholder="대여시작날짜/시간"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
-				        <span>~</span>
+				        <span>  ~</span>
 				        <input type='text' id='timepicker-end-conf' name='resReturndate' class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format="hh:ii" autocomplete="off" minutesStep="10" />
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format="hh:ii" autocomplete="off" minutesStep="10" placeholder="대여반납날짜/시간"/>
 				                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
 				        <input type="hidden" name="resEnrolldate" />
+				        <input type="hidden" name="empNo" class="empNo" value='${memberLoggedIn.empNo}'/>
+				        <input type="hidden" name="isManager" class="isManager" value="${memberLoggedIn.isManager}"/>
 				        <button id="getConfReserv"type="button">예약하기</button>
 				        <!-- <button  id="reservTest" onclick="requestAjax()"></button> -->
 				        <table class="res-table">
@@ -156,7 +158,7 @@
 				            		<td>${c.croomSize }</td>
 				            		<td>
 				            			<label class="saveId-container float" for="${c.croomCode }">
-				            			<input type="radio" name="conf" id="${c.croomCode }" value="${c.croomCode }"/>
+				            			<input type="radio" name="conf" id="${c.croomCode }" value="${c.croomCode }" onclick="intoConfCode();"/>
 				            			<span class="saveId-checkmark"></span></label>
 				            		</td>
 				            	</tr>

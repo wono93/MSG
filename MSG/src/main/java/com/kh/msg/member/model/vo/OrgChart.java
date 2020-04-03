@@ -68,8 +68,17 @@ public class OrgChart extends Member implements Serializable{
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "OrgChart [deptName=" + deptName + ", jobName=" + jobName + ", getEmpNo()=" + getEmpNo()
+				+ ", getJobCd()=" + getJobCd() + ", getDeptCd()=" + getDeptCd() + ", getUserId()=" + getUserId()
+				+ ", getIsManager()=" + getIsManager() + ", getUserPwd()=" + getUserPwd() + ", getEmpName()="
+				+ getEmpName() + ", getEmpRRNNo()=" + getEmpRRNNo() + ", getEmpImage()=" + getEmpImage()
+				+ ", getEmpContact()=" + getEmpContact() + ", getEmpEmail()=" + getEmpEmail() + ", getEmpAddress()="
+				+ getEmpAddress() + ", getAuthority()=" + getAuthority() + ", getHireDate()=" + getHireDate()
+				+ ", getQuitYn()=" + getQuitYn() + ", getEmpMsg()=" + getEmpMsg() + ", toString()=" + super.toString()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
+	}
 	
 	
 }

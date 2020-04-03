@@ -15,18 +15,19 @@ function getContextPath() {
         });
         
         //체크된 회의실코드 input:hidden에 담아주기
-        $('input[name="conf"]').click(function () {
-            let radioVal = $('input[name="conf"]:checked').val();
-        	$('#croomCode').val(radioVal);
-        	console.log($('#croomCode').val());
-        });
+//        $('input[name="conf"]').click(function () {
+//            let radioVal = $('input[name="conf"]:checked').val();
+//        	$('#croomCode').val(radioVal);
+//        	console.log($('#croomCode').val());
+//        });
         
         //체크된 차량코드 input:hidden에 담아주기
-        $('input[name="car"]').click(function () {
-            let radioVal = $('input[name="car"]:checked').val();
-        	$('#carCode').val(radioVal);
-        	console.log($('#carCode').val());
-        });
+//        $('input[name="car"]').click(function () {
+//            let radioVal = $('input[name="car"]:checked').val();
+//            let radioVal = $(this).val();
+//        	$('#carCode').val(radioVal);
+//        	console.log($('#carCode').val());
+//        });
         
         //로그인된 멤버가 일반사원이라면, 테이블의 margin-bottom 50px
         if(true){
