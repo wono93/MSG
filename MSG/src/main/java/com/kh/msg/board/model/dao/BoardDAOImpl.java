@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
@@ -169,6 +170,30 @@ public class BoardDAOImpl implements BoardDAO {
 	public List<Comment> selectComment(int boardNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.selectComment", boardNo);
+	}
+
+	@Override
+	public int insertRead(BoardRead boardRead) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("board.insertRead", boardRead);
+	}
+
+	@Override
+	public List<BoardRead> selectReadList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectReadList");
+	}
+
+	@Override
+	public int countScrapBoard(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.countScrapBoard", boardScrap);
+	}
+
+	@Override
+	public Object selectScrapBoard(PagingVo vo) {
+		Map<String, String> map = new HashMap<String, String>();
+		return sqlSession.selectList("board.selectScrapBoard", vo);
 	}
 
 	

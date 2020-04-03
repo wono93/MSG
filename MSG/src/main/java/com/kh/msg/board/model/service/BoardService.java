@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
@@ -60,6 +61,14 @@ public interface BoardService {
 	int cntUp(Board board);
 
 	List<Comment> selectComment(int boardNo);
+
+	int insertRead(BoardRead boardRead);
+
+	List<BoardRead> selectReadList();
+
+	int countScrapBoard(BoardScrap boardScrap);
+
+	Object selectScrapBoard(PagingVo vo);
 
 	
 }

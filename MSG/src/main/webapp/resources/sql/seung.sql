@@ -116,12 +116,14 @@ select * from ch_msg_tb;
 select * from ch_info_tb;
 select * from ch_member_tb;
 
-select A.*, M.emp_no from
+select A.*, M.emp_no, E.emp_name from
 (select I.ch_no ch_no, I.ch_name ch_name, I.ch_ex ch_ex, M.msg_date msg_date, m.msg_content msg_content
 from ch_info_tb I join
 (select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
-(select max(rowid) from ch_msg_tb group by ch_no)) M on I.ch_no=M.ch_no) A join ch_member_tb M on A.ch_no = M.ch_no
-where emp_no = 1;
+(select max(rowid) from ch_msg_tb group by ch_no)) M on I.ch_no=M.ch_no) A join ch_member_tb M on A.ch_no = M.ch_no left join emp_tb E on M.emp_no = E.emp_no
+where M.emp_no = 1;
 
 (select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
 (select max(rowid) from ch_msg_tb group by ch_no));
+
+select * from emp_tb;

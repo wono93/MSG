@@ -68,8 +68,6 @@ public class OrgChart extends Member implements Serializable{
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-
-
 	@Override
 	public String toString() {
 		return "OrgChart [deptName=" + deptName + ", jobName=" + jobName + ", getEmpNo()=" + getEmpNo()
@@ -81,12 +79,6 @@ public class OrgChart extends Member implements Serializable{
 				+ ", getQuitYn()=" + getQuitYn() + ", getEmpMsg()=" + getEmpMsg() + ", toString()=" + super.toString()
 				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
 	}
-	
-	
-
-
-	
-	
 	
 	
 }
