@@ -236,7 +236,7 @@
 			<br> <br>
 			<button type="submit" id="modalsub">확인</button>
 			<a href="#" rel="modal:close"><button id="modalclo"
-					onclick="modalDel(this);">취소</button></a>
+					onclick="modalDel();">취소</button></a>
 			<!-- 닫기버튼 -->
 		</div>
 		</div>
@@ -245,12 +245,13 @@
 
 	<script>
 		
-		/* function modalDel(btn){
+		 function modalDel(){
+			 alert("기존내용 삭제");
+					$(".delTr").remove();		
 			
-			
-		} */
+		};  
 	
-	
+		
 		function modal(btn) {
 			/* let empNo = $(btn).val(); */
 
@@ -264,9 +265,9 @@
 					empNo : btnNo
 				},
 				success : function(data) {
-					var str = '<tr>';
+					var str = '';
 					$.each(data, function(i, item) {
-						str += '<td>' + item.vctnNm + '</td><td>'
+						str += '<tr class ="delTr"><td>' + item.vctnNm + '</td><td>'
 								+ item.vctnAmt + '</td><td>' + item.edocId
 								+ '</td><td>' + item.vctnUpdtDt + '</td>';
 						str += '</tr>'
