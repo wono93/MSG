@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.msg.board.model.service.BoardService;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
@@ -74,7 +75,8 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam("boardNo") int boardNo,
 			@RequestParam("empNo") int empNo,
-			Board board, Member member, Comment comment,
+			@RequestParam("memberEmpno")int memberEmpno,
+			Board board, Member member, Comment comment, BoardRead boardRead,
 			 Model model) {
 		
 		//조회수 증가
@@ -91,14 +93,21 @@ public class BoardController {
 			}
 		}
 		if(board != null) {
-			log.debug("System - 해당 상세 리뷰페이지로 ㄱ");
 			
 			if(boardCookie == null) {
 				log.debug("cookie 없음");
 				Cookie newCookie = new Cookie("cookie"+ boardNo, "|" + boardNo + "|");
-				response.addCookie(newCookie);	
+				response.addCookie(newCookie);
+				
+				//조회수증가
 				board.setNo(boardNo);
 				int result = boardService.cntUp(board);
+				
+				//읽은글 저장
+				boardRead.setEmpNo(memberEmpno);
+				boardRead.setNo(boardNo);
+				int result1 = boardService.insertRead(boardRead);
+				
 				log.debug("result================"+result);
 				if(result>0) {
 					log.debug("조회수 증가");
@@ -115,11 +124,14 @@ public class BoardController {
 				log.debug("쿠키값은?="+value);
 			}
 		}
+		
 		board = boardService.selectOne(boardNo);
+		member = boardService.selectMember(empNo);
 		List<Comment> commentList = boardService.selectComment(boardNo);
 		List<Member> memberList = boardService.selectMemberList();
 		log.debug("board================"+board);
 		
+		model.addAttribute("boardRead", boardRead);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("board", board);
 		model.addAttribute("memberList", memberList);
@@ -370,7 +382,7 @@ public class BoardController {
     }
     
     @GetMapping("/list.do")
-    public String boardList(PagingVo vo, Model model, Board board
+    public String boardList(PagingVo vo, Model model, Board board, BoardRead boardRead
     		, @RequestParam(value="catagkeyword", required=false)String catagkeyword
     		, @RequestParam(value="keyword", required=false)String keyword
     		, @RequestParam(value="nowPage", required=false)String nowPage
@@ -388,6 +400,8 @@ public class BoardController {
     	} else if (cntPerPage == null) { 
     		cntPerPage = "15";
     	}
+    	List<BoardRead> readList = boardService.selectReadList();
+    	
     	
     	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
     	vo.setCatagkeyword(catagkeyword);
@@ -397,6 +411,7 @@ public class BoardController {
     	List<Member> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
     	
+    	model.addAttribute("readList", readList);
     	model.addAttribute("attachList", attachList);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("keyword", keyword);
@@ -440,6 +455,41 @@ public class BoardController {
     	//model.addAttribute("jaBoard", boardService.selectJaBoard(vo));//자유게시판
     	//model.addAttribute("gongBoard", boardService.selectGongBoard(vo));//공지&행사게시판
     	return "board/boardMyList";
+    }
+    
+    @GetMapping("/scrapList.do")
+    public String scrapList(PagingVo vo, Model model, BoardScrap boardScrap
+    		, @RequestParam(value="empNo", required=false)int empNo
+    		, @RequestParam(value="nowPage", required=false)String nowPage
+    		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+    		) {
+    	
+    	boardScrap.setEmpNo(empNo);
+    	int total = boardService.countScrapBoard(boardScrap);
+    	if (nowPage == null && cntPerPage == null) {
+    		nowPage = "1";
+    		cntPerPage = "15";
+    	} else if (nowPage == null) {
+    		nowPage = "1";
+    	} else if (cntPerPage == null) { 
+    		cntPerPage = "15";
+    	}
+    	
+    	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+    	vo.setEmpNo(empNo);
+    	List<Member> memberList = boardService.selectMemberList();
+    	List<Attachment> attachList = boardService.selectAttachList();
+    	
+    	model.addAttribute("attachList", attachList);
+    	model.addAttribute("memberList", memberList);
+    	model.addAttribute("empNo", empNo);
+        model.addAttribute("paging", vo);
+     	model.addAttribute("viewAll", boardService.selectScrapBoard(vo));
+    	//model.addAttribute("gunBoard", boardService.selectGunBoard(vo));//건의게시판
+    	//model.addAttribute("jaBoard", boardService.selectJaBoard(vo));//자유게시판
+    	//model.addAttribute("gongBoard", boardService.selectGongBoard(vo));//공지&행사게시판
+    	return "board/boardScrapList";
     }
     
     @PostMapping("/attachUpdate.do")

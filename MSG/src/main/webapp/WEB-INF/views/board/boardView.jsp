@@ -88,6 +88,8 @@
     <section>
         <div>
             <article>
+            
+            
                 <div class="subNav">
                     <h3>커뮤니케이션</h3>
                     <ul>
@@ -193,15 +195,14 @@
 		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
 		                                        </div>
 		                                    </td>
-			                                    <c:forEach begin="0" end="0" items="${commentList }" var="co">
-				                                    <c:forEach begin="0" end="0" items="${memberList }" var="m">
-						                                    <c:if test="${co.empNo == m.empNo}">
+				                                    <c:forEach items="${memberList }" var="m">
+						                                    <c:if test="${c.empNo == m.empNo}">
 						                                    	<td style="padding: 0; width: 166px;">
 						                                    		${m.deptCd} ${m.jobCd}  ${m.empName }
 						                                    	</td>
 						                                    </c:if>
 				                                    </c:forEach>
-			                                    </c:forEach>
+			                                   
 		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
 		                                    <td style="padding: 0; width: 166px; color: gray;">
 		                                        ${c.date }
@@ -228,7 +229,7 @@
                                     <td style="width: 720px;">
                                     <div>
                                         <textarea name="cmtContent" id="inputWrd"></textarea>
-                                        </div>
+                                    </div>
                                     </td>
                                     <td>
                                     	<input type="hidden" value="${memberLoggedIn.empNo}" name="empNo"/>

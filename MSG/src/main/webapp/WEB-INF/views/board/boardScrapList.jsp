@@ -10,7 +10,27 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    
+    <%
+	//접속자 확인
+    String ls_validate = "현재 페이지는 물론 이전 페이지에서 설정된 세션 값을 얻어오는 예제입니다.";
+    session.setAttribute("Validate", ls_validate);
+
+    String ls_name = "";
+    String ls_value = "";
+
+    Enumeration enum_app = session.getAttributeNames();
+    int i = 0;
+
+    while(enum_app.hasMoreElements()) {
+   
+        i++;
+        ls_name = enum_app.nextElement().toString();
+        ls_value = session.getAttribute(ls_name).toString();
+   
+        out.println("<br/>얻어온 세션 이름 [ " + i +" ] : " + ls_name + "<br/>");
+        out.println("<br/>얻어온 세션 값 [ " + i +" ] : " + ls_value + "<hr/>");
+}
+%>
     <script>
     
     $(()=>{
@@ -22,6 +42,16 @@
     		console.log(empNo);
     		
     		location.href = "${pageContext.request.contextPath}/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
+    	});
+    });
+    
+    $(()=>{
+    	$("tr[data-board-no]").on("click", function(e){
+    		console.log(this, e.target);//tr, td
+    		let empNo = $(this).attr("data-emp-no");
+    		console.log(empNo);
+    		
+    		location.href = "${pageContext.request.contextPath}/board/myList.do?empNo="+empNo;
     	});
     });
    /* 
@@ -159,8 +189,8 @@
                                     <label class="select-box__option" for="asd0" aria-hidden="aria-hidden">모두 보기</label>
                                 </li>
                             </div >
-                            <!--   -->
-                            <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">                     
+                            <!--  "${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}" -->
+                            <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">
                                 <li>
                                     <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
                                 </li>
@@ -175,11 +205,7 @@
                                 </li> -->
                             </ul>
                         </div>
-                        
-                        
-
                         <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/write.do'"><i class="far fa-edit"></i> 글쓰기</button>
-
                     </div>
                 <div id="44">
                     <table>
@@ -193,36 +219,31 @@
                             <th>조회수 </th>
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
-							<c:if test="${b.dateb<2 }">
-	                        	<tr style="z-index:999; color: rgb(93, 93, 253);">
-							</c:if>
-								<c:if test="${b.dateb>=2 }">
-									<tr style="z-index:999;">
-								</c:if>
+							
+								<tr style="z-index:999;">
+							
 	                            	<td>${b.no }</td>
 	                            <c:forEach items="${memberList }" var="m">
 		                            <c:if test="${m.empNo == b.empNo }">
 		                            	<td>${m.empName }</td>
 		                        	</c:if>
 		                        </c:forEach>    
-	                            <td>${b.catag }</td>
+	                            <td>asd</td>
 	                            <td>
-	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}">
-	                                ${b.title }
+	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
+	                                ${b.memo}
 	                            </a>
-	                            	<c:if test="${b.dateb<2 }">
-	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
-	                                </c:if>
+	                            	
 	                            </td>
 	                            		<td>
 		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
 			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
-			                            			<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
+			                            		<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
 			                            	</c:if>
 	                            	</c:forEach>
                             			</td>
-	                            <td>${b.bdate }</td>
-	                            <td>${b.cnt }
+	                            <td>123</td>
+	                            <td>123
 	                            	<input type="hidden" name="no" value="${b.no }"/>
 	                            </td>
 	                        </tr>
@@ -240,7 +261,7 @@
                          -->
                     <div class="pagination">
                     <c:if test="${paging.startPage != 1 }">
-						<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" class="arrow">&laquo;</a>
+						<a href="${pageContext.request.contextPath}/board/scrapList.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" class="arrow">&laquo;</a>
 					</c:if>
 					<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 						<c:choose>
@@ -248,12 +269,12 @@
 								<a class="active">${p }</a>
 							</c:when>
 							<c:when test="${p != paging.nowPage }">
-								<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" >${p }</a>
+								<a href="${pageContext.request.contextPath}/board/scrapList.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" >${p }</a>
 							</c:when>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${paging.endPage != paging.lastPage}">
-						<a href="${pageContext.request.contextPath}/board/myList.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" class="arrow">&raquo;</a>
+						<a href="${pageContext.request.contextPath}/board/scrapList.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&empNo=${memberLoggedIn.empNo}" class="arrow">&raquo;</a>
 					</c:if>
 					</div>
 					

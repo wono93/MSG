@@ -30,6 +30,8 @@ public class DirectMsg extends OrgChart implements Serializable{
 	private String msgContent;
 	private Date msgDate;
 	
+	private Date sessionDate;
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
