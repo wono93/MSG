@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -31,10 +32,16 @@
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
 <%
+	
+	//OrgChart oc = null;
+	//if(session.getAttribute("memberLoggedIn") != null){
+	//	oc = (OrgChart)session.getAttribute("memberLoggedIn");	
+	//}
 	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
 	String userId = oc.getUserId();
 	int empNo = oc.getEmpNo();
 %>
+
 <script>	
 	var fromId = '<%=userId%>';
 	var empNo = '<%=empNo%>';

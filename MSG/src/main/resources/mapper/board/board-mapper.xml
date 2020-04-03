@@ -60,12 +60,18 @@
 			#{brdNo})
 	</insert>
 	
-	<select id="selectSrap" resultType="BoardScrap">
+	<select id="selectScrap" resultType="BoardScrap">
 		select * from brd_scp_tb where no = #{no}
 	</select>
+	
 	<resultMap type="comment" id="comment"></resultMap>
 	<select id="selectComment" resultMap="comment">
 		select * from cmt_tb where brd_no = #{boardNo}
+	</select>
+	
+	<resultMap type="boardRead" id="boardRead"></resultMap>
+	<select id="selectReadList" resultMap="boardRead">
+		select * from brd_rd_tb
 	</select>
 	
 	<select id="selectOne" resultMap="boardCollection">
@@ -168,7 +174,6 @@
 				WHERE content like '%'||#{keyword}||'%'
 				OR title like '%'||#{keyword}||'%'
 				OR catag like '%'||#{catagkeyword}||'%'
-				
 	</select>
 	<!-- 페이징 처리 후 게시글 조회 -->
 	<select id="selectBoard" resultType="Board">
@@ -211,12 +216,37 @@
 		order by no desc
 	</select>
 	
+	<select id="countScrapBoard" resultType="int">
+		SELECT COUNT(*) FROM brd_scp_tb
+				WHERE emp_no like #{empNo}
+	</select>
+	<!-- 내가쓴글 페이징 처리 후 게시글 조회 -->
+	<select id="selectScrapBoard" resultType="BoardScrap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							select * 
+							from brd_scp_tb
+							WHERE emp_no like #{empNo}
+							order by no desc
+							) a
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+		order by no desc
+	</select>
+	
 	
 	<insert id="insertScrap">
 		insert into brd_scp_tb values(
 			#{no}, 
 			#{empNo}, 
 			default, default)
+	</insert>
+	<insert id="insertRead">
+		insert into brd_rd_tb values(
+			#{no}, #{empNo}
+		)
 	</insert>
 	<!-- 
 	INSERT INTO tbl_board_like (board_id, user_id)

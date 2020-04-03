@@ -57,8 +57,6 @@ public class MemberController {
 			
 			OrgChart member = memberService.selectOne(userId);
 			
-			
-			
 			log.debug("member={}", member);
 			log.debug(bcryptPasswordEncoder.encode(password));
 

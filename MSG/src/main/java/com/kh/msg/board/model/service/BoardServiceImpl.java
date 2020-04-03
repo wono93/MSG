@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.board.model.dao.BoardDAO;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
 import com.kh.msg.board.model.vo.PagingVo;
@@ -200,7 +201,29 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectComment(boardNo);
 	}
 
+	@Override
+	public int insertRead(BoardRead boardRead) {
+		// TODO Auto-generated method stub
+		return boardDAO.insertRead(boardRead);
+	}
 
-	
+	@Override
+	public List<BoardRead> selectReadList() {
+		// TODO Auto-generated method stub
+		return boardDAO.selectReadList();
+	}
+
+	@Override
+	public int countScrapBoard(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.countScrapBoard(boardScrap);
+	}
+
+	@Override
+	public Object selectScrapBoard(PagingVo vo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectScrapBoard(vo);
+	}
+
 	
 }
