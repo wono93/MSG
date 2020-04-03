@@ -68,14 +68,6 @@ public class OrgChart extends Member implements Serializable{
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-
-
-	@Override
-	public String toString() {
-		return "orgChart [deptName=" + deptName + ", jobName=" + jobName + "]";
-	}
-
-
 	
 	
 	

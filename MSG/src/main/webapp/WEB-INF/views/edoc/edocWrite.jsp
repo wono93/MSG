@@ -374,7 +374,7 @@
                                 </td>
                                 <td>업무/결재<br>대행</td>
                                 <td>
-                                    <input type="text" name="" id="surEmpNo" class="textIpt" placeholder="검색할 이름을 입력하세요">
+                                    <input type="number" name="" id="surEmpNo" class="textIpt" placeholder="검색할 이름을 입력하세요">
                                 </td>
                             </tr>
                         </table>
@@ -429,16 +429,13 @@
                             </div>
                         </td>
                         <td  class="flowBox">
-							<form action="">
-								<table id="flowLineTb" class="flowLineTable">
-									<tr id="deadline">
-										<th colspan=3>이름</th>
-										<th>전결</th>
-										<th>삭제</th>
-									</tr>
-
-								</table>
-							</form>
+							<table id="flowLineTb" class="flowLineTable">
+								<tr id="deadline">
+									<th colspan=3>이름</th>
+									<th>전결</th>
+									<th>삭제</th>
+								</tr>
+							</table>
                         </td>
                     </tr>
                     <tr>
@@ -515,7 +512,7 @@
 	  		 			return;
 	  		 		}
 	  		 		var i = flowLine.length - 1;
-					$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+response['dept']+"</td><td>"+response['job']+"</td><td>"+response['name']+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+					$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+response['dept']+"</td><td>"+response['job']+"</td><td>"+response['name']+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='checkbox' name='flowLineCheck' id='flowLine"+flowLine.length+"' onClick='flowLineCheck(this);'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeFlow(this);' class='flowBoxX'/></td></tr>");
 					/* console.log(flowLine); */
 	  		    }
 	  		});
@@ -531,7 +528,8 @@
 			/* console.log(flowLine); */
 			
  			for(var i in flowLine){
-				$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+flowLine[i][1]+"</td><td>"+flowLine[i][2]+"</td><td>"+flowLine[i][3]+"</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='radio' name='flowLine' id='flowLine"+flowLine.length+"'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onclick='removeFlow(this)' class='flowBoxX'/></td></tr>");
+ 				var j = +i+1;
+				$("#flowLineTb").append("<tr id=flowLine"+i+"><td>"+flowLine[i][1]+"</td><td>"+flowLine[i][2]+"</td><td>"+flowLine[i][3]+"</td><td><label class='flowLine-container kor float' for='flowLine"+j+"'><input type='checkbox' name='flowLineCheck' id='flowLine"+j+"' onClick='flowLineCheck(this);'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeFlow(this);' class='flowBoxX'/></td></tr>");
 			}
 			
 		};
@@ -565,28 +563,30 @@
 			//여기서부터 휴가 양식
 			var vctnCd = $("input[name=periodCheck]:checked").val();
 			
-			timePick = timePick.split(" ~ ");
-			var startDt = timePick[0].substr(0,10);
+			splitedTimePick = timePick.split(" ~ ");
+			var startDt = splitedTimePick[0].substr(0,10);
 			var endDt;
 			if(timePick[1]==null){
-				endDt = timePick[0].substr(0,10);
+				endDt = splitedTimePick[0].substr(0,10);
 			} else{
-				endDt = timePick[1].substr(0,10);
+				endDt = splitedTimePick[1].substr(0,10);
 			}
 			var leaveAmt = $("#leaveAmt").val();
 			var leavePurpose = $("#leavePurpose").val();
 			var leaveContact = $("#leaveContact").val();
 			var typeCd = $("input[name=typeCd]:checked").val();
 			var surEmpNo = $("#surEmpNo").val();
-			
-			console.log(flowLine);
-			// 결재선은 이미 flowLine 객체에 들어 있음.
-			/* flowLine; */
-
-
+			var flowCd = null;
+			// 결재선은 이미 flowLine 객체에 들어 있고, 전결만 보내주면 됨.
+			/* console.log(flowLine); */
+			if(!$('input[name="flowLineCheck"]:checked').attr("id")==null){
+				flowCd = $('input[name="flowLineCheck"]:checked').attr("id").substr(8); // 해당 번호의 flowLine 배열이 전결이라는 의미. 단, 번호는 1부터 매겼음에 유의.
+			}
+			console.log(flowCd);
 	  		$.ajax({
 				type:"post",
 				url: "/msg/edoc/write.do",
+				traditional : true, // 배열 전달용
 				data: {
 					empNo : empNo,
 					secuCd : secuCd,
@@ -600,15 +600,31 @@
 					leaveContact : leaveContact,
 					typeCd : typeCd,
 					surEmpNo : surEmpNo,
-	  		    	flowLine : flowLine
+	  		    	flowLine : flowLine,
+	  		    	flowCd : flowCd
 	  		    },
 	  		    dataType: "json",
 	  		    success: function(response){
-	  		    	
+	  		    	console.log(response)
+	  		    	if(response!="0") {
+	  		    		alert("성공!")
+	  		    	}
+	  		    	else {
+	  		    		alert("실패!")
+	  		    	}
 	  		    }
 	  		});
 			
 		}
+		// 체크박스 라디오 버튼처럼 동작시키는 함수
+		function flowLineCheck(obj) {
+			if(obj.checked){
+				/* console.log($(obj).attr("id")); */
+				$('input[name="flowLineCheck"]').prop("checked", false);
+				$(obj).prop("checked",true);
+			}	
+		}
+		
 	</script>
 </body>
 </html>
