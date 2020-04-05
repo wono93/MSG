@@ -24,9 +24,10 @@ public class EdocFlow implements Serializable{
 
 	private String edocId;
 	private String flowCd;
+	private String flowNm;
 	private int flowEmpNo;
 	private int flowOrd;
-	private char flowSt;
+	private String flowSt;
 	private String flowCmt;
 	private Date flowDt;
 	

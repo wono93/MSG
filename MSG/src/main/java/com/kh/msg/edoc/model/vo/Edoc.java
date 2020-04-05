@@ -27,7 +27,7 @@ public class Edoc implements Serializable{
 	private int edocVer;
 	private int edocOrgId;
 	private String edocDt;
-	private char edocEnd;
+	private String edocEnd;
 	private String edocEndDt;	
 	
 	private List<EdocFlow> edocFlowList;
@@ -41,7 +41,7 @@ public class Edoc implements Serializable{
 
 
 	public Edoc(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle,
-			int edocVer, int edocOrgId, String edocDt, char edocEnd, String edocEndDt, List<EdocFlow> edocFlowList) {
+			int edocVer, int edocOrgId, String edocDt, String edocEnd, String edocEndDt, List<EdocFlow> edocFlowList) {
 		// TODO Auto-generated constructor stub
 	}
 

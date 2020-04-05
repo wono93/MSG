@@ -45,13 +45,14 @@ public class EdocController {
 	EdocService edocService;
 
 	@GetMapping("/list.do")
-	public ModelAndView list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="myDocu,reqDocu,compDocu,refDocu")String[] arrayDocuCheck, HttpSession session) {
+	public ModelAndView list(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, @RequestParam(value="srchType", defaultValue="all")String srchType, @RequestParam(value="arrayDocuCheck", defaultValue="myDocu,reqDocu,compDocu,refDocu")String[] arrayDocuCheck, HttpSession session) {
 		log.debug("=========내 전자문서 페이지=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
 		
-		OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
+		OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");// 로그인 객체 호출
 		
+		//일단 초기값은 모든 종류의 문서를 가져오는 것으로 가정
 		String myDocu = "y"; 
 		String reqDocu = "y"; 
 		String compDocu = "y"; 
@@ -62,12 +63,14 @@ public class EdocController {
 		if(!Arrays.stream(arrayDocuCheck).anyMatch("compDocu"::equals)) compDocu="n";
 		if(!Arrays.stream(arrayDocuCheck).anyMatch("refDocu"::equals)) refDocu="n";
 		
+		// docuCheckMap : 페이지 리다이렉트시 이전에 선택한 검색 조건을 유지 하기 위해 사용
 		Map<String, String> docuCheckMap = new HashMap<String, String>();
 		docuCheckMap.put("myDocu", myDocu);
 		docuCheckMap.put("reqDocu", reqDocu);
 		docuCheckMap.put("compDocu", compDocu);
 		docuCheckMap.put("refDocu", refDocu);
 		
+		//
 		Map<String, String> map = new HashMap<>();
 		map.put("srchWord", srchWord);
 		map.put("srchType", srchType);
@@ -76,9 +79,10 @@ public class EdocController {
 		map.put("reqDocu", reqDocu);
 		map.put("compDocu", compDocu);
 		map.put("refDocu", refDocu);
-		
+
 		List<EdocSrch> list = edocService.selectMyList(cPage, numPerPage, map);
 		
+		log.debug("list.toString()={}", list.toString());
 		int totalContents = edocService.selectMyEdocTotalContents(map);
 		
 		mav.addObject("myEdocList", list);
@@ -96,15 +100,15 @@ public class EdocController {
 			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
 		}
 		else {
-			pageBar += "<a href='/msg/edoc/srch.do?cPage="+(pageNo-1)+"'>&laquo;</a>";
+			pageBar += "<a href='/msg/edoc/list.do?cPage="+(pageNo-1)+"&srchWord="+srchWord+"&srchType="+srchType+"'>&laquo;</a>";
 		}
 		
 		while(pageNo <= pageEnd  && pageNo <= totalPage) {
 			if(pageNo == cPage) {
-				pageBar += "<span class='active'>"+pageNo+"</span>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>"+pageNo+"</a>";
+				pageBar += "<a href='/msg/edoc/list.do?cPage="+pageNo+"&srchWord="+srchWord+"&srchType="+srchType+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 		};
@@ -112,12 +116,14 @@ public class EdocController {
 			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
 		}
 		else {
-			pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>&raquo;</a>";
+			pageBar += "<a href='/msg/edoc/list.do?cPage="+pageNo+"&srchWord="+srchWord+"&srchType="+srchType+"'>&raquo;</a>";
 		};
 		
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("cPage", cPage);
 		mav.addObject("docuCheckMap", docuCheckMap);
+		mav.addObject("srchWord", srchWord);
+		mav.addObject("srchType", srchType);
 		
 		
 		mav.setViewName("edoc/edocList");
@@ -131,6 +137,8 @@ public class EdocController {
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
 		
+		log.debug("srchWord@srch.EdocController{}",srchWord);
+		log.debug("srchType@srch.EdocController{}",srchType);
 		
 		List<EdocSrch> list = edocService.selectList(cPage, numPerPage, srchWord, srchType);
 		
@@ -147,20 +155,21 @@ public class EdocController {
 		final int pageEnd = (pageStart+pageBarSize)-1;
 		int pageNo = pageStart;
 		
+
 		String pageBar = "";
 		if(pageNo == 1) {
 			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
 		}
 		else {
-			pageBar += "<a href='/msg/edoc/srch.do?cPage="+(pageNo-1)+"'>&laquo;</a>";
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+(pageNo-1)+"&srchWord="+srchWord+"&srchType="+srchType+"'>&laquo;</a>";
 		}
 		
 		while(pageNo <= pageEnd  && pageNo <= totalPage) {
 			if(pageNo == cPage) {
-				pageBar += "<span class='active'>"+pageNo+"</span>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>"+pageNo+"</a>";
+				pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"&srchWord="+srchWord+"&srchType="+srchType+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 		};
@@ -168,9 +177,9 @@ public class EdocController {
 			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
 		}
 		else {
-			pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"'>&raquo;</a>";
+			pageBar += "<a href='/msg/edoc/srch.do?cPage="+pageNo+"&srchWord="+srchWord+"&srchType="+srchType+"'>&raquo;</a>";
 		};
-		
+
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("cPage", cPage);
 		
@@ -197,7 +206,7 @@ public class EdocController {
 	}
 	@ResponseBody
 	@PostMapping("/write.do")
-	public void edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt,
+	public String edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt,
 			String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String[] flowLine, String flowCd) {
 		
 		String edocId = edocService.newEdocId();
@@ -217,26 +226,29 @@ public class EdocController {
 		edocLeaveLtt.setLeaveAmt(Integer.parseInt(leaveAmt));
 		edocLeaveLtt.setLeavePurpose(leavePurpose);
 		edocLeaveLtt.setLeaveContact(leaveContact);
-		edocLeaveLtt.setSurEmpNo(Integer.parseInt(surEmpNo));
+		if(surEmpNo != null) {
+			edocLeaveLtt.setSurEmpNo(Integer.parseInt(surEmpNo));
+		}
 		edocLeaveLtt.setTypeCd(typeCd);
 		
-		for(int i = 0; i < flowLine.length; i++) {
-			EdocFlow ef = new EdocFlow();
-			ef.setEdocId(edocId);
-			// F1 : 결재, F2 : 전결
-			if(flowCd!="") {
-				if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
+		if(flowLine.length > 1) {
+			for(int i = 0; i < flowLine.length-1; i++) { // 더미 flowLine을 하나 추가했으므로, 컨트롤러로 받은 시점에서 하나를 덜 세는 것.
+				EdocFlow ef = new EdocFlow();
+				ef.setEdocId(edocId);
+				// F1 : 결재, F2 : 전결
+				if(flowCd!="") {
+					if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
+				}
+				else ef.setFlowCd("F1");
+				ef.setFlowEmpNo(Integer.parseInt(flowLine[i].substring(0, 1)));
+				ef.setFlowOrd(i+1);
+				edocFlowList.add(ef);
 			}
-			else ef.setFlowCd("F1");
-			ef.setFlowEmpNo(Integer.parseInt(flowLine[i].substring(0, 1)));
-			ef.setFlowOrd(i+1);
-			edocFlowList.add(ef);
 		}
 		
 		int result = edocService.edocWrite(edocLeaveLtt, edocAttList, edocFlowList);
-		
-		log.debug("제발 되라되라되라"+result);
-		
+
+		return "edoc/list.do";
 	}
 
 
