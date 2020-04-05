@@ -127,3 +127,180 @@ where M.emp_no = 1;
 (select max(rowid) from ch_msg_tb group by ch_no));
 
 select * from emp_tb;
+select * from edoc_tb join leave_ltt_tb using(edoc_id);
+
+
+select "EDOC_ID","SECU_CD","PRSV_CD","EMP_NO","EMP_MOD_NO","EDOC_TITLE","EDOC_VER","EDOC_ORG_ID","EDOC_DT","EDOC_END","EDOC_END_DT","VCTN_CD","START_DT","END_DT","LEAVE_AMT","LEAVE_PURPOSE","LEAVE_CONTACT","TYPE_CD","SUR_EMP_NO" from edoc_tb join leave_ltt_tb using(edoc_id);
+select * from edoc_tb join leave_ltt_tb using(edoc_id);
+select * from edoc_tb;
+select * from leave_ltt_tb;
+select * from emp_tb;
+
+
+select * from leave_ltt_view;
+select * from edoc_tb;
+select * from leave_ltt_tb;
+
+insert into
+				edoc_tb
+			values
+				('ED-200404-3', 'S3','P4', 1, NULL, '테스트용', 0, NULL, sysdate, NULL, NULL)
+    		into
+				leave_ltt_tb
+			values 
+				('ED-200404-3', 'P4', to_date('2020-04-01', 'YYYY-MM-DD HH24:MI:SS'), to_date('2020-04-02', 'YYYY-MM-DD HH24:MI:SS'), 2, '테스트', '123', 'D5', 2)
+select * from dual;
+
+
+begin
+    insert into edoc_tb values ('ED-200404-3', 'S3','P4', 1, NULL, '테스트용', 0, NULL, sysdate, NULL, NULL);
+    insert into leave_ltt_tb values ('ED-200404-3', 'P4', to_date('2020-04-01', 'YYYY-MM-DD HH24:MI:SS'), to_date('2020-04-02', 'YYYY-MM-DD HH24:MI:SS'), 2, '테스트', '123', 'D5', 2);
+    commit;
+end;
+/
+
+
+
+select
+			*
+		from
+			
+ (select
+				*
+			from
+				edoc_all_tb
+			 WHERE NULL like '%' ||  NULL || '%' 
+			)
+		 WHERE 
+				(emp_no = 1
+				and edoc_end != 'y')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st != 'y'
+				and flow_NM = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st = 'y'
+				and edoc_end != 'y'
+				and flow_NM = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_NM = '참조') 
+		order by edoc_dt desc;
+        
+        
+select A."EDOC_ID",A."SECU_CD",A."PRSV_CD",A."EMP_NO",A."EMP_MOD_NO",A."EDOC_TITLE",A."EDOC_VER",A."EDOC_ORG_ID",A."EDOC_DT",A."EDOC_END",A."EDOC_END_DT",A."TYPE_CD", t.form_nm, p.prsv_amt, s.secu_nm, U.emp_name, F.flow_cd, F.emp_no flow_emp_no, F.flow_ord, F.flow_st
+from 
+(select * from (select E.*, O.type_cd from edoc_tb E join leave_ltt_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join ofc_ltt_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join invoice_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join cost_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join edoc_exp_tb O on E.edoc_id = O.edoc_id)) A
+join edoc_type_tb T on A.type_cd = T.type_cd
+join preserv_tb P on A.prsv_cd = P.prsv_cd
+join sec_lv_tb S on A.secu_cd = S.secu_cd
+join emp_tb U on A.emp_no = U.emp_no
+left join flow_exe_tb F on A.edoc_id = F.edoc_id
+join flow_cd_tb C on F.flow_cd = C.flow_cd
+where A.edoc_org_id is null;
+
+
+
+
+-- myList 페이지 쿼리문 논리
+
+select
+			*
+		from
+			
+ (select
+				*
+			from
+				edoc_all_tb
+			 WHERE edoc_title like '%' ||  NULL || '%'
+					or
+					emp_name like '%' ||  NULL || '%'
+					or
+					form_nm like '%' ||  NULL || '%'
+					or
+					edoc_id like '%' ||  NULL || '%' 
+			)
+		 WHERE 
+				(emp_no = 1
+				and edoc_end is NULL)
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st is NULL
+				and flow_nm = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st = 'y'
+				and edoc_end = 'y'
+				and flow_nm = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_nm = '참조') 
+		order by edoc_dt desc;
+        
+            
+            
+select
+			*
+		from
+			
+ (select
+				*
+			from
+				edoc_all_tb
+			 WHERE edoc_title like '%' ||  NULL || '%'
+					or
+					emp_name like '%' ||  NULL || '%'
+					or
+					form_nm like '%' ||  NULL || '%'
+					or
+					edoc_id like '%' ||  NULL || '%' 
+			)
+		 WHERE 
+				(emp_no = 1
+				and edoc_end is NULL)
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st is NULL
+				and flow_nm = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_st = 'y'
+				and edoc_end = 'y'
+				and flow_nm = '결재')
+			
+			
+				or
+				(flow_emp_no = 1
+				and flow_ord != 1
+				and flow_nm = '참조') 
+		order by edoc_dt desc;
+        
