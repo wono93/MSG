@@ -10,104 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
 	
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-        <script>
-           
-            
-            /* function requestCrawling() {
-           	 if(e.key == 13){
-           	 var 변수명 = $("").attr();
-           	 var 변수명 = $(this).val();
-           	 }
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/crawling/crawlingTest1.do",	
-           			dataType : "json",
-           			data: { 데이터키 : 변수명},
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL1");
-            				$.each(data, function(idx, value){					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value+"</td>");	
-           					$table.append($td);				
-           					console.log(idx);
-           					console.log(value);
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           }
-            //ajax-smart 참고
-            $("#reservTest").click(function(){
-        		console.log("테스트중입니다");
-        		let reservation = {
-        			resUsedate :$("#timepicker-start").val(),
-        			resReturndate : $("#timepicker-end").val(),
-        		}
-        		$.ajax({
-        			url:"${pageContext.request.contextPath}/res/test.do",
-        			data:reservation,
-        			dataType:"text",
-        			success:data=>{
-        				console.log(data);
-        			},
-        			error:(x,s,e)=>{
-        				console.log(x,s,e);
-        			}
-        		});
-        	});
-            function requestCrawling2() {
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/res/test.do",	
-           			dataType : "json",
-           			method: "post",
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL2");
-            				$.each(data, function(idx, value){
-           					console.log(idx);
-           					console.log(value);
-           					console.log(value.contentsName);
-            					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value.contentsName+"</td>"+"<td><a href="+value.contentsHref+">"+value.contentsName+"</a></td>");	
-           					$table.append($td);				
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           } */
-        </script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     <title>MSG :: 회의실 예약</title>
 </head>
 <style>
@@ -152,7 +61,7 @@
 				                <th>선택</th>
 				            </tr>
 				            <c:forEach items="${cList }" var="c" varStatus="vs">
-				            	<tr>
+				            	<tr class="ajaxHide-tr">
 				            		<td>${vs.count }</td>
 				            		<td>${c.croomName }</td>
 				            		<td>${c.croomSize }</td>

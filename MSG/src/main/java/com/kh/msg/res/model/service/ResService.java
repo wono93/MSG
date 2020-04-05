@@ -21,11 +21,11 @@ public interface ResService {
 
 	int carResInsert(CarReservation cr);
 
-	List<ResView> selectAllConfResList(Member m);
+	List<ResView> selectAllConfResList(String empNo, String srchFrom, String srchTo);
 
-	List<ResView> selectAllCarResList(Member m);
+	List<ResView> selectAllCarResList(String empNo, String srchFrom, String srchTo);
 
-	List<ResView> selectAllRList(Member m);
+	List<ResView> selectAllRList(String empNo, String srchFrom, String srchTo);
 
 	int addConferenceRoom(ConferenceRoom c);
 
@@ -36,6 +36,8 @@ public interface ResService {
 	int delCar(String carCode);
 
 	List<Car> selectCarListEnd(String resUseDate, String resReturnDate);
+
+	List<ResView> selectResListByDate(String srchFrom, String srchTo);
 
 
 }

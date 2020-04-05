@@ -232,5 +232,4 @@ input{font-family: 'Noto Sans KR';}
 .close{cursor:pointer;}
 .doBtn{width:130px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 20px 0 0 495px; cursor:pointer;}
 .doBtn:hover{cursor:pointer; color:#fefefe; background-color:#999;}
-
-  
+.displayNone{display:none;}

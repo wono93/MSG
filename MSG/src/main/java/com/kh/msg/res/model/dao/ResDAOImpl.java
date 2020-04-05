@@ -43,18 +43,30 @@ public class ResDAOImpl implements ResDAO {
 	}
 	
 	@Override
-	public List<ResView> selectAllConfResList(Member m) {
-		return sqlSession.selectList("res.selectAllConfResList", m);
+	public List<ResView> selectAllConfResList(String empNo, String srchFrom, String srchTo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("empNo", empNo);
+		map.put("srchFrom", srchFrom);
+		map.put("srchTo", srchTo);
+		return sqlSession.selectList("res.selectAllConfResList", map);
 	}
 
 	@Override
-	public List<ResView> selectAllCarResList(Member m) {
-		return sqlSession.selectList("res.selectAllCarResList", m);
+	public List<ResView> selectAllCarResList(String empNo, String srchFrom, String srchTo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("empNo", empNo);
+		map.put("srchFrom", srchFrom);
+		map.put("srchTo", srchTo);
+		return sqlSession.selectList("res.selectAllCarResList", map);
 	}
 
 	@Override
-	public List<ResView> selectAllRList(Member m) {
-		return sqlSession.selectList("res.selectAllRList", m);
+	public List<ResView> selectAllRList(String empNo, String srchFrom, String srchTo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("empNo", empNo);
+		map.put("srchFrom", srchFrom);
+		map.put("srchTo", srchTo);
+		return sqlSession.selectList("res.selectAllRList", map);
 	}
 
 	@Override
@@ -85,6 +97,14 @@ public class ResDAOImpl implements ResDAO {
 		map.put("resUseDate", resUseDate);
 		map.put("resReturnDate", resReturnDate);
 		return sqlSession.selectList("res.selectCarListEnd", map);
+	}
+
+	@Override
+	public List<ResView> selectResListByDate(String srchFrom, String srchTo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("srchFrom", srchFrom);
+		map.put("srchTo", srchTo);
+		return sqlSession.selectList("res.selectResListByDate", map);
 	}
 	
 	

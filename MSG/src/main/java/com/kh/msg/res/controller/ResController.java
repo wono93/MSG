@@ -88,7 +88,7 @@ public class ResController {
 	
 	//차량 예약하기
 	@PostMapping("/carResInsert.do")
-	public ModelAndView carResInsert( CarReservation cr) {
+	public ModelAndView carResInsert(CarReservation cr) {
 	ModelAndView mav = new ModelAndView();
 	
 	//log.debug("carReservation={}", cr);
@@ -104,23 +104,20 @@ public class ResController {
 	//자신의 예약내역 보기
 	@ResponseBody
 	@GetMapping("/myResView.do")
-	//@GetMapping("/myResView/{empNo}/{isManager}")
 	public ModelAndView selectAllMyResList(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
 		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String empNo = m.getEmpNo()+"";
+		String srchFrom = null;
+		String srchTo = null;
+		
 		
 		log.debug("member={}",m);
 		
-		List<ResView> confList = resService.selectAllConfResList(m);
-		List<ResView> carList = resService.selectAllCarResList(m);
-		List<ResView> rList = resService.selectAllRList(m);
-		
-		
-		
-		//log.debug("confList={}", confList);
-		//log.debug("carList={}", carList);
-		//log.debug("rList={}", rList);
+		List<ResView> confList = resService.selectAllConfResList(empNo, srchFrom, srchTo);
+		List<ResView> carList = resService.selectAllCarResList(empNo, srchFrom, srchTo);
+		List<ResView> rList = resService.selectAllRList(empNo,srchFrom, srchTo);
 		
 		mav.addObject("confList", confList);
 		mav.addObject("carList", carList);
@@ -192,7 +189,6 @@ public class ResController {
 	@ResponseBody
 	public Map<String,List<Car>> selectCarListEnd(@RequestParam("resUseDate") String resUseDate,
 										 @RequestParam("resReturnDate") String resReturnDate) {
-		ModelAndView mav = new ModelAndView();
 		
 		//log.debug("대여 시작할 시간="+resUseDate+", 대여 마감시간="+resReturnDate);
 		
@@ -220,6 +216,46 @@ public class ResController {
 		allCarMap.put("unborrowable", unborrowableList);
 		
 		return allCarMap;
+	}
+	
+	//예약확인페이지에서 확인할 범위의 시간 입력시 ajax로 뷰단에 해당 시간 예약내역 출력
+	@GetMapping("/resListByDate")
+	@ResponseBody
+	public Map<String, List<ResView>> selectResListByDate(HttpSession session,
+											 @RequestParam(value="srchFrom") String srchFrom,
+			                                 @RequestParam(value="srchTo", required=false) String srchTo) {
+		
+		log.debug("srchFrom={}",srchFrom);
+		log.debug("srchTo={}",srchTo);
+		
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String empNo = m.getEmpNo()+"";
+		
+		List<ResView> confList = resService.selectAllConfResList(empNo, srchFrom, srchTo);
+		List<ResView> carList = resService.selectAllCarResList(empNo, srchFrom, srchTo);
+		List<ResView> rList = resService.selectAllRList(empNo,srchFrom, srchTo);
+		
+		for(ResView r : confList) {
+			r.setThingCate("회의실");
+		}
+		for(ResView r : carList) {
+			r.setThingCate("법인차량");
+		}
+		for(ResView r : rList) {
+			if(r.getThingCode().substring(0,3).equals("CON")) 
+				r.setThingCate("회의실");
+			else if(r.getThingCode().substring(0,3).equals("CAR")) 
+				r.setThingCate("법인차량");
+		}
+		
+		log.debug("confList={}",confList);
+		log.debug("rList={}",rList);
+		
+		Map<String, List<ResView>> map = new HashMap<>();
+		map.put("confList",confList);
+		map.put("carList",carList);
+		map.put("rList",rList);
+		return map;
 	}
 		
 }
