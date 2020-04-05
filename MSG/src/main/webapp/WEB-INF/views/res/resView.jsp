@@ -11,57 +11,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/jquery-3.4.1.js"></script>
-    
-    <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-    <script>
-           //아이콘 클릭 시 dateTimePicker focus
-           $(document).ready(function(){
-                $('.startendicon').click(function(){
-                    $("#timepicker-startend").focus();
-                });
-                
-                //기본상태 : 회의실예약내역 + 차량예약내역
-           		$("#confList-div").hide();
-           		$("#carList-div").hide();
-                
-               $("[name=cate]").change(()=>{
-                	
-                	if($("#cconf").is(":checked")){
-	                	//드롭다운에서 회의실 선택시 회의실예약내역 출력
-	                	$("#confList-div").show();
-       					$("#rList-div").hide();
-       					$("#carList-div").hide();
-                	}
-                	else if($("#ccar").is(":checked")){
-                		
-                		$("#confList-div").hide();
-       					$("#rList-div").hide();
-       					$("#carList-div").show();
-		            		
-                	}
-               		else{
-                		$("#rList-div").show();
-                   		$("#confList-div").hide();
-                   		$("#carList-div").hide();
-                        	
-                	}
-                	
-                	if($(".ajaxHide-tr").length == 0){
-                		
-                		youHaveNoRes();
-                	}
-                });
-               
-              });    
-                
-         	$('#my-element').datepicker()
-            // Access instance of plugin
-            $('#my-element').data('datepicker')
-
-        </script>
+    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.ui.position.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.js"></script>
+    
+    <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     <title>MSG :: 예약확인</title>
 </head>
 <style>
@@ -79,10 +37,6 @@
 			            <ul>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/confRes.do'">회의실</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/carRes.do'">법인차량</li>
-			                <%-- memberLoggedIn 의 관리자 여부에 따라 동작하는 controller method 다르게 할거임
-			                <c:if test="${Integer.parseInt(param.num1) > Integer.parseInt(param.num2) }">
-							<p>${Integer.parseInt(param.num1) }이 ${Integer.parseInt(param.num2) }보다 큽니다</p>
-							</c:if> --%>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/myResView.do'">예약확인</li>
 			             </ul>
 			    </div>
@@ -91,8 +45,7 @@
 			    			name="srchDate"
 			    			data-language="ko" id='timepicker-startend' class="datepicker-here"/>
 	                <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
-			        <input type="hidden" name="srchStart" id="srchStart" />
-			        <input type="hidden" name="srchEnd" id="srchEnd" />
+			        
 			        
 			        <div class="srchBar">
 			                <div class="select-box">
@@ -122,8 +75,8 @@
 			                        </li>
 			                    </ul>
 			                </div>
-			                <div id="rList-div">
-				           		<table class="res-table">
+			                <div id="rList-div" class="haveNoRes">
+				           		<table class="res-table all-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -161,6 +114,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${r.thingCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -176,8 +130,8 @@
 					                </div>        
 					            </div>
 					        </div>
-					         <div id="confList-div">
-				           		<table class="res-table">
+					         <div id="confList-div" class="haveNoRes">
+				           		<table class="res-table conf-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -209,6 +163,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${c.thingCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -224,8 +179,8 @@
 					                </div>        
 					            </div>
 					        </div>
-					         <div id="carList-div">
-				           		<table class="res-table">
+					         <div id="carList-div" class="haveNoRes">
+				           		<table class="res-table car-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -257,6 +212,7 @@
 				                    		</td>
 				                    		<td class="wide-td resUseDate"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td resReturnDate"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${r.thingCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -277,24 +233,12 @@
             </article>
         </div>
     </section>
+    
+    <script src="${pageContext.request.contextPath }/resources/js/res_footer.js"></script>
     <script>
-	$('#timepicker-startend').datepicker({
-		onSelect: function onSelect (date) {
-			
-			//검색받은 대여시작시간, 종료시간
-		    startDate = new Date(date.substr(0,11));
-		    endDate = new Date(date.substr(15,11));
-		    
-		    //input:hidden에 입력받은 검색시간 넣어주기
-		    $("#srchStart").val(startDate);
-		    if(date.length == 27){
-		    	$("#srchEnd").val(endDate);
-		    }
-		    
-		    /* console.log($("#srchStart").val());
-		    console.log($("#srchEnd").val()); */
-	    }
-	});
+    
+    
+	
 	
 	 $(document).ready(function(){
 		

@@ -2,10 +2,13 @@
 function getContextPath() { 
 	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 }
+
 /**
 * conf & car
  */
  $(document).ready(function(){
+	 
+	
     //아이콘 클릭 시 dateTimePicker focus
     	$('.starticon').click(function(){
             $('#timepicker-start').focus();
@@ -13,21 +16,6 @@ function getContextPath() {
         $('.endicon').click(function(){
             $('#timepicker-end').focus();
         });
-        
-        //체크된 회의실코드 input:hidden에 담아주기
-//        $('input[name="conf"]').click(function () {
-//            let radioVal = $('input[name="conf"]:checked').val();
-//        	$('#croomCode').val(radioVal);
-//        	console.log($('#croomCode').val());
-//        });
-        
-        //체크된 차량코드 input:hidden에 담아주기
-//        $('input[name="car"]').click(function () {
-//            let radioVal = $('input[name="car"]:checked').val();
-//            let radioVal = $(this).val();
-//        	$('#carCode').val(radioVal);
-//        	console.log($('#carCode').val());
-//        });
         
         //로그인된 멤버가 일반사원이라면, 테이블의 margin-bottom 50px
         if(true){
@@ -136,9 +124,58 @@ function getContextPath() {
         		}
         	}
         });
-       
-        
-        
+/*************************** 예약 확인 페이지 ****************************/      
+/** res **/
+$('.startendicon').click(function(){
+    $("#timepicker-startend").focus();
+});        
+	//기본상태 : 회의실예약내역 + 차량예약내역
+	$("#confList-div").hide();
+	$("#carList-div").hide();
+	
+	//예약 내역이 없을경우
+	if($(".ajaxHide-tr").length == 0){
+	youHaveNoRes();
+	}
+ 
+	//전체 / 회의실 / 차량 카테고리 선택값이 바뀔 때마다
+	$("[name=cate]").change(()=>{
+	 	
+	 	if($("#cconf").is(":checked")){
+	     	//드롭다운에서 회의실 선택시 회의실예약내역 출력
+	     	$("#confList-div").show()
+	     					  .children("table").addClass('res-table');
+				$("#rList-div").hide()
+								.children("table").removeClass('res-table');
+				$("#carList-div").hide()
+								 .children("table").removeClass('res-table');
+	 	}
+	 	else if($("#ccar").is(":checked")){
+	 		
+	 		$("#confList-div").hide()
+	 					      .children("table").removeClass('res-table');
+				$("#rList-div").hide()
+							   .children("table").removeClass('res-table');
+				$("#carList-div").show()
+								.children("table").addClass('res-table');
+	        		
+	 	}
+			else{
+	 		$("#rList-div").show()
+	 					   .children("table").addClass('res-table');
+	    		$("#confList-div").hide()
+								   .children("table").removeClass('res-table');
+	    		$("#carList-div").hide()
+	    						 .children("table").removeClass('res-table');
+	         	
+	 	}
+	 	//예약 내역이 없을 경우
+	 	if($(".ajaxHide-tr").length == 0){
+	 		youHaveNoRes();
+	 	}
+	 });  
+	
+	
 });
             
             
@@ -275,3 +312,5 @@ function carValidate(){
 	//이미 등록된 차량과 동일한 경우
 	
 }
+
+

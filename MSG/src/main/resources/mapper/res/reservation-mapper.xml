@@ -36,6 +36,15 @@
 		<if test='isManager != "y"'> 
 		    r.emp_no = #{empNo}
 		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and r.res_returndate <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
 	</where>
 	order by r.res_usedate desc
 	</select>
@@ -52,6 +61,15 @@
 		<if test='isManager != "y"'> 
 		    r.emp_no = #{empNo}
 		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+			    and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and r.res_returndate <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
 	</where>
 	order by r.res_usedate desc
 	</select>
@@ -60,8 +78,17 @@
 	((select * from car_rsvn_view) union (select * from conf_rsvn_view))
 	<where>
 		<if test='isManager != "y"'> 
-		    "emp_no" = #{empNo}
+		    "emp_no" = ${empNo}
 		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+				and "res_use_date" >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and "res_use_date" >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and "res_return_date" <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
 	</where>
 	order by "res_use_date" desc
 	</select>

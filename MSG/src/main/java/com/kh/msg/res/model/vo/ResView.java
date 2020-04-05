@@ -33,6 +33,7 @@ public class ResView implements Serializable, Comparable<ResView>{
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date resReturnDate;
 	private int empNo;
+	private String thingCate;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -42,18 +42,18 @@ public class ResServiceImpl implements ResService {
 	}
 
 	@Override
-	public List<ResView> selectAllConfResList(Member m) {
-		return resDAO.selectAllConfResList(m);
+	public List<ResView> selectAllConfResList(String empNo, String srchFrom, String srchTo) {
+		return resDAO.selectAllConfResList(empNo, srchFrom, srchTo);
 	}
 
 	@Override
-	public List<ResView> selectAllCarResList(Member m) {
-		return resDAO.selectAllCarResList(m);
+	public List<ResView> selectAllCarResList(String empNo, String srchFrom, String srchTo) {
+		return resDAO.selectAllCarResList(empNo, srchFrom, srchTo);
 	}
 
 	@Override
-	public List<ResView> selectAllRList(Member m) {
-		return resDAO.selectAllRList(m);
+	public List<ResView> selectAllRList(String empNo, String srchFrom, String srchTo) {
+		return resDAO.selectAllRList(empNo, srchFrom, srchTo);
 	}
 
 	@Override
@@ -80,6 +80,11 @@ public class ResServiceImpl implements ResService {
 	@Override
 	public List<Car> selectCarListEnd(String resUseDate, String resReturnDate) {
 		return resDAO.selectCarListEnd(resUseDate, resReturnDate);
+	}
+
+	@Override
+	public List<ResView> selectResListByDate(String srchFrom, String srchTo) {
+		return resDAO.selectResListByDate(srchFrom, srchTo);
 	}
 	
 	
