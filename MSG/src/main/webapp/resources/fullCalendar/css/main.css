@@ -132,7 +132,7 @@ body {
 }
 
 .fc-day:hover {
-  background: #ffec95;
+  background: #fffacd;
   cursor: pointer;
   -webkit-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -219,7 +219,7 @@ body {
 .fc-unthemed td,
 .fc-unthemed th,
 .fc-unthemed thead {
-  border-color: #DADFEA;
+  border-color: #EBEBEB;
 }
 
 .fc-ltr .fc-h-event .fc-end-resizer,

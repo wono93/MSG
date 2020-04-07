@@ -3,6 +3,66 @@ function getContextPath() {
 	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 }
 
+function test(){
+		$(".ajaxHide-tr").css("cursor","pointer");
+	
+		 $('.res-table').contextMenu({
+		        selector: '.ajaxHide-tr',
+		        trigger: 'left',
+		        callback: function(key, options){
+				        	if(key == 'edit'){
+				        		$("#updateResModal").css("display", "block");
+				        	}
+				        	
+				        		
+//				            //contextMenu에서 '예약내역삭제'를 클릭한 경우
+				        	if(key == 'delete'){
+				              	let result = confirm('정말 이 예약내역을 삭제하시겠습니까?');
+				              	if(result == true){
+				              		var delConfirm = prompt('정말 삭제하시려면 "삭제"라고 타이핑해주세요.', '');
+				              		if(delConfirm != null){
+				              			if(delConfirm == "삭제"){
+				              				
+				              				console.log("삭제 직전");
+				              				$.ajax({
+				              					type:"delete",
+				              					url:getContextPath()+"/res/delRes/"+$(this).children("td:eq(1)").text()+"/"+$(this).children(".displayNone").text(),
+//				              					data : {resCode : $(this).children("td:eq(1)").text(),
+//				              						    resCate : $(this).children(".displayNone").text()},
+				              					dataType:"json",
+				              					success: data =>{},
+				              					error: (x,s,e) => {
+				              						console.log(x,s,e);
+				              					},
+				              					complete:()=>{
+				              						//리로드해서 삭제된 화면 반영하기
+				              						location.reload();
+				              					}
+				              				});
+				              				
+				              			}
+				              			else{
+				              				alert('입력이 틀렸습니다. \n삭제하시려면 다시 맞게 입력해주세요.');
+				              			}
+				              		}
+				              	}
+				        		
+				             }
+				            
+				    console.log($(this).children("td:eq(1)").text());
+		        	console.log($(this).children(".displayNone").text());
+		        },
+		        items: {
+		        	"edit": { name: "예약내역 수정", icon : "edit" },
+//				                "items": {} //contextMenu를 이중으로 해서 바로 input:radio/text로 수정하고 싶었으나, 새로 값을 입력해서 보내는 건 가능하나 이미 보이는 value를 불러올 순 없었다 (undefined) 그냥 모달로 수정하기 해야지,,
+				   "delete": {name: "예약내역 삭제", icon: "delete"},
+		            "sep1": "---------",
+		            "quit": {name: "취소", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+		        }
+		    });
+}
+
+
 /**
 * conf & car
  */
@@ -37,6 +97,7 @@ function getContextPath() {
         	$("#addCarModal").css("display", "none");
         	$("#updateConfModal").css("display", "none");
         	$("#updateCarModal").css("display", "none");
+        	$("#updateResModal").css("display", "none");
         });
         
         //차량 추가 시 체크된 차량카테고리와 해당 sequence를 input:hidden에 담아두기
@@ -140,6 +201,8 @@ $('.startendicon').click(function(){
  
 	//전체 / 회의실 / 차량 카테고리 선택값이 바뀔 때마다
 	$("[name=cate]").change(()=>{
+		
+		//$(".ajaxHide-tr").trigger("contextMenu"); 
 	 	
 	 	if($("#cconf").is(":checked")){
 	     	//드롭다운에서 회의실 선택시 회의실예약내역 출력
@@ -173,10 +236,16 @@ $('.startendicon').click(function(){
 	 	if($(".ajaxHide-tr").length == 0){
 	 		youHaveNoRes();
 	 	}
+	 	//
+	 	//$(".ajaxHide-tr").trigger("contextMenu");
+	 	test();
+	 	
 	 });  
 	
+	test();
 	
-});
+	
+});//온레디 함수 끝
             
             
 

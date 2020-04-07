@@ -30,7 +30,8 @@
 		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
 		   r.res_returndate "res_return_date",
-		   r.emp_no "emp_no"
+		   r.emp_no "emp_no",
+		   r.res_code "res_code"
 	from conf_rsvn_tb r join conf_room_tb c on r.croom_code = c.croom_code
 	<where>
 		<if test='isManager != "y"'> 
@@ -55,7 +56,8 @@
 		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
 		   r.res_returndate "res_return_date",
-		   r.emp_no "emp_no"
+		   r.emp_no "emp_no",
+		   r.res_code "res_code"
 	from car_rsvn_tb r join car_tb c on r.car_code = c.car_code
 	<where>
 		<if test='isManager != "y"'> 
@@ -117,4 +119,12 @@
 		 r."res_return_date" > to_date(#{resUseDate}, 'YYYY-MM-DD HH24:MI:SS') or
 		 to_date(#{resReturnDate}, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]> r."res_use_date"
 	</select>
+	<delete id="delRes">
+	delete from
+	<choose>
+		<when test="resCate == '회의실'"> conf_rsvn_tb</when>
+		<when test="resCate == '법인차량'"> car_rsvn_tb </when>
+	</choose>
+	where res_code = ${resCode}
+	</delete>
 </mapper>

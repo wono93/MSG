@@ -98,16 +98,13 @@ public class ResDAOImpl implements ResDAO {
 		map.put("resReturnDate", resReturnDate);
 		return sqlSession.selectList("res.selectCarListEnd", map);
 	}
-
 	@Override
-	public List<ResView> selectResListByDate(String srchFrom, String srchTo) {
+	public int delRes(String resCate, String resCode) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("srchFrom", srchFrom);
-		map.put("srchTo", srchTo);
-		return sqlSession.selectList("res.selectResListByDate", map);
+		map.put("resCate", resCate);
+		map.put("resCode", resCode);
+		return sqlSession.delete("res.delRes", map);
 	}
-	
-	
 
 
 }
