@@ -55,9 +55,7 @@
     .dm-content{
         padding: 15px;
         max-width: 238px;
-/*         max-width: calc(100% - 200px); */
         max-height: calc(100% - 70px);
-	    /* overflow-y: scroll; */
         margin: 0 10px;
         float: inherit;
         position: relative;
@@ -103,7 +101,6 @@
     }
     #send-dm-button{
         float: right;
-        /* margin: 27px 0; */
     }
     #send-dm-button:hover{
         background: #F4CA25;

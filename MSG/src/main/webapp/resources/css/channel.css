@@ -69,7 +69,7 @@
 		cursor: pointer;
 	}
     
-    #title{
+    #channel-title{
         font-weight: 800;
         font-size: 28px;
         margin: 0 0 17px 0;
@@ -92,7 +92,7 @@
         overflow-y: scroll;
     }
     /* member img */
-    .member-img{
+    .channel-member-img{
         width: 50px; 
         height: 50px;
         object-position: top;
@@ -100,72 +100,83 @@
         border-radius: 50%;
         float: inherit;
     }
-    #member-container{
+    #channel-member-container{
         float: right;
     }
     /* hr date */
-    #hr-container{
+    #channel-hr-container{
         text-align: center;
         color: #999999;
         font-size: 15px;
     }
-    hr{
-        width: 313px;
+    .channel-dmHr{
+        width: 347px;
         display: inline-block;
     }
-    #span-date{
+    #channel-span-date{
         position: relative;
         left: 10px
     }
-    #hr-right{
+    #channel-hr-right{
         position: relative;
         float: right;
     }
     /* msg */
-    .msg-content{
+    .channel-msg-content{
         padding: 15px;
-        max-width: calc(100% - 500px);
+        max-width: calc(100% - 100px);
         max-height: calc(100% - 70px);
-	    overflow-y: scroll;
         margin: 0 10px;
         float: inherit;
+        position: relative;
     }
-    .msg-time{
+    .channel-msg-time{
         color: #999999;
-        width: 70px;
-        float: inherit;
+        font-size: 5px;
+        top:79%;
+        width:50px;
+        position: absolute;
+    }
+    #channel-from-msg-time{
+        left: 103%;
+    }
+    #channel-to-msg-time{
+        right: 101%;
     }
     /* to msg */
-    #to-msg{
+    #channel-to-msg{
         float: right;
         margin: 20px;
+        width: 820px;
     }
-    #to-msg-content{
+    #channel-to-msg-content{
         background: #F4CA25;
     }
     /* from msg */
-    #from-msg{
+    #channel-from-msg{
         float: left;
         margin: 20px;
+        width: 820px;
     }
-    #from-msg-content{
+    #channel-from-msg-content{
         background-color: #EBEBEB;
     }
     /* send msg */
-    #send-msg-container{
+    #channel-send-msg-container{
         background-color: #FEFEFE;
         width: 860px;
         padding: 60px 80px;
     }
-    #send-msg-container textarea{
+    #channel-send-msg-container textarea{
 		background-color: #EBEBEB;
     }
-    #send-msg-button{
+    #channel-send-msg-button{
         float: right;
         margin: 10px 0;
     }
-    #send-msg-content{
+    #channel-send-msg-content{
         /* margin: 14px 0px 0px 77px; */
         border: none;
         resize: none;
     }
+    

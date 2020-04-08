@@ -2,6 +2,8 @@ package com.kh.msg.chat.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,17 +14,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.msg.chat.model.service.ChannelService;
 import com.kh.msg.chat.model.vo.ChannelInfo;
+import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -37,6 +41,7 @@ public class ChannelController {
 	ChannelService channelService;
 	
 	@GetMapping("/headerChList.do")
+	@ResponseBody
 	public void headerDmList(HttpSession session, HttpServletResponse response) {
 		
 		try {
@@ -47,7 +52,7 @@ public class ChannelController {
 			
 			List<ChannelInfo> list = channelService.headerChList(fromId);
 			
-			log.debug("list@ChannelController"+list.toString());
+//			log.debug("list@ChannelController"+list.toString());
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -69,16 +74,45 @@ public class ChannelController {
 			e.printStackTrace();
 		}	
 	}
+	@GetMapping("/channelMember.do")
+	@ResponseBody
+	public void channelMember(String chNo,HttpSession session, HttpServletResponse response) {
+		
+		try {
+			
+			List<ChannelMember> MemberList = channelService.channelMember(chNo);
+			
+//			log.debug("Memberlist@ChannelController"+MemberList.toString());
+			
+			JSONArray jsonArr = new JSONArray();
+			
+			for(int i = 0; i < MemberList.size(); i++) {
+				JSONObject sObject = new JSONObject(); 
+				sObject.put("empImage", MemberList.get(i).getEmpImage());
+				
+				jsonArr.add(sObject);
+			}
+			
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+			out = response.getWriter();
+			out.write(jsonArr.toString());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
 	@PostMapping("/channel.do")
-	public ModelAndView channelList(String userId, String chNo, ModelAndView mav) {
-		log.debug(userId+ chNo);
+	public ModelAndView channelList(String userId, String chNo, String chName, ModelAndView mav) {
 		
 		mav.addObject("userId",userId);
 		mav.addObject("chNo",chNo);
-		
+		mav.addObject("chName",chName);
 		mav.setViewName("/chat/channel");
+		
 		return mav;
 	}
+	@ResponseBody
 	@PostMapping("/channelContent.do")
 	public void channelList(
 							@RequestParam(value="userId", required=false) String userId,
@@ -88,7 +122,7 @@ public class ChannelController {
 		
 		String listType = request.getParameter("listType");
 		
-		log.debug("userId="+userId+", chNo="+chNo+" listType="+listType);
+//		log.debug("userId="+userId+", chNo="+chNo+" listType="+listType);
 		try {
 			
 			request.setCharacterEncoding("UTF-8");
@@ -174,45 +208,136 @@ public class ChannelController {
 		
 	}
 	
-//	@PostMapping("/msgInsert.do")
-//	public void directMsginsert(@RequestParam("toId") String toId,
-//							   @RequestParam("fromId") String fromId,
-//							   @RequestParam("msgContent") String msgContent,
-//							   @RequestParam("empNo") int empNo,
-//							   HttpServletRequest request,
-//							   HttpServletResponse response){
-//		int result = 0;
-//		try {
-//				request.setCharacterEncoding("UTF-8");
-//				response.setContentType("text/html;charset=UTF-8");
-//			
-//			if(fromId == null || fromId.equals("") || toId == null || toId.equals("")
-//					|| msgContent == null || msgContent.equals("")){
-//				response.getWriter().write("0");
-//				
-//			}else {
-//				fromId = URLDecoder.decode(fromId, "UTF-8");
-//				toId = URLDecoder.decode(toId, "UTF-8");
-//				msgContent = URLDecoder.decode(msgContent, "UTF-8");
-//				
-//				Map<String, Object> param = new HashMap<>();
-//				param.put("fromId", fromId);
-//				param.put("toId", toId);
-//				param.put("empNo", empNo);
-//				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
-//										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
-//				
-//				log.debug("param={}",param);
-//				
-//				result = directMsgService.insert(param);
-//				
-//				log.debug("result={}",result);
-//				
-////				response.getWriter().write(new DirectMsgDAOImpl().insert(param) + "");
-//				
-//			}
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@PostMapping("/channelMsgInsert.do")
+	public void channelMsgInsert(@RequestParam("chNo") int chNo,
+								 @RequestParam("empNo") int empNo,
+								 @RequestParam("userId") String userId,
+								 @RequestParam("msgContent") String msgContent,
+								 HttpServletRequest request,
+								 HttpServletResponse response){
+		int result = 0;
+		try {
+				request.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html;charset=UTF-8");
+			
+			if(chNo == 0 || empNo == 0 || userId == null || userId.equals("")
+					|| msgContent == null || msgContent.equals("")){
+				response.getWriter().write("0");
+				
+			}else {
+				userId = URLDecoder.decode(userId, "UTF-8");
+				msgContent = URLDecoder.decode(msgContent, "UTF-8");
+				
+				Map<String, Object> param = new HashMap<>();
+				param.put("chNo", chNo);
+				param.put("empNo", empNo);
+				param.put("userId", userId);
+				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
+										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
+				
+				log.debug("param={}",param);
+				
+				result = channelService.insert(param);
+				
+				log.debug("result={}",result);
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
+	@GetMapping("/searchListCh.do")
+	public void searchListCh(@RequestParam("keyword") String keyword,
+							 @RequestParam("searchType") String searchType,
+							 HttpServletRequest request,
+							 HttpServletResponse response) {
+		try {
+
+			Map<String, Object> param = new HashMap<>();
+				param.put("keyword", keyword);
+				param.put("searchType", searchType);
+			
+			List<OrgChart> list = channelService.searchListCh(param);
+			
+			log.debug("list@ChannelController"+list.toString());
+			
+			JSONArray jsonArr = new JSONArray();
+			
+			for(int i = 0; i < list.size(); i++) {
+				JSONObject sObject = new JSONObject(); 
+				sObject.put("empImage", list.get(i).getEmpImage());
+				sObject.put("empName", list.get(i).getEmpName());
+				sObject.put("deptName", list.get(i).getDeptName());
+				sObject.put("jobName", list.get(i).getJobName());
+				sObject.put("empNo", list.get(i).getEmpNo());
+				
+				jsonArr.add(sObject);
+			}
+			
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+				out = response.getWriter();
+				out.write(jsonArr.toString());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+		
+	@PostMapping("/generateChannel.do")
+	public ModelAndView generateChannel(ModelAndView mav, ChannelInfo chInfo,
+										@RequestParam("empNo") int[] empNo,
+										@RequestParam("chName") String chName,
+										@RequestParam("regId") String regId,
+										@RequestParam("chEx") String chEx
+										) {
+		
+		log.debug("empNo={}", empNo);
+//		log.debug("empNo.length="+ empNo.length);
+//		
+		
+		int result = channelService.generateChannel(chInfo);
+		
+//		List<int[]> list = Arrays.asList(empNo);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("chNo", chInfo.getChNo());
+//		param.put("list", list);
+		
+		for(int i=0; i<empNo.length; i++) {
+			param.put("empNo[i]", empNo[i]);
+		}
+		
+		log.debug("param={}", param);
+		
+		int memberResult = channelService.addChannelMember(param);
+		
+		mav.addObject("userId",regId);
+		mav.addObject("chNo",chInfo.getChNo());
+		mav.addObject("chName",chName);
+		
+		mav.setViewName("/chat/channel");
+		
+		return mav;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

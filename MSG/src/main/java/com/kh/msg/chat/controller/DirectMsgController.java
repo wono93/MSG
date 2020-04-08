@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.msg.chat.model.service.DirectMsgService;
 import com.kh.msg.chat.model.vo.DirectMsg;
@@ -35,6 +36,7 @@ public class DirectMsgController {
 	@Autowired
 	DirectMsgService directMsgService;
 	
+	@ResponseBody
 	@GetMapping("/headerDmList.do")
 	public void headerDmList(HttpSession session, HttpServletResponse response) {
 		
@@ -46,7 +48,7 @@ public class DirectMsgController {
 			
 			List<DirectMsg> list = directMsgService.headerDmList(fromId);
 			
-			log.debug("list@DirectController"+list.toString());
+//			log.debug("list@DirectController"+list.toString());
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -101,11 +103,11 @@ public class DirectMsgController {
 				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
 				
-				log.debug("param={}",param);
+//				log.debug("param={}",param);
 				
 				result = directMsgService.insert(param);
 				
-				log.debug("result={}",result);
+//				log.debug("result={}",result);
 				
 //				response.getWriter().write(new DirectMsgDAOImpl().insert(param) + "");
 				
@@ -114,6 +116,7 @@ public class DirectMsgController {
 			e.printStackTrace();
 		}
 	}
+	@ResponseBody
 	@PostMapping("/msgList.do")
 	public void directMsgList(@RequestParam("toId") String toId,
 							  @RequestParam("fromId") String fromId,
@@ -124,7 +127,7 @@ public class DirectMsgController {
 		
 //		String listType = request.getParameter("listType");
 		
-		log.debug("fromId="+fromId+", toId="+toId+" listType="+listType);
+//		log.debug("fromId="+fromId+", toId="+toId+" listType="+listType);
 		try {
 			
 			request.setCharacterEncoding("UTF-8");
@@ -159,7 +162,7 @@ public class DirectMsgController {
 		param.put("toId", toId);
 		param.put("msgNo", msgNo);
 		
-		log.debug("param={}",param);
+//		log.debug("param={}",param);
 		
 		List<DirectMsg> chatList = directMsgService.directMsgList(param);
 		if(chatList.size() == 0 ) return "";
@@ -175,7 +178,7 @@ public class DirectMsgController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
 		
-		log.debug("result={}",result);
+//		log.debug("result={}",result);
 		
 		return result.toString();
 		
@@ -189,7 +192,7 @@ public class DirectMsgController {
 		param.put("toId", toId);
 		param.put("msgNo", 10);
 		
-		log.debug("param={}",param);
+//		log.debug("param={}",param);
 		
 		List<DirectMsg> chatList = directMsgService.directMsgListByRecent(param);
 		if(chatList.size() == 0 ) return "";
@@ -205,7 +208,7 @@ public class DirectMsgController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
 		
-		log.debug("result={}",result);
+//		log.debug("result={}",result);
 		
 		return result.toString();
 		

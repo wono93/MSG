@@ -29,7 +29,7 @@
     <script src="${pageContext.request.contextPath }/resources/js/channelList.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/M_ChannelGenerate.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
 <%
 	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
 	String userId = oc.getUserId();
@@ -94,19 +94,12 @@
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
             </li> -->
-            <ul class="secnav" id="channelList">
-                <%-- <p>Channel<img src="${pageContext.request.contextPath}/resources/image/plus-icon.png" id="plus-icon" alt=""></p>
-                <li>
-                    <a href="${pageContext.request.contextPath}/chat/channel.do">
-                        <i class="fas fa-circle" style="font-size:15px"></i>　경영지원 1팀
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/chat/channel.do">
-                        <i class="fas fa-circle" style="font-size:15px"></i>　미식가들
-                    </a>
-                </li> --%>
-            </ul>
+            <ul class="secnav" id="">
+	            <p id="channelListTitle">Channel
+	            	<img src="/msg/resources/image/plus-icon.png" id="plus-icon" style="width:10px; heigth:10px;">
+	            </p>
+			</ul>
+            <ul class="secnav" id="channelList"></ul>
             <ul class="secnav" id="dmList"></ul>
         </ul>
     </nav>
@@ -138,50 +131,28 @@
                 
                 <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
                 <div id="ch-content">
-                    <form action="">
+                    <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
 
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
-                            <img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="" class="ch-member-img">
+                            <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" id="" class="ch-member-img">
                             <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king" class="">
                         </div>
 
-                        <input type="text" name="" id="ch-input-title" placeholder="채널명을 입력해주세요.">
+                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3">
+                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4">
+                        <input type="hidden" name="regId" value="${memberLoggedIn.userId }">
 
                         <div id="ch-member-list">
                             <table id="ch-member-table">
-                                <tr>
+                                <%-- <tr>
                                     <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
                                     <td>가디01</td>
                                     <td>해외영업부</td>
                                     <td>과장</td>
                                     <td>20122222</td>
                                     <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
-                                    <td>가디01</td>
-                                    <td>해외영업부</td>
-                                    <td>과장</td>
-                                    <td>20122222</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
-                                    <td>가디01</td>
-                                    <td>해외영업부</td>
-                                    <td>과장</td>
-                                    <td>20122222</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
-                                    <td>가디01</td>
-                                    <td>해외영업부</td>
-                                    <td>과장</td>
-                                    <td>20122222</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr>
+                                </tr> --%>
                             </table>
                         </div>
 
@@ -190,44 +161,39 @@
                             <div class="select-box">
                                 <div class="select-box__current" tabindex="1">
                                     <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="0" value="1" name="Ben" />
-                                        <p class="select-box__input-text">부서</p>
-                                    </div>
-                                    <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="1" value="2" name="Ben" />
-                                        <p class="select-box__input-text">사번</p>
-                                    </div>
-                                    <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="2" value="3" name="Ben" />
+                                        <input class="select-box__input" type="radio" id="T1" value="emp_name" name="chSearchType" checked="checked"/>
                                         <p class="select-box__input-text">이름</p>
                                     </div>
                                     <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="3" value="4" name="Ben"
-                                            checked="checked" />
-                                        <p class="select-box__input-text">전체</p>
-                                    </div><img class="select-box__icon"
+                                        <input class="select-box__input" type="radio" id="T2" value="dept_name" name="chSearchType" />
+                                        <p class="select-box__input-text">부서</p>
+                                    </div>
+                                    <div class="select-box__value">
+                                        <input class="select-box__input" type="radio" id="T3" value="job_name" name="chSearchType" />
+                                        <p class="select-box__input-text">직위</p>
+                                    </div>
+                                    <img class="select-box__icon"
                                         src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
                                         aria-hidden="true" />
                                 </div>
                                 <ul class="select-box__list">
                                     <li>
-                                        <label class="select-box__option" for="3" aria-hidden="aria-hidden">전체</label>
+                                        <label class="select-box__option" for="T1" aria-hidden="aria-hidden">이름</label>
                                     </li>
                                     <li>
-                                        <label class="select-box__option" for="0" aria-hidden="aria-hidden">부서</label>
+                                        <label class="select-box__option" for="T2" aria-hidden="aria-hidden">부서</label>
                                     </li>
                                     <li>
-                                        <label class="select-box__option" for="1" aria-hidden="aria-hidden">사번</label>
-                                    </li>
-                                    <li>
-                                        <label class="select-box__option" for="2" aria-hidden="aria-hidden">이름</label>
+                                        <label class="select-box__option" for="T3" aria-hidden="aria-hidden">직위</label>
                                     </li>
                                 </ul>
                             </div>
-                            <input type="text" name="" id="srchChWord">
-                            <img src="${pageContext.request.contextPath}/resources/image/search-icon.png" alt="" id="ch-search-icon">
+                            <input type="text" name="chKeyword" id="srchChWord" tabindex="1">
+                           	<a href="#" onclick="searchMemberCh()" tabindex="2">
+	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="ch-search-icon">
+                           	</a>
                             <div class="chDivBtn">
-                                <button type="button" class="ch-button">확인</button>
+                                <button type="submit" class="ch-button">확인</button>
                             </div>
                         </div>
                     </form>

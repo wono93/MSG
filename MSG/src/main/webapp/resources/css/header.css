@@ -239,14 +239,14 @@
     font-size: 13px;
     font-weight: 900;
   }
-  .secnav img {
+  /* .secnav img {
     height: 45px;
     width: 45px;
     -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
     -webkit-box-align: end;
             align-items: flex-end;
-  }
+  } */
   .userinfo {
     position: relative;
     display: flex;
@@ -482,3 +482,6 @@
     left: 17px;
     bottom: 27px;
   }
+  #channelListTitle{
+    	margin-bottom: 0;
+    }

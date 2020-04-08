@@ -10,14 +10,19 @@ hdjq(function(){
     	hdjq('#dm-container').empty();
     	hdjq("#name-span").empty();
     	hdjq(".dmBar").fadeOut(100);
-    	toId = "";
     })
 });
 hdjq(document).ready(function(){
 	dmListFunction();
-	setInterval(function() {
+	var repeatDmList = setInterval(function() {
+		console.log("header Dm List Reload!");
 		dmListFunction();
 	}, 10000);
+	hdjq("#hamburger").change(function(){
+        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
+		clearInterval(repeatDmList);
+        }
+	});
 });
 function dmListFunction() {
 	hdjq.ajax({
@@ -34,11 +39,10 @@ function dmListFunction() {
 	});
 }
 function addList(empImage, empName, jobName, toId) {
-	
 	hdjq("#dmList").append(
 						 '<li>'+
-			             '<a onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/image/'+empImage+'">'+
+			             '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+						 '<img src="/msg/resources/image/'+empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
 						 '</span>'+
@@ -119,6 +123,9 @@ function chatListFunction(type, toId, fromId) {
 				var year = originDate.substring(23,28);
 				var subMonth = originDate.substring(4,7);
 				var day = originDate.substring(8,10);
+				if(day < 10){
+					day = day.substring(1,2);
+				}
 				var date = new Date(year+"/"+subMonth+"/"+day);
 		        var week = new Array('일','월','화','수','목','금','토');
 		        var dayOfWeek = week[date.getDay()];
