@@ -413,7 +413,7 @@
 							<td>
 								<div id="fileList"></div>
 							</td>
-							<td><input type="file" id="fileupload" name="edocAtt" multiple></td>
+							<td><input type="file" id="fileupload" name="files" multiple></td>
 						</tr>
 					</table>
 				</div>
@@ -591,13 +591,13 @@
 				})
 
 				
-		// 파일 첨부 일반 함수
+		// 파일 첨부 구현용 : 일반 함수
 		$(document).ready(function() {
 		    $("#fileupload").on("change", addFiles);
 		});
 		 
 		var filesTempArr = [];
-		// 파일 추가
+		// 파일 첨부 구현용 : 파일 추가
 		function addFiles(e) {
 		    var files = e.target.files;
 		    var filesArr = Array.prototype.slice.call(files);
@@ -609,7 +609,7 @@
 		    }
 		    $(this).val('');
 		}
-		// 파일 삭제
+		// 파일 첨부 구현용 : 파일 삭제
 		function deleteFile (eventParam, orderParam) {
 		    filesTempArr.splice(orderParam, 1);
 		    var innerHtmlTemp = "";
@@ -671,27 +671,30 @@
 			console.log(flowLine);
 			
 			
-			// 여기서부터 파일 첨부
+			// 여기서부터 다시 파일 첨부
 			var formData = new FormData();
+			
+			// 파일 데이터 : 파일 데이터를 formData에 입력
+			for(var i=0, filesTempArrLen = filesTempArr.length; i<filesTempArrLen; i++) {
+			   formData.append("files", filesTempArr[i]);
+			}
+			
 			
 			
 			
  			$.ajax({
 				type : "post",
 				url : "/msg/edoc/edocAtt.do",
-				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수???
-				traditional : true, // 배열 전달용
+				data : formData,
+//				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수???
+// 				dataType : "json",
 				processData : false, // ajax로 파일 전송을 하기 위해 필수
 				contentType : false, // ajax로 파일 전송을 하기 위해 필수
-				data : formData,
-				dataType : "json",
-				contentType : "application/json; charset=UTF-8",
 				success : function(model) {
 					console.log(model)
 				}
 			});
-			
-			
+
 /*  			$.ajax({
 				type : "post",
 				url : "/msg/edoc/write.do",

@@ -8,13 +8,18 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -222,27 +227,48 @@ public class EdocController {
 	
 	@ResponseBody
 	@PostMapping("/edocAtt.do")
-	public Model edocAtt(@RequestParam(value="upFiles", required=false) MultipartFile[] upFiles, HttpServletRequest request, Model model) throws Exception, IOException {
+	public Model edocAtt(@RequestParam(value="formData", required=false) MultipartFile[] formData, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception, IOException {
+		log.debug("upFiles@EdocController{} = ", formData);
 		
-		List<EdocAtt> edocAttList = new ArrayList<>();
-		for(MultipartFile f : upFiles) {
-			if(f.isEmpty()) continue;
-			
-			String originFilename= f.getOriginalFilename();
-			String renamedFilename = Utils.getRefile(originFilename);
-			
-			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/edoc");
-			
-			f.transferTo(new File(saveDirectory, renamedFilename));
-			
-			EdocAtt edocAtt = new EdocAtt();
-			edocAtt.setOriginFilename(originFilename);
-			edocAtt.setRenamedFilename(renamedFilename);
-			edocAttList.add(edocAtt);
-		}
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		
-		
-		model.addAttribute("edocAttList", edocAttList);
+		String contextRootPath = request.getServletContext().getRealPath("/"); 
+		DiskFileItemFactory diskFactory = new DiskFileItemFactory();
+		diskFactory.setSizeThreshold(4096); //업로드시 사용할 임시 메모리
+        diskFactory.setRepository(new File(contextRootPath + "/resources/upload/tmp"));
+		ServletFileUpload upload = new ServletFileUpload(diskFactory);
+        
+        
+        List<FileItem> items = upload.parseRequest(request); 
+        Iterator iter = items.iterator(); //반복자(Iterator)로 받기​            
+        while(iter.hasNext()) { //반목문으로 처리​    
+            FileItem item = (FileItem) iter.next(); //아이템 얻기
+             //4. FileItem이 폼 입력 항목인지 여부에 따라 알맞은 처리
+            if(item.isFormField()){ //파일이 아닌경우
+                processFormField(out, item);
+            } else { //파일인 경우
+                processUploadFile(out, item, contextRootPath);
+            }
+        }
+        
+        
+		/*
+		 * List<EdocAtt> edocAttList = new ArrayList<>(); for(MultipartFile f :
+		 * formData) { System.out.println("11111111111111111111"); if(f.isEmpty())
+		 * continue; System.out.println("222222222222222222222"); String originFilename=
+		 * f.getOriginalFilename(); String renamedFilename =
+		 * Utils.getRefile(originFilename);
+		 * System.out.println("3333333333333333333333"); String saveDirectory =
+		 * request.getServletContext().getRealPath("/resources/upload/edoc");
+		 * f.transferTo(new File(saveDirectory, renamedFilename));
+		 * System.out.println("4444444444444444444444"); EdocAtt edocAtt = new
+		 * EdocAtt(); edocAtt.setOriginFilename(originFilename);
+		 * edocAtt.setRenamedFilename(renamedFilename); edocAttList.add(edocAtt); }
+		 */
+//		log.debug("edocAttList@EdocController{} = ", edocAttList.toString());
+//		model.addAttribute("edocAttList", edocAttList);
 		
 		return model;
 	}
@@ -458,4 +484,37 @@ public class EdocController {
 
 
 	}
+    private void processFormField(PrintWriter out, FileItem item) 
+            throws Exception{
+            String name = item.getFieldName(); //필드명 얻기
+            String value = item.getString("UTF-8"); //UTF-8형식으로 필드에 대한 값읽기
+            
+            out.println(name + ":" + value + "<BR>"); //출력
+    }
+    
+    private void processUploadFile(PrintWriter out, FileItem item, String contextRootPath) throws Exception {
+        String name = item.getFieldName(); //파일의 필드 이름 얻기
+        String fileName = item.getName(); //파일명 얻기
+        String contentType = item.getContentType();//컨텐츠 타입 얻기
+        long fileSize = item.getSize(); //파일의 크기 얻기
+        
+        //업로드 파일명을 현재시간으로 변경후 저장
+        String fileExt = fileName.substring(fileName.lastIndexOf("."));
+        String uploadedFileName = System.currentTimeMillis() + fileExt; 
+        System.out.println(fileExt);
+        System.out.println(uploadedFileName);
+        
+        //저장할 절대 경로로 파일 객체 생성
+        File uploadedFile = new File(contextRootPath + "/resources/upload/edoc" + uploadedFileName);
+        item.write(uploadedFile); //파일 저장
+        
+        //========== 뷰단에 출력 =========//
+        out.println("<P>");
+        out.println("파라미터 이름:" + name + "<BR>");
+        out.println("파일 이름:" + fileName + "<BR>");
+        out.println("콘텐츠 타입:" + contentType + "<BR>");
+        out.println("파일 사이즈:" + fileSize + "<BR>");
+        out.println("실제저장경로 : "+uploadedFile.getPath()+"<BR>");
+    }
+    
 }
