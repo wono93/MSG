@@ -72,6 +72,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 	<section>
+		<div>
 		<article>
 			<div class="subNav">
 				<h3>전자결재</h3>
@@ -409,18 +410,17 @@
 					<table class="docuAttachTb">
 						<tr>
 							<td>첨부파일</td>
-							<td>20200314_장그래_병원진단서.pdf</td>
-							<td><button type="button" name="" id="attachBtn"
-									class="whiteBtn commonBtn">파일첨부</button></td>
+							<td>
+								<div id="fileList"></div>
+							</td>
+							<td><input type="file" id="fileupload" name="edocAtt" multiple></td>
 						</tr>
 					</table>
 				</div>
 				<div class="btnGrp">
-					<button type="button" id="cancleBtn" class="whiteBtn commonBtn">취
-						소</button>
+					<button type="button" id="cancleBtn" class="whiteBtn commonBtn">취소</button>
 					<button type="button" id="tmpBtn" class="whiteBtn commonBtn">임시저장</button>
-					<button type="button" id="saveBtn" class="yellowBtn commonBtn"
-						onclick="edocSubmit();">문서상신</button>
+					<button type="button" id="saveBtn" class="yellowBtn commonBtn" onclick="edocSubmit();">문서상신</button>
 				</div>
 			</div>
 		</article>
@@ -496,8 +496,7 @@
 		$("#flowArrow")
 				.click(
 						function() {
-							$
-									.ajax({
+							$.ajax({
 										type : "get",
 										url : "/msg/edoc/jstreeMem.do",
 										data : {
@@ -591,11 +590,40 @@
 
 				})
 
+				
+		// 파일 첨부 일반 함수
+		$(document).ready(function() {
+		    $("#fileupload").on("change", addFiles);
+		});
+		 
+		var filesTempArr = [];
+		// 파일 추가
+		function addFiles(e) {
+		    var files = e.target.files;
+		    var filesArr = Array.prototype.slice.call(files);
+		    var filesArrLen = filesArr.length;
+		    var filesTempArrLen = filesTempArr.length;
+		    for( var i=0; i<filesArrLen; i++ ) {
+		        filesTempArr.push(filesArr[i]);
+		        $("#fileList").append("<div>" + filesArr[i].name + "<input type='button' value='삭제' onclick=\"deleteFile(event, " + (filesTempArrLen+i)+ ");\"></div>");
+		    }
+		    $(this).val('');
+		}
+		// 파일 삭제
+		function deleteFile (eventParam, orderParam) {
+		    filesTempArr.splice(orderParam, 1);
+		    var innerHtmlTemp = "";
+		    var filesTempArrLen = filesTempArr.length;
+		    for(var i=0; i<filesTempArrLen; i++) {
+		        innerHtmlTemp += "<div>" + filesTempArr[i].name + "<input type='button' value='삭제' onclick=\"deleteFile(event, " + i + ");\"></div>"
+		    }
+		    $("#fileList").html(innerHtmlTemp);
+		}
+				
+				
 		function edocSubmit() {
 			console.log("문서 제출 이벤트");
-			var empNo =
-	<%=oc.getEmpNo()%>
-		;
+			var empNo = <%=oc.getEmpNo()%>;
 			var secuCd = $("input[name=secuCheck]:checked").val(); // 보안등급
 			var prsvCd = $("input[name=periodCheck]:checked").val(); // 보존연한
 
@@ -638,34 +666,62 @@
 						.substr(8); // 해당 번호의 flowLine 배열이 전결이라는 의미. 단, 번호는 1부터 매겼음에 유의.
 			}
 			var tmp = {};
-			flowLine.push(tmp);
+			flowLine.push(tmp); // 컨트롤러에서 flowLine을 String[][] 로 인식하기 위해 더미 데이터 한 줄 추가
 
 			console.log(flowLine);
-				$.ajax({
-				 type : "post",
-				 url : "/msg/edoc/write.do",
-				 traditional : true, // 배열 전달용
-				 data : {
-				 empNo : empNo,
-				 secuCd : secuCd,
-				 prsvCd : prsvCd,
-				 edocTitle : edocTitle,
-				 vctnCd : vctnCd,
-				 startDt : startDt,
-				 endDt : endDt,
-				 leaveAmt : leaveAmt,
-				 leavePurpose : leavePurpose,
-				 leaveContact : leaveContact,
-				 typeCd : typeCd,
-				 surEmpNo : surEmpNo,
-				 flowLine : flowLine,
-				 flowCd : flowCd
-				 },
-				 dataType : "text",
-				 success : function(response) {
-				 location.href = "/msg/edoc/list.do";
-				 }
-			 });
+			
+			
+			// 여기서부터 파일 첨부
+			var formData = new FormData();
+			
+			
+			
+ 			$.ajax({
+				type : "post",
+				url : "/msg/edoc/edocAtt.do",
+				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수???
+				traditional : true, // 배열 전달용
+				processData : false, // ajax로 파일 전송을 하기 위해 필수
+				contentType : false, // ajax로 파일 전송을 하기 위해 필수
+				data : formData,
+				dataType : "json",
+				contentType : "application/json; charset=UTF-8",
+				success : function(model) {
+					console.log(model)
+				}
+			});
+			
+			
+/*  			$.ajax({
+				type : "post",
+				url : "/msg/edoc/write.do",
+				traditional : true, // 배열 전달용
+				data : {
+					empNo : empNo,
+					secuCd : secuCd,
+					prsvCd : prsvCd,
+					edocTitle : edocTitle,
+					vctnCd : vctnCd,
+					startDt : startDt,
+					endDt : endDt,
+					leaveAmt : leaveAmt,
+					leavePurpose : leavePurpose,
+					leaveContact : leaveContact,
+					typeCd : typeCd,
+					surEmpNo : surEmpNo,
+					flowLine : flowLine,
+					flowCd : flowCd,
+					upFiles : formData 
+				},
+				dataType : "text",
+				success : function(response) {
+					location.href = "/msg/edoc/list.do";
+				}
+			});
+			 */
+			
+			
+			
 		}
 		// 체크박스 라디오 버튼처럼 동작시키는 함수
 		function flowLineCheck(obj) {
