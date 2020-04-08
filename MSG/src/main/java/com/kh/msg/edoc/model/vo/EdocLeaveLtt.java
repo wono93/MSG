@@ -31,7 +31,7 @@ public class EdocLeaveLtt extends Edoc implements Serializable {
 	
 	
 	public EdocLeaveLtt(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle,
-			int edocVer, int edocOrgId, String edocDt, char edocEnd, String edocEndDt, List<EdocFlow> edocFlowList, List<EdocAtt> edocAttList,
+			int edocVer, int edocOrgId, String edocDt, String edocEnd, String edocEndDt, List<EdocFlow> edocFlowList, List<EdocAtt> edocAttList,
 			String vctnCd, String startDt, String endDt, int leaveAmt, String leavePurpose, String leaveContact, int surEmpNo, String typeCd) {
 		super(edocId, secuCd, prsvCd, empNo, empModNo, edocTitle, edocVer, edocOrgId, edocDt, edocEnd, edocEndDt, edocFlowList, edocAttList);
 		this.vctnCd = vctnCd;
