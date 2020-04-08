@@ -16,7 +16,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChannelMember extends OrgChart implements Serializable {/**
+public class ChannelMember extends ChannelInfo implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

@@ -1,26 +1,52 @@
 var lastID = 0;
+var chjq = jQuery.noConflict();
 
-hdjq(document).ready(function(){
-	channelListFunction(0);
-	console.log("ready@JS=fromId:"+fromId);
+chjq(document).ready(function(){
+	channelMemberFunction();
+	setInterval(function() {
+		channelMemberFunction();
+	}, 10000);
+});
+function channelMemberFunction() {
+	var chName = chjq("#inputChName").val();
 	
+	var chNo = chjq("#inputChNo").val();
+	chjq.ajax({
+		type : "GET",
+		url : "/msg/chat/channelMember.do",
+		dataType: "json",
+		data:{chNo: chNo},
+		success : function(data) {
+			hdjq("#channel-title").html(chName);
+			for (var i = 0; i < data.length; i++) {
+				addChannelMember(data[i]['empImage']);
+			}
+		}
+	});
+	hdjq('#channel-member-container').empty();
+}
+function addChannelMember(empImage){
+//	console.log(empImage);
+	hdjq("#channel-member-container").append('<a href="#"><img src="/msg/resources/image/'+empImage+'" class="member-img"></a>');
+}
+
+
+chjq(document).ready(function(){
+	channelFunction(0);
 	var channelRepeat = setInterval(function() {
-		channelListFunction(lastID);
+		channelFunction(lastID);
 	}, 1000);
 	
-//	hdjq("#").click(function(){
+//	chjq("#").click(function(){
 //		clearInterval(channelRepeat);
 //	});
 });
 
 
-function channelListFunction(type) {
-	console.log("channel@JS=type:"+type);
-	var userId = hdjq("#inputUserId").val();
-	console.log("userID@js="+userId);
-	var chNo = hdjq("#inputChNo").val();
-	console.log("chNo@js="+chNo);
-	hdjq.ajax({
+function channelFunction(type) {
+	var userId = chjq("#inputUserId").val();
+	var chNo = chjq("#inputChNo").val();
+	chjq.ajax({
 		cache: false,
 		type : "post",
 		url : "/msg/chat/channelContent.do",
@@ -38,6 +64,9 @@ function channelListFunction(type) {
 				var year = originDate.substring(23,28);
 				var subMonth = originDate.substring(4,7);
 				var day = originDate.substring(8,10);
+				if(day < 10){
+					day = day.substring(1,2);
+				}
 				var date = new Date(year+"/"+subMonth+"/"+day);
 		        var week = new Array('일','월','화','수','목','금','토');
 		        var dayOfWeek = week[date.getDay()];
@@ -54,7 +83,7 @@ function channelListFunction(type) {
 					hour = hour.substring(1,2);
 				}
 				var msgTime = hour+":"+minute+" "+timeType;
-				addChat(userId, result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value);
+				addChannelChat(userId, result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value);
 				
 			}
 			lastID = Number(parsed.last);
@@ -63,26 +92,27 @@ function channelListFunction(type) {
 	});
 }
 
-function addChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, empImage) {
+function addChannelChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, empImage) {
 	let style = {display: "none"};
-	var selHideDate =hdjq("#dm-container").children().children("p:last").text();
-	console.log("작성자: "+chatId+", 내용: "+msgContent);
+	var selHideDate =chjq("#channel-container").children().children("p:last").text();
+//	console.log("작성자: "+chatId+", 내용: "+msgContent);
+//	console.log("selHideDate="+selHideDate+", hideDate="+hideDate);
 	if(selHideDate != hideDate){
-		hdjq("#channel-container").append(
-									'<div id="hr-container">'
-					                +'<hr class="dmHr" id="hr-left" align="left">'
-					                +'<span id="span-date">'
+		chjq("#channel-container").append(
+									'<div id="channel-hr-container">'
+					                +'<hr class="channel-dmHr" id="channel-hr-left" align="left">'
+					                +'<span id="channel-span-date">'
 					                +'</span>'
 					                +hrDate
-					                +'<hr class="dmHr" id="hr-right" align="right">'
+					                +'<hr class="channel-dmHr" id="channel-hr-right" align="right">'
 					                +'</div>');
 	}
-	if(userId == chatId ){
-		hdjq("#channel-container").append(
-									'<div id="from-dm">'
-					                +'<img src="/msg/resources/image/'+empImage+'" id="from-dm-img" class="member-img">'
-					                +'<div id="from-dm-content" class="dm-content">'+msgContent
-					                +'<span id="from-dm-time" class="dm-time">'
+	if(userId != chatId ){
+		chjq("#channel-container").append(
+									'<div id="channel-from-msg">'
+					                +'<img src="/msg/resources/image/'+empImage+'" id="channel-from-msg-img" class="channel-member-img">'
+					                +'<div id="channel-from-msg-content" class="channel-msg-content">'+msgContent
+					                +'<span id="channel-from-msg-time" class="channel-msg-time">'
 					                +msgTime
 									+'</span>'
 									+'</div>'
@@ -91,11 +121,11 @@ function addChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, empImage
 									+'</p>'
 				            		+'</div>');
 	}else{
-		hdjq("#channel-container").append(
-									'<div id="to-dm">'
-						            +'<img src="/msg/resources/image/'+empImage+'" id="to-dm-img" class="member-img">'
-						            +'<div id="to-dm-content" class="dm-content">'+msgContent
-						            +'<span id="to-dm-time" class="dm-time">'
+		chjq("#channel-container").append(
+									'<div id="channel-to-msg">'
+						            +'<img src="/msg/resources/image/'+empImage+'" id="channel-to-msg-img" class="channel-member-img">'
+						            +'<div id="channel-to-msg-content" class="channel-msg-content">'+msgContent
+						            +'<span id="channel-to-msg-time" class="channel-msg-time">'
 						            +msgTime
 						            +'</span>'
 						            +'</div>'
@@ -104,31 +134,34 @@ function addChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, empImage
 									+'</p>'
 					            	+'</div>');
 	}
-	hdjq('#channel-container').scrollTop(hdjq('#channel-container')[0].scrollHeight);
-	hdjq("#channel-container").children().children("p:last").css(style);
+	chjq('#channel-container').scrollTop(chjq('#channel-container')[0].scrollHeight);
+	chjq("#channel-container").children().children("p:last").css(style);
 	
 }
-//
-//function submitFunction() {
-//	var msgContent = hdjq("#msgContent").val();
-//	hdjq.ajax({
-//		type : "POST",
-//		url : "/msg/chat/msgInsert.do",
-//		data : {
-//			fromId : encodeURIComponent(fromId),
-//			toId : encodeURIComponent(toId),
-//			msgContent : encodeURIComponent(msgContent),
-//			empNo : encodeURIComponent(empNo)
-//		},
-//		success : function(result) {
-//			if (result == 1) {
-//				autoClosingAlert('#successMessage', 2000);
-//			} else if (result == 0) {
-//				autoClosingAlert('#dangerMessage', 2000);
-//			} else {
-//				autoClosingAlert('#warningMessage', 2000);
-//			}
-//		}
-//	});
-//	hdjq('#msgContent').val('');
-//}
+
+function channelSubmitFunction() {
+	var chNo = chjq("#inputChNo").val();
+	var userId = chjq("#inputUserId").val();
+	var msgContent = chjq("#channel-send-msg-content").val();
+	chjq.ajax({
+		type : "POST",
+		url : "/msg/chat/channelMsgInsert.do",
+		data : {
+			chNo : encodeURIComponent(chNo),
+			empNo : encodeURIComponent(empNo),
+			userId : encodeURIComponent(userId),
+			msgContent : encodeURIComponent(msgContent)
+		},
+		success : function(result) {
+			if (result == 1) {
+				autoClosingAlert('#successMessage', 2000);
+			} else if (result == 0) {
+				autoClosingAlert('#dangerMessage', 2000);
+			} else {
+				autoClosingAlert('#warningMessage', 2000);
+			}
+		}
+	});
+	chjq('#channel-send-msg-content').val('');
+	
+}

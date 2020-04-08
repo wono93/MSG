@@ -14,19 +14,68 @@
 		where E.user_id = #{fromId}
 	</select>
 	<select id="channelListByNumber" resultType="ChannelMsg">
-		select 
-			M.ch_no,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
+		select
+			M.ch_no,I.ch_name,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
 		from 
-			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no
+			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
 		where 
 			M.ch_no = ${chNo} and M.msg_no > ${msgNo}
 	</select>
 	<select id="channelListByRecent" resultType="ChannelMsg">
-		select 
-			M.ch_no,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
+		select
+			M.ch_no,I.ch_name,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
 		from 
-			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no
+			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
 		where 
 			M.ch_no = ${chNo} and M.msg_no > (select max(M.msg_no) - ${msgNo} from ch_msg_tb)
 	</select>
+	<select id="channelMember" resultType="ChannelMember">
+		select 
+    		M.ch_no, I.ch_name, E.emp_no, E.emp_name, E.emp_image
+		from 
+    		ch_member_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
+		where 
+    		M.ch_no = #{chNo}
+	</select>
+	<insert id="insert">
+		insert into ch_msg_tb values(seq_msg_no.nextval,${chNo},${empNo},#{userId},#{msgContent},default)
+	</insert>
+	<select id="searchListCh" resultType="OrgChart">
+		SELECT 
+			EMP_IMAGE, EMP_NO, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+		FROM 
+			EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+	 	<if test="searchType != null and searchType != ''">
+			WHERE
+				${searchType} like '%'||#{keyword}||'%'
+		</if>
+	</select>
+	<insert id="generateChannel">
+		insert into
+			ch_info_tb
+		values(
+			seq_ch_no.nextval,
+			#{chName},
+			#{chEx},
+			default,
+			#{regId},
+			'N')
+	</insert>
+	<insert id="addChannelMember">
+		insert into
+			ch_member_tb
+		values
+			(#{chNo},
+		<foreach collection="empNo" item="e" separator=", ">
+			#{e.empNo},
+		</foreach>
+			default)
+<!-- 		<selectKey keyProperty="chNo" resultType="_int" order="AFTER">
+			select seq_ch_no.currval from dual
+		</selectKey>
+ -->	</insert>
 </mapper>

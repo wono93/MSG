@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.msg.chat.model.vo.ChannelInfo;
+import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
+import com.kh.msg.member.model.vo.OrgChart;
 
 @Repository
 public class ChannelDAOImpl implements ChannelDAO {
@@ -29,6 +31,31 @@ public class ChannelDAOImpl implements ChannelDAO {
 	@Override
 	public List<ChannelMsg> channelListByRecent(Map<String, Object> param) {
 		return sqlSession.selectList("Channel.channelListByRecent",param);
+	}
+
+	@Override
+	public List<ChannelMember> channelMember(String chNo) {
+		return sqlSession.selectList("Channel.channelMember",chNo);
+	}
+
+	@Override
+	public int insert(Map<String, Object> param) {
+		return sqlSession.insert("Channel.insert",param);
+	}
+
+	@Override
+	public List<OrgChart> searchListCh(Map<String, Object> param) {
+		return sqlSession.selectList("Channel.searchListCh",param);
+	}
+
+	@Override
+	public int generateChannel(ChannelInfo chInfo) {
+		return sqlSession.insert("Channel.generateChannel",chInfo);
+	}
+
+	@Override
+	public int addChannelMember(Map<String, Object> param) {
+		return sqlSession.insert("Channel.addChannelMember",param);
 	}
 
 }

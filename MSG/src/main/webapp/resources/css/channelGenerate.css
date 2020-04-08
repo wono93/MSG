@@ -111,7 +111,7 @@
 			}
 		}
         
-        #plus-icon{width:16px; height: 16px;}
+        .plus-icon{width:16px; height: 16px;}
         
         /* 모달 */
         /* The Modal (background) */
@@ -224,7 +224,7 @@
             border: none;
         }
 
-        #ch-input-title{
+        .ch-input{
             background-color: #ebebeb;
             color: #333333;
             height: 30px;
