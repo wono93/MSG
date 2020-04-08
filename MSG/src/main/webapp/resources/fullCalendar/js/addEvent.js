@@ -38,16 +38,16 @@ var newEvent = function (start, end, eventType) {
     $('#save-event').on('click', function () {
 
         var eventData = {
-            _id: eventId,
-            title: editTitle.val(),
-            start: editStart.val(),
-            end: editEnd.val(),
-            description: editDesc.val(),
-            type: editType.val(),
-            username: '사나',
+        	allDay: false, 		     //하루종일
+            _id: eventId,			 //스케줄 고유ID
+            title: editTitle.val(), //일정명
+            start: editStart.val(), //시작
+            end: editEnd.val(), 	//끝
+            type: editType.val(),	//구분
+            username: '',			//등록자 이름
             backgroundColor: editColor.val(),
             textColor: '#ffffff',
-            allDay: false
+            description: editDesc.val()	//설명
         };
 
         if (eventData.start > eventData.end) {
@@ -79,15 +79,26 @@ var newEvent = function (start, end, eventType) {
 
         //새로운 일정 저장
         $.ajax({
-            type: "get",
-            url: "",
+            type: "post",
+            url: getContextPath()+"/sched/insertSched",
             data: {
-                //.....
+                scheName: eventData.title,
+                scheStart : eventData.start,
+                scheEnd : eventData.end,
+                scheCate : eventData.type,
+                scheColor : eventData.backgroundColor,
+                scheEx : eventData.description,
+                alldayYn : eventData.allDay
             },
+            dataType : "json",
             success: function (response) {
                 //DB연동시 중복이벤트 방지를 위한
                 //$('#calendar').fullCalendar('removeEvents');
                 //$('#calendar').fullCalendar('refetchEvents');
+            	//location.reload();
+            },
+            error:(x,s,e)=>{
+            	console.log(x,s,e);
             }
         });
     });

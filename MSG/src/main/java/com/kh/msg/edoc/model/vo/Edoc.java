@@ -1,7 +1,6 @@
 package com.kh.msg.edoc.model.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -27,9 +26,9 @@ public class Edoc implements Serializable{
 	private String edocTitle;
 	private int edocVer;
 	private int edocOrgId;
-	private Date edocDt;
-	private char edocEnd;
-	private Date edocEndDt;	
+	private String edocDt;
+	private String edocEnd;
+	private String edocEndDt;	
 	
 	private List<EdocFlow> edocFlowList;
 	
@@ -42,7 +41,7 @@ public class Edoc implements Serializable{
 
 
 	public Edoc(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle,
-			int edocVer, int edocOrgId, Date edocDt, char edocEnd, Date edocEndDt, List<EdocFlow> edocFlowList) {
+			int edocVer, int edocOrgId, String edocDt, String edocEnd, String edocEndDt, List<EdocFlow> edocFlowList) {
 		// TODO Auto-generated constructor stub
 	}
 

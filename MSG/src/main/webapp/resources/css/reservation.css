@@ -13,18 +13,21 @@ input{font-family: 'Noto Sans KR';}
 #whitecontent{width:1080px; margin:0 auto; text-align:left; min-height: 100px; padding:48px 0 0 53px;background-color:#fefefe;}
 #whitecontent>span{font-size:30px; margin-left: 30px;}
 #timepicker-start-conf, #timepicker-end-conf, #timepicker-start-car, #timepicker-end-car{width:210px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
-#timepicker-startend-conf, #timepicker-startend-car{width:280px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
-#timepicker-start-conf:focus + .starticon, #timepicker-end-conf:focus + .endicon, #timepicker-startend-conf:focus + .startendicon
-#timepicker-start-car:focus + .starticon, #timepicker-end-car:focus + .endicon, #timepicker-startend-car:focus + .startendicon{color:#f4ca25;}
+#timepicker-startend{width:280px; height:50px; border:2px solid #999; font-size:19px; padding-left: 20px;}
+#timepicker-start-conf:focus, #timepicker-end-conf:focus, #timepicker-startend:focus,
+#timepicker-start-car:focus, #timepicker-end-car:focus{border: 2px solid #f4ca25;}
+#timepicker-start-conf::placeholder, #timepicker-end-conf::placeholder, #timepicker-startend::placeholder,
+#timepicker-start-car::placeholder, #timepicker-end-car::placeholder{color:#bebebe;}
+#timepicker-start-conf:focus + .starticon, #timepicker-end-conf:focus + .endicon, #timepicker-startend:focus + .startendicon,
+#timepicker-start-car:focus + .starticon, #timepicker-end-car:focus + .endicon{color:#f4ca25;}
 #timepicker-end-conf, #timepicker-end-car{margin-left: 30px;}
 .starticon,.endicon,.startendicon {color:#999; margin-left: 10px; cursor: pointer;}
 .starticon:hover,.endicon:hover,.startendicon:hover{color:#333;}
 #add-conf, #add-car, #update-car{width:140px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 663px;}
 #update-conf, #del-conf, #update-car, #del-car{width:70px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 15px;}
-#add-conf:hover, #add-car:hover, #update-car:hover, #del-car:hover{color:#fefefe; background-color:#999; cursor:pointer;}
-#update-conf:hover, #del-conf:hover{color:#fefefe; background-color:#999; cursor:pointer;}
+#add-conf:hover, #update-conf:hover, #del-conf:hover, #add-car:hover, #update-car:hover, #del-car:hover{color:#333; border: 2px solid #333;cursor:pointer;}
 #getCarReserv, #getConfReserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:280px;}
-#getCarReserv:hover, #getConfReserv:hover{font-weight:bold; color:#333; border:none; background-color: #f4ca25; cursor: pointer;}
+#getCarReserv:hover, #getConfReserv:hover{font-weight:bold; color:#fefefe; border:none; background-color: #f4ca25; cursor: pointer;}
 .res-table{width: 100%; line-height: 46px; margin-top: 20px;}
 .narrow-td{width: 10% !important;}
 .wide-td {width:32% !important;}
@@ -229,5 +232,4 @@ input{font-family: 'Noto Sans KR';}
 .close{cursor:pointer;}
 .doBtn{width:130px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 20px 0 0 495px; cursor:pointer;}
 .doBtn:hover{cursor:pointer; color:#fefefe; background-color:#999;}
-
-  
+.displayNone{display:none;}

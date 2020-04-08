@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
 
 @Repository
@@ -94,15 +95,10 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Object selectBoard(PagingVo vo) {
+	public Object selectBoard(BoardPagingVo vo) {
 		// TODO Auto-generated method stub
 		Map<String, String> map = new HashMap<String, String>();
 		return sqlSession.selectList("board.selectBoard", vo);
-	}
-
-	@Override
-	public int insertScrap(BoardScrap boardScrap) {
-		return sqlSession.insert("board.insertScrap", boardScrap);
 	}
 
 	@Override
@@ -154,7 +150,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Object selectMyBoard(PagingVo vo) {
+	public Object selectMyBoard(BoardPagingVo vo) {
 		Map<String, String> map = new HashMap<String, String>();
 		return sqlSession.selectList("board.selectMyBoard", vo);
 	}
@@ -171,5 +167,40 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("board.selectComment", boardNo);
 	}
 
-	
+	@Override
+	public int insertRead(BoardRead boardRead) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("board.insertRead", boardRead);
+	}
+
+	@Override
+	public List<BoardRead> selectReadList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectReadList");
+	}
+
+	@Override
+	public int countScrapBoard(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.countScrapBoard", boardScrap);
+	}
+
+	@Override
+	public Object selectScrapBoard(BoardPagingVo vo) {
+		Map<String, String> map = new HashMap<String, String>();
+		return sqlSession.selectList("board.selectScrapBoard", vo);
+	}
+
+	@Override
+	public int insertScrap(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("board.insertScrap", boardScrap);
+	}
+
+	@Override
+	public int countComment(Comment comment) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.countComment", comment);
+	}
+
 }

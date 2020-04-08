@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	
 <html lang="en">
+	<%@page import="com.kh.msg.member.model.vo.Member"%>
+	<%@page import="java.text.SimpleDateFormat"%>
+	<%@page import="java.util.Date"%>
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +17,10 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script>
     	function fileDownload(oName, rName){
         		//한글파일명이 있을 수 있으므로, 명시적으로 encoding
@@ -31,7 +42,9 @@
 			location.href = "${pageContext.request.contextPath}/board/insertScrap.do?boardNo="+no;
 			}
 		*/
+		
     </script>
+    
     <!-- 
 		    $(document).ready(function () {
 		 		
@@ -88,6 +101,8 @@
     <section>
         <div>
             <article>
+            
+            
                 <div class="subNav">
                     <h3>커뮤니케이션</h3>
                     <ul>
@@ -106,21 +121,100 @@
                                 ${board.title }
                                 </p>
                             </div>
+                            
+				    <div>
+						<c:if test="${board.no != boardScrap.no && boardScrap.empNo != memberLoggedIn.empNo }">
+							<p>
+								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
+									<img id="star1" class="myImg" src="${pageContext.request.contextPath}/resources/image/star1.png" width="50" height="50">
+								</a>
+							</p>
+						</c:if>
+						<c:if test="${board.no == boardScrap.no && boardScrap.empNo == memberLoggedIn.empNo }">
+							<p>
+								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
+									<img id="star1" class="myImg" src="${pageContext.request.contextPath}/resources/image/star0.jpg" width="50" height="50">
+								</a>
+							</p>
+						</c:if>
+				            <div style="bottom:200px; z-index: 100;" id="ex1" class="modal">
+				              <textarea class="memo" id="memo" name="memo" rows="" cols=""></textarea>
+				              <div>
+				              <!-- 
+							  <button id="send-dm-button" class="dmButton" rel="modal:close"
+								onclick="submitFunction();">등록</button>
+				               -->
+								<a href="#" onclick="submitFunction();" rel="modal:close">등록</a>
+				              </div>
+				              <div>
+							  <a href="#"  rel="modal:close">닫기</a>
+				              </div>
+							</div>
+			        </div>
 
-                           
-							<!-- 1은 현재로그인한 사용자 -->
-							<div id="star">
-						       <a class="btn btn-outline-dark heart">
-						           <img style="width: 30px; height: 30px;" id="heart" src="">
-						       </a>
-						   </div>
-					
-
+				<script>
+				 $('a[href="#ex7"]').click(function(event) {
+				      event.preventDefault();
+				 
+				      $(this).modal({
+				        fadeDuration: 250
+				      });
+				    });
+				 
+				 function submitFunction() {
+						var memberEmpno = ${memberLoggedIn.empNo};
+						var boardNo = ${board.no};
+						var memo = hdjq("#memo").val();
+						
+						hdjq.ajax({
+							type : "POST",
+							url : "./insertScrap.do",
+							data : {
+								boardNo : encodeURIComponent(boardNo),
+								memberEmpno : encodeURIComponent(memberEmpno),
+								memo : encodeURIComponent(memo)
+							},
+							success : function(result) {
+								 $('#star1').attr("src", '${pageContext.request.contextPath}/resources/image/star0.jpg');
+								 $('#Scr').attr("onclick", "deleteFunction();");
+								 $('#Scr').attr("rel", "");
+							}
+						});
+						alert("스크랩 등록");
+					}
+				 
+				 
+				 
+				 function deleteFunction() {
+						var memberEmpno = ${memberLoggedIn.empNo};
+						var boardNo = ${board.no};
+						
+						hdjq.ajax({
+							type : "POST",
+							url : "./deleteScrap.do",
+							data : {
+								boardNo : encodeURIComponent(boardNo),
+								memberEmpno : encodeURIComponent(memberEmpno),
+							},
+							success : function(result) {
+								 $('#star1').attr("src", '${pageContext.request.contextPath}/resources/image/star1.png');
+								 $('#Scr').attr("onclick", "");
+								 $('#Scr').attr("rel", "modal:open");
+							}
+						});
+						alert("스크랩 취소");
+					}
+				</script>
+							
+							
                             <div id="member">
                                 <p class="com3">${member.deptCd }</p>
                                 <p class="com3">${member.jobCd }</p>
                                 <p class="com3">${member.empName }</p>
                             </div>
+                            
+                            
+							
                             
                         </div>
                         <div id="comRight">
@@ -155,10 +249,10 @@
                     </div>
                     
                     <div>
-                        <div style="margin-top:35px; width: 100%; height: 100%; z-index: 100; position: relative; 
+                        <div style="margin-top:35px; width: 100%; height: 100%; z-index: 77; position: relative; 
                             display: inline-block;">
                             
-                            <button type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }');">수정</button>
+                            <button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }');">수정</button>
                             
                             <form name="boardFrm" 
 							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
@@ -166,19 +260,19 @@
 							  onsubmit="return boardValidate();"
 							  enctype="multipart/form-data">
 							  
-                            	<button type="submit" name="" id="grayBtn1" class="btn">삭제</button>
+                            	<button style="z-index:78;" type="submit" name="" id="grayBtn1" class="btn">삭제</button>
                             	<input type="hidden" name="no" value="${board.no }" />
 							</form>
                         </div>
                     </div>
                     <div style="height: 100%;" id="commentContent">
                         <div id="commentCnt">
-                            <p class="com5">2 개의 댓글</p>
+                            <p class="com5">${countComment } 개의 댓글</p>
                             <br>
                         </div>
-                        
-                       	 <c:if test="${board.commentList[0].no != null }" >
-						<c:forEach items="${board.commentList}" var="c">
+                      
+                       	
+						<c:forEach items="${commentList}" var="c">
 							<form name="boardFrm" 
 						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }&empNo=${board.empNo}"
 						  method="post" 
@@ -192,15 +286,12 @@
 		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
 		                                        </div>
 		                                    </td>
-			                                    <c:forEach begin="0" end="0" items="${commentList }" var="co">
-				                                    <c:forEach begin="0" end="0" items="${memberList }" var="m">
-						                                    <c:if test="${co.empNo == m.empNo}">
-						                                    	<td style="padding: 0; width: 166px;">
-						                                    		${m.deptCd} ${m.jobCd}  ${m.empName }
-						                                    	</td>
-						                                    </c:if>
-				                                    </c:forEach>
-			                                    </c:forEach>
+				                                    
+	                                    	<td style="padding: 0; width: 166px;">
+	                                    		${c.deptCd} ${c.jobCd}  ${c.empName }
+	                                    	</td>
+						                                 
+			                                   
 		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
 		                                    <td style="padding: 0; width: 166px; color: gray;">
 		                                        ${c.date }
@@ -213,10 +304,9 @@
 		                        </div>
 		                        </form>
 	                       </c:forEach>
-							</c:if>
-		  				
+							
                         <form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNo=${board.empNo}"
+						  action="${pageContext.request.contextPath}/board/insertComment.do?boardNo=${board.no}&empNoReturn=${board.empNo}&memberEmpno=${memberLoggedIn.empNo}"
 						  method="post" 
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">
@@ -227,7 +317,7 @@
                                     <td style="width: 720px;">
                                     <div>
                                         <textarea name="cmtContent" id="inputWrd"></textarea>
-                                        </div>
+                                    </div>
                                     </td>
                                     <td>
                                     	<input type="hidden" value="${memberLoggedIn.empNo}" name="empNo"/>
@@ -238,6 +328,7 @@
                                     </td>
                                 </tr>
                             </table>
+                            
                         </div>
                        </form>
                     </div>

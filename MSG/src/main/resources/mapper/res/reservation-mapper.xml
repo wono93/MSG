@@ -8,9 +8,9 @@
 	from conf_room_tb
 	order by croom_size asc, croom_code
 	</select>
-	<insert id="confInsert">
+	<insert id="confResInsert">
 	insert into conf_rsvn_tb
-	values(seq_confrsvn_confcode.nextval, 1, #{croomCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	values(seq_confrsvn_confcode.nextval, #{empNo}, #{croomCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
 	<!-- resCode, empNo, croomCode, resEnrolldate, resUsedate, resReturndate -->
 	</insert>
 	<select id="selectCarList" resultType="car">
@@ -18,40 +18,85 @@
 	from car_tb
 	order by car_cate asc, car_code
 	</select>
-	<insert id="carInsert">
+	<insert id="carResInsert">
 	insert into car_rsvn_tb
-	values(seq_carrsvn_carcode.nextval, 1, #{carCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	values(seq_carrsvn_carcode.nextval, #{empNo}, #{carCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
 	<!-- resCode, empNo, carCode, resEnrolldate, resUsedate, resReturndate -->
 	</insert>
-	<select id="selectAllMyConfResList" resultType="resview">
+	<select id="selectAllConfResList" resultType="resview" parameterType="member">
 	select r.croom_code "thing_code",
 		   c.croom_name "thing_name",
 		   c.croom_size "thing_size",
 		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
-		   r.res_returndate "res_return_date"
+		   r.res_returndate "res_return_date",
+		   r.emp_no "emp_no",
+		   r.res_code "res_code"
 	from conf_rsvn_tb r join conf_room_tb c on r.croom_code = c.croom_code
+	<where>
+		<if test='isManager != "y"'> 
+		    r.emp_no = #{empNo}
+		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and r.res_returndate <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
+	</where>
 	order by r.res_usedate desc
 	</select>
-	<select id="selectAllMyCarResList" resultType="resview">
+	<select id="selectAllCarResList" resultType="resview" parameterType="member">
 	select r.car_code "thing_code",
 		   c.car_company ||'  '|| c.car_type "thing_name",
 		   c.car_size "thing_size",
 		   (r.res_returndate - r.res_usedate)*24*60 "how_long",
 		   r.res_usedate "res_use_date",
-		   r.res_returndate "res_return_date"
+		   r.res_returndate "res_return_date",
+		   r.emp_no "emp_no",
+		   r.res_code "res_code"
 	from car_rsvn_tb r join car_tb c on r.car_code = c.car_code
+	<where>
+		<if test='isManager != "y"'> 
+		    r.emp_no = #{empNo}
+		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+			    and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and r.res_usedate >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and r.res_returndate <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
+	</where>
 	order by r.res_usedate desc
 	</select>
-	<select id="selectAllMyRList" resultType="resview">
+	<select id="selectAllRList" resultType="resview" parameterType="member">
 	select * from
 	((select * from car_rsvn_view) union (select * from conf_rsvn_view))
-	
+	<where>
+		<if test='isManager != "y"'> 
+		    "emp_no" = ${empNo}
+		</if>
+		<choose>
+			<when test="srchFrom != null and srchTo == ''">
+				and "res_use_date" >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+			<when test="srchFrom != null and srchTo != null">
+				and "res_use_date" >= to_date(#{srchFrom}, 'YYYY-MM-DD HH24:MI:SS')
+				and "res_return_date" <![CDATA[<]]>= to_date(#{srchTo}, 'YYYY-MM-DD HH24:MI:SS')
+			</when>
+		</choose>
+	</where>
 	order by "res_use_date" desc
 	</select>
 	<insert id="addConferenceRoom">
 	insert into conf_room_tb
-	values(???, #{room-title}, #{size})
+	values(#{croomCode}, #{croomName}, #{croomSize})
 	<!-- croom_code, croom_name, croom_size -->
 	</insert>
 	<insert id="addCar">
@@ -63,14 +108,26 @@
 	<select id="getNextval" resultType="_int">
 	select ${seq}.nextval from dual
 	</select>
+	<delete id="delConf">
+	
+	</delete>
 	<delete id="delCar">
 	delete from car_tb
 	where car_code = #{carCode}
 	</delete>
-	<select id="selectCarListEnd" resultType="car">
+	<select id="selectCarListEnd" resultType="car"><!-- 빌릴 수 없는 차량리스트 리턴 -->
 	select distinct c.*
 	from car_tb c join car_rsvn_view r on c.car_code = r."thing_code"
-	where to_date(#{resUseDate}, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= r."res_use_date" and
-		  to_date(#{resReturnDate}, 'YYYY-MM-DD HH24:MI:SS') >= r."res_return_date"
+	where 
+		 r."res_return_date" > to_date(#{resUseDate}, 'YYYY-MM-DD HH24:MI:SS') or
+		 to_date(#{resReturnDate}, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]> r."res_use_date"
 	</select>
+	<delete id="delRes">
+	delete from
+	<choose>
+		<when test="resCate == '회의실'"> conf_rsvn_tb</when>
+		<when test="resCate == '법인차량'"> car_rsvn_tb </when>
+	</choose>
+	where res_code = ${resCode}
+	</delete>
 </mapper>

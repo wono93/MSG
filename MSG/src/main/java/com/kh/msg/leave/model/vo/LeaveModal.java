@@ -25,7 +25,7 @@ public class LeaveModal implements Serializable{
 	private int vctnCd;
 	private String vctnNm;
 	private int vctnAmt;
-	private Date vctnUpdtDt;
+	private String vctnUpdtDt;
 	private String vctnReason;
 	private String edocId;
 	

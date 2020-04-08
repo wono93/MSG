@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.msg.chat.model.vo.DirectMsg;
+import com.kh.msg.member.model.vo.Member;
 
 public interface DirectMsgDAO {
 

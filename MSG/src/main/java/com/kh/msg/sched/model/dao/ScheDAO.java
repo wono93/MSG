@@ -8,6 +8,6 @@ public interface ScheDAO {
 
 	List<Schedule> schedList();
 
-	int insert(Schedule s);
+	int insertSched(Schedule s);
 
 }

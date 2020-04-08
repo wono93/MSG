@@ -36,16 +36,17 @@
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/confRes.do'">회의실</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/carRes.do'">법인차량</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/myResView.do'">예약확인</li>
+			                <%-- <li onclick="location.href='${pageContext.request.contextPath}/res/myResView/'+ ${memberLoggedIn.empNo}+'/'+${memberLoggedIn.isManager}+">예약확인</li> --%>
 			            </ul>
 			    </div>
 			    <div id="whitecontent">
-			    	<form action="${pageContext.request.contextPath }/res/carInsert.do" method="post" id="carResFrm">
+			    	<form action="${pageContext.request.contextPath }/res/carResInsert.do" method="post" id="carResFrm">
 				        <input type='text' id='timepicker-start-car' name="resUsedate" class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10"/>
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10" placeholder="대여시작날짜/시간"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
 				        <span>~</span>
 				        <input type='text' id='timepicker-end-car' name="resReturndate" class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10"/>
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format='hh:ii' autocomplete="off" minutesStep="10" placeholder="대여반납날짜/시간"/>
 				                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
@@ -61,7 +62,7 @@
 				                <th>선택</th>
 				            </tr>
 				            <c:forEach items="${list }" var="c" varStatus="vs">
-				            	<tr class="ajaxHide">
+				            	<tr class="ajaxHide-tr">
 				            		<td>${vs.count }</td>
 				            		<td>${c.carCate }</td>
 				            		<td>${c.carCompany } / ${c.carType }</td>
@@ -69,7 +70,7 @@
 				            		<td>${c.carSize }</td>
 				            		<td>
 				            			<label class="saveId-container float" for="${c.carCode }">
-				            			<input type="radio" name="car" id="${c.carCode }" value="${c.carCode }"/>
+				            			<input type="radio" name="car" id="${c.carCode }" value="${c.carCode }" onclick="intoCarCode();"/>
 				            			<span class="saveId-checkmark"></span></label>
 				            		</td>
 				            	</tr> 
@@ -159,7 +160,7 @@
 		                        <div class="select-box__value">
 		                        <input class="select-box__input" type="radio" id="CAR1" value="CAR1" name="car-cate_" checked="checked"/>
 		                        <p class="select-box__input-text">경차</p>
-		                        </div><
+		                        </div>
 		                        <div class="select-box__value">
 		                        <input class="select-box__input" type="radio" id="CAR2" value="CAR2" name="car-cate_"/>
 		                        <p class="select-box__input-text">세단</p>

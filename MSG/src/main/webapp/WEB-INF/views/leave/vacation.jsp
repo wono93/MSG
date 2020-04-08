@@ -26,6 +26,13 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<!-- jQuery ui style sheet -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- jQuery ui library -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <title>vacation</title>
 </head>
 <script>
@@ -129,7 +136,7 @@
 						</tr>
 						<c:forEach items="${listSum}" var="leave" varStatus="vs">
 							<tr>
-								<td></td>
+								<td>${leave.vctnNo }</td>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
 								<td>${leave.longevity}</td>
@@ -208,73 +215,177 @@
 			<div class="updown custom">
 				조절량
 				<button type="button" class="upQtyBtn" onclick="upYear2();">+</button>
-				<input type="text" id="Qty" value="0" readonly="true" />
+				<input type="text" id="Qty" value="0" readonly="true" name="Qty" />
 				<button type="button" class="downQtyBtn" onclick="downYear2();">-</button>
 			</div>
 			</p>
-			<p>
-			<div class="divice custom">
-				근거
-				<form id="bookid">
-					<p class="divice brd">전자문서:2020-GD001-0D3</p>
-				</form>
+			<div class="ui-widget">
+				<label for="search">문서 검색: </label> <input id="search">
+
+				<p>
+				<div class="divice custom">
+					근거
+					<form id="bookid">
+						<input type="text" id="reasonBox" />
+					</form>
+				</div>
+				</p>
+				<p>
+				<div class="setting custom">
+					기조정내역 <br> <br>
+					<table class="modaltb" id="modalAjax">
+						<tr class="modaltr">
+							<th class="modalth1">종류</th>
+							<th class="modalth2">조절량</th>
+							<th class="modalth3">전자문서</th>
+							<th class="modalth5">사유</th>
+							<th class="modalth4">일시</th>
+						</tr>
+					</table>
+				</div>
+				</p>
+				<br> <br>
+					<div style="display: block; text-align: center;">		
+		<c:if test="${paging.startPage != 1 }">
+			<a href="/boardList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+		</c:if>
+		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+			<c:choose>
+				<c:when test="${p == paging.nowPage }">
+					<b>${p }</b>
+				</c:when>
+				<c:when test="${p != paging.nowPage }">
+					<a href="/boardList?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${paging.endPage != paging.lastPage}">
+			<a href="/boardList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+		</c:if>
+	</div>
+				<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
+				<a href="#" rel="modal:close"><button id="modalclo"
+						onclick="modalDel();">취소</button></a>
+				<!-- 닫기버튼 -->
 			</div>
-			</p>
-			<p>
-			<div class="setting custom">
-				기조정내역 <br> <br>
-				<table class="modaltb" id="modalAjax">
-					<tr class="modaltr">
-						<th class="modalth1">종류</th>
-						<th class="modalth2">조절량</th>
-						<th class="modalth3">근거</th>
-						<th class="modalth4">일시</th>
-					</tr>
-				</table>
-			</div>
-			</p>
-			<br> <br>
-			<button type="submit" id="modalsub">확인</button>
-			<a href="#" rel="modal:close"><button id="modalclo"
-					onclick="modalDel(this);">취소</button></a>
-			<!-- 닫기버튼 -->
-		</div>
 		</div>
 
 	</section>
 
 	<script>
-		
-		/* function modalDel(btn){
-			
-			
-		} */
-	
-	
+		/*기조정내역 테이블  */
+		function modalDel() {
+			alert("기존내용 삭제");
+			$(".delTr").remove();
+
+		};
+
+		/* 모달 테이블 */
+		var vctnNo;
+
 		function modal(btn) {
-			/* let empNo = $(btn).val(); */
 
 			var btnNo = $(btn).val();
-			console.log("empNo =", empNo);
-
+			console.log("empNo =", btnNo);
+			vctnNo = $(btn).parent().parent().parent().parent().children()
+					.eq(0).text();
+			console.log("vctnNo =", vctnNo)
 			$.ajax({
-				url : "${pageContext.request.contextPath}/leave/modal",
+				url : "/msg/leave/modal",
 				type : "GET",
 				data : {
 					empNo : btnNo
 				},
 				success : function(data) {
-					var str = '<tr>';
+					var str = '';
 					$.each(data, function(i, item) {
-						str += '<td>' + item.vctnNm + '</td><td>'
-								+ item.vctnAmt + '</td><td>' + item.edocId
-								+ '</td><td>' + item.vctnUpdtDt + '</td>';
+						str += '<tr class ="delTr"><td>' + item.vctnNm
+								+ '</td><td>' + item.vctnAmt + '</td><td>'
+								+ item.edocId + '</td><td>' + item.vctnReason
+								+ '</td><td>'+item.vctnUpdtDt;
 						str += '</tr>'
 					});
 					$("#modalAjax").append(str);
 				}
 
 			});
+
+			$.ajax({
+				url : "/msg/leave/modalSearch",
+				type : "GET",
+				success : function(data) {
+					var str = [];
+					$.each(data, function(i, item) {
+						str[i] = "제목 : " + item.edocTitle + " 문서ID : "
+								+ item.edocId;
+
+					});
+
+					$("#search").autocomplete({
+						source : str
+					});
+					console.log("STR =", str);
+
+				}
+
+			});
+
+		};
+
+		/*모달 내용 삽입  */
+		function modalSub() {
+			var vctnCd = "";
+			if ($("input:radio[id='box2']").is(":checked")) {
+				
+				
+				vctnCd = "1";
+
+			} else if ($("input:radio[id='box1']").is(":checked")) {
+
+				vctnCd = "2";
+
+			} 
+			if(vctnCd == ""){
+				alert("연차 또는 포상을 선택해주세요.")
+				return;
+			}
+
+			var vctnAmt = $("#Qty").val();
+
+			var vctnReason = $("#reasonBox").val();
+
+			var edocId;
+			var edocIdSearch = $("#search").val();
+			var lastIdx = edocIdSearch.lastIndexOf(":");
+			edocId = edocIdSearch.substring(lastIdx + 1);
+
+			console.log("edocId", edocId);
+			console.log("vctnReason", vctnReason);
+			console.log("vctnCd", vctnCd);
+			console.log("vctnAmt", vctnAmt);
+			console.log("vctnNo", vctnNo);
+
+			$.ajax({
+				url : "/msg/leave/update.do",
+				type : "POST",
+				data : {
+					vctnNo : vctnNo,
+					edocId : edocId,
+					vctnCd : vctnCd,
+					vctnAmt : vctnAmt,
+					vctnReason : vctnReason
+				},
+				dataType : "JSON",
+				success : function(data) {
+					
+				}
+			});
+					 /* $(".modal").modal('hide'); */
+					$(".delTr").remove();
+					/*  $("#test").hide(); */
+					  $("#test").modal("hide");   
+				/* 	$(".jquery-modal blocker current").modal("hide"); */
+
 		};
 	</script>
 

@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PagingVo{
+public class BoardPagingVo{
 	
 
 	// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
@@ -22,7 +22,7 @@ public class PagingVo{
 	private String catagkeyword;
 	private int empNo;
 	
-	public PagingVo(int total, int nowPage, int cntPerPage) {
+	public BoardPagingVo(int total, int nowPage, int cntPerPage) {
 		setNowPage(nowPage);
 		setCntPerPage(cntPerPage);
 		setTotal(total);

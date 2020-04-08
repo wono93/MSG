@@ -37,7 +37,7 @@
 				and edoc_end = 'y'
 			</if>
 			<if test="srchType != 'all'">
-				#{srchType} like '%' ||  #{srchWord} || '%'
+				${srchType} like '%' ||  #{srchWord} || '%'
 				and edoc_end = 'y'
 			</if>		
 		</where>
@@ -72,7 +72,7 @@
 					edoc_id like '%' ||  #{srchWord} || '%'
 				</if>
 				<if test="srchType != 'all'">
-					#{srchType} like '%' ||  #{srchWord} || '%'
+					${srchType} like '%' ||  #{srchWord} || '%'
 				</if>
 			</where>
 			)
@@ -80,35 +80,35 @@
 			<if test='myDocu == "y"'>
 				or
 				(emp_no = ${empNo}
-				and edoc_end != 'y')
+				and edoc_end is NULL)
 			</if>
 			<if test='reqDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st != 'y'
-				and flow_NM = '결재')
+				and flow_st is NULL
+				and flow_nm = '결재')
 			</if>
 			<if test='compDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
 				and flow_st = 'y'
-				and edoc_end != 'y'
-				and flow_NM = '결재')
+				and edoc_end = 'y'
+				and flow_nm = '결재')
 			</if>
 			<if test='refDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_NM = '참조')
+				and flow_nm = '참조')
 			</if>
 		</where>
 		order by edoc_dt desc
 	</select>
 	<select id="selectMyEdocTotalContents" resultType="_int">
 		select
-			count(*)
+			count(DISTINCT edoc_id)
 		from
 			(select
 				*
@@ -125,7 +125,7 @@
 					edoc_id like '%' ||  #{srchWord} || '%'
 				</if>
 				<if test="srchType != 'all'">
-					#{srchType} like '%' ||  #{srchWord} || '%'
+					${srchType} like '%' ||  #{srchWord} || '%'
 				</if>
 			</where>
 			)
@@ -133,35 +133,66 @@
 			<if test='myDocu == "y"'>
 				or
 				(emp_no = ${empNo}
-				and edoc_end != 'y')
+				and edoc_end is NULL)
 			</if>
 			<if test='reqDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st != 'y'
-				and flow_NM = '결재')
+				and flow_st is NULL
+				and flow_nm = '결재')
 			</if>
 			<if test='compDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
 				and flow_st = 'y'
-				and edoc_end != 'y'
-				and flow_NM = '결재')
+				and edoc_end = 'y'
+				and flow_nm = '결재')
 			</if>
 			<if test='refDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_NM = '참조')
+				and flow_nm = '참조')
 			</if>
 		</where>
-		order by edoc_dt desc
 	</select>
 	
-	
-	
+	<select id="newEdocId" resultType="string">
+	select
+		'E'||to_char(sysdate + 9/24,'yymmdd')||'-'||seq_edoc_id.NEXTVAL
+	from
+		dual
+	</select>
+	<insert id="edocWrite">
+	{call
+		declare
+		begin
+			insert
+				into
+					edoc_tb
+				values
+					(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate, NULL, NULL);
+			insert
+				into
+					leave_ltt_tb
+				values 
+					(#{edocId}, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt}, #{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} );
+			commit;
+		end
+	}
+	</insert>
+	<insert id="edocAttWrite">
+		insert into
+			edoc_att_tb
+		values
+			(seq_attach_id.NEXTVAL, #{edocId}, #{originFilename}, #{renamedFilename}, sysdate, NULL, NULL)
+	</insert>
+	<insert id="edocFlowWrite">
+		insert into flow_exe_tb values(#{edocId}, #{flowCd}, #{flowEmpNo}, #{flowOrd}, default, default, default)
+	</insert>
+
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
 		<id column="edoc_id" property="edocId"/>
 		<result column="secu_cd" property="secuCd"/>

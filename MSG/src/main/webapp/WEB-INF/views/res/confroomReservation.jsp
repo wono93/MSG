@@ -10,104 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
 	
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-        <script>
-           
-            
-            /* function requestCrawling() {
-           	 if(e.key == 13){
-           	 var 변수명 = $("").attr();
-           	 var 변수명 = $(this).val();
-           	 }
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/crawling/crawlingTest1.do",	
-           			dataType : "json",
-           			data: { 데이터키 : 변수명},
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL1");
-            				$.each(data, function(idx, value){					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value+"</td>");	
-           					$table.append($td);				
-           					console.log(idx);
-           					console.log(value);
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           }
-            //ajax-smart 참고
-            $("#reservTest").click(function(){
-        		console.log("테스트중입니다");
-        		let reservation = {
-        			resUsedate :$("#timepicker-start").val(),
-        			resReturndate : $("#timepicker-end").val(),
-        		}
-        		$.ajax({
-        			url:"${pageContext.request.contextPath}/res/test.do",
-        			data:reservation,
-        			dataType:"text",
-        			success:data=>{
-        				console.log(data);
-        			},
-        			error:(x,s,e)=>{
-        				console.log(x,s,e);
-        			}
-        		});
-        	});
-            function requestCrawling2() {
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/res/test.do",	
-           			dataType : "json",
-           			method: "post",
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL2");
-            				$.each(data, function(idx, value){
-           					console.log(idx);
-           					console.log(value);
-           					console.log(value.contentsName);
-            					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value.contentsName+"</td>"+"<td><a href="+value.contentsHref+">"+value.contentsName+"</a></td>");	
-           					$table.append($td);				
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           } */
-        </script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     <title>MSG :: 회의실 예약</title>
 </head>
 <style>
@@ -129,17 +38,19 @@
 			             </ul>
 			    </div>
 			    <div id="whitecontent">
-			    	<form action="${pageContext.request.contextPath }/res/confInsert.do" method="post" id="confResFrm">
+			    	<form action="${pageContext.request.contextPath }/res/confResInsert.do" method="post" id="confResFrm">
 				        <input type='text' id='timepicker-start-conf' name='resUsedate' class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off"/>
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D"  data-time-format="hh:ii"  autocomplete="off" placeholder="대여시작날짜/시간"/>
 				                <i class='far fa-calendar-alt starticon' style='font-size:32px'></i>
-				        <span>~</span>
+				        <span>  ~</span>
 				        <input type='text' id='timepicker-end-conf' name='resReturndate' class='datepicker-here' data-language='ko' 
-				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format="hh:ii" autocomplete="off" minutesStep="10" />
+				                data-timepicker="true" data-date-format="yyyy-mm-dd D" data-time-format="hh:ii" autocomplete="off" minutesStep="10" placeholder="대여반납날짜/시간"/>
 				                <i class='far fa-calendar-alt endicon' style='font-size:32px'></i>
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
 				        <input type="hidden" name="resEnrolldate" />
+				        <input type="hidden" name="empNo" class="empNo" value='${memberLoggedIn.empNo}'/>
+				        <input type="hidden" name="isManager" class="isManager" value="${memberLoggedIn.isManager}"/>
 				        <button id="getConfReserv"type="button">예약하기</button>
 				        <!-- <button  id="reservTest" onclick="requestAjax()"></button> -->
 				        <table class="res-table">
@@ -150,13 +61,13 @@
 				                <th>선택</th>
 				            </tr>
 				            <c:forEach items="${cList }" var="c" varStatus="vs">
-				            	<tr>
+				            	<tr class="ajaxHide-tr">
 				            		<td>${vs.count }</td>
 				            		<td>${c.croomName }</td>
 				            		<td>${c.croomSize }</td>
 				            		<td>
 				            			<label class="saveId-container float" for="${c.croomCode }">
-				            			<input type="radio" name="conf" id="${c.croomCode }" value="${c.croomCode }"/>
+				            			<input type="radio" name="conf" id="${c.croomCode }" value="${c.croomCode }" onclick="intoConfCode();"/>
 				            			<span class="saveId-checkmark"></span></label>
 				            		</td>
 				            	</tr>
@@ -192,7 +103,33 @@
 							<button type="button" class="plusBtn" onclick="plus();">+</button>
 						</div>
 						</p>
-                        <input type="submit" class="addBtn" value="추가하기" />
+                        <input type="button" class="addBtn" value="추가하기" />
+                    </form>
+               	</div>
+            </div>
+     </div>
+     <div id="updateConfModal" class="ch-modal">
+            <!-- Modal content -->
+            <div class="ch-modal-content">
+                
+                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close confClose" id="close-btn">
+                <div id="ch-content">
+                    <form action="${pageContext.request.contextPath }/res/updateConf.do">
+
+                        <div class="channelGenTitle">
+                            <h3>회의실 추가</h3>
+                        </div>
+
+                        <input type="text" name="room-title" id="updateConf-title" placeholder="바뀔 회의실 이름을 입력해주세요.">
+                        <p>
+						<div class="updown custom">
+							수용인원
+							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+							<input type="text" id="person" value="4" name="size" readonly="true" />
+							<button type="button" class="plusBtn" onclick="plus();">+</button>
+						</div>
+						</p>
+                        <input type="button" class="updateBtn" value="수정하기" />
                     </form>
                	</div>
             </div>

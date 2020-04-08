@@ -11,148 +11,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/jquery-3.4.1.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.ui.position.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.js"></script>
     
     <link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
-        <script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-        <script>
-           //아이콘 클릭 시 dateTimePicker focus
-           $(document).ready(function(){
-                $('.startendicon').click(function(){
-                    $("#timepicker-startend").focus();
-                });
-                
-                //기본상태 : 회의실예약내역 + 차량예약내역
-           		$("#confList-div").hide();
-           		$("#carList-div").hide();
-                
-               $("[name=cate]").change(()=>{
-                	
-                	if($("#cconf").is(":checked")){
-	                	//드롭다운에서 회의실 선택시 회의실예약내역 출력
-	                	$.ajax({
-		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
-		           			type: "get",
-		           			dataType : "text",
-		           			success : data => {
-		           					$("#confList-div").show();
-		           					$("#rList-div").hide();
-		           					$("#carList-div").hide();
-		            				
-		           			},
-		           			error : (x, s, e) => {
-		           				console.log(x, s, e);
-							}
-		           			
-		           		});
-                		
-                	}
-                	else if($("#ccar").is(":checked")){
-                		
-                		$.ajax({
-		           			url:"${pageContext.request.contextPath}/res/myResView.do",	
-		           			type: "get",
-		           			dataType : "text",
-		           			success : data => {
-		           					$("#confList-div").hide();
-		           					$("#rList-div").hide();
-		           					$("#carList-div").show();
-		            				
-		           			},
-		           			error : (x, s, e) => {
-		           				console.log(x, s, e);
-							}
-		           			
-		           		});
-                	}
-               
-                	else{
-                		$.ajax({
-                        	url: "${pageContext.request.contextPath}/res/myResView.do",
-                        	type: "get",
-                        	dataType:"text",
-                        	success: data =>{
-                        		$("#rList-div").show();
-                        		$("#confList-div").hide();
-                        		$("#carList-div").hide();
-                        	},
-                        	error: (x, s, e) =>{
-                        		console.log(x, s, e);
-                        	}
-                        });
-                	}
-                });
-               
-               
-                
-               
-            });    
-                
-           /*  //ajax-smart 참고
-            $("#reservTest").click(function(){
-        		console.log("테스트중입니다");
-        		let reservation = {
-        			resUsedate :$("#timepicker-start").val(),
-        			resReturndate : $("#timepicker-end").val(),
-        		}
-        		$.ajax({
-        			url:"${pageContext.request.contextPath}/res/test.do",
-        			data:reservation,
-        			dataType:"text",
-        			success:data=>{
-        				console.log(data);
-        			},
-        			error:(x,s,e)=>{
-        				console.log(x,s,e);
-        			}
-        		});
-        	}); */
-            /* function requestCrawling2() {
-           	$.ajax({
-           			url:"${pageContext.request.contextPath}/res/test.do",	
-           			dataType : "json",
-           			method: "post",
-           			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-           			success : data => {
-           				console.log(data);
-           				$table= $("#tableCL2");
-            				$.each(data, function(idx, value){
-           					console.log(idx);
-           					console.log(value);
-           					console.log(value.contentsName);
-            					
-           					$tr = $("<tr></tr>");
-           					$td = $tr.append("<td>"+idx+"</td><td>"+value.contentsName+"</td>"+"<td><a href="+value.contentsHref+">"+value.contentsName+"</a></td>");	
-           					$table.append($td);				
-           					
-           					
-           				});
-           				
-           				
-           				 
-           			},
-           			error : (x, s, e) => {
-           				//x : xhr
-           				//s : textStatus
-           				//e : errorThrown
-           				console.log("error");
-
-           			}			 
-           	});
-           } */
-
-
-            // Initialization
-            $('#my-element').datepicker()
-            // Access instance of plugin
-            $('#my-element').data('datepicker')
-
-        </script>
+    <script src="${pageContext.request.contextPath }/resources/js/res_header.js"></script>
     <title>MSG :: 예약확인</title>
 </head>
 <style>
-
+.center1200 li:nth-of-type(3){color:#333;}
+.saveId-container { display: inline; position: relative; padding-left: 25px; top:7px; left:69px; cursor: pointer; font-size: 20px;}
 </style>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -161,14 +33,9 @@
             <article>
 			    <div class="center1200">
 			        <h3>예약관리</h3>
-			        
 			            <ul>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/confRes.do'">회의실</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/carRes.do'">법인차량</li>
-			                <%-- memberLoggedIn 의 관리자 여부에 따라 동작하는 controller method 다르게 할거임
-			                <c:if test="${Integer.parseInt(param.num1) > Integer.parseInt(param.num2) }">
-							<p>${Integer.parseInt(param.num1) }이 ${Integer.parseInt(param.num2) }보다 큽니다</p>
-							</c:if> --%>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/myResView.do'">예약확인</li>
 			             </ul>
 			    </div>
@@ -177,8 +44,7 @@
 			    			name="srchDate"
 			    			data-language="ko" id='timepicker-startend' class="datepicker-here"/>
 	                <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i>
-			        <input type="hidden" name="srchStart" id="srchStart" />
-			        <input type="hidden" name="srchEnd" id="srchEnd" />
+			        
 			        
 			        <div class="srchBar">
 			                <div class="select-box">
@@ -208,8 +74,8 @@
 			                        </li>
 			                    </ul>
 			                </div>
-			                <div id="rList-div">
-				           		<table class="res-table">
+			                <div id="rList-div" class="haveNoRes">
+				           		<table class="res-table all-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -220,7 +86,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${rList }" var="r" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 				                    		<%-- <c:if test="${Integer.parseInt(param.num1) > Integer.parseInt(param.num2) }"> --%>
 				                    		<c:if test="${fn:contains({r.thingCode},'CONF') }">
@@ -247,6 +113,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${r.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -262,8 +129,8 @@
 					                </div>        
 					            </div>
 					        </div>
-					         <div id="confList-div">
-				           		<table class="res-table">
+					         <div id="confList-div" class="haveNoRes">
+				           		<table class="res-table conf-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -274,7 +141,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${confList }" var="c" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 											<td>회의실</td>
 				                    		<td>${c.thingName }</td>
@@ -295,6 +162,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${c.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -310,8 +178,8 @@
 					                </div>        
 					            </div>
 					        </div>
-					         <div id="carList-div">
-				           		<table class="res-table">
+					         <div id="carList-div" class="haveNoRes">
+				           		<table class="res-table car-res">
 				                    <tr>
 				                        <th class="narrow-td"></th>
 				                        <th>구분</th>
@@ -322,7 +190,7 @@
 				                        <th class="wide-td">대여종료</th>
 				                    </tr>
 				                    <c:forEach items="${carList }" var="r" varStatus="vs">
-				                    	<tr>
+				                    	<tr class="ajaxHide-tr">
 				                    		<td class="narrow-td">${vs.count }</td>
 											<td>법인차량</td>
 				                    		<td>${r.thingName }</td>
@@ -343,6 +211,7 @@
 				                    		</td>
 				                    		<td class="wide-td resUseDate"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td resReturnDate"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
+				                    		<td class="displayNone">${r.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -362,25 +231,71 @@
 			    </div>
             </article>
         </div>
+        <!-- 예약내역 수정 모달 -->
+	    <div id="updateResModal" class="ch-modal">
+	       	<div class="ch-modal-content">
+	                
+	               <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
+	               <div id="ch-content">
+	                    <form action="${pageContext.request.contextPath }/res/updateRes" method="POST" id="updateCarFrm"> 
+	
+	                        <div class="channelGenTitle">
+	                            <h3>예약내역 수정</h3>
+	                        </div>
+	                        <div class="select-box-addCar">
+			                    <div class="select-box__current" tabindex="1">
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR1" value="CAR1" name="car-cate_" checked="checked"/>
+			                        <p class="select-box__input-text">경차</p>
+			                        </div>
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR2" value="CAR2" name="car-cate_"/>
+			                        <p class="select-box__input-text">세단</p>
+			                        </div>
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR3" value="CAR3" name="car-cate_" />
+			                        <p class="select-box__input-text">SUV</p>
+			                        </div>
+			                         <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR4" value="CAR4" name="car-cate_" />
+			                        <p class="select-box__input-text">픽업트럭</p>
+			                        </div>
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="" value="" name="car-cate_" checked="checked"/>
+			                        <p class="select-box__input-text">선택</p>
+			                        </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+			                    </div>
+			                    <ul class="select-box__list">
+			                        <li> <label class="select-box__option" for="CAR1" aria-hidden="aria-hidden">경차</label> </li>
+			                        <li> <label class="select-box__option" for="CAR2" aria-hidden="aria-hidden">세단</label> </li>
+			                        <li> <label class="select-box__option" for="CAR3" aria-hidden="aria-hidden">SUV</label> </li>
+			                        <li> <label class="select-box__option" for="CAR4" aria-hidden="aria-hidden">픽업트럭</label> </li>
+			                    </ul>
+			                </div>
+	                        <input type="hidden" name="carCate" id="updateCar-cate" />
+	                        <input type="hidden" name="carCode" id="updateCar-code" />
+	                        <input type="text" name="carCompany" id="updateCar-company" placeholder="제조사"/>
+	                        <input type="text" name="carType" id="updateCar-type" placeholder="차종"/>
+	                        <input type="text" name="carNo" id="updateCar-no" placeholder="변경할 차량의 차량번호를 입력해주세요."/>
+	                        <p>
+							<div class="updown custom">
+								수용인원
+								<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+								<input type="text" id="person_" value="5" name="carSize" readonly="true" />
+								<button type="button" class="plusBtn" onclick="plus();">+</button>
+							</div>
+							</p>
+	                        <input type="button" id="updateBtn" class="doBtn" value="수정하기" onclick="carValidate();"/>
+	                    </form>
+	               	</div>
+	            </div>
+	     </div>
     </section>
+    <script src="${pageContext.request.contextPath }/resources/js/res_footer.js"></script>
     <script>
-	$('#timepicker-startend').datepicker({
-		onSelect: function onSelect (date) {
-			
-			//검색받은 대여시작시간, 종료시간
-		    startDate = new Date(date.substr(0,11));
-		    endDate = new Date(date.substr(15,11));
-		    
-		    //input:hidden에 입력받은 검색시간 넣어주기
-		    $("#srchStart").val(startDate);
-		    if(date.length == 27){
-		    	$("#srchEnd").val(endDate);
-		    }
-		    
-		    /* console.log($("#srchStart").val());
-		    console.log($("#srchEnd").val()); */
-	    }
-	});
+    
+    
+	
 	
 	 $(document).ready(function(){
 		

@@ -3,12 +3,12 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <html>
 <head>
     <meta charset="UTF-8">
@@ -20,21 +20,26 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/directMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
 		var hdjq = jQuery.noConflict();
     </script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelList.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
 <%
+	
+	//OrgChart oc = null;
+	//if(session.getAttribute("memberLoggedIn") != null){
+	//	oc = (OrgChart)session.getAttribute("memberLoggedIn");	
+	//}
 	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
 	String userId = oc.getUserId();
 	int empNo = oc.getEmpNo();
 %>
+
 <script>	
 	var fromId = '<%=userId%>';
 	var empNo = '<%=empNo%>';

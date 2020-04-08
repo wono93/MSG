@@ -22,13 +22,11 @@ public class EdocSrch extends Edoc implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int typeCd;
+	private String typeCd;
 	private String formNm;
 	private int prsvAmt;
 	private String secuNm;
 	private String empName;
-	
-	
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -36,7 +34,7 @@ public class EdocSrch extends Edoc implements Serializable{
 
 
 	public EdocSrch(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle, int edocVer,
-			int edocOrgId, Date edocDt, char edocEnd, Date edocEndDt, int typeCd, String formNm, int prsvAmt,
+			int edocOrgId, String edocDt, String edocEnd, String edocEndDt, String typeCd, String formNm, int prsvAmt,
 			String secuNm, String empName, List<EdocFlow> edocFlowList) {
 		super(edocId, secuCd, prsvCd, empNo, empModNo, edocTitle, edocVer, edocOrgId, edocDt, edocEnd, edocEndDt, edocFlowList);
 		this.typeCd = typeCd;

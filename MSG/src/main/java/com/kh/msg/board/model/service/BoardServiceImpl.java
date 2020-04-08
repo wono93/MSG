@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.board.model.dao.BoardDAO;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
 
 @Service
@@ -101,7 +102,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Object selectBoard(PagingVo vo) {
+	public Object selectBoard(BoardPagingVo vo) {
 		return boardDAO.selectBoard(vo);
 	}
 
@@ -115,15 +116,9 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public int insertScrap(BoardScrap voScrap) {
+	public int deleteScrap(BoardScrap boardScrap) {
 		// TODO Auto-generated method stub
-		return boardDAO.insertScrap(voScrap);
-	}
-
-	@Override
-	public int deleteScrap(BoardScrap voScrap) {
-		// TODO Auto-generated method stub
-		return boardDAO.deleteScrap(voScrap);
+		return boardDAO.deleteScrap(boardScrap);
 	}
 
 	@Override
@@ -183,7 +178,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Object selectMyBoard(PagingVo vo) {
+	public Object selectMyBoard(BoardPagingVo vo) {
 		// TODO Auto-generated method stub
 		return boardDAO.selectMyBoard(vo);
 	}
@@ -200,7 +195,41 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectComment(boardNo);
 	}
 
+	@Override
+	public int insertRead(BoardRead boardRead) {
+		// TODO Auto-generated method stub
+		return boardDAO.insertRead(boardRead);
+	}
 
-	
+	@Override
+	public List<BoardRead> selectReadList() {
+		// TODO Auto-generated method stub
+		return boardDAO.selectReadList();
+	}
+
+	@Override
+	public int countScrapBoard(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.countScrapBoard(boardScrap);
+	}
+
+	@Override
+	public Object selectScrapBoard(BoardPagingVo vo) {
+		// TODO Auto-generated method stub
+		return boardDAO.selectScrapBoard(vo);
+	}
+
+	@Override
+	public int insertScrap(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return boardDAO.insertScrap(boardScrap);
+	}
+
+	@Override
+	public int countComment(Comment comment) {
+		// TODO Auto-generated method stub
+		return boardDAO.countComment(comment);
+	}
+
 	
 }

@@ -174,7 +174,7 @@
                                     <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
                                 </li>
                             </div>
-                            <div>
+                            <div onclick="location.href='${pageContext.request.contextPath}/board/scrapList.do?empNo=${memberLoggedIn.empNo}'">
                                 <li>
                                     <label class="select-box__option" for="asd2" aria-hidden="aria-hidden">스크랩 글</label>
                                 </li>
@@ -198,12 +198,17 @@
                             <th>조회수 </th>
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
-							<c:if test="${b.dateb<2 }">
+							<c:if test="${b.dateb < 2 }">
 	                        	<tr style="z-index:999; color: rgb(93, 93, 253);">
 							</c:if>
-							<c:if test="${b.dateb>=2 }">
+							<c:if test="${b.dateb >= 2 }">
 								<tr style="z-index:999;">
 							</c:if>
+						<c:forEach items="${readList }" var="r">
+							<c:if test="${r.no == b.no && r.empNo == memberLoggedIn.empNo }">
+								<tr style="z-index:999; color: #a5a3a3;">
+							</c:if>
+						</c:forEach>
 	                            	<td>${b.no }</td>
 	                            <c:forEach items="${memberList }" var="m">
 		                            <c:if test="${m.empNo == b.empNo }">
@@ -212,20 +217,23 @@
 		                        </c:forEach>    
 	                            <td>${b.catag }</td>
 	                            <td>
-	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}">
+	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
 	                                ${b.title }
+	                                <c:forEach items="${board.commentList }" var="c" varStatus="vs">
+	                                	<p>${vs.count}</p>
+	                                </c:forEach>
 	                            </a>
 	                            	<c:if test="${b.dateb<2 }">
 	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
 	                                </c:if>
 	                            </td>
-	                            		<td>
+	                            <td>
 		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
 			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
-			                            			<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
+			                            		<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
 			                            	</c:if>
 	                            	</c:forEach>
-                            			</td>
+                         		</td>
 	                            <td>${b.bdate }</td>
 	                            <td>${b.cnt }
 	                            	<input type="hidden" name="no" value="${b.no }"/>

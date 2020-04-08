@@ -164,7 +164,7 @@
                                     <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
                                 </li>
                             </div>
-                            <div>
+                            <div onclick="location.href='${pageContext.request.contextPath}/board/scrapList.do?empNo=${memberLoggedIn.empNo}'">
                                 <li>
                                     <label class="select-box__option" for="asd2" aria-hidden="aria-hidden">스크랩 글</label>
                                 </li>

@@ -2,30 +2,80 @@
 function getContextPath() { 
 	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 }
+
+function test(){
+		$(".ajaxHide-tr").css("cursor","pointer");
+	
+		 $('.res-table').contextMenu({
+		        selector: '.ajaxHide-tr',
+		        trigger: 'left',
+		        callback: function(key, options){
+		        			//contextMenu에서 '예약내역수정'을 클릭한 경우
+				        	if(key == 'edit'){
+				        		$("#updateResModal").css("display", "block");
+				        	}
+				        	
+				        		
+//				            //contextMenu에서 '예약내역삭제'를 클릭한 경우
+				        	if(key == 'delete'){
+				              	let result = confirm('정말 이 예약내역을 삭제하시겠습니까?');
+				              	if(result == true){
+				              		var delConfirm = prompt('정말 삭제하시려면 "삭제"라고 타이핑해주세요.', '');
+				              		if(delConfirm != null){
+				              			if(delConfirm == "삭제"){
+				              				
+				              				console.log("삭제 직전");
+				              				$.ajax({
+				              					type:"delete",
+				              					url:getContextPath()+"/res/delRes/"+$(this).children("td:eq(1)").text()+"/"+$(this).children(".displayNone").text(),
+//				              					data : {resCode : $(this).children("td:eq(1)").text(),
+//				              						    resCate : $(this).children(".displayNone").text()},
+				              					dataType:"json",
+				              					success: data =>{},
+				              					error: (x,s,e) => {
+				              						console.log(x,s,e);
+				              					},
+				              					complete:()=>{
+				              						//리로드해서 삭제된 화면 반영하기
+				              						location.reload();
+				              					}
+				              				});
+				              				
+				              			}
+				              			else{
+				              				alert('입력이 틀렸습니다. \n삭제하시려면 다시 맞게 입력해주세요.');
+				              			}
+				              		}
+				              	}
+				        		
+				             }
+				            
+				    console.log($(this).children("td:eq(1)").text());
+		        	console.log($(this).children(".displayNone").text());
+		        },
+		        items: {
+		        	"edit": { name: "예약내역 수정", icon : "edit" },
+//				                "items": {} //contextMenu를 이중으로 해서 바로 input:radio/text로 수정하고 싶었으나, 새로 값을 입력해서 보내는 건 가능하나 이미 보이는 value를 불러올 순 없었다 (undefined) 그냥 모달로 수정하기 해야지,,
+				   "delete": {name: "예약내역 삭제", icon: "delete"},
+		            "sep1": "---------",
+		            "quit": {name: "취소", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+		        }
+		    });
+}
+
+
 /**
 * conf & car
  */
  $(document).ready(function(){
+	 
+	
     //아이콘 클릭 시 dateTimePicker focus
     	$('.starticon').click(function(){
             $('#timepicker-start').focus();
         });
         $('.endicon').click(function(){
             $('#timepicker-end').focus();
-        });
-        
-        //체크된 회의실코드 input:hidden에 담아주기
-        $('input[name="conf"]').click(function () {
-            let radioVal = $('input[name="conf"]:checked').val();
-        	$('#croomCode').val(radioVal);
-        	console.log($('#croomCode').val());
-        });
-        
-        //체크된 차량코드 input:hidden에 담아주기
-        $('input[name="car"]').click(function () {
-            let radioVal = $('input[name="car"]:checked').val();
-        	$('#carCode').val(radioVal);
-        	console.log($('#carCode').val());
         });
         
         //로그인된 멤버가 일반사원이라면, 테이블의 margin-bottom 50px
@@ -48,6 +98,7 @@ function getContextPath() {
         	$("#addCarModal").css("display", "none");
         	$("#updateConfModal").css("display", "none");
         	$("#updateCarModal").css("display", "none");
+        	$("#updateResModal").css("display", "none");
         });
         
         //차량 추가 시 체크된 차량카테고리와 해당 sequence를 input:hidden에 담아두기
@@ -60,7 +111,19 @@ function getContextPath() {
         /********************* 회의실/법인차량 수정 Modal***************/
         
         $("#update-conf").click(()=>{
+        	
+        	var $selectedConf = $('[name="conf"]:checked');
+        	
+        	if($selectedConf.val() == undefined){
+        		alert('수정할 회의실을 먼저 선택해주셔야 합니다.');
+        		return false;
+        	}
+        	
         	$("#updateConfModal").css("display","block");
+        	var $sConfParent = $selectedConf.parent().parent().parent();
+        	
+        	$("#updateConf-title").val($sConfParent.children("td:eq(1)").text());
+        	$("#person").val($sConfParent.children("td:eq(2)").text());
         });
         //선택한 라디오의 값을 Modal에 불러오기
         $("#update-car").click(()=>{
@@ -135,10 +198,67 @@ function getContextPath() {
         		}
         	}
         });
-       
-        
-        
-});
+/*************************** 예약 확인 페이지 ****************************/      
+/** res **/
+$('.startendicon').click(function(){
+    $("#timepicker-startend").focus();
+});        
+	//기본상태 : 회의실예약내역 + 차량예약내역
+	$("#confList-div").hide();
+	$("#carList-div").hide();
+	
+	//예약 내역이 없을경우
+	if($(".ajaxHide-tr").length == 0){
+	youHaveNoRes();
+	}
+ 
+	//전체 / 회의실 / 차량 카테고리 선택값이 바뀔 때마다
+	$("[name=cate]").change(()=>{
+		
+		//$(".ajaxHide-tr").trigger("contextMenu"); 
+	 	
+	 	if($("#cconf").is(":checked")){
+	     	//드롭다운에서 회의실 선택시 회의실예약내역 출력
+	     	$("#confList-div").show()
+	     					  .children("table").addClass('res-table');
+				$("#rList-div").hide()
+								.children("table").removeClass('res-table');
+				$("#carList-div").hide()
+								 .children("table").removeClass('res-table');
+	 	}
+	 	else if($("#ccar").is(":checked")){
+	 		
+	 		$("#confList-div").hide()
+	 					      .children("table").removeClass('res-table');
+				$("#rList-div").hide()
+							   .children("table").removeClass('res-table');
+				$("#carList-div").show()
+								.children("table").addClass('res-table');
+	        		
+	 	}
+			else{
+	 		$("#rList-div").show()
+	 					   .children("table").addClass('res-table');
+	    		$("#confList-div").hide()
+								   .children("table").removeClass('res-table');
+	    		$("#carList-div").hide()
+	    						 .children("table").removeClass('res-table');
+	         	
+	 	}
+	 	//예약 내역이 없을 경우
+	 	if($(".ajaxHide-tr").length == 0){
+	 		youHaveNoRes();
+	 	}
+	 	//
+	 	//$(".ajaxHide-tr").trigger("contextMenu");
+	 	test();
+	 	
+	 });  
+	
+	test();
+	
+	
+});//온레디 함수 끝
             
             
 
@@ -207,7 +327,7 @@ $('#timepicker-start').datepicker({
 //수용인원 input 가져오기
 function getPersonValue() {
 	var person = document.getElementById('person');
-	var psValueStr = person.value();
+	var psValueStr = person.value;
 	console.log(psValueStr);
 	return Number(psValueStr);
 }
@@ -226,6 +346,22 @@ function minus() {
 	person.value = psValue;
 }
 
+//회의실 추가나 수정 버튼 클릭 시 수행되는 회의실 유효성검사
+function confValidate(){
+	if($("#addConf-title").val() == ""){
+		alert("회의실 이름을 입력해주세요.");
+		return false;
+	}
+	
+	var whichFrmId = $checkedParent.parent("form").attr('id');
+	
+	if(whichFrmId.contains('add')){
+		document.getElementById('addCarFrm').submit();
+	}
+	else if(whichFrmId.contains('update')){
+		document.getElementById('updateCarFrm').submit();
+	}
+}
 
 //차량 추가나 수정 버튼 클릭시 수행되는 차량 유효성검사
 function carValidate(){
@@ -274,3 +410,5 @@ function carValidate(){
 	//이미 등록된 차량과 동일한 경우
 	
 }
+
+

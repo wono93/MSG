@@ -55,7 +55,7 @@
                             <th>문서종류</th>
                             <th>제목</th>
                             <th>기안자</th>
-                            <th>보안등급</th>
+                            <th>보안</th>
                             <th>기안일</th>
                             <th>유형</th>
                             <th>상태</th>
@@ -67,53 +67,70 @@
 							<td>${ed.edocTitle }</td>
 							<td>${ed.empName }</td>
 							<td>${ed.secuNm }</td>
-						<c:if test="${ed.edocEnd =='y' }">
-							<td>내 기안 문서</td>
+							<td>
+								<fmt:parseDate var="parsedDate" value="${ed.edocDt }" pattern="yyyy-MM-dd HH:mm:ss" />
+								<fmt:formatDate value="${parsedDate }" pattern="yy/MM/dd HH:mm"/>
+							</td>
+						<c:set var="currentUsr" value="${memberLoggedIn.empNo }"/>
+						<c:if test="${ed.empNo == currentUsr }">
+							<td>기안</td>
 							<c:set var="flowStVal" value="false"/>
-							<c:forEach items="${myEdocList.SrchFlowList	}" var="sf">
-								<c:if test="${sf.flowSt = 'n'}">
+							<c:forEach items="${ed.edocFlowList	}" var="sf">
+								<c:if test="${sf.flowSt == 'n'}">
 									<c:set var="flowStVal" value="true"/>
 								</c:if>
 							</c:forEach>
-							<c:if test="${flowStVal } == 'true'">
-								<td>반려</td>
-							</c:if>
-							<c:if test="${flowStVal } == 'false'">
-								<td>대기</td>
-							</c:if>
+							<c:choose>
+								<c:when test="${flowStVal  == 'true'}">
+									<td>반려</td>
+								</c:when>
+								<c:when test="${flowStVal  == 'false'}">
+									<td>대기</td>
+								</c:when>
+								<c:otherwise>
+									<td></td>
+								</c:otherwise>
+							</c:choose>
 						</c:if>
-						<c:if test="${ed.edocEnd !='y' }">
-							<c:forEach items="${myEdocList.srchFlowList }" var="sf">
-								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } != 'y' and ${sf.flowNm } == '결재'">
-									<td>
-										결재요청문서
-									</td>
-									<td>
-									
-									</td>								
-								</c:if>
-								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } == 'y' and ${sf.flowNm } == '결재'">
-									<td>
-										결재완료문서
-									</td>
-									<c:if test="${empty sf.flowSt }">
+ 						<c:if test="${ed.empNo != currentUsr }">
+							<c:forEach items="${ed.edocFlowList }" var="sf">
+								<c:choose>
+									<c:when test="${sf.flowOrd != 1 && sf.flowSt  != 'y' && sf.flowNm  == '결재'}">
 										<td>
-											대기
-										</td>																	
-									</c:if>
-									<c:if test="${sf.flowSt } == 'n'">
+											요청
+										</td>
 										<td>
-											반려
-										</td>																	
-									</c:if>
-								</c:if>
-								<c:if test="${sf.flowEmpNo } == ${sf.empNo } and ${sf.floword } != 1 and ${sf.flowSt } != 'y' and ${sf.flowNm } == '결재'">
-									<td>
-										참조문서
-									</td>
-									<td>
-									</td>
-								</c:if>
+										</td>								
+									</c:when>
+									<c:when test="${sf.flowOrd != 1 && sf.flowSt == 'y' && sf.flowNm == '결재'}">
+										<td>
+											완료
+										</td>
+										<c:if test="${empty sf.flowSt }">
+											<td>
+												대기
+											</td>																	
+										</c:if>
+										<c:if test="${sf.flowSt == 'n'} ">
+											<td>
+												반려
+											</td>																	
+										</c:if>
+									</c:when>
+									<c:when test="${sf.flowEmpNo == ed.empNo && sf.flowOrd != 1 && sf.flowSt != 'y' && sf.flowNm == '결재'}">
+										<td>
+											참조
+										</td>
+										<td>
+										</td>
+									</c:when>
+									<c:otherwise>
+										<td>
+										</td>
+										<td>
+										</td>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</c:if>
 						</tr>
@@ -126,19 +143,19 @@
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="srchTypeInput" ${srchType eq 'edoc_title'?'checked="checked"':"" }/>
                                 <p class="select-box__input-text">제목</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="srchTypeInput" ${srchType eq 'emp_name'?'checked="checked"':"" }/>
                                 <p class="select-box__input-text">기안자</p>
                                 </div>
                                 <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="Ben"/>
+                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="srchTypeInput" ${srchType eq 'form_nm'?'checked="checked"':"" }/>
                                 <p class="select-box__input-text">문서종류</p>
                                 </div>
-                                <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D3" value="all" name="Ben" checked="checked"/>
+                                <div class="select-box__value"> 
+                                <input class="select-box__input" type="radio" id="D3" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
                                 <p class="select-box__input-text">전체</p>
                                 </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
@@ -157,7 +174,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <input type="text" name="" id="srchWord" placeholder="검색창 나중에 위 쪽으로 올릴것">
+                        <input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="검색창 나중에 위 쪽으로 올릴것">
                         <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
                     </div>
                 </div>
@@ -185,11 +202,10 @@
 		var arrayDocuCheck = new Array();
 		$(".docuCheck:checked").each(function(){
 			arrayDocuCheck.push($(this).val());
-		}
-		if(arrayDocuCheck==null){
-			arrayDocuCheck.push("nothing");
-		}
-		);
+			if(arrayDocuCheck==null){
+				arrayDocuCheck.push("nothing");
+			}
+		});
 		
 		//폼 태그 생성
         var form = document.createElement('form');
@@ -212,7 +228,7 @@
         input2.setAttribute("value", $("#srchWord").val());        
         input3.setAttribute("type", "hidden");
         input3.setAttribute("name", "srchType");
-        input3.setAttribute("value", $("select-box__input:checked").val());
+        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
         input4.setAttribute("type", "hidden");
         input4.setAttribute("name", "arrayDocuCheck");
         input4.setAttribute("value", arrayDocuCheck);

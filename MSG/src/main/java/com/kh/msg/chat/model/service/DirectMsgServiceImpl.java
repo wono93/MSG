@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.msg.chat.model.dao.DirectMsgDAO;
 import com.kh.msg.chat.model.vo.DirectMsg;
+import com.kh.msg.member.model.vo.Member;
 
 @Service
 public class DirectMsgServiceImpl implements DirectMsgService {

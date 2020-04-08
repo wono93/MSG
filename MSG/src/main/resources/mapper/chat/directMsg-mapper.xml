@@ -44,10 +44,10 @@
 	</select>
 	<select id="headerDmList" resultType="DirectMsg">
 		select 
-			* 
-		from 
-			HEADER_DM_LIST_VIEW 
-		where 
+			*
+		from
+			HEADER_DM_LIST_VIEW
+		where
 			to_id = #{from_id}
 	</select>
 </mapper>
