@@ -115,8 +115,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public IOLog getLog(int empNo) {
+	public List<WorkTimes> getLog(HashMap<String, Object> map) {
 		
-		return sqlSession.selectOne("member.selectIOLog", empNo);
+		return sqlSession.selectList("member.selectEmpLog", map);
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.OrgChart;
+import com.kh.msg.member.model.vo.WorkTimes;
 
 
 public interface MemberService {
@@ -27,6 +28,6 @@ public interface MemberService {
 
 	void logoutLog(int empNo);
 
-	IOLog getLog(int empNo);
+	List<WorkTimes> getLog(HashMap<String, Object> map);
 
 }

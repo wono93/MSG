@@ -33,6 +33,7 @@ import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
+import com.kh.msg.member.model.vo.WorkTimes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,31 +102,39 @@ public class MemberController {
 	}
 	
 	@GetMapping("/empLog.do")
-	public String empLog(Model model,@RequestParam("empNo") int empNo) {
+	public String empLog(Model model,
+							@RequestParam("empNo") int empNo,
+							@RequestParam(value = "startDate", required = false) String srcDateStart,
+							@RequestParam(value = "endDate", required = false) String srcDateEnd
+							
+							) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
 		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		Date monthAgoDate = monthAgo.getTime();
-		String srcDateStart = fmt.format(monthAgoDate);
-		String srcDateEnd = fmt.format(curDate);
-		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
-
+		int bsnsDay = 0;
 		log.debug("srcDateStart={}", srcDateStart);
 		log.debug("srcDateEnd={}", srcDateEnd);
+		if(srcDateStart == null && srcDateEnd == null) {
+			srcDateStart = fmt.format(monthAgoDate);
+			srcDateEnd = fmt.format(curDate);
+		}
 		
+		bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 		List<HrMntList> list = null;
+		List<WorkTimes> wt = null;
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
 		map.put("empNo",empNo);
 
 		list = memberService.selectList(map);
-//		IOLog log = memberService.getLog(empNo);
+		wt = memberService.getLog(map);
 		
 		
 		model.addAttribute("list", list);
-//		model.addAttribute("log", log);
+		model.addAttribute("wt", wt);
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
 		model.addAttribute("bsnsDay", bsnsDay);
@@ -313,6 +322,15 @@ public class MemberController {
 			
 		return "/member/emp_info";
     }
+	
+	
+	@GetMapping("/ioLog.do")
+	public String ioLog(Model model) {
+		List<IOLog> list = null;
+		
+		
+		return "/member/ioLog";
+	}
 	
 	public String getBirthDay(String empRRNNo) {
 		char flag = empRRNNo.charAt(6);

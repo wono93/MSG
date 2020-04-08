@@ -17,69 +17,6 @@
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
-    <script>
-        //아이콘 클릭 시 dateTimePicker focus
-        $(function(){
-            $('.starticon').click(function(){
-                $('#timepicker-start').focus();
-            });
-            $('.endicon').click(function(){
-                $('#timepicker-end').focus();
-            });
-        });
-
-
-        // Initialization
-        $('#my-element').datepicker()
-        // Access instance of plugin
-        $('#my-element').data('datepicker')
-
-        // Create start date
-        var start = new Date(),
-            prevDay,
-            startHours = 9;
-    
-        // 09:00 AM
-        start.setHours(9);
-        start.setMinutes(0);
-    
-        // If today is Saturday or Sunday set 10:00 AM
-        if ([6, 0].indexOf(start.getDay()) != -1) {
-            start.setHours(10);
-            startHours = 10
-        }
-    
-        $('#timepicker-actions-exmpl').datepicker({
-            language: 'en',
-            startDate: start,
-            minHours: startHours,
-            maxHours: 18,
-            onSelect: function (fd, d, picker) {
-                // Do nothing if selection was cleared
-                if (!d) return;
-    
-                var day = d.getDay();
-    
-                // Trigger only if date is changed
-                if (prevDay != undefined && prevDay == day) return;
-                prevDay = day;
-    
-                // If chosen day is Saturday or Sunday when set
-                // hour value for weekends, else restore defaults
-                if (day == 6 || day == 0) {
-                    picker.update({
-                        minHours: 10,
-                        maxHours: 16
-                    })
-                } else {
-                    picker.update({
-                        minHours: 9,
-                        maxHours: 18
-                    })
-                }
-            }
-        })
-    </script>
     <style>
         
 
@@ -115,34 +52,9 @@
 			        <hr class="boardHr" />
 			        <div class="logView">
 			            <ol>
-			                <li>2020-03-14:08:59:1 @ 168.0.1.1 by 송종기 (IN)</li>
-			                <li>2020-03-14:08:59:2 @ 168.0.1.2 by 선동일 (IN)</li>
-			                <li>2020-03-14:08:59:3 @ 168.0.1.3 by 정나라 (IN)</li>
-			                <li>2020-03-14:08:59:4 @ 168.0.1.4 by 윤하늘 (IN)</li>
-			                <li>2020-03-14:08:59:5 @ 168.0.1.5 by 공휴진 (IN)</li>
-			                <li>2020-03-14:08:59:6 @ 168.0.1.6 by 장동진 (IN)</li>
-			                <li>2020-03-14:08:59:7 @ 168.0.1.7 by 박부검 (IN)</li>
-			                <li>2020-03-14:08:59:8 @ 168.0.1.8 by 정해일 (IN)</li>
-			                <li>2020-03-14:08:59:9 @ 168.0.1.9 by 박해진 (IN)</li>
-			                <li>2020-03-14:08:59:10 @ 168.0.1.10 by 조성우 (OUT)</li>
-			                <li>2020-03-14:08:59:11 @ 168.0.1.11 by 송종기 (OUT)</li>
-			                <li>2020-03-14:08:59:12 @ 168.0.1.12 by 선동일 (OUT)</li>
-			                <li>2020-03-14:08:59:13 @ 168.0.1.13 by 정나라 (OUT)</li>
-			                <li>2020-03-14:08:59:14 @ 168.0.1.14 by 윤하늘 (OUT)</li>
-			                <li>2020-03-14:08:59:15 @ 168.0.1.15 by 장동진 (OUT)</li>
-			                <li>2020-03-14:08:59:16 @ 168.0.1.16 by 박부검 (OUT)</li>
-			                <li>2020-03-14:08:59:17 @ 168.0.1.17 by 정해일 (OUT)</li>
-			                <li>2020-03-14:08:59:18 @ 168.0.1.18 by 박해진 (OUT)</li>
-			                <li>2020-03-14:18:59:19 @ 168.0.1.19 by 조성우 (IN)</li>
-			                <li>2020-03-14:18:59:20 @ 168.0.1.20 by 송종기 (IN)</li>
-			                <li>2020-03-14:18:59:21 @ 168.0.1.21 by 선동일 (IN)</li>
-			                <li>2020-03-14:18:59:22 @ 168.0.1.22 by 정나라 (IN)</li>
-			                <li>2020-03-14:18:59:23 @ 168.0.1.23 by 윤하늘 (IN)</li>
-			                <li>2020-03-14:18:59:24 @ 168.0.1.24 by 장동진 (IN)</li>
-			                <li>2020-03-14:18:59:25 @ 168.0.1.25 by 박부검 (IN)</li>
-			                <li>2020-03-14:18:59:26 @ 168.0.1.26 by 정해일 (IN)</li>
-			                <li>2020-03-14:18:59:27 @ 168.0.1.27 by 박해진 (IN)</li>
-			                <li>2020-03-14:18:59:28 @ 168.0.1.28 by 조성우 (IN)</li>
+			            	<c:forEach items="${ }"> 
+			                	<li>2020-03-14:08:59:1 @ 168.0.1.1 by 송종기 (IN)</li>
+			                </c:forEach>
 			            </ol>
 			            <div class="srchBar">
 			                <div class="select-box">
@@ -169,5 +81,91 @@
    			</article>
 		</div>
 	</section>
+	<script>
+	//광역변수 선언
+	let startDate;
+	let endDate;
+
+	//아이콘 클릭 시 dateTimePicker focus
+	$(document).ready(function() {
+
+		$('.starticon').click(function() {
+			$('#timepicker-start').focus();
+		});
+		$('.endicon').click(function() {
+			$('#timepicker-end').focus();
+		});
+
+		$("#timepicker-start").val("${srcDateStart}");
+		$("#timepicker-end").val("${srcDateEnd}");
+	});
+
+	$("#timepicker-start").datepicker({
+		onSelect : function onSelect(start) {
+			startDate = start;
+			if (startDate !== undefined && endDate !== undefined) {
+				validate(startDate, endDate);
+			}
+		},
+		maxDate : new Date()
+	});
+	$("#timepicker-end").datepicker({
+		onSelect : function onSelect(end) {
+			endDate = end;
+			if (startDate !== undefined && endDate !== undefined) {
+				validate(startDate, endDate);
+			}
+		},
+		maxDate : new Date()
+	});
+
+	//날짜로 변환
+	function toDate(strDate) {
+		var y = strDate.substr(0, 4);
+		var m = strDate.substr(5, 2);
+		var d = strDate.substr(8, 2);
+
+		return new Date(y, m - 1, d);
+	}
+
+	//유효성검사
+	function validate(startDate, endDate) {
+		var dstartDate = toDate(startDate);
+		var dendDate = toDate(endDate);
+
+		//검색하고자 하는 시작날짜가 종료날짜보다 나중인 경우
+		if (+dstartDate > +dendDate) {
+			alert("날짜를 다시 지정해주세요");
+		} else {
+			var bsnsDay = calcDate(dstartDate, dendDate);
+			location.href = "${pageContext.request.contextPath}/member/empLog.do?empNo="+${list.get(0).empNo} +"&startDate="
+					+ startDate + "&endDate=" + endDate + "&bsnsDay=" + bsnsDay;
+		}
+	}
+
+	function calcDate(date1, date2) {
+
+		var count = 0;
+
+		while (true) {
+			var temp_date = date1;
+			if (temp_date.getTime() > date2.getTime()) {
+				break;
+			} else {
+				var tmp = temp_date.getDay();
+				if (tmp == 0 || tmp == 6) {
+					// 주말
+					console.log("주말");
+				} else {
+					// 평일
+					console.log("평일");
+					count++;
+				}
+				temp_date.setDate(date1.getDate() + 1);
+			}
+		}
+		return count;
+	}
+</script>
 </body>
 </html>

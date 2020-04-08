@@ -28,10 +28,14 @@
 		FROM LOG_TB
 		WHERE
 			TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
-			<if test="empNo != null and empNo != ''">
-				And EMP_NO = #{empNo}
-			</if>
-			
+	</select>
+	<select id="selectEmpLog" resultType="WorkTimes">
+		SELECT *
+		FROM WORK_TIMES_TB
+		WHERE
+			WORK_DAY BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
+			AND EMP_NO = #{empNo}
+		ORDER BY WORK_DAY
 	</select>
 	
 	<select id="selectVacationCount" resultType="Vacation">
