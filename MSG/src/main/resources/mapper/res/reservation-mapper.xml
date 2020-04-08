@@ -96,7 +96,7 @@
 	</select>
 	<insert id="addConferenceRoom">
 	insert into conf_room_tb
-	values(#{croomCode}, #{room-title}, #{size})
+	values(#{croomCode}, #{croomName}, #{croomSize})
 	<!-- croom_code, croom_name, croom_size -->
 	</insert>
 	<insert id="addCar">
@@ -108,6 +108,9 @@
 	<select id="getNextval" resultType="_int">
 	select ${seq}.nextval from dual
 	</select>
+	<delete id="delConf">
+	
+	</delete>
 	<delete id="delCar">
 	delete from car_tb
 	where car_code = #{carCode}

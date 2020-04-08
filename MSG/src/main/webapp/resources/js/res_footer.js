@@ -446,7 +446,7 @@ function createTr_properDateCarResView(resViewList){
 	let j = 1;
 	let $newTb = $("<table class='new_ car-res'></table>");
 	//let $newTb = $("<table class='res-table'></table>");
-		let $newTh = $(" <tr>"+
+	let $newTh = $(" <tr>"+
 				"<th class='narrow-td'></th>"+
 				"<th>구분</th>"+
 				"<th>대여명</th>"+

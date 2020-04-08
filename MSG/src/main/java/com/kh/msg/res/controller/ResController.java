@@ -137,7 +137,7 @@ public class ResController {
 		
 		c.setCroomCode("CONF"+confSeq); //회의실예약 코드 만들기
 		
-		//log.debug("conferenceRoom={}", c);
+		log.debug("conferenceRoom={}", c);
 		
 		int result = resService.addConferenceRoom(c);
 		

@@ -10,6 +10,7 @@ function test(){
 		        selector: '.ajaxHide-tr',
 		        trigger: 'left',
 		        callback: function(key, options){
+		        			//contextMenu에서 '예약내역수정'을 클릭한 경우
 				        	if(key == 'edit'){
 				        		$("#updateResModal").css("display", "block");
 				        	}
@@ -110,7 +111,19 @@ function test(){
         /********************* 회의실/법인차량 수정 Modal***************/
         
         $("#update-conf").click(()=>{
+        	
+        	var $selectedConf = $('[name="conf"]:checked');
+        	
+        	if($selectedConf.val() == undefined){
+        		alert('수정할 회의실을 먼저 선택해주셔야 합니다.');
+        		return false;
+        	}
+        	
         	$("#updateConfModal").css("display","block");
+        	var $sConfParent = $selectedConf.parent().parent().parent();
+        	
+        	$("#updateConf-title").val($sConfParent.children("td:eq(1)").text());
+        	$("#person").val($sConfParent.children("td:eq(2)").text());
         });
         //선택한 라디오의 값을 Modal에 불러오기
         $("#update-car").click(()=>{
@@ -314,7 +327,7 @@ $('#timepicker-start').datepicker({
 //수용인원 input 가져오기
 function getPersonValue() {
 	var person = document.getElementById('person');
-	var psValueStr = person.value();
+	var psValueStr = person.value;
 	console.log(psValueStr);
 	return Number(psValueStr);
 }
@@ -333,6 +346,22 @@ function minus() {
 	person.value = psValue;
 }
 
+//회의실 추가나 수정 버튼 클릭 시 수행되는 회의실 유효성검사
+function confValidate(){
+	if($("#addConf-title").val() == ""){
+		alert("회의실 이름을 입력해주세요.");
+		return false;
+	}
+	
+	var whichFrmId = $checkedParent.parent("form").attr('id');
+	
+	if(whichFrmId.contains('add')){
+		document.getElementById('addCarFrm').submit();
+	}
+	else if(whichFrmId.contains('update')){
+		document.getElementById('updateCarFrm').submit();
+	}
+}
 
 //차량 추가나 수정 버튼 클릭시 수행되는 차량 유효성검사
 function carValidate(){
