@@ -62,16 +62,21 @@ public class SchedController {
 								   @RequestParam(value="scheEnd") String scheEnd,
 								   @RequestParam(value="scheCate") String scheCate,
 								   @RequestParam(value="scheColor") String scheColor,
-								   @RequestParam(value="scheEx") String scheEx) {
+								   @RequestParam(value="scheEx") String scheEx,
+								   @RequestParam(value="alldayYn") boolean allday) {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		OrgChart o = (OrgChart)session.getAttribute("memberLoggedIn");
-		int scheCode = 0;
-		int empNo = o.getEmpNo();
 		
-		Schedule s = new Schedule(0, scheCate, o.getEmpNo(), o.getEmpName(), o.getDeptName(), o.getJobName(),scheName, scheStart,scheEnd, scheColor, scheEx);
-		//scheCode, scheCate, empNo, empName, deptName, jobName, scheName, scheStart, scheEnd, scheColor, scheEx
+		char alldayYn = ' ';
+		if(allday == true) {
+			alldayYn = 'Y';
+		}
+		else alldayYn = 'N';
+		
+		Schedule s = new Schedule(0, scheCate, o.getEmpNo(), o.getEmpName(), o.getDeptName(), o.getJobName(),scheName, scheStart,scheEnd, scheColor, scheEx, alldayYn);
+		//scheCode, scheCate, empNo, empName, deptName, jobName, scheName, scheStart, scheEnd, scheColor, scheEx, alldayYn
 		
 		int result = schedService.insertSched(s);
 				

@@ -103,7 +103,33 @@
 							<button type="button" class="plusBtn" onclick="plus();">+</button>
 						</div>
 						</p>
-                        <input type="submit" class="addBtn" value="추가하기" />
+                        <input type="button" class="addBtn" value="추가하기" />
+                    </form>
+               	</div>
+            </div>
+     </div>
+     <div id="updateConfModal" class="ch-modal">
+            <!-- Modal content -->
+            <div class="ch-modal-content">
+                
+                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close confClose" id="close-btn">
+                <div id="ch-content">
+                    <form action="${pageContext.request.contextPath }/res/updateConf.do">
+
+                        <div class="channelGenTitle">
+                            <h3>회의실 추가</h3>
+                        </div>
+
+                        <input type="text" name="room-title" id="updateConf-title" placeholder="바뀔 회의실 이름을 입력해주세요.">
+                        <p>
+						<div class="updown custom">
+							수용인원
+							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+							<input type="text" id="person" value="4" name="size" readonly="true" />
+							<button type="button" class="plusBtn" onclick="plus();">+</button>
+						</div>
+						</p>
+                        <input type="button" class="updateBtn" value="수정하기" />
                     </form>
                	</div>
             </div>

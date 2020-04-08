@@ -32,6 +32,7 @@ public class Schedule implements Serializable{
 	private String scheEnd;
 	private String scheColor;
 	private String scheEx;
+	private char alldayYn;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

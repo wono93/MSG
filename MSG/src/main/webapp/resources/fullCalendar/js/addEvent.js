@@ -87,7 +87,8 @@ var newEvent = function (start, end, eventType) {
                 scheEnd : eventData.end,
                 scheCate : eventData.type,
                 scheColor : eventData.backgroundColor,
-                scheEx : eventData.description
+                scheEx : eventData.description,
+                alldayYn : eventData.allDay
             },
             dataType : "json",
             success: function (response) {

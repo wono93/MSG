@@ -160,7 +160,7 @@
 		                        <div class="select-box__value">
 		                        <input class="select-box__input" type="radio" id="CAR1" value="CAR1" name="car-cate_" checked="checked"/>
 		                        <p class="select-box__input-text">경차</p>
-		                        </div><
+		                        </div>
 		                        <div class="select-box__value">
 		                        <input class="select-box__input" type="radio" id="CAR2" value="CAR2" name="car-cate_"/>
 		                        <p class="select-box__input-text">세단</p>

@@ -3,6 +3,12 @@ function getContextPath() {
 	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 }
 
+//db의 y/n를 boolean으로 바꿔주기
+function charToBoolean(a){
+	if(a =="Y" || a == "y") return true;
+	else if (a == "N" || a =="n") return false;
+}
+
 var draggedEventIsAllDay;
 var activeInactiveWeekends = true;
 
@@ -21,29 +27,29 @@ function getDisplayEventDate(event) {
   return displayEventDate;
 }
 
-/*function filtering(event) {
-  var show_username = true;
-  var show_type = true;
+//function filtering(event) {
+//  var show_username = true;
+//  var show_type = true;
+//
+//  var username = $('input:checkbox.filter:checked').map(function () {
+//    return $(this).val();
+//  }).get();
+//  var types = $('#type_filter').val();
+//
+//  show_username = username.indexOf(event.username) >= 0;
+//
+//  if (types && types.length > 0) {
+//    if (types[0] == "all") {
+//      show_type = true;
+//    } else {
+//      show_type = types.indexOf(event.type) >= 0;
+//    }
+//  }
+//
+////  return show_username && show_type;
+//  return true;
+//}
 
-  var username = $('input:checkbox.filter:checked').map(function () {
-    return $(this).val();
-  }).get();
-  var types = $('#type_filter').val();
-
-  show_username = username.indexOf(event.username) >= 0;
-
-  if (types && types.length > 0) {
-    if (types[0] == "all") {
-      show_type = true;
-    } else {
-      show_type = types.indexOf(event.type) >= 0;
-    }
-  }
-
-//  return show_username && show_type;
-  return true;
-}
-*/
 function calDateWhenResize(event) {
 
   var newDates = {
@@ -92,37 +98,37 @@ function calDateWhenDragnDrop(event) {
 
 
 var calendar = $('#calendar').fullCalendar({
-/*
-  eventRender: function (event, element, view) {
 
-    //일정에 hover시 요약
-    element.popover({
-      title: $('<div />', {
-        class: 'popoverTitleCalendar',
-        text: event.title
-      }).css({
-        'background': event.backgroundColor,
-        'color': event.textColor
-      }),
-      content: $('<div />', {
-          class: 'popoverInfoCalendar'
-        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
-        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
-      delay: {
-        show: "800",
-        hide: "50"
-      },
-      trigger: 'hover',
-      placement: 'top',
-      html: true,
-      container: 'body'
-    });
-
-    return filtering(event);
-
-  },*/
+//  eventRender: function (event, element, view) {
+//
+//    //일정에 hover시 요약
+//    element.popover({
+//      title: $('<div />', {
+//        class: 'popoverTitleCalendar',
+//        text: event.title
+//      }).css({
+//        'background': event.backgroundColor,
+//        'color': event.textColor
+//      }),
+//      content: $('<div />', {
+//          class: 'popoverInfoCalendar'
+//        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
+//        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
+//        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
+//        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+//      delay: {
+//        show: "800",
+//        hide: "50"
+//      },
+//      trigger: 'hover',
+//      placement: 'top',
+//      html: true,
+//      container: 'body'
+//    });
+//
+//    return filtering(event);
+//
+//  },
 
   //주말 숨기기 & 보이기 버튼
   customButtons: {
@@ -179,11 +185,11 @@ var calendar = $('#calendar').fullCalendar({
 
       success: function (response) {
           var events=[];
-    	  console.log(response); //일정 객체를 가져옴
+    	  console.log(response); //등록된 일정 객체를 가져옴
         var fixedDate = response.map(function (array) {
-          if (array.scheStart !== array.scheEnd) {
+          if (charToBoolean(array.allDayYn) && array.scheStart !== array.scheEnd) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
-            array.end = moment(array.end).add(1, 'days');
+            array.scheEnd = moment(array.scheEnd).add(1, 'days');
             
             var evt={
             		
@@ -196,8 +202,8 @@ var calendar = $('#calendar').fullCalendar({
             		type: array.scheCate,
             		username:array.deptName+" "+array.jobName+" "+array.empName,
             		backgroundColor: array.scheColor,
-            		textColor:"#fefefe"
-            		/*allDay: array.fullAllDay,*/
+            		textColor:"#fefefe",
+            		allDay: charToBoolean(array.alldayYn)
             		/*fullNo:array.fullNo,
             		*/
             		
@@ -207,6 +213,8 @@ var calendar = $('#calendar').fullCalendar({
           }
           return array;
         })
+        
+        console.log(events);
         
         callback(events);
 //        callback(fixedDate);
