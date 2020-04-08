@@ -66,7 +66,12 @@
 	
 	<resultMap type="comment" id="comment"></resultMap>
 	<select id="selectComment" resultMap="comment">
-		select * from cmt_tb where brd_no = #{boardNo}
+		select c.emp_no as cemp_no, c.*, e.emp_no as eemp_no, e.*
+            from cmt_tb c
+            left join emp_tb e
+            on c.emp_no = e.emp_no
+            where brd_no= #{boardNo}
+            order by c.no
 	</select>
 	
 	<resultMap type="boardRead" id="boardRead"></resultMap>
@@ -216,6 +221,11 @@
 		order by no desc
 	</select>
 	
+	<select id="countComment" resultType="int">
+		select count(*) from cmt_tb
+			where brd_no like #{brdNo}
+	</select>
+	
 	<select id="countScrapBoard" resultType="int">
 		SELECT COUNT(*) FROM brd_scp_tb
 				WHERE emp_no like #{empNo}
@@ -236,17 +246,15 @@
 		order by no desc
 	</select>
 	
-	
-	<insert id="insertScrap">
-		insert into brd_scp_tb values(
-			#{no}, 
-			#{empNo}, 
-			default, default)
-	</insert>
 	<insert id="insertRead">
-		insert into brd_rd_tb values(
-			#{no}, #{empNo}
+		
+		  insert into brd_rd_tb(
+			no, emp_no
 		)
+        select
+        #{no}, #{empNo} 
+        from dual
+        where not exists(select no, emp_no from brd_rd_tb where no= #{no} and emp_no=#{empNo} )
 	</insert>
 	<!-- 
 	INSERT INTO tbl_board_like (board_id, user_id)
@@ -254,8 +262,9 @@
 	 -->
             
 	<delete id="deleteScrap">
-            DELETE FROM brd_scp_tb
-            WHERE no = #{no} AND empNo = #{empNo}
+           DELETE brd_scp_tb
+            WHERE no = #{no}
+			AND emp_no = #{empNo}
     </delete>
     
     <select id="getBoardScrap" resultType="int">
@@ -267,9 +276,11 @@
 			atcmt_tb
 		where no = #{no}
     </delete>
-    
     <select id="selectMember" resultType="Member">
     	select * from emp_tb where emp_no = #{empNo}
     </select>
-   
+    <insert id="insertScrap">
+    	insert into brd_scp_tb values(#{no}, #{empNo}, #{memo}, default)
+    </insert>
+    
 </mapper>

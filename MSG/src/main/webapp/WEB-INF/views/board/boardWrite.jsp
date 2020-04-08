@@ -94,9 +94,9 @@
                                 <p class="select-box__input-text">자유 게시판</p>
                                 </div>
                                 <div class="select-box__value">
-	                                <input class="select-box__input" name="catag" type="radio" id="asd5" value="공지,행사" checked="checked"/>
-	                                <p class="select-box__input-text">공지사항 & 행사정보</p>
-                            	</div>
+                                <input class="select-box__input" name="catag" type="radio" id="asd5" value="공지,행사" checked="checked"/>
+                                <p class="select-box__input-text">공지사항 & 행사정보</p>
+                            </div>
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                                 <!-- <div class="select-box__value">
                                 <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>

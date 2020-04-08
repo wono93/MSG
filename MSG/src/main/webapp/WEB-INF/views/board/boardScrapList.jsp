@@ -10,27 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <%
-	//접속자 확인
-    String ls_validate = "현재 페이지는 물론 이전 페이지에서 설정된 세션 값을 얻어오는 예제입니다.";
-    session.setAttribute("Validate", ls_validate);
-
-    String ls_name = "";
-    String ls_value = "";
-
-    Enumeration enum_app = session.getAttributeNames();
-    int i = 0;
-
-    while(enum_app.hasMoreElements()) {
-   
-        i++;
-        ls_name = enum_app.nextElement().toString();
-        ls_value = session.getAttribute(ls_name).toString();
-   
-        out.println("<br/>얻어온 세션 이름 [ " + i +" ] : " + ls_name + "<br/>");
-        out.println("<br/>얻어온 세션 값 [ " + i +" ] : " + ls_value + "<hr/>");
-}
-%>
+    
     <script>
     
     $(()=>{

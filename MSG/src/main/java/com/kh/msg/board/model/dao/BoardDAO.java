@@ -7,7 +7,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
 
 public interface BoardDAO {
@@ -36,9 +36,7 @@ public interface BoardDAO {
 
 	int countBoard(Board board);
 
-	Object selectBoard(PagingVo vo);
-
-	int insertScrap(BoardScrap boardScrap);
+	Object selectBoard(BoardPagingVo vo);
 
 	BoardScrap selectScrap(int boardNo);
 
@@ -56,7 +54,7 @@ public interface BoardDAO {
 
 	int countMyBoard(Board board);
 
-	Object selectMyBoard(PagingVo vo);
+	Object selectMyBoard(BoardPagingVo vo);
 
 	int cntUp(Board board);
 
@@ -68,6 +66,10 @@ public interface BoardDAO {
 
 	int countScrapBoard(BoardScrap boardScrap);
 
-	Object selectScrapBoard(PagingVo vo);
+	Object selectScrapBoard(BoardPagingVo vo);
+
+	int insertScrap(BoardScrap boardScrap);
+
+	int countComment(Comment comment);
 
 }

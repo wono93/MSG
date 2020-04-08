@@ -7,7 +7,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
 
 public interface BoardService {
@@ -34,13 +34,11 @@ public interface BoardService {
 
 	int countBoard(Board board);
 
-	Object selectBoard(PagingVo vo);
-
-	int insertScrap(BoardScrap voScrap);
+	Object selectBoard(BoardPagingVo vo);
 
 	BoardScrap selectScrap(int boardNo);
 
-	int deleteScrap(BoardScrap voScrap);
+	int deleteScrap(BoardScrap boardScrap);
 
 	int getBoardScrap(BoardScrap voScrap);
 
@@ -56,7 +54,7 @@ public interface BoardService {
 
 	int countMyBoard(Board board);
 
-	Object selectMyBoard(PagingVo vo);
+	Object selectMyBoard(BoardPagingVo vo);
 
 	int cntUp(Board board);
 
@@ -68,7 +66,11 @@ public interface BoardService {
 
 	int countScrapBoard(BoardScrap boardScrap);
 
-	Object selectScrapBoard(PagingVo vo);
+	Object selectScrapBoard(BoardPagingVo vo);
+
+	int insertScrap(BoardScrap boardScrap);
+
+	int countComment(Comment comment);
 
 	
 }

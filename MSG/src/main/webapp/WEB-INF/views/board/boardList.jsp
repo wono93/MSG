@@ -220,18 +220,21 @@
 	                            <td>
 	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
 	                                ${b.title }
+	                                <c:forEach items="${board.commentList }" var="c" varStatus="vs">
+	                                	<p>${vs.count}</p>
+	                                </c:forEach>
 	                            </a>
 	                            	<c:if test="${b.dateb<2 }">
 	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
 	                                </c:if>
 	                            </td>
-	                            		<td>
+	                            <td>
 		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
 			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
 			                            		<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
 			                            	</c:if>
 	                            	</c:forEach>
-                            			</td>
+                         		</td>
 	                            <td>${b.bdate }</td>
 	                            <td>${b.cnt }
 	                            	<input type="hidden" name="no" value="${b.no }"/>

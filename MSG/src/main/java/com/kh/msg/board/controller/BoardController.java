@@ -4,8 +4,11 @@ package com.kh.msg.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -19,9 +22,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +36,7 @@ import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.PagingVo;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.vo.Member;
 
@@ -79,9 +82,53 @@ public class BoardController {
 			Board board, Member member, Comment comment, BoardRead boardRead,
 			 Model model) {
 		
+		//읽은글 저장
+		boardRead.setEmpNo(memberEmpno);
+		boardRead.setNo(boardNo);
+		int result1 = boardService.insertRead(boardRead);
+		
+		Cookie[] cookies = request.getCookies();
+		String boardCookieVal = "";
+		boolean hasRead = false;
+		
+		//사이트첫방문 아무런 쿠키도 가지고 있지 않아 cookies=null이다.
+		if(cookies != null) {
+			
+			for(Cookie c : cookies) {
+				String name = c.getName();
+				String value = c.getValue();
+				
+				if("boardCookie".equals(name)) {
+					boardCookieVal = value;
+					if(value.contains("|"+boardNo+"|")) {
+						hasRead = true;
+						break;
+					}
+						
+				}
+			}
+			
+		}
+		System.out.println("boardCookieVal="+boardCookieVal);
+		System.out.println("hasRead="+hasRead);
+		
+		//쿠키 생성
+		if(hasRead == false) {
+			boardCookieVal = boardCookieVal + "|" + boardNo + "|"; 
+			Cookie boardCookie = new Cookie("boardCookie", boardCookieVal);
+			boardCookie.setMaxAge(365*24*60*60);//영속쿠키
+			boardCookie.setPath(request.getContextPath()+"/board");
+			response.addCookie(boardCookie);
+			//조회수증가
+			board.setNo(boardNo);
+			int result = boardService.cntUp(board);
+			
+		}
+		/*
 		//조회수 증가
 		Cookie[] cookies = request.getCookies();
 		Cookie boardCookie = null;
+		
 		
 		//쿠키가 있을 경우
 		if(cookies != null && cookies.length > 0) {
@@ -99,15 +146,6 @@ public class BoardController {
 				Cookie newCookie = new Cookie("cookie"+ boardNo, "|" + boardNo + "|");
 				response.addCookie(newCookie);
 				
-				//조회수증가
-				board.setNo(boardNo);
-				int result = boardService.cntUp(board);
-				
-				//읽은글 저장
-				boardRead.setEmpNo(memberEmpno);
-				boardRead.setNo(boardNo);
-				int result1 = boardService.insertRead(boardRead);
-				
 				log.debug("result================"+result);
 				if(result>0) {
 					log.debug("조회수 증가");
@@ -124,13 +162,18 @@ public class BoardController {
 				log.debug("쿠키값은?="+value);
 			}
 		}
-		
+		*/
+		BoardScrap boardScrap = boardService.selectScrap(boardNo);
 		board = boardService.selectOne(boardNo);
 		member = boardService.selectMember(empNo);
 		List<Comment> commentList = boardService.selectComment(boardNo);
 		List<Member> memberList = boardService.selectMemberList();
-		log.debug("board================"+board);
 		
+		log.debug("board================"+board);
+		comment.setBrdNo(boardNo);
+		int countComment = boardService.countComment(comment);
+		model.addAttribute("countComment", countComment);
+		model.addAttribute("boardScrap", boardScrap);
 		model.addAttribute("boardRead", boardRead);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("board", board);
@@ -140,34 +183,6 @@ public class BoardController {
 		
     	return "board/boardView";
 	}
-	
-		@ResponseBody
-	    @RequestMapping(value = "/heart", method = RequestMethod.POST, produces = "application/json")
-	    public int heart(HttpServletRequest httpRequest) throws Exception {
-	
-	        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
-	        int boardNo = Integer.parseInt(httpRequest.getParameter("boardNo"));
-	        //int userid = ((UserVO) httpRequest.getSession().getAttribute("login")).getUserId();
-	        int empNo = Integer.parseInt(httpRequest.getParameter("empNo"));
-	        
-	        BoardScrap voScrap = new BoardScrap();
-	        
-	        voScrap.setNo(boardNo);
-		   	voScrap.setEmpNo(empNo);
-		   	
-	        System.out.println(heart);
-	
-	        if(heart >= 1) {
-	            boardService.deleteScrap(voScrap);
-	            heart=0;
-	        } else {
-	        	boardService.insertScrap(voScrap);
-	            heart=1;
-	        }
-	
-	        return heart;
-	
-	    }
 	
 	@PostMapping("/deleteComment.do")
 	public String commentDelete(@RequestParam("boardNo") int boardNo,
@@ -184,13 +199,14 @@ public class BoardController {
 	@PostMapping("/insertComment.do")
 	public String commentInsert(
 			@RequestParam("boardNo") int boardNo,
-			@RequestParam("empNo") int empNo,
+			@RequestParam("empNoReturn") int empNoReturn,
+			@RequestParam("memberEmpno") int memberEmpno,
 			Comment comment,
 			Model model, RedirectAttributes redirectAttributes) {
-		
+		comment.setEmpNo(memberEmpno);
     	int result = boardService.insertComment(comment, boardNo);
 		Board board = boardService.selectOne(boardNo);
-		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+board.getEmpNo();
+		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNoReturn+"&memberEmpno="+memberEmpno;
 	}
 	
 	@PostMapping("/deleteBoard.do")
@@ -382,7 +398,7 @@ public class BoardController {
     }
     
     @GetMapping("/list.do")
-    public String boardList(PagingVo vo, Model model, Board board, BoardRead boardRead
+    public String boardList(BoardPagingVo vo, Model model, Board board, BoardRead boardRead,Comment comment
     		, @RequestParam(value="catagkeyword", required=false)String catagkeyword
     		, @RequestParam(value="keyword", required=false)String keyword
     		, @RequestParam(value="nowPage", required=false)String nowPage
@@ -403,7 +419,7 @@ public class BoardController {
     	List<BoardRead> readList = boardService.selectReadList();
     	
     	
-    	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+    	vo = new BoardPagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
     	vo.setCatagkeyword(catagkeyword);
     	vo.setKeyword(keyword);
     	//vo.setEmpNo(empNo);
@@ -423,7 +439,7 @@ public class BoardController {
     
     //내글보기
     @GetMapping("/myList.do")
-    public String myList(PagingVo vo, Model model, Board board
+    public String myList(BoardPagingVo vo, Model model, Board board
     		, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
@@ -440,7 +456,7 @@ public class BoardController {
     		cntPerPage = "15";
     	}
     	
-    	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+    	vo = new BoardPagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
     	vo.setEmpNo(empNo);
     	List<Member> memberList = boardService.selectMemberList();
@@ -458,7 +474,7 @@ public class BoardController {
     }
     
     @GetMapping("/scrapList.do")
-    public String scrapList(PagingVo vo, Model model, BoardScrap boardScrap
+    public String scrapList(BoardPagingVo vo, Model model, BoardScrap boardScrap
     		, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
@@ -475,7 +491,7 @@ public class BoardController {
     		cntPerPage = "15";
     	}
     	
-    	vo = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+    	vo = new BoardPagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
     	vo.setEmpNo(empNo);
     	List<Member> memberList = boardService.selectMemberList();
@@ -501,5 +517,45 @@ public class BoardController {
 		return "redirect:/board/update.do?boardNo="+boardNo;
     }
     
+    @PostMapping("/insertScrap.do")
+	public void insertScrap(
+							@RequestParam("boardNo")int boardNo,
+							@RequestParam("memberEmpno") int memberEmpno,
+							@RequestParam("memo")String memo,
+							BoardScrap boardScrap,
+							HttpServletRequest request,
+							HttpServletResponse response){
+		    	try {
+					request.setCharacterEncoding("UTF-8");
+					response.setContentType("text/html;charset=UTF-8");
+					memo = URLDecoder.decode(memo, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				boardScrap.setMemo(memo);
+    			boardScrap.setEmpNo(memberEmpno);
+    			boardScrap.setNo(boardNo);
+				int result = boardService.insertScrap(boardScrap);
+				
+				log.debug("scrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapresult={}",result);
+				
+			}
     
+    @PostMapping("/deleteScrap.do")
+	public void deleteScrap(
+							@RequestParam("boardNo")int boardNo,
+							@RequestParam("memberEmpno") int memberEmpno,
+							BoardScrap boardScrap,
+							HttpServletRequest request,
+							HttpServletResponse response){
+		    	
+    			boardScrap.setEmpNo(memberEmpno);
+    			boardScrap.setNo(boardNo);
+				int result = boardService.deleteScrap(boardScrap);
+				
+				log.debug("scrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapresult={}",result);
+				
+			}
+		
 }
