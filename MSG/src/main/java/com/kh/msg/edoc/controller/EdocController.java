@@ -1,6 +1,9 @@
 package com.kh.msg.edoc.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,16 +15,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.msg.common.util.Utils;
 import com.kh.msg.edoc.model.service.EdocService;
 import com.kh.msg.edoc.model.vo.EdocAtt;
 import com.kh.msg.edoc.model.vo.EdocFlow;
@@ -132,7 +147,7 @@ public class EdocController {
 	}
 
 	@GetMapping("/srch.do")
-	public ModelAndView srch(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, String srchType) {
+	public ModelAndView srch(@RequestParam(value="cPage", defaultValue="1") int cPage, String srchWord, @RequestParam(value="srchType", defaultValue="all")String srchType) {
 		log.debug("=========전자문서 검색 페이지=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
@@ -204,17 +219,51 @@ public class EdocController {
 		log.debug("------------------------------------------------------------------{}",m);
 		return "edoc/edocWrite";
 	}
+	
+	@ResponseBody
+	@PostMapping("/edocAtt.do")
+	public Model edocAtt(@RequestParam(value="upFiles", required=false) MultipartFile[] upFiles, HttpServletRequest request, Model model) throws Exception, IOException {
+		
+		List<EdocAtt> edocAttList = new ArrayList<>();
+		for(MultipartFile f : upFiles) {
+			if(f.isEmpty()) continue;
+			
+			String originFilename= f.getOriginalFilename();
+			String renamedFilename = Utils.getRefile(originFilename);
+			
+			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/edoc");
+			
+			f.transferTo(new File(saveDirectory, renamedFilename));
+			
+			EdocAtt edocAtt = new EdocAtt();
+			edocAtt.setOriginFilename(originFilename);
+			edocAtt.setRenamedFilename(renamedFilename);
+			edocAttList.add(edocAtt);
+		}
+		
+		
+		model.addAttribute("edocAttList", edocAttList);
+		
+		return model;
+	}
+	
+	
+	
 	@ResponseBody
 	@PostMapping("/write.do")
 	public String edocWrite(String empNo, String secuCd, String prsvCd, String edocTitle, String vctnCd, String startDt,
-			String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String[] flowLine, String flowCd) {
+			String endDt, String leaveAmt, String leavePurpose, String leaveContact, String typeCd, String surEmpNo, String[] flowLine, String flowCd, @RequestParam(value="upFiles", required=false) MultipartFile[] upFiles, HttpServletRequest request) throws Exception, IOException {
 		
+		
+		//새로운 EdocId 받아오기
 		String edocId = edocService.newEdocId();
 		
 		List<EdocFlow> edocFlowList = new ArrayList<>();
 		List<EdocAtt> edocAttList = new ArrayList<>();
 		EdocLeaveLtt edocLeaveLtt = new EdocLeaveLtt();
 		
+		
+		// 전자문서 등록
 		edocLeaveLtt.setEdocId(edocId);
 		edocLeaveLtt.setSecuCd(secuCd);
 		edocLeaveLtt.setPrsvCd(prsvCd);
@@ -230,13 +279,14 @@ public class EdocController {
 			edocLeaveLtt.setSurEmpNo(Integer.parseInt(surEmpNo));
 		}
 		edocLeaveLtt.setTypeCd(typeCd);
-		
+
+		// 결재선 등록
 		if(flowLine.length > 1) {
 			for(int i = 0; i < flowLine.length-1; i++) { // 더미 flowLine을 하나 추가했으므로, 컨트롤러로 받은 시점에서 하나를 덜 세는 것.
 				EdocFlow ef = new EdocFlow();
 				ef.setEdocId(edocId);
 				// F1 : 결재, F2 : 전결
-				if(flowCd!="") {
+				if(flowCd != "") {
 					if((Integer.parseInt(flowCd)-1)==i) ef.setFlowCd("F2");
 				}
 				else ef.setFlowCd("F1");
@@ -244,6 +294,24 @@ public class EdocController {
 				ef.setFlowOrd(i+1);
 				edocFlowList.add(ef);
 			}
+		}
+		
+		// 첨부파일 등록
+		for(MultipartFile f : upFiles) {
+			if(f.isEmpty()) continue;
+			
+			String originFilename= f.getOriginalFilename();
+			String renamedFilename = Utils.getRefile(originFilename);
+			
+			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/edoc");
+			
+			f.transferTo(new File(saveDirectory, renamedFilename));
+			
+			EdocAtt edocAtt = new EdocAtt();
+			edocAtt.setOriginFilename(originFilename);
+			edocAtt.setRenamedFilename(renamedFilename);
+			edocAtt.setEdocId(edocId);
+			edocAttList.add(edocAtt);
 		}
 		
 		int result = edocService.edocWrite(edocLeaveLtt, edocAttList, edocFlowList);
@@ -323,8 +391,71 @@ public class EdocController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 		}
+	}
+
+	
+	
+	@PostMapping("/pdfView.do")
+	public void pdfView(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+		
+		createDocFromTemplate(request);
+		
+	}
+
+
+	private static void createDocFromTemplate(HttpServletRequest request) throws InvalidFormatException, IOException {
+		// doc 템플릿 열 때에 읽기 쓰기 권한 획득
+		
+		XWPFDocument doc = new XWPFDocument(OPCPackage.open("template/leaveTemplate.docx"));
+		
+		// doc 템플릿에 DB값 삽입
+		for (XWPFParagraph p : doc.getParagraphs()) {
+			List<XWPFRun> runs = p.getRuns();
+			if (runs != null) {
+				for (XWPFRun r : runs) {
+					String text = r.getText(0);
+					if (text != null && text.contains("tmp")) {
+						text = text.replace("tmp", "임시");
+						r.setText(text, 0);
+					}
+				}
+			}
+		}
+		for (XWPFTable tbl : doc.getTables()) {
+			for (XWPFTableRow row : tbl.getRows()) {
+				for (XWPFTableCell cell : row.getTableCells()) {
+					for (XWPFParagraph p : cell.getParagraphs()) {
+						for (XWPFRun r : p.getRuns()) {
+							String text = r.getText(0);
+							if (text != null && text.contains("tmp")) {
+								text = text.replace("tmp", "임시");
+								r.setText(text, 0);
+							}
+						}
+					}
+				}
+			}
+		}
+		write2Pdf(doc, request);
+		doc.close();
+	}
+
+	private static void write2Pdf(XWPFDocument doc, HttpServletRequest request) throws IOException{
+
+		String optFolder = request.getServletContext().getRealPath("/resources/upload/edocPdf/");
+		String optFileName = "createFileFromTemplate.pdf";
+
+		File f = new File(optFolder);
+		if(!f.exists()) {
+			System.out.println("Created folder " + optFolder);
+			f.mkdirs();
+		}
+
+		OutputStream out = new FileOutputStream(new File(optFolder+optFileName));
+		PdfOptions options = PdfOptions.create().fontEncoding("Identity-H"); // 왜...Identity-H? 이거 설정안하거나 UTF-8 이런거 주면 한글 안보임
+		PdfConverter.getInstance().convert(doc, out, options);
+
+
 	}
 }

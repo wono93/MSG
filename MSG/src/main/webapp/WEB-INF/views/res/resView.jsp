@@ -33,7 +33,6 @@
             <article>
 			    <div class="center1200">
 			        <h3>예약관리</h3>
-			        
 			            <ul>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/confRes.do'">회의실</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/carRes.do'">법인차량</li>
