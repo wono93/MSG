@@ -34,6 +34,7 @@ public class ResView implements Serializable, Comparable<ResView>{
 	private Date resReturnDate;
 	private int empNo;
 	private String thingCate;
+	private String resCode;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

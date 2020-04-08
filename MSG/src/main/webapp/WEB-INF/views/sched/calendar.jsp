@@ -7,22 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>MSG :: 일정관리</title>
 	<style>
-	html{background-color: #ededed; }
-	section{
-	    position: absolute;
-	    text-align: center;
-	    width: 100%;
-	    height: 100%;
-	    left: 0;
-	    top: 0;
-	}
-	section > div {
-	    display: inline-block;
-	    width: 1200px;
-	    height: 100%;
-	    vertical-align: middle;
-	    /* border: 1px solid black; */
-	}
+	html{background-color: #ededed;}
+	section{ position: absolute; text-align: center; width: 100%; height: 100%; left: 0; top: 0; }
+	section > div { display: inline-block; width: 1200px; height: 100%; vertical-align: middle; /* border: 1px solid black; */ }
 	.center1200{ width: 1200px; margin:0 auto; position: relative;}
 	.center1200::after{content:""; display:block; clear:both;}
 	.center1200>h3{ margin:75px 0 0 60px; font-size:36px; font-weight:900;text-align:left;}
@@ -30,6 +17,7 @@
 	.center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 	.container{width:1200px; margin:0 auto; padding:30px; min-height: 100px; padding:48px 0 0 53px;background-color:#fff;}
 	#containert>span{font-size:30px; margin-left: 30px;}
+	
 	</style>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fullCalendar/vendor/css/fullcalendar.min.css" />
@@ -42,6 +30,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fullCalendar/css/main.css">
+    
 </head>
 
 <body>
@@ -132,10 +121,10 @@
 				                                <label class="col-xs-4 mt10" for="edit-color">색상</label>
 				                                <select class="inputModal" name="color" id="edit-color">
 				                                    <option value="#f4ca25" style="color:#f4ca25;">회의</option>
-				                                    <option value="#f2ab39" style="color:#f2ab39;">외근</option>
-				                                    <option value="#ee6a22" style="color:#ee6a22;">휴가</option>
-				                                    <option value="#bd8e62" style="color:#bd8e62;">출장</option>
-				                                    <option value="#69491a" style="color:#69491a;">지울까...?</option>
+				                                    <option value="#f2ab39" style="color:#f2ab39;">기타</option>
+				                                    <option value="#ee6a22" style="color:#ee6a22;">외근</option>
+				                                    <option value="#bd8e62" style="color:#bd8e62;">휴가</option>
+				                                    <option value="#69491a" style="color:#69491a;">출장</option>
 				                                    <option value="#370d00" style="color:#370d00;">데드라인</option>
 				                                </select>
 				                            </div>
@@ -221,5 +210,8 @@
     <script src="${pageContext.request.contextPath}/resources/fullCalendar/js/editEvent.js"></script>
     <script src="${pageContext.request.contextPath}/resources/fullCalendar/js/etcSetting.js"></script>
 </body>
+    <style>
+    .fc-today-button{margin-left:70px;}
+    </style>
 
 </html>

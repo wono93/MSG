@@ -37,6 +37,6 @@ public interface ResDAO {
 
 	List<Car> selectCarListEnd(String resUseDate, String resReturnDate);
 
-	List<ResView> selectResListByDate(String srchFrom, String srchTo);
+	int delRes(String resCate, String resCode);
 
 }

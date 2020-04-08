@@ -16,13 +16,12 @@ public class ScheDAOImpl implements ScheDAO {
 	
 	@Override
 	public List<Schedule> schedList() {
-		return sqlSession.selectList("schedule.schedList");
+		return sqlSession.selectList("sched.schedList");
 	}
 	
 	@Override
-	public int insert(Schedule s) {
-//		return sqlSession.insert("schedule.insert", s);
-		return 0;
+	public int insertSched(Schedule s) {
+		return sqlSession.insert("sched.insertSched",s);
 	}
 
 }

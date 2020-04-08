@@ -188,7 +188,7 @@ public class ResController {
 	@GetMapping("/carListEnd")
 	@ResponseBody
 	public Map<String,List<Car>> selectCarListEnd(@RequestParam("resUseDate") String resUseDate,
-										 @RequestParam("resReturnDate") String resReturnDate) {
+										          @RequestParam("resReturnDate") String resReturnDate) {
 		
 		//log.debug("대여 시작할 시간="+resUseDate+", 대여 마감시간="+resReturnDate);
 		
@@ -256,6 +256,20 @@ public class ResController {
 		map.put("carList",carList);
 		map.put("rList",rList);
 		return map;
+	}
+	
+	@DeleteMapping(value="/delRes/{resCate}/{resCode}")
+	public Map<String, String> delRes(@PathVariable("resCate") String resCate,
+									  @PathVariable("resCode") String resCode){
+		
+		log.debug("삭제할 예약코드 = "+resCate+" / 어떤거?="+resCode);
+		String msg = resService.delRes(resCate, resCode)>0?"선택하신 예약내역이 삭제되었습니다.":"선택 예약내역을 삭제하는 데 실패했습니다.";
+		
+		//String 전송하면 클라이언트에서 json parse error -> map 전송
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+		
 	}
 		
 }

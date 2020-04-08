@@ -1,7 +1,7 @@
 package com.kh.msg.sched.model.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,9 +24,12 @@ public class Schedule implements Serializable{
 	private int scheCode;
 	private String scheCate;
 	private int empNo;
+	private String empName;
+	private String deptName;
+	private String jobName;
 	private String scheName;
-	private Date scheStart;
-	private Date scheEnd;
+	private String scheStart;
+	private String scheEnd;
 	private String scheColor;
 	private String scheEx;
 	

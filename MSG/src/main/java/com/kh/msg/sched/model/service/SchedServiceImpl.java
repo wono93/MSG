@@ -20,8 +20,8 @@ public class SchedServiceImpl implements SchedService {
 	}
 	
 	@Override
-	public int insert(Schedule s) {
-		return scheDAO.insert(s);
+	public int insertSched(Schedule s) {
+		return scheDAO.insertSched(s);
 	}
 
 }

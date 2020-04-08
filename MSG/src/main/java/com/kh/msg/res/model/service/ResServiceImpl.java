@@ -83,8 +83,8 @@ public class ResServiceImpl implements ResService {
 	}
 
 	@Override
-	public List<ResView> selectResListByDate(String srchFrom, String srchTo) {
-		return resDAO.selectResListByDate(srchFrom, srchTo);
+	public int delRes(String resCate, String resCode) {
+		return resDAO.delRes(resCate, resCode);
 	}
 	
 	

@@ -100,6 +100,7 @@ $('#timepicker-end-car').datepicker({
 
 $(document).ready(function(){
 	
+	//3초 후 대여시작시간 자동선택해주기
 	setTimeout(()=>{
 		$('[id^="timepicker-start"]').focus();
 	}, 3000);
@@ -137,127 +138,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	//예약내역 확인페이지에서 각 예약내역 클릭시 수정/삭제 팝업메뉴 나타남 (contextMenu OpenSource 이용)
-	 $('.res-table').contextMenu({
-	        selector: '.ajaxHide-tr',
-	        trigger: 'left',
-	        callback: (key, options) => {
-//	        	switch(key){
-//	        	case :
-//	        		;
-//	        		break;
-//	        	case 'delete': 
-//	        		delRes($(this).val()); //이 선택값의 코드를 가져가서 그 값 DB삭제
-//	        		break;
-//	        	}
-	        	console.log($(this).children(".displayNone"));
-	            var m = "clicked: " + key;
-	            window.console && console.log(m) || alert(m);
-	        },
-	        items: {
-	            "edit": 
-			            {
-			                "name": "예약내역 수정", "icon" : "edit",
-			                "items": {
-			                	 // <input type="text">
-			                    name: {
-			                        name: "Text", 
-			                        type: 'text', 
-			                        value: "Hello World", 
-			                        events: {
-			                            keyup: function(e) {
-			                                // add some fancy key handling here?
-			                                window.console && console.log('key: '+ e.keyCode); 
-			                            }
-			                        }
-			                    },
-			                    sep1: "---------",
-			                    // <input type="checkbox">
-			                    yesno: {
-			                        name: "Boolean", 
-			                        type: 'checkbox', 
-			                        selected: true
-			                    },
-			                    sep2: "---------",
-			                    // <input type="radio">
-			                    radio1: {
-			                        name: "Radio1", 
-			                        type: 'radio', 
-			                        radio: 'radio', 
-			                        value: '1'
-			                    },
-			                    radio2: {
-			                        name: "Radio2", 
-			                        type: 'radio', 
-			                        radio: 'radio', 
-			                        value: '2', 
-			                        selected: true
-			                    },
-			                    radio3: {
-			                        name: "Radio3", 
-			                        type: 'radio', 
-			                        radio: 'radio', 
-			                        value: '3'
-			                    },
-			                    radio4: {
-			                        name: "Radio3", 
-			                        type: 'radio', 
-			                        radio: 'radio', 
-			                        value: '4', 
-			                        disabled: true
-			                    },
-			                    sep3: "---------",
-			                    // <select>
-			                    select: {
-			                        name: "Select", 
-			                        type: 'select', 
-			                        options: {1: 'one', 2: 'two', 3: 'three'}, 
-			                        selected: 2
-			                    },
-			                    // <textarea>
-			                    area1: {
-			                        name: "Textarea with height", 
-			                        type: 'textarea', 
-			                        value: "Hello World", 
-			                        height: 40
-			                    },
-			                    area2: {
-			                        name: "Textarea", 
-			                        type: 'textarea', 
-			                        value: "Hello World"
-			                    },
-			                    sep4: "---------",
-			                    key: {
-			                        name: "Something Clickable", 
-			                        callback: $.noop
-			                    }
-			                }, 
-			                events: {
-			                    show: function(opt) {
-			                        // this is the trigger element
-			                        var $this = this;
-			                        // import states from data store 
-			                        $.contextMenu.setInputValues(opt, $this.data());
-			                        // this basically fills the input commands from an object
-			                        // like {name: "foo", yesno: true, radio: "3", &hellip;}
-			                    }, 
-			                    hide: function(opt) {
-			                        // this is the trigger element
-			                        var $this = this;
-			                        // export states to data store
-			                        $.contextMenu.getInputValues(opt, $this.data());
-			                        // this basically dumps the input commands' values to an object
-			                        // like {name: "foo", yesno: true, radio: "3", &hellip;}
-			                    }
-			                }
-			            },
-	            "delete": {name: "예약내역 삭제", icon: "delete"},
-	            "sep1": "---------",
-	            "quit": {name: "취소", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
-	        }
-	    });
-
-
+	
 });
 function to_db_start(start){
 	use = new Date(start.substr(0,11)+start.substr(13)); 
@@ -452,6 +333,7 @@ $('#timepicker-startend').datepicker({
 	    console.log(startDate);
 	    console.log(endDate); 
 	    
+	    
 	    //ajax로 입력시간값에 해당하는 예약내역 출력하기
 		$.ajax({
 			url : getContextPath()+"/res/resListByDate",
@@ -464,6 +346,7 @@ $('#timepicker-startend').datepicker({
 				// 현재출력값 지우고
 //				$("tr.ajaxHide-tr").remove();
 				$(".haveNoRes").find("table").remove();
+				$(".haveNoRes").find("div").remove();
 //				console.log($(".haveNoRes").find("table")); //res-table 세개
 
 
@@ -499,7 +382,7 @@ $('#timepicker-startend').datepicker({
 				    						 .children("table").removeClass('res-table');
 				         	
 				 	}
-				
+					test();
 				
 			},
 			error: (x,s,e) =>{
@@ -510,7 +393,7 @@ $('#timepicker-startend').datepicker({
     }
 });
 
-//자신의 예약내역이 없으면 '아직 예약한 내역이 없습니다" 문구 출력
+//&&&&&&&&&&&&&&자신의 예약내역이 없으면 '아직 예약한 내역이 없습니다" 문구 출력
 function youHaveNoRes(){
 	
 	   let $table = $(".res-table"); 				 
@@ -527,21 +410,22 @@ function youHaveNoRes(){
 }
 
 ///////////////////////Date인풋값 해당 예약내역을 각 카테고리 div에 넣어주기//////////////////////
-let $newTb = $("<table class='res-table'></table>");
-let $newTh = $(" <tr>"+
-				"<th class='narrow-td'></th>"+
-				"<th>구분</th>"+
-				"<th>대여명</th>"+
-				"<th class='narrow-td'>수용</th>"+
-				"<th>대여시간</th>"+
-				"<th class='wide-td'>대여시작</th>"+
-				"<th class='wide-td'>대여종료</th>"+
-				"</tr>");
 function createTr_properDateConfResView(resViewList){
 	let j = 1;
+	let $newTb = $("<table class='new_ conf-res'></table>");
+//let $newTb = $("<table class='res-table'></table>");
+	let $newTh = $(" <tr>"+
+			"<th class='narrow-td'></th>"+
+			"<th>구분</th>"+
+			"<th>대여명</th>"+
+			"<th class='narrow-td'>수용</th>"+
+			"<th>대여시간</th>"+
+			"<th class='wide-td'>대여시작</th>"+
+			"<th class='wide-td'>대여종료</th>"+
+			"</tr>");
 	$("#confList-div").append($newTb);
-	$('.res-table').addClass("conf-res");
-	$newTb.append($newTh);
+	
+	$(".conf-res").append($newTh);
 	
 	for(let res of resViewList){
 	    let $resView = $(
@@ -554,15 +438,26 @@ function createTr_properDateConfResView(resViewList){
 	            "<td class='wide-td'>" + transformForView(new Date(res.resUseDate)) + "</td>" +
 	            "<td class='wide-td'>" + transformForView(new Date(res.resReturnDate)) + "</td>" +
 	            "</tr>" );
-	    $newTh.after($resView);
+	    $newTb.append($resView);
 	    j++;
 	  }
 }
 function createTr_properDateCarResView(resViewList){
 	let j = 1;
-	$("#carList-div").append($newTb);
-	$('.res-table').addClass("car-res");
-	$newTb.append($newTh);
+	let $newTb = $("<table class='new_ car-res'></table>");
+	//let $newTb = $("<table class='res-table'></table>");
+		let $newTh = $(" <tr>"+
+				"<th class='narrow-td'></th>"+
+				"<th>구분</th>"+
+				"<th>대여명</th>"+
+				"<th class='narrow-td'>수용</th>"+
+				"<th>대여시간</th>"+
+				"<th class='wide-td'>대여시작</th>"+
+				"<th class='wide-td'>대여종료</th>"+
+				"</tr>");
+	$("#carList-div").append($newTb)
+					 .children('table').addClass("car-res");
+	$(".car-res").append($newTh);
 	
 	for(let res of resViewList){
 	    let $resView = $(
@@ -575,15 +470,28 @@ function createTr_properDateCarResView(resViewList){
 	            "<td class='wide-td'>" + transformForView(new Date(res.resUseDate)) + "</td>" +
 	            "<td class='wide-td'>" + transformForView(new Date(res.resReturnDate)) + "</td>" +
 	            "</tr>");
-	    $newTh.after($resView);
+	    $newTb.append($resView);
 		j++;
 	  }
 }
+
 function createTr_properDateAllResView(resViewList){
 	  let j = 1; // 예약확인 시 Date 검색 ajax 시에 사용하는 각 td의 count값
-	  $("#rList-div").append($newTb);
-	  $('.res-table').addClass("all-res");
-	  $newTb.append($newTh);
+	  let $newTb = $("<table class='new_ all-res'></table>");
+	//let $newTb = $("<table class='res-table'></table>");
+	  let $newTh = $(" <tr>"+
+					"<th class='narrow-td'></th>"+
+					"<th>구분</th>"+
+					"<th>대여명</th>"+
+					"<th class='narrow-td'>수용</th>"+
+					"<th>대여시간</th>"+
+					"<th class='wide-td'>대여시작</th>"+
+					"<th class='wide-td'>대여종료</th>"+
+					"</tr>");
+		
+	  $("#rList-div").append($newTb)
+	  				 .children('table').addClass("all-res");
+	  $(".all-res").append($newTh);
 	  
 	  for(let res of resViewList){
 	    let $resView = $(
@@ -596,10 +504,13 @@ function createTr_properDateAllResView(resViewList){
 	            "<td class='wide-td'>" + transformForView(new Date(res.resUseDate)) + "</td>" +
 	            "<td class='wide-td'>" + transformForView(new Date(res.resReturnDate)) + "</td>" +
 	            "</tr>");
-	    $newTb.after($resView);
+	    $newTb.append($resView);
 		j++;
 	  }
 	}
+
+
+
 
 
 

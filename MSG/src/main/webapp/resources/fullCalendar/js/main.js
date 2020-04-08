@@ -1,3 +1,8 @@
+//contextPath 구하기
+function getContextPath() { 
+	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+}
+
 var draggedEventIsAllDay;
 var activeInactiveWeekends = true;
 
@@ -16,7 +21,7 @@ function getDisplayEventDate(event) {
   return displayEventDate;
 }
 
-function filtering(event) {
+/*function filtering(event) {
   var show_username = true;
   var show_type = true;
 
@@ -35,9 +40,10 @@ function filtering(event) {
     }
   }
 
-  return show_username && show_type;
+//  return show_username && show_type;
+  return true;
 }
-
+*/
 function calDateWhenResize(event) {
 
   var newDates = {
@@ -86,7 +92,7 @@ function calDateWhenDragnDrop(event) {
 
 
 var calendar = $('#calendar').fullCalendar({
-
+/*
   eventRender: function (event, element, view) {
 
     //일정에 hover시 요약
@@ -116,7 +122,7 @@ var calendar = $('#calendar').fullCalendar({
 
     return filtering(event);
 
-  },
+  },*/
 
   //주말 숨기기 & 보이기 버튼
   customButtons: {
@@ -159,21 +165,51 @@ var calendar = $('#calendar').fullCalendar({
    * ************** */
   /** 이 부 분을 고 쳐 써 야 해  **/
   events: function (start, end, timezone, callback) {
+
+	  
     $.ajax({
       type: "get",
-      url: "data.json",
+      url: getContextPath()+"/sched/calendar.do",
       data: {
         // 실제 사용시, 날짜를 전달해 일정기간 데이터만 받아오기를 권장
+    	 start: start.format(),
+    	 end : end.format()
       },
+      dataType:'json',
+
       success: function (response) {
+          var events=[];
+    	  console.log(response); //일정 객체를 가져옴
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
             // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
             array.end = moment(array.end).add(1, 'days');
+            
+            var evt={
+            		
+            		
+            		_id: array.scheCode,
+            		title: array.scheName,
+            		start: array.scheStart,
+            		end: array.scheEnd,
+            		description:array.scheEx,
+            		type: array.scheCate,
+            		username:array.deptName+" "+array.jobName+" "+array.empName,
+            		backgroundColor: array.scheColor,
+            		textColor:"#fefefe"
+            		/*allDay: array.fullAllDay,*/
+            		/*fullNo:array.fullNo,
+            		*/
+            		
+            }
+            
+            events.push(evt);
           }
           return array;
         })
-        callback(fixedDate);
+        
+        callback(events);
+//        callback(fixedDate);
       }
     });
   },
@@ -320,7 +356,7 @@ var calendar = $('#calendar').fullCalendar({
   },
   eventLimitClick: 'week', //popover
   navLinks: true,
-  defaultDate: moment('2019-05'), //실제 사용시 삭제
+  //defaultDate: moment('2019-05'), //실제 사용시 삭제
   timeFormat: 'HH:mm',
   defaultTimedEventDuration: '01:00:00',
   editable: true,

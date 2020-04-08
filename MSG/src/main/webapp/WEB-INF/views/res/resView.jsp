@@ -113,7 +113,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
-				                    		<td class="displayNone">${r.thingCode }</td>
+				                    		<td class="displayNone">${r.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -162,7 +162,7 @@
 				                    		</td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td"><fmt:formatDate value="${c.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
-				                    		<td class="displayNone">${c.thingCode }</td>
+				                    		<td class="displayNone">${c.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -211,7 +211,7 @@
 				                    		</td>
 				                    		<td class="wide-td resUseDate"><fmt:formatDate value="${r.resUseDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
 				                    		<td class="wide-td resReturnDate"><fmt:formatDate value="${r.resReturnDate }" type="both" pattern="yyyy-MM-dd (E) HH : mm"/></td>
-				                    		<td class="displayNone">${r.thingCode }</td>
+				                    		<td class="displayNone">${r.resCode }</td>
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
@@ -231,8 +231,66 @@
 			    </div>
             </article>
         </div>
+        <!-- 예약내역 수정 모달 -->
+	    <div id="updateResModal" class="ch-modal">
+	       	<div class="ch-modal-content">
+	                
+	               <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
+	               <div id="ch-content">
+	                    <form action="${pageContext.request.contextPath }/res/updateRes" method="POST" id="updateCarFrm"> 
+	
+	                        <div class="channelGenTitle">
+	                            <h3>예약내역 수정</h3>
+	                        </div>
+	                        <div class="select-box-addCar">
+			                    <div class="select-box__current" tabindex="1">
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR1" value="CAR1" name="car-cate_" checked="checked"/>
+			                        <p class="select-box__input-text">경차</p>
+			                        </div><
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR2" value="CAR2" name="car-cate_"/>
+			                        <p class="select-box__input-text">세단</p>
+			                        </div>
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR3" value="CAR3" name="car-cate_" />
+			                        <p class="select-box__input-text">SUV</p>
+			                        </div>
+			                         <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="CAR4" value="CAR4" name="car-cate_" />
+			                        <p class="select-box__input-text">픽업트럭</p>
+			                        </div>
+			                        <div class="select-box__value">
+			                        <input class="select-box__input" type="radio" id="" value="" name="car-cate_" checked="checked"/>
+			                        <p class="select-box__input-text">선택</p>
+			                        </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+			                    </div>
+			                    <ul class="select-box__list">
+			                        <li> <label class="select-box__option" for="CAR1" aria-hidden="aria-hidden">경차</label> </li>
+			                        <li> <label class="select-box__option" for="CAR2" aria-hidden="aria-hidden">세단</label> </li>
+			                        <li> <label class="select-box__option" for="CAR3" aria-hidden="aria-hidden">SUV</label> </li>
+			                        <li> <label class="select-box__option" for="CAR4" aria-hidden="aria-hidden">픽업트럭</label> </li>
+			                    </ul>
+			                </div>
+	                        <input type="hidden" name="carCate" id="updateCar-cate" />
+	                        <input type="hidden" name="carCode" id="updateCar-code" />
+	                        <input type="text" name="carCompany" id="updateCar-company" placeholder="제조사"/>
+	                        <input type="text" name="carType" id="updateCar-type" placeholder="차종"/>
+	                        <input type="text" name="carNo" id="updateCar-no" placeholder="변경할 차량의 차량번호를 입력해주세요."/>
+	                        <p>
+							<div class="updown custom">
+								수용인원
+								<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+								<input type="text" id="person_" value="5" name="carSize" readonly="true" />
+								<button type="button" class="plusBtn" onclick="plus();">+</button>
+							</div>
+							</p>
+	                        <input type="button" id="updateBtn" class="doBtn" value="수정하기" onclick="carValidate();"/>
+	                    </form>
+	               	</div>
+	            </div>
+	     </div>
     </section>
-    
     <script src="${pageContext.request.contextPath }/resources/js/res_footer.js"></script>
     <script>
     
