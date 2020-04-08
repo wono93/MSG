@@ -29,6 +29,9 @@ public class Comment implements Serializable {/**
 	private int cmtNo;
 	private int empNo;
 	private int brdNo;
+	private String jobCd;
+	private String deptCd;
+	private String empName;
 	private List<Member> memberList;
 	
 	public static long getSerialversionuid() {
