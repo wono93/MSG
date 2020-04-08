@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html lang="en">
@@ -33,7 +34,6 @@
 	src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script>
 <script
 	src="${pageContext.request.contextPath }/resources/js/datepicker.ko.js"></script>
-
 <style>
 </style>
 <title>MSG :: 근태 관리</title>
@@ -49,7 +49,7 @@
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
 						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/io.do'">출입기록</li>
+							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 						<li
@@ -76,8 +76,7 @@
 					<div class="emp">
 						<ul>
 							<li class="deptAndJob">${list.get(0).deptName }</li>
-							<li><p class="empName">${list.get(0).empName }
-								</h1></li>
+							<li><p class="empName">${list.get(0).empName }</li>
 							<li>출근일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
 								class=number>${bsnsDay - list.get(0).vctnCount }</span>일
 							</li>
@@ -104,15 +103,15 @@
 								<th>퇴근시각</th>
 								<th>처리</th>
 							</tr>
-							<%-- <c:forEach items="log" var="log" varStatus="vs"> --%>
+							<c:forEach items="${wt }" var="wt" varStatus="vs">
 								<tr>
-									<td>1</td>
-									<td>2020년 3월20일</td>
-									<td>09:00</td>
-									<td>18:00</td>
-									<td>정상</td>
+									<td>${vs.count }</td>
+									<td><fmt:formatDate value="${wt.workDay}" pattern="YYYY-MM-dd"/></td>
+									<td><fmt:formatDate value="${wt.clockIn}" pattern="HH:mm"/></td>
+									<td><fmt:formatDate value="${wt.clockOut}" pattern="HH:mm"/></td>
+									<td>${wt.remark }</td>
 								</tr>
-							<%-- </c:forEach> --%>
+							</c:forEach>
 						</table>
 					</div>
 					<div class="pagination">
@@ -182,7 +181,7 @@
 			alert("날짜를 다시 지정해주세요");
 		} else {
 			var bsnsDay = calcDate(dstartDate, dendDate);
-			location.href = "${pageContext.request.contextPath}/member/empLog.do?startDate="
+			location.href = "${pageContext.request.contextPath}/member/empLog.do?empNo="+${list.get(0).empNo} +"&startDate="
 					+ startDate + "&endDate=" + endDate + "&bsnsDay=" + bsnsDay;
 		}
 	}

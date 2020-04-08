@@ -11,6 +11,7 @@ import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.OrgChart;
+import com.kh.msg.member.model.vo.WorkTimes;
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 	@Autowired
@@ -57,8 +58,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public IOLog getLog(int empNo) {
+	public List<WorkTimes> getLog(HashMap<String, Object> map) {
 		
-		return memberDAO.getLog(empNo);
+		return memberDAO.getLog(map);
 	}
 }
