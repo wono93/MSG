@@ -214,30 +214,29 @@ public class BoardController {
     					 MultipartFile[] upFiles,
     					 HttpServletRequest request,
     					 RedirectAttributes redirectAttributes) {
-	
+
     	log.debug("board={}",board);
-    	
+
     	try {
-    		
+
 	    	List<Attachment> attachList = new ArrayList<>();
-	    	
+
 	    	for(MultipartFile f : upFiles) {
-	    		
+
 	    		//비어있는 MultipartFile객체가 전달된 경우(파일하나만 업로드)
 	    		if(f.isEmpty()) continue;
-	    		
+
 	//    		log.debug("filename={}",f.getOriginalFilename());
 	//    		log.debug("size={}",f.getSize());
-	    		
+
 	    		//파일명 재생성 renamedFileName으로 저장하기
 	    		String file = f.getOriginalFilename();
 	    		String refile = Utils.getRefile(file);
-	    		
+
 	    		//파일이동
 	    		String saveDirectory
 	    			= request.getServletContext()
 	    					 .getRealPath("/resources/upload/board");
-	    		
 	    		try {
 					f.transferTo(new File(saveDirectory, refile));
 				} catch (IllegalStateException | IOException e) {
