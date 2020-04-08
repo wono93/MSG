@@ -3,8 +3,44 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="leave">
+       <!-- 총 게시글 갯수 출력 -->
+<select id="countBoard" resultType="int">
+	SELECT COUNT(*) FROM VCTN_UPDT_TB
+</select>
 
-
+<!-- 페이징 처리 후 게시글 조회 -->
+<!-- <select id="selectBoard" resultType="LeaveModal">
+	SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM VCTN_UPDT_TB 
+						ORDER BY SEQ DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+	 -->
+	<insert id="insertModal">
+		INSERT INTO VCTN_UPDT_TB 
+		VALUES(
+		    'VCTN' || TO_CHAR(VCTN_SEQ.nextval),
+			#{edocId},
+			#{vctnCd}, <!-- 휴가코드 -->
+			#{vctnNo}, 
+			#{vctnAmt}, <!-- 조절량 -->
+			default,
+			#{vctnReason} <!--근거  -->
+			)
+	</insert>
+	
+	<select id="selectModalSearch" resultType="Edoc">
+	SELECT
+	*
+	FROM
+	EDOC_TB
+	</select> 
 
 
 	<resultMap type="leaveModal" id="leaveModal"></resultMap>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.msg.edoc.model.vo.Edoc;
 import com.kh.msg.leave.model.dao.LeaveDAO;
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
@@ -12,6 +13,7 @@ import com.kh.msg.leave.model.vo.LeaveModal;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.MyLeave;
+import com.kh.msg.leave.model.vo.leavePagingVo;
 import com.kh.msg.member.model.vo.Member;
 
 
@@ -64,5 +66,26 @@ public class LeaveServiceImpl implements LeaveService {
 		return leaveDAO.selectModalList(empNo);
 	}
 
+	@Override
+	public List<Edoc> selectModalSearch() {
+		
+		return leaveDAO.selectModalSearch();
+	}
+
+	@Override
+	public int insertModal(int vctnNo, String edocId, String vctnCd, int vctnAmt, String vctnReason) {
+		
+		return leaveDAO.insertModal(vctnNo, edocId, vctnCd, vctnAmt, vctnReason);
+	}
+   
+	@Override
+	public int countBoard() {
+		return leaveDAO.countBoard();
+	}
+
+	@Override
+	public List<LeaveModal> selectBoard(leavePagingVo vo) {
+		return leaveDAO.selectBoard(vo);
+	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.msg.edoc.model.vo.Edoc;
 import com.kh.msg.leave.model.service.LeaveService;
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
@@ -25,6 +27,7 @@ import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
 import com.kh.msg.leave.model.vo.MyLeave;
+import com.kh.msg.leave.model.vo.leavePagingVo;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.Member;
 
@@ -114,26 +117,51 @@ public class LeaveController {
 		return mav;
 	}
 
-	/*
-	 * @PostMapping("/update.do") public String LeaveSetting(@RequestParam("") int
-	 * boardNo, Comment comment, Model model, RedirectAttributes redirectAttributes)
-	 * {
-	 * 
-	 * int result = leaveService.insertComment(comment, boardNo);
-	 * 
-	 * return "redirect:/board/view.do?boardNo="+boardNo; }
-	 */
-
 	@GetMapping("/modal")
 	@ResponseBody
 	public List<LeaveModal> modal(@RequestParam("empNo") int empNo) {
-		
-		System.out.println("실행합니다~");
+
 		List<LeaveModal> modalList = leaveService.selectModalList(empNo);
 
-	
 		return modalList;
 	}
+
+	@GetMapping("/modalSearch")
+	@ResponseBody
+	public List<Edoc> modalSearch() {
+
+		List<Edoc> edocList = leaveService.selectModalSearch();
+		log.debug("edocList={}", edocList);
+		return edocList;
+	}
+
+	@PostMapping("/update.do")
+	  @ResponseBody
+	  public String modalInsert(@RequestParam("vctnNo") int vctnNo, 
+			  					@RequestParam("edocId") String edocId,
+			  					@RequestParam("vctnCd") String vctnCd, 
+			  					@RequestParam("vctnAmt") int vctnAmt, 
+			  					@RequestParam("vctnReason") String vctnReason, 
+			  					RedirectAttributes redirectAttributes) {
+	  
+	  // 1.비지니스로직 실행
+	  
+	  int result = leaveService.insertModal(vctnNo,edocId,vctnCd,vctnAmt,vctnReason);
+	  
+	  return "redirect:/leave/update.do"; }
+	
+	/*
+	 * @GetMapping("/update.do") public String boardList(PagingVO vo, Model model
+	 * , @RequestParam(value="nowPage", required=false)String nowPage
+	 * , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+	 * 
+	 * int total = leaveService.countBoard(); if (nowPage == null && cntPerPage ==
+	 * null) { nowPage = "1"; cntPerPage = "5"; } else if (nowPage == null) {
+	 * nowPage = "1"; } else if (cntPerPage == null) { cntPerPage = "5"; } vo = new
+	 * PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	 * model.addAttribute("paging", vo); model.addAttribute("viewAll",
+	 * leaveService.selectBoard(vo)); return "leave/vacation"; }
+	 */
 
 	@GetMapping("/update.do")
 	public ModelAndView leave2(ModelAndView mav) {
