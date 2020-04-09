@@ -13,14 +13,17 @@ hdjq(function(){
     })
 });
 hdjq(document).ready(function(){
-	dmListFunction();
-	var repeatDmList = setInterval(function() {
-		console.log("header Dm List Reload!");
-		dmListFunction();
-	}, 10000);
+	var repeatDmList = "";
 	hdjq("#hamburger").change(function(){
-        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
-		clearInterval(repeatDmList);
+        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
+        	dmListFunction();
+        	repeatDmList = setInterval(function() {
+        		console.log("header Dm List Reload!");
+        		dmListFunction();
+        	}, 3000);
+        }
+        else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
+        	clearInterval(repeatDmList);
         }
 	});
 });
@@ -30,7 +33,7 @@ function dmListFunction() {
 		url : "/msg/chat/headerDmList.do",
 		dataType: "json",
 		success : function(data) {
-			hdjq("#dmList").html('<p>Direct Message</p>');
+			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
 			}
@@ -146,7 +149,7 @@ function chatListFunction(type, toId, fromId) {
 				
 			}
 			lastID = Number(parsed.last);
-			
+//			console.log(lastID+"@ajax");
 		}
 	});
 }

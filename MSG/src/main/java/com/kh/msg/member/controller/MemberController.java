@@ -35,6 +35,7 @@ import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
+import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
@@ -137,7 +138,7 @@ public class MemberController {
 	        out.print("<html>");
 	        out.println("<head>");
 	        out.println("<script type='text/javascript'>");
-	        out.println("setTimeout('history.go(0);', 3000)"); //3초마다
+	        out.println("setTimeout('history.go(0);', 300000)"); //3초마다
 	        out.println("</script>");
 	        out.println("</head>");
 	        out.print("<body>");

@@ -3,7 +3,6 @@ package com.kh.msg.chat.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.msg.chat.model.service.ChannelService;
 import com.kh.msg.chat.model.vo.ChannelInfo;
@@ -50,9 +50,13 @@ public class ChannelController {
 			
 			String fromId = m.getUserId();
 			
-			List<ChannelInfo> list = channelService.headerChList(fromId);
+			List<Integer> chNoList = channelService.chMemberList(fromId);
 			
-//			log.debug("list@ChannelController"+list.toString());
+			
+			log.debug("chNoList@ChannelController"+chNoList.toString());
+			
+			List<ChannelInfo> list = channelService.headerChList(chNoList);
+			
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -88,7 +92,9 @@ public class ChannelController {
 			
 			for(int i = 0; i < MemberList.size(); i++) {
 				JSONObject sObject = new JSONObject(); 
+				sObject.put("userId", MemberList.get(i).getUserId());
 				sObject.put("empImage", MemberList.get(i).getEmpImage());
+				sObject.put("regId", MemberList.get(i).getRegId());
 				
 				jsonArr.add(sObject);
 			}
@@ -122,6 +128,7 @@ public class ChannelController {
 		
 		String listType = request.getParameter("listType");
 		
+		log.debug("listType="+listType);
 //		log.debug("userId="+userId+", chNo="+chNo+" listType="+listType);
 		try {
 			
@@ -147,14 +154,14 @@ public class ChannelController {
 		}
 	}
 	
-	public String getMsgNo(String userId, String chNo, String msgNo ) {
+	public String getMsgNo(String userId, String chNo, String chMsgNo ) {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("userId", userId);
 		param.put("chNo", chNo);
-		param.put("msgNo", msgNo);
+		param.put("chMsgNo", chMsgNo);
 		
 		log.debug("param={}",param);
 		
@@ -162,7 +169,7 @@ public class ChannelController {
 		if(chatList.size() == 0 ) return "";
 		for(int i = 0; i<chatList.size(); i++) {
 			result.append("[{\"value\": \"" + chatList.get(i).getChNo() + "\"},");
-			result.append("{\"value\": \"" + chatList.get(i).getMsgNo() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getChMsgNo() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getUserId() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgContent() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgDate() + "\"},");
@@ -170,7 +177,7 @@ public class ChannelController {
 			
 			if(i != chatList.size() -1) result.append(",");
 		}
-		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
+		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
 		log.debug("result={}",result);
 		
@@ -184,7 +191,7 @@ public class ChannelController {
 		Map<String, Object> param = new HashMap<>();
 		param.put("userId", userId);
 		param.put("chNo", chNo);
-		param.put("msgNo", 10);
+		param.put("chMsgNo", 10);
 		
 		log.debug("param={}",param);
 
@@ -192,7 +199,7 @@ public class ChannelController {
 		if(chatList.size() == 0 ) return "";
 		for(int i = 0; i<chatList.size(); i++) {
 			result.append("[{\"value\": \"" + chatList.get(i).getChNo() + "\"},");
-			result.append("{\"value\": \"" + chatList.get(i).getMsgNo() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getChMsgNo() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getUserId() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgContent() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgDate() + "\"},");
@@ -200,7 +207,7 @@ public class ChannelController {
 			
 			if(i != chatList.size() -1) result.append(",");
 		}
-		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
+		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
 		log.debug("result={}",result);
 		
@@ -291,35 +298,24 @@ public class ChannelController {
 										@RequestParam("empNo") int[] empNo,
 										@RequestParam("chName") String chName,
 										@RequestParam("regId") String regId,
-										@RequestParam("chEx") String chEx
-										) {
+										@RequestParam("chEx") String chEx,
+										@RequestParam("regEmpNo") int regEmpNo,
+										RedirectAttributes redirectAttributes) {
 		
 		log.debug("empNo={}", empNo);
 //		log.debug("empNo.length="+ empNo.length);
-//		
 		
 		int result = channelService.generateChannel(chInfo);
 		
-//		List<int[]> list = Arrays.asList(empNo);
+		int chNo = chInfo.getChNo();
 		
-		Map<String, Object> param = new HashMap<>();
-		param.put("chNo", chInfo.getChNo());
-//		param.put("list", list);
-		
-		for(int i=0; i<empNo.length; i++) {
-			param.put("empNo[i]", empNo[i]);
-		}
-		
-		log.debug("param={}", param);
-		
-		int memberResult = channelService.addChannelMember(param);
+		int memberResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
 		
 		mav.addObject("userId",regId);
 		mav.addObject("chNo",chInfo.getChNo());
 		mav.addObject("chName",chName);
 		
-		mav.setViewName("/chat/channel");
-		
+		mav.setViewName("chat/channel");
 		return mav;
 		
 	}

@@ -1,12 +1,15 @@
 hdjq(document).ready(function(){
-	channelListFunction();
-	var repeatChList = setInterval(function() {
-		console.log("header Channel List Reload!");
-		channelListFunction();
-	}, 10000);
+	var repeatChList = "";
 	hdjq("#hamburger").change(function(){
-        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
-		clearInterval(repeatChList);
+        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
+        	channelListFunction();
+        	repeatChList = setInterval(function() {
+        		console.log("header Channel List Reload!");
+        		channelListFunction();
+        	}, 3000);
+        }
+        else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
+        	clearInterval(repeatChList);
         }
 	});
 });
@@ -17,9 +20,6 @@ function channelListFunction() {
 		dataType: "json",
 		success : function(data) {
 			hdjq("#channelList").html('');
-//			hdjq("#channelList").html('<p>Channel'
-//									  +'<img src="/msg/resources/image/plus-icon.png" id="plusicon">'
-//									  +'</p>');
 			for (var i = 0; i < data.length; i++) {
 				addChList(data[i]['userId'], data[i]['chNo'], data[i]['chName']);
 			}

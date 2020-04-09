@@ -205,7 +205,7 @@
   .secnav {
     margin-left: 58px;
     margin-bottom: 10px;
-    overflow: hidden;
+    overflow: scroll;
     font-size: 13pt;
   }
   .secnav li {
@@ -482,6 +482,3 @@
     left: 17px;
     bottom: 27px;
   }
-  #channelListTitle{
-    	margin-bottom: 0;
-    }

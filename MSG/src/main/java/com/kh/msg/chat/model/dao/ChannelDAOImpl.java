@@ -1,5 +1,6 @@
 package com.kh.msg.chat.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,8 @@ public class ChannelDAOImpl implements ChannelDAO {
 	SqlSession sqlSession;
 	
 	@Override
-	public List<ChannelInfo> headerChList(String fromId) {
-		return sqlSession.selectList("Channel.headerChList",fromId);
+	public List<Integer> chMemberList(String fromId) {
+		return sqlSession.selectList("Channel.chMemberList",fromId);
 	}
 
 	@Override
@@ -54,8 +55,19 @@ public class ChannelDAOImpl implements ChannelDAO {
 	}
 
 	@Override
-	public int addChannelMember(Map<String, Object> param) {
-		return sqlSession.insert("Channel.addChannelMember",param);
+	public int addChannelMember(int empNo, int chNo) {
+		Map<String,Integer> map = new HashMap<>();
+		map.put("empNo", empNo);
+		map.put("chNo", chNo);
+		
+		return sqlSession.insert("Channel.addChannelMember", map);
 	}
+
+	@Override
+	public List<ChannelInfo> headerChList(List<Integer> chNoList) {
+		return sqlSession.selectList("Channel.headerChList",chNoList);
+		
+	}
+
 
 }

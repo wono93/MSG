@@ -10,7 +10,7 @@ import com.kh.msg.member.model.vo.OrgChart;
 
 public interface ChannelService {
 
-	List<ChannelInfo> headerChList(String fromId);
+	List<Integer> chMemberList(String fromId);
 
 	List<ChannelMsg> channelListByNumber(Map<String, Object> param);
 
@@ -24,7 +24,9 @@ public interface ChannelService {
 
 	int generateChannel(ChannelInfo chInfo);
 
-	int addChannelMember(Map<String, Object> param);
+	int addChannelMember(int[] empNo, int chNo, int regEmpNo);
+
+	List<ChannelInfo> headerChList(List<Integer> chNoList);
 
 
 }

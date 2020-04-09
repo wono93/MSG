@@ -1,11 +1,11 @@
-var lastID = 0;
+var chLastID = 0;
 var chjq = jQuery.noConflict();
 
 chjq(document).ready(function(){
 	channelMemberFunction();
-	setInterval(function() {
-		channelMemberFunction();
-	}, 10000);
+//	setInterval(function() {
+//		channelMemberFunction();
+//	}, 10000);
 });
 function channelMemberFunction() {
 	var chName = chjq("#inputChName").val();
@@ -19,23 +19,32 @@ function channelMemberFunction() {
 		success : function(data) {
 			hdjq("#channel-title").html(chName);
 			for (var i = 0; i < data.length; i++) {
-				addChannelMember(data[i]['empImage']);
+				addChannelMember(data[i]['empImage'],data[i]['regId'],data[i]['userId']);
 			}
 		}
 	});
 	hdjq('#channel-member-container').empty();
 }
-function addChannelMember(empImage){
+function addChannelMember(empImage, regId, userId){
 //	console.log(empImage);
-	hdjq("#channel-member-container").append('<a href="#"><img src="/msg/resources/image/'+empImage+'" class="member-img"></a>');
+	if(userId == regId){
+		hdjq("#channel-member-container").append('<a href="#">'
+				+'<img src="/msg/resources/image/king.svg" id="head">'
+				+'<img src="/msg/resources/image/'+empImage+'" class="channel-member-img" id="head-aura">'
+				+'</a>');
+	}
+	else{
+		hdjq("#channel-member-container").append('<a href="#"><img src="/msg/resources/image/'+empImage+'" class="channel-member-img" id="public"></a>');
+	}
 }
 
 
 chjq(document).ready(function(){
 	channelFunction(0);
 	var channelRepeat = setInterval(function() {
-		channelFunction(lastID);
+		channelFunction(chLastID);
 	}, 1000);
+//	console.log(chLastID+"@interval");
 	
 //	chjq("#").click(function(){
 //		clearInterval(channelRepeat);
@@ -83,10 +92,11 @@ function channelFunction(type) {
 					hour = hour.substring(1,2);
 				}
 				var msgTime = hour+":"+minute+" "+timeType;
-				addChannelChat(userId, result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value);
+				addChannelChat(fromId, result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value);
 				
 			}
-			lastID = Number(parsed.last);
+			chLastID = Number(parsed.last);
+//			console.log(chLastID+"@ajax");
 			
 		}
 	});
@@ -95,7 +105,7 @@ function channelFunction(type) {
 function addChannelChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, empImage) {
 	let style = {display: "none"};
 	var selHideDate =chjq("#channel-container").children().children("p:last").text();
-//	console.log("작성자: "+chatId+", 내용: "+msgContent);
+//	console.log("아이디:"+userId+", 작성자:"+chatId+", 내용:"+msgContent);
 //	console.log("selHideDate="+selHideDate+", hideDate="+hideDate);
 	if(selHideDate != hideDate){
 		chjq("#channel-container").append(
@@ -141,7 +151,7 @@ function addChannelChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, e
 
 function channelSubmitFunction() {
 	var chNo = chjq("#inputChNo").val();
-	var userId = chjq("#inputUserId").val();
+	var userId = fromId;
 	var msgContent = chjq("#channel-send-msg-content").val();
 	chjq.ajax({
 		type : "POST",
