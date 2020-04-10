@@ -29,5 +29,9 @@ public interface EdocService {
 
 	int edocWrite(EdocLeaveLtt edocLeaveLtt, List<EdocAtt> edocAttList, List<EdocFlow> edocFlowList);
 
+	String insertPdf(EdocAtt edocAtt);
+
+	EdocAtt selectPdf(String attachId);
+
 	
 }

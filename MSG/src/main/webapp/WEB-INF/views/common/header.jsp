@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+<%@page import="com.kh.msg.member.controller.MemberController"%>
+<%@page import="com.kh.msg.member.model.vo.LoginVO"%>
 <%@page import="com.kh.msg.member.model.vo.OrgChart"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Enumeration" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -30,8 +33,9 @@
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
+    
 <%
-	
+	List<LoginVO> userList= MemberController.userList;
 	//OrgChart oc = null;
 	//if(session.getAttribute("memberLoggedIn") != null){
 	//	oc = (OrgChart)session.getAttribute("memberLoggedIn");	
@@ -47,6 +51,7 @@
 </script>
 </head>
 <body>
+	
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
 		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
@@ -134,14 +139,12 @@
         </div>
     </side> 
     
-	        <div id="channelGenModal" class="ch-modal">
+        <div id="channelGenModal" class="ch-modal">
             <!-- Modal content -->
             <div class="ch-modal-content">
-                
                 <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
                 <div id="ch-content">
                     <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
-
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
                             <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="" class="ch-member-img">
@@ -157,13 +160,13 @@
                             <table id="ch-member-table">
                             </table>
                         </div>
-
                         <div class="channel_srchChBar">
                             <div class="channel_select-box">
                                 <div class="channel_select-box__current" tabindex="1">
                                     <div class="channel_select-box__value">
                                         <input class="channel_select-box__input" type="radio" id="T1" value="emp_name" name="chSearchType" checked="checked"/>
                                         <p class="channel_select-box__input-text">이름</p>
+
                                     </div>
                                     <div class="select-box__value">
                                         <input class="channel_select-box__input" type="radio" id="T2" value="dept_name" name="chSearchType" />

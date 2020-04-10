@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.msg.chat.model.vo.DirectMsg;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
 @Repository
@@ -39,6 +40,12 @@ public class DirectMsgDAOImpl implements DirectMsgDAO {
 	@Override
 	public List<DirectMsg> headerDmList(String fromId) {
 		return sqlSession.selectList("directMsg.headerDmList",fromId);
+	}
+
+	@Override
+	public List<Member> userLogin() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("directMsg.userLogin");
 	}
 
 	

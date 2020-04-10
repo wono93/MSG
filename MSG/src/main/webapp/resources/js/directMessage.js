@@ -1,6 +1,7 @@
 var lastID = 0;
 var toId = "";
 
+
 hdjq(function(){
     hdjq(".dmBar").hide();
 });
@@ -12,6 +13,7 @@ hdjq(function(){
     	hdjq(".dmBar").fadeOut(100);
     })
 });
+
 hdjq(document).ready(function(){
 	var repeatDmList = "";
 	hdjq("#hamburger").change(function(){
@@ -35,24 +37,20 @@ function dmListFunction() {
 		success : function(data) {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
-				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
 			}
-			
 		}
 	});
 }
 function addList(empImage, empName, jobName, toId) {
 	hdjq("#dmList").append(
-						 '<li>'+
-			             '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+						 '<li>'+'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
 						 '<img src="/msg/resources/upload/empImg/'+empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
 						 '</span>'+
-						 '</a>'+
 						 '</li>');
 }
-
 
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();

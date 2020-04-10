@@ -1,7 +1,10 @@
 package com.kh.msg.leave.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,17 +22,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.msg.edoc.model.vo.Edoc;
+import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.leave.model.service.LeaveService;
 import com.kh.msg.leave.model.vo.Leave;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
 import com.kh.msg.leave.model.vo.LeaveModal;
+import com.kh.msg.leave.model.vo.LeavePagingVO;
 import com.kh.msg.leave.model.vo.LeavePlus;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
 import com.kh.msg.leave.model.vo.MyLeave;
-import com.kh.msg.leave.model.vo.leavePagingVo;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,27 +46,89 @@ public class LeaveController {
 	@Autowired
 	LeaveService leaveService;
 
+	/* 전체 휴가내역 리스트 */
 	@GetMapping("/list.do")
-	public ModelAndView leave(ModelAndView mav) {
+	public ModelAndView allList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+			@RequestParam(value = "srchType", defaultValue = "all") String srchType) {
+		log.debug("=========allvacation 모든 휴가 리스트=========");
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage = 15;
 
-		log.debug("leaveService={}", leaveService.getClass());
+		Map<String, String> map = new HashMap<>();
+		map.put("srchWord", srchWord);
+		map.put("srchType", srchType);
 
-		List<Leave> leaveList = leaveService.selectLeaveList();
+		List<Leave> leaveList = leaveService.selectLeaveList(cPage, numPerPage, map);
+		log.debug("leaveList.toString()={}", leaveList.toString());
+		int totalContents = leaveService.selectAllVacationTotalContents(map);
 
 		mav.addObject("leaveList", leaveList);
+
+//		여기서부터 페이징
+		final int totalPage = (int) (Math.ceil((double) totalContents / numPerPage));
+		final int pageBarSize = 5;
+		final int pageStart = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
+		final int pageEnd = (pageStart + pageBarSize) - 1;
+		int pageNo = pageStart;
+
+		String pageBar = "";
+		if (pageNo == 1) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/list.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
+					+ srchType + "'>&laquo;</a>";
+		}
+
+		while (pageNo <= pageEnd && pageNo <= totalPage) {
+			if (pageNo == cPage) {
+				pageBar += "<a class='active'>" + pageNo + "</a>";
+			} else {
+				pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+						+ srchType + "'>" + pageNo + "</a>";
+			}
+			pageNo++;
+		}
+		;
+		if (pageNo > totalPage) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType=" + srchType
+					+ "'>&raquo;</a>";
+		}
+		;
+
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("cPage", cPage);
+		mav.addObject("srchWord", srchWord);
+		mav.addObject("srchType", srchType);
 
 		mav.setViewName("leave/allvacation");
 
 		return mav;
 	}
 
+	// 나의 휴가 내역
 	@GetMapping("/select.do")
-	public ModelAndView leave3(ModelAndView mav, HttpSession session) {
-		log.debug("leaveService={}", leaveService.getClass());
-		List<MyLeave> leaveList4 = leaveService.selectLeaveList4((Member) session.getAttribute("memberLoggedIn"));
+	public ModelAndView myList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+			@RequestParam(value = "srchType", defaultValue = "all") String srchType, HttpSession session) {
+		log.debug("=========myvacation 나의 휴가 리스트=========");
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage = 15;
+
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+
+		Map<String, String> map = new HashMap<>();
+		map.put("srchWord", srchWord);
+		map.put("srchType", srchType);
+		map.put("empNo", m.getEmpNo() + "");// member.getEmpNo()+""
+
+		List<MyLeave> leaveMyList = leaveService.selectMyLeaveList(cPage, numPerPage, map);
 		List<LeaveInfoPlus> leaveListInfoPlus = leaveService
 				.selectleaveListInfoPlus((Member) session.getAttribute("memberLoggedIn"));
 		LeaveInfoPlus lip = new LeaveInfoPlus();
+		log.debug("leaveMyList.toString()={}", leaveMyList.toString());
+		int totalContents = leaveService.selectMyVacationTotalContents(map);
+
 		int au = 0;
 		int ru = 0;
 		int fu = 0;
@@ -109,15 +176,53 @@ public class LeaveController {
 
 		leaveListInfoPlus.add(lip);
 
-		mav.addObject("leaveList4", leaveList4);
+		mav.addObject("leaveMyList", leaveMyList);
 		mav.addObject("leaveListInfoPlus", leaveListInfoPlus);
+
+		// 여기서부터 페이징
+		final int totalPage = (int) (Math.ceil((double) totalContents / numPerPage));
+		final int pageBarSize = 5;
+		final int pageStart = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
+		final int pageEnd = (pageStart + pageBarSize) - 1;
+		int pageNo = pageStart;
+
+		String pageBar = "";
+		if (pageNo == 1) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/select.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
+					+ srchType + "'>&laquo;</a>";
+		}
+
+		while (pageNo <= pageEnd && pageNo <= totalPage) {
+			if (pageNo == cPage) {
+				pageBar += "<a class='active'>" + pageNo + "</a>";
+			} else {
+				pageBar += "<a href='/msg/leave/select.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+						+ srchType + "'>" + pageNo + "</a>";
+			}
+			pageNo++;
+		}
+		;
+		if (pageNo > totalPage) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/select.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+					+ srchType + "'>&raquo;</a>";
+		}
+		;
+
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("cPage", cPage);
+		mav.addObject("srchWord", srchWord);
+		mav.addObject("srchType", srchType);
 
 		mav.setViewName("leave/myvacation");
 
 		return mav;
 	}
 
-	@GetMapping("/modal")
+	@GetMapping("/modal") // 모달 내역 테이블
 	@ResponseBody
 	public List<LeaveModal> modal(@RequestParam("empNo") int empNo) {
 
@@ -126,7 +231,7 @@ public class LeaveController {
 		return modalList;
 	}
 
-	@GetMapping("/modalSearch")
+	@GetMapping("/modalSearch") // 모달내 검색
 	@ResponseBody
 	public List<Edoc> modalSearch() {
 
@@ -135,42 +240,37 @@ public class LeaveController {
 		return edocList;
 	}
 
-	@PostMapping("/update.do")
-	  @ResponseBody
-	  public String modalInsert(@RequestParam("vctnNo") int vctnNo, 
-			  					@RequestParam("edocId") String edocId,
-			  					@RequestParam("vctnCd") String vctnCd, 
-			  					@RequestParam("vctnAmt") int vctnAmt, 
-			  					@RequestParam("vctnReason") String vctnReason, 
-			  					RedirectAttributes redirectAttributes) {
-	  
-	  // 1.비지니스로직 실행
-	  
-	  int result = leaveService.insertModal(vctnNo,edocId,vctnCd,vctnAmt,vctnReason);
-	  
-	  return "redirect:/leave/update.do"; }
-	
-	/*
-	 * @GetMapping("/update.do") public String boardList(PagingVO vo, Model model
-	 * , @RequestParam(value="nowPage", required=false)String nowPage
-	 * , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-	 * 
-	 * int total = leaveService.countBoard(); if (nowPage == null && cntPerPage ==
-	 * null) { nowPage = "1"; cntPerPage = "5"; } else if (nowPage == null) {
-	 * nowPage = "1"; } else if (cntPerPage == null) { cntPerPage = "5"; } vo = new
-	 * PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-	 * model.addAttribute("paging", vo); model.addAttribute("viewAll",
-	 * leaveService.selectBoard(vo)); return "leave/vacation"; }
-	 */
+	@PostMapping("/update.do") // 모달 내 insert 테이블
+	@ResponseBody
+	public String modalInsert(@RequestParam("vctnNo") int vctnNo, @RequestParam("edocId") String edocId,
+			@RequestParam("vctnCd") String vctnCd, @RequestParam("vctnAmt") int vctnAmt,
+			@RequestParam("vctnReason") String vctnReason, RedirectAttributes redirectAttributes) {
 
+		// 1.비지니스로직 실행
+
+		int result = leaveService.insertModal(vctnNo, edocId, vctnCd, vctnAmt, vctnReason);
+
+		return "redirect:/leave/update.do";
+	}
+	
 	@GetMapping("/update.do")
-	public ModelAndView leave2(ModelAndView mav) {
+	public ModelAndView setList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+			@RequestParam(value = "srchType", defaultValue = "all") String srchType) {
+		log.debug("=========vacation 조정 휴가 리스트=========");
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage = 15;
+
+		Map<String, String> map = new HashMap<>();
+		map.put("srchWord", srchWord);
+		map.put("srchType", srchType);
 
 		log.debug("leaveService={}", leaveService.getClass());
 		List<LeaveSet> leaveList2 = leaveService.selectLeaveList2();
 		List<LeavePlus> leaveList3 = leaveService.selectLeaveList3();
 		List<LeaveSum> listSum = new ArrayList<>();
 		int emp = 0;
+		log.debug("listSum.toString()={}", listSum.toString());
+		int totalContents = leaveService.selectSetVacationTotalContents(map);
 
 		for (int i = 0; i < leaveList2.size(); i++) {
 			LeaveSum ls = new LeaveSum();
@@ -204,7 +304,47 @@ public class LeaveController {
 			listSum.add(ls);
 		}
 
+		listSum = leaveService.selectSetLeaveList(cPage, numPerPage, map);
 		mav.addObject("listSum", listSum);
+
+		// 여기서부터 페이징
+		final int totalPage = (int) (Math.ceil((double) totalContents / numPerPage));
+		final int pageBarSize = 5;
+		final int pageStart = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
+		final int pageEnd = (pageStart + pageBarSize) - 1;
+		int pageNo = pageStart;
+
+		String pageBar = "";
+		if (pageNo == 1) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/update.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
+					+ srchType + "'>&laquo;</a>";
+		}
+
+		while (pageNo <= pageEnd && pageNo <= totalPage) {
+			if (pageNo == cPage) {
+				pageBar += "<a class='active'>" + pageNo + "</a>";
+			} else {
+				pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+						+ srchType + "'>" + pageNo + "</a>";
+			}
+			pageNo++;
+		}
+		;
+		if (pageNo > totalPage) {
+			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
+		} else {
+			pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+					+ srchType + "'>&raquo;</a>";
+		}
+		;
+
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("cPage", cPage);
+		mav.addObject("srchWord", srchWord);
+		mav.addObject("srchType", srchType);
+
 		mav.setViewName("leave/vacation");
 
 		return mav;

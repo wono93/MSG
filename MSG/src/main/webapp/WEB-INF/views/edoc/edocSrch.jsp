@@ -35,7 +35,7 @@
 				</div>
 				<div class="content">
 					<div class="control">
-						<p>총 ${totalContents }건의 전자문서가 있습니다.</p>
+						<p>여기로 검색창 옮기자</p>
 					</div>
 					<table>
 						<tr>
@@ -125,7 +125,7 @@
 												let edocId = $(this).attr(
 														"data-edoc-no");
 												console.log(edocId);
-												location.href = "${pageContext.request.contextPath}/edoc/srchDtl.do?edocId="
+												location.href = "${pageContext.request.contextPath}/edoc/edocSrchView.do?edocId="
 														+ edocId;
 											});
 

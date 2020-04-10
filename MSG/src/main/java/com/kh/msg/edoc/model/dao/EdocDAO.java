@@ -33,4 +33,7 @@ public interface EdocDAO {
 
 	int edocFlowWrite(EdocFlow edocFlow);
 
+	int insertPdf(EdocAtt edocAtt);
+
+	EdocAtt selectPdf(String attachId);
 }

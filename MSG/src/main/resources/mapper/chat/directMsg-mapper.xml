@@ -51,4 +51,5 @@
 			to_id = #{from_id}
 		order by msg_date desc
 	</select>
+	
 </mapper>
