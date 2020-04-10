@@ -6,6 +6,20 @@
 	<select id="schedList" resultType="schedule">
 	select * 
 	from sched_tb
+	<where>
+	<if test="empList != null">
+	emp_no =
+		<foreach collection="empList" item="emp" open="(" close=")" separator="or">
+			${emp.value}
+		</foreach>
+	</if>
+	<if test="typeList != null">
+	and sche_cate =
+		<foreach collection="typeList" item="type" open="(" close=")" separator="or">
+			#{type.value}
+		</foreach>
+	</if>
+	</where>
 	</select>
 	<select id="deptEmpList" resultType="schedemp"><!-- 로그인한 사용자와 같은 팀의 사원번호, 주민번호, 부서명, 직급명 , 사원이름-->
 	select e.emp_no "emp_no",
