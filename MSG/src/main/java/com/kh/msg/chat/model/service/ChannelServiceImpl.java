@@ -19,8 +19,8 @@ public class ChannelServiceImpl implements ChannelService {
 	ChannelDAO channelDAO;
 	
 	@Override
-	public List<ChannelInfo> headerChList(String fromId) {
-		return channelDAO.headerChList(fromId);
+	public List<Integer> chMemberList(String fromId) {
+		return channelDAO.chMemberList(fromId);
 	}
 
 	@Override
@@ -54,9 +54,39 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public int addChannelMember(Map<String, Object> param) {
-		return channelDAO.addChannelMember(param);
+	public int addChannelMember(int[] empNo, int chNo, int regEmpNo) {
+		
+		int result = 0;
+		
+		result = channelDAO.addChannelMember(regEmpNo, chNo);
+		
+		for(int i=0; i<empNo.length; i++) {
+			result = channelDAO.addChannelMember(empNo[i], chNo);
+		}
+		
+		return result;
 	}
 
+	@Override
+	public List<ChannelInfo> headerChList(List<Integer> chNoList) {
+		return channelDAO.headerChList(chNoList);
+	}
+
+	@Override
+	public List<OrgChart> presentMember(int chNo) {
+		return channelDAO.presentMember(chNo);
+	}
+
+	@Override
+	public int deleteChannelMember(int chNo) {
+		return channelDAO.deleteChannelMember(chNo);
+	}
+	
+	@Override
+	public int modifyChannel(ChannelInfo chInfo) {
+		return channelDAO.modifyChannel(chInfo);
+	}
+
+	
 
 }

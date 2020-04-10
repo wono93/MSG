@@ -3,42 +3,51 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Channel">
+	<select id="chMemberList" resultType="Integer">
+		select ch_no
+		from ch_member_tb join emp_tb using(emp_no)
+		where user_id in #{fromId}
+		group by ch_no
+	</select>
 	<select id="headerChList" resultType="ChannelInfo">
-		select
-		    A.*, M.emp_no, E.user_id, E.emp_name
-		from
-		    (select I.ch_no ch_no, I.ch_name ch_name, I.ch_ex ch_ex, M.msg_date msg_date, m.msg_content msg_content
-		    from ch_info_tb I join
-		    (select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
-		    (select max(rowid) from ch_msg_tb group by ch_no)) M on I.ch_no=M.ch_no) A join ch_member_tb M on A.ch_no = M.ch_no left join emp_tb E on M.emp_no = E.emp_no
-		where E.user_id = #{fromId}
+		select *
+		from ch_info_tb I join
+		    (select ch_no,msg_date from ch_msg_tb where rowid in
+		    (select max(rowid) from ch_msg_tb group by ch_no)) using(ch_no)
+		where ch_no in
+		<foreach collection="list" item="item" separator=", " open="(" close=")">
+			#{item}
+		</foreach>
+		order by msg_date desc
 	</select>
 	<select id="channelListByNumber" resultType="ChannelMsg">
 		select
-			M.ch_no,I.ch_name,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
+			M.ch_no,I.ch_name,M.ch_msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
 		from 
 			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
 		where 
-			M.ch_no = ${chNo} and M.msg_no > ${msgNo}
+			M.ch_no = ${chNo} and M.ch_msg_no > ${chMsgNo}
+		order by M.msg_date
 	</select>
 	<select id="channelListByRecent" resultType="ChannelMsg">
 		select
-			M.ch_no,I.ch_name,M.msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
+			M.ch_no,I.ch_name,M.ch_msg_no,M.user_id,M.msg_content,M.msg_date,E.emp_image
 		from 
 			ch_msg_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
 		where 
-			M.ch_no = ${chNo} and M.msg_no > (select max(M.msg_no) - ${msgNo} from ch_msg_tb)
+			M.ch_no = ${chNo} and M.ch_msg_no > (select max(M.ch_msg_no) - ${chMsgNo} from ch_msg_tb)
+		order by M.msg_date
 	</select>
 	<select id="channelMember" resultType="ChannelMember">
 		select 
-    		M.ch_no, I.ch_name, E.emp_no, E.emp_name, E.emp_image
+    		M.ch_no, I.ch_name, E.emp_no, E.emp_name, E.emp_image, reg_Id, user_id
 		from 
     		ch_member_tb M join emp_tb E on M.emp_no = E.emp_no join ch_info_tb I on M.ch_no = I.ch_no
 		where 
     		M.ch_no = #{chNo}
 	</select>
 	<insert id="insert">
-		insert into ch_msg_tb values(seq_msg_no.nextval,${chNo},${empNo},#{userId},#{msgContent},default)
+		insert into ch_msg_tb values(seq_ch_msg_no.nextval,${chNo},${empNo},#{userId},#{msgContent},default)
 	</insert>
 	<select id="searchListCh" resultType="OrgChart">
 		SELECT 
@@ -64,18 +73,35 @@
 			default,
 			#{regId},
 			'N')
+ 		<selectKey keyProperty="chNo" resultType="_int" order="AFTER">
+			select seq_ch_no.currval from dual
+		</selectKey>
 	</insert>
 	<insert id="addChannelMember">
 		insert into
 			ch_member_tb
 		values
 			(#{chNo},
-		<foreach collection="empNo" item="e" separator=", ">
-			#{e.empNo},
-		</foreach>
+			#{empNo},
 			default)
-<!-- 		<selectKey keyProperty="chNo" resultType="_int" order="AFTER">
-			select seq_ch_no.currval from dual
-		</selectKey>
- -->	</insert>
+	</insert>
+	<select id="presentMember" resultType="OrgChart">
+		SELECT 
+			EMP_IMAGE, EMP_NO, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+		FROM 
+			EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+		where ch_no = #{chNo}
+	</select>
+	<delete id="deleteChannelMember">
+		delete from ch_member_tb where ch_no = #{chNo}
+	</delete>
+	<update id="modifyChannel">
+		update ch_info_tb set ch_name = #{chName},
+							  ch_ex = #{chEx} 
+		where ch_no = #{chNo}
+	</update>
 </mapper>

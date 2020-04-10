@@ -15,14 +15,17 @@ hdjq(function(){
 });
 
 hdjq(document).ready(function(){
-	dmListFunction();
-	var repeatDmList = setInterval(function() {
-		console.log("header Dm List Reload!");
-		dmListFunction();
-	}, 10000);
+	var repeatDmList = "";
 	hdjq("#hamburger").change(function(){
-        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
-		clearInterval(repeatDmList);
+        if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
+        	dmListFunction();
+        	repeatDmList = setInterval(function() {
+        		console.log("header Dm List Reload!");
+        		dmListFunction();
+        	}, 3000);
+        }
+        else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
+        	clearInterval(repeatDmList);
         }
 	});
 });
@@ -32,7 +35,7 @@ function dmListFunction() {
 		url : "/msg/chat/headerDmList.do",
 		dataType: "json",
 		success : function(data) {
-			hdjq("#dmList").html('<p>Direct Message</p>');
+			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
 			}
@@ -41,10 +44,8 @@ function dmListFunction() {
 }
 function addList(empImage, empName, jobName, toId) {
 	hdjq("#dmList").append(
-						 '<li>'+
-						  '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+ 
-						  '<i class="fas fa-circle" style="font-size:15px; color:green;  margin-right:5px;"></i>'+	
-						 '<img src="/msg/resources/image/'+empImage+'" class="member-img">'+
+						 '<li>'+'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+						 '<img src="/msg/resources/upload/empImg/'+empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
 						 '</span>'+
@@ -146,7 +147,7 @@ function chatListFunction(type, toId, fromId) {
 				
 			}
 			lastID = Number(parsed.last);
-			
+//			console.log(lastID+"@ajax");
 		}
 	});
 }
@@ -168,7 +169,7 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	if(toId == fromId ){
 		hdjq("#dm-container").append(
 									'<div id="from-dm">'
-					                +'<img src="/msg/resources/image/'+empImage+'" id="from-dm-img" class="member-img">'
+					                +'<img src="/msg/resources/upload/empImg/'+empImage+'" id="from-dm-img" class="member-img">'
 					                +'<div id="from-dm-content" class="dm-content">'+msgContent
 					                +'<span id="from-dm-time" class="dm-time">'
 					                +msgTime
@@ -181,7 +182,7 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	}else{
 		hdjq("#dm-container").append(
 									'<div id="to-dm">'
-						            +'<img src="/msg/resources/image/'+empImage+'" id="to-dm-img" class="member-img">'
+						            +'<img src="/resources/upload/empImg/'+empImage+'" id="to-dm-img" class="member-img">'
 						            +'<div id="to-dm-content" class="dm-content">'+msgContent
 						            +'<span id="to-dm-time" class="dm-time">'
 						            +msgTime

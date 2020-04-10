@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/directMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script>
@@ -104,16 +105,16 @@
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
             </li> -->
-            <ul class="secnav" id="">
+            <ul class="secnav" style="margin-bottom: 4px;">
 	            <p id="channelListTitle">Channel
 	            	<img src="/msg/resources/image/plus-icon.png" id="plus-icon" style="width:10px; heigth:10px;">
 	            </p>
 			</ul>
-            <ul class="secnav" id="channelList"></ul>
-            <ul class="secnav" id="dmList">
-            
-            </ul>
-           
+            <ul class="secnav" id="channelList" style="height:120px;"></ul>
+            <ul class="secnav" id="">
+	            <p id="dmListTitle">Direct Message</p>
+	        </ul>
+            <ul class="secnav" id="dmList" style="height:238px;"></ul>
         </ul>
     </nav>
     <label for="hamburger" class="hamburger"> 
@@ -146,54 +147,48 @@
                     <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
-                            <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" id="" class="ch-member-img">
-                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king" class="">
+                            <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="" class="ch-member-img">
+                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king">
                         </div>
 
                         <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3">
                         <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4">
                         <input type="hidden" name="regId" value="${memberLoggedIn.userId }">
+                        <input type="hidden" name="regEmpNo" value="${memberLoggedIn.empNo }">
 
                         <div id="ch-member-list">
                             <table id="ch-member-table">
-                                <%-- <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
-                                    <td>가디01</td>
-                                    <td>해외영업부</td>
-                                    <td>과장</td>
-                                    <td>20122222</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr> --%>
                             </table>
                         </div>
-                        <div class="srchChBar">
-                            <div class="select-box">
-                                <div class="select-box__current" tabindex="1">
-                                    <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="T1" value="emp_name" name="chSearchType" checked="checked"/>
-                                        <p class="select-box__input-text">이름</p>
+                        <div class="channel_srchChBar">
+                            <div class="channel_select-box">
+                                <div class="channel_select-box__current" tabindex="1">
+                                    <div class="channel_select-box__value">
+                                        <input class="channel_select-box__input" type="radio" id="T1" value="emp_name" name="chSearchType" checked="checked"/>
+                                        <p class="channel_select-box__input-text">이름</p>
+
                                     </div>
                                     <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="T2" value="dept_name" name="chSearchType" />
-                                        <p class="select-box__input-text">부서</p>
+                                        <input class="channel_select-box__input" type="radio" id="T2" value="dept_name" name="chSearchType" />
+                                        <p class="channel_select-box__input-text">부서</p>
                                     </div>
-                                    <div class="select-box__value">
-                                        <input class="select-box__input" type="radio" id="T3" value="job_name" name="chSearchType" />
-                                        <p class="select-box__input-text">직위</p>
+                                    <div class="channel_select-box__value">
+                                        <input class="channel_select-box__input" type="radio" id="T3" value="job_name" name="chSearchType" />
+                                        <p class="channel_select-box__input-text">직위</p>
                                     </div>
-                                    <img class="select-box__icon"
+                                    <img class="channel_select-box__icon"
                                         src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
                                         aria-hidden="true" />
                                 </div>
-                                <ul class="select-box__list">
+                                <ul class="channel_select-box__list">
                                     <li>
-                                        <label class="select-box__option" for="T1" aria-hidden="aria-hidden">이름</label>
+                                        <label class="channel_select-box__option" for="T1" aria-hidden="aria-hidden">이름</label>
                                     </li>
                                     <li>
-                                        <label class="select-box__option" for="T2" aria-hidden="aria-hidden">부서</label>
+                                        <label class="channel_select-box__option" for="T2" aria-hidden="aria-hidden">부서</label>
                                     </li>
                                     <li>
-                                        <label class="select-box__option" for="T3" aria-hidden="aria-hidden">직위</label>
+                                        <label class="channel_select-box__option" for="T3" aria-hidden="aria-hidden">직위</label>
                                     </li>
                                 </ul>
                             </div>
