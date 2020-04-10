@@ -25,7 +25,8 @@
 	</select>
 	<select id="selectIOLog" resultType="IOLog">
 		SELECT * 
-		FROM LOG_TB
+		FROM LOG_TB L LEFT JOIN EMP_TB E
+		USING (EMP_NO)
 		WHERE
 			TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
 	</select>
@@ -121,5 +122,20 @@
 			EMP_NO = #{empNo}
 	
 	</update>
+	
+	<select id="getDepts" resultType="Department">
+		SELECT * 
+		FROM DEPT_TB
+	</select>
 
+	<select id="getJobs" resultType="Job">
+		SELECT * 
+		FROM JOB_TB
+	</select>
+	
+	<insert id="submitNewEmp">
+		INSERT INTO 
+			EMP_TB(EMP_NO, USER_ID, USER_PWD, EMP_NAME, EMP_RRN_NO, EMP_IMAGE, EMP_ADDRESS, AUTHORITY, ISMANAGER, JOB_CD, DEPT_CD, EMP_EMAIL) 
+			VALUES(SEQ_EMP_NO.NEXTVAL, #{userId}, #{userPwd}, #{empName}, #{empRRNNo}, #{empImage}, #{empAddress}, #{authority}, #{isManager}, #{jobCd}, #{deptCd}, #{empEmail})
+	</insert>
 </mapper>

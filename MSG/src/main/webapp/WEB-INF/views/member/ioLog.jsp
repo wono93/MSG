@@ -32,7 +32,7 @@
                     <h3>인사관리</h3>
                     <ul>
                        	<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/io.do'">출입기록</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
@@ -52,8 +52,8 @@
 			        <hr class="boardHr" />
 			        <div class="logView">
 			            <ol>
-			            	<c:forEach items="${ }"> 
-			                	<li>2020-03-14:08:59:1 @ 168.0.1.1 by 송종기 (IN)</li>
+			            	<c:forEach items="${list }" var="io"> 
+			                	<li><fmt:formatDate value="${io.taken}" pattern="YYYY-MM-dd HH:mm"/> by ${io.empName } (${io.inoutFg })</li>
 			                </c:forEach>
 			            </ol>
 			            <div class="srchBar">
@@ -137,35 +137,11 @@
 		if (+dstartDate > +dendDate) {
 			alert("날짜를 다시 지정해주세요");
 		} else {
-			var bsnsDay = calcDate(dstartDate, dendDate);
-			location.href = "${pageContext.request.contextPath}/member/empLog.do?empNo="+${list.get(0).empNo} +"&startDate="
-					+ startDate + "&endDate=" + endDate + "&bsnsDay=" + bsnsDay;
+			location.href = "${pageContext.request.contextPath}/member/ioLog.do?startDate="
+					+ startDate + "&endDate=" + endDate;
 		}
 	}
 
-	function calcDate(date1, date2) {
-
-		var count = 0;
-
-		while (true) {
-			var temp_date = date1;
-			if (temp_date.getTime() > date2.getTime()) {
-				break;
-			} else {
-				var tmp = temp_date.getDay();
-				if (tmp == 0 || tmp == 6) {
-					// 주말
-					console.log("주말");
-				} else {
-					// 평일
-					console.log("평일");
-					count++;
-				}
-				temp_date.setDate(date1.getDate() + 1);
-			}
-		}
-		return count;
-	}
 </script>
 </body>
 </html>

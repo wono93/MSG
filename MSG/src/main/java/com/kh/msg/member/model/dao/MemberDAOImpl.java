@@ -119,4 +119,28 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		return sqlSession.selectList("member.selectEmpLog", map);
 	}
+
+	@Override
+	public List<IOLog> ioLog(Map<String, String> map) {
+		
+		return sqlSession.selectList("member.selectIOLog",map);
+	}
+
+	@Override
+	public List<Department> getDepts() {
+		
+		return sqlSession.selectList("member.getDepts");
+	}
+
+	@Override
+	public List<Job> getJobs() {
+		
+		return sqlSession.selectList("member.getJobs");
+	}
+
+	@Override
+	public int submitNewEmp(Member member) {
+		
+		return sqlSession.insert("member.submitNewEmp", member);
+	}
 }

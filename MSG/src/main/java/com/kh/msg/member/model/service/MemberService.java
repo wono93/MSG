@@ -6,8 +6,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
+import com.kh.msg.member.model.vo.Job;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 import com.kh.msg.member.model.vo.WorkTimes;
 
@@ -29,5 +32,13 @@ public interface MemberService {
 	void logoutLog(int empNo);
 
 	List<WorkTimes> getLog(HashMap<String, Object> map);
+
+	List<IOLog> ioLog(Map<String, String> map);
+
+	List<Department> getDepts();
+
+	List<Job> getJobs();
+
+	int submitNewEmp(Member member);
 
 }
