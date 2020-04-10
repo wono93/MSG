@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,6 +38,10 @@
 
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<input type="hidden" id="userEmpNo" value="${memberLoggedIn.empNo}" /> 
+<input type="hidden" id="userEmpName" value="${memberLoggedIn.empName}" /> 
+<input type="hidden" id="userDeptName" value="${memberLoggedIn.deptName}" /> 
+<input type="hidden" id="userJobName" value="${memberLoggedIn.jobName}" /> 
     <section>
         <div>
             <article>
@@ -71,16 +78,20 @@
 			        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 			            <div class="modal-dialog" role="document">
 			                <div class="modal-content">
-			                	<form name="schedFrm" action="${pageContext.request.contextPath}/sched/insert.do" method="post">
+			                	<form name="schedFrm" >
 				                    <div class="modal-header">
 				                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 				                                aria-hidden="true">&times;</span></button>
 				                        <h4 class="modal-title"></h4>
 				                    </div>
 				                    <div class="modal-body">
-				
 				                        <div class="row">
 				                            <div class="col-xs-12">
+												<input type="hidden" id="edit-id" /><!-- 예약코드 -->
+												<input type="hidden" id="emp-no" class="emp-no"/>
+												<input type="hidden" id="emp-name" class="emp-name"/>
+												<input type="hidden" id="dept-name" class="dept-name"/>
+												<input type="hidden" id="job-name" class="job-name"/>
 				                                <label class="col-xs-4" for="edit-allDay">하루종일</label>
 				                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox"></label>
 				                            </div>
@@ -109,10 +120,10 @@
 				                            <div class="col-xs-12">
 				                                <label class="col-xs-4 mt10" for="edit-type">구분</label>
 				                                <select class="inputModal" type="text" name="edit-type" id="edit-type">
-				                                    <option value="S1">개인일정</option>
-				                                    <option value="S2">팀 일정</option>
-				                                    <option value="S3">부서 일정</option>
-				                                    <option value="S4">회사 일정</option>
+				                                    <option value="개인일정">개인일정</option>
+				                                    <option value="팀 일정">팀 일정</option>
+				                                    <option value="부서 일정">부서 일정</option>
+				                                    <option value="회사 일정">회사 일정</option>
 				                                </select>
 				                            </div>
 				                        </div>
@@ -144,7 +155,7 @@
 				                    <div class="modal-footer modalBtnContainer-modifyEvent">
 				                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-				                        <input type="submit" class="btn btn-primary" id="updateEvent">저장</button>
+				                        <input type="submit" class="btn btn-primary" id="updateEvent">저장</input>
 				                    </div>
 				                 </form>
 			                </div><!-- /.modal-content -->
@@ -159,14 +170,14 @@
 			
 			            <div class="panel-body">
 			
-			                <div class="col-lg-6">
+ 			                <div class="col-lg-6"> 
 			                    <label for="calendar_view">구분별</label>
 			                    <div class="input-group">
 			                        <select class="filter" id="type_filter" multiple="multiple">
-			                            <option value="S1">카테고리1</option>
-			                            <option value="S2">카테고리2</option>
-			                            <option value="S3">카테고리3</option>
-			                            <option value="S4">카테고리4</option>
+			                            <option value="개인일정">개인일정</option>
+			                            <option value="팀 일정">팀 일정</option>
+			                            <option value="부서 일정">부서 일정</option>
+			                            <option value="회사 일정">회사 일정</option>
 			                        </select>
 			                    </div>
 			                </div>
@@ -174,18 +185,13 @@
 			                <div class="col-lg-6">
 			                    <label for="calendar_view">등록자별</label>
 			                    <div class="input-group">
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="정연"
-			                                checked>부장 이승환</label>
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="다현"
-			                                checked>차장 이지준</label>
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="사나"
-			                                checked>과장  최원호</label>
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="나연"
-			                                checked>대리 전민희</label>
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="지효"
-			                                checked>사원 김선일</label>
-			                        <label class="checkbox-inline"><input class='filter' type="checkbox" value="지효"
-			                                checked>사원 이헌준</label>
+			                    	<c:forEach items="${eList }" var="e">
+			                                
+			                             <label class="checkbox-inline">
+			                             	<input type="checkbox" class="filter emp_filter" value="${e.empNo }"/>
+			                             	${e.jobName } ${e.empName }
+			                             </label>
+			                    	</c:forEach>
 			                    </div>
 			                </div>
 			
@@ -212,6 +218,16 @@
 </body>
     <style>
     .fc-today-button{margin-left:70px;}
+    input{auto-complete:off;}
+    
+    .fc-next-button, .fc-prev-button{width: 50px ; height: 50px !important; border-radius: 50px; padding: 5px !important; margin: 0 20px !important;}
+	
+	#listWeekBtn{margin-right: 30px !important;}
     </style>
-
+	<script>
+	
+	$("input").attr("autocomplete",'off');
+	
+	$("#listWeekBtn").css("margin-right","30px !important");
+	</script>
 </html>

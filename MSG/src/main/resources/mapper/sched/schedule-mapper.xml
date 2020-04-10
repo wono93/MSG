@@ -7,6 +7,18 @@
 	select * 
 	from sched_tb
 	</select>
+	<select id="deptEmpList" resultType="schedemp"><!-- 로그인한 사용자와 같은 팀의 사원번호, 주민번호, 부서명, 직급명 , 사원이름-->
+	select e.emp_no "emp_no",
+		   e.emp_rrn_no "emp_rrn_no",
+		   d.dept_name "dept_name",
+		   j.job_name "job_name",
+		   e.emp_name "emp_name"
+	from (emp_tb e inner join dept_tb d on e.dept_cd = d.dept_cd
+	               inner join job_tb j on  e.job_cd = j.job_cd)
+	where d.dept_cd = (select dept_cd
+					   from emp_tb
+					   where emp_no=#{empNo})
+	</select>
 	<insert id="insertSched" parameterType="Schedule">
 	insert into sched_tb
 	values(
@@ -16,19 +28,38 @@
 	)
 	<!-- (sche_code, sche_cate, emp_no, sche_name, sche_start, sche_end, sche_color, sche_ex, allday_yn) -->
 	</insert>
-	<!-- <update id="update">
+	<update id="updateSched">
 	update sched_tb
 	set 
 		sche_cate = #{scheCate},
+		emp_no = ${empNo},
+		emp_name = #{empName},
+		dept_name = #{deptName},
+		job_name = #{jobName},
 		sche_name = #{scheName},
-		sche_start = #{scheStart},
-		sche_end = #{scheEnd},
+		sche_start = to_date(#{scheStart}, 'YYYY-MM-DD HH24:MI:SS'),
+		sche_end = to_date(#{scheEnd}, 'YYYY-MM-DD HH24:MI:SS'),
 		sche_color = #{scheColor},
 		sche_ex = #{scheEx}
-	where emp_no = #{empNo}
+	where sche_code = ${scheCode}
 	</update>
-	<delete id="delete">
+	<delete id="deleteSched">
 	delete from sched_tb
+	where sche_code = ${scheCode}
+	</delete> 
+	<select id="selectSched" resultType="schedule">
+	select *
+	from sched_tb
 	where sche_code = #{scheCode}
-	</delete> -->
+	</select>
+	<update id="resizeSched">
+	update sched_tb
+	set sche_start = to_date((select #{resizeStart} || substr(to_char(sche_start),10)
+											   	   	   from sched_tb
+											  	   	   where sche_code = ${scheCode}), 'YYYY-MM-DD HH24:MI:SS'),
+		sche_end = to_date((select #{resizeEnd} || substr(to_char(sche_end), 10)
+										   	   from sched_tb
+										  	   where sche_code = ${scheCode}), 'YYYY-MM-DD HH24:MI:SS')
+	where sche_code = ${scheCode}
+	</update>
 </mapper>
