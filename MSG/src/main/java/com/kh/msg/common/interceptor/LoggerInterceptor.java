@@ -1,12 +1,18 @@
 package com.kh.msg.common.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.kh.msg.member.controller.MemberController;
+import com.kh.msg.member.model.vo.LoginVO;
 
 /*
  * 1. preHandle : DispatcherServlet -> Handler 호출 전
@@ -46,7 +52,13 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 		super.afterCompletion(request, response, handler, ex);
 		
 		logger.debug("================================ end ================================");
+
+		List<LoginVO> userList= MemberController.userList;
+		
+		for(int i=0; i<userList.size(); i++){
+			logger.debug("userList접속중목록"+userList.get(i).getId());
+		}
+		
 	}
 
-	
 }

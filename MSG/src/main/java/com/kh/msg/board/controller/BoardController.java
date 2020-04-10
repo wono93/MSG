@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -22,7 +20,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,11 +30,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.msg.board.model.service.BoardService;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.common.util.Utils;
+import com.kh.msg.member.controller.MemberController;
+import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -186,14 +185,14 @@ public class BoardController {
 	
 	@PostMapping("/deleteComment.do")
 	public String commentDelete(@RequestParam("boardNo") int boardNo,
-			@RequestParam("empNo") int empNo,
+			@RequestParam("empNo") int empNo, @RequestParam("memberEmpno")int memberEmpno,
 			Comment comment, RedirectAttributes redirectAttributes) {
 		
     	int result = boardService.deleteComment(comment);
     	
     	log.debug("comment delete="+comment);
 
-		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
+		return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
 	}
 	
 	@PostMapping("/insertComment.do")
@@ -221,6 +220,11 @@ public class BoardController {
 	
 	@GetMapping("/write.do")
 	public String write() {
+		return "board/summerNote";
+	}
+	
+	@GetMapping("/summer.do")
+	public String summer() {
 		return "board/boardWrite";
 	}
 	
@@ -337,7 +341,7 @@ public class BoardController {
     
     @PostMapping("/update.do")
 	public String update(@RequestParam("boardNo") int boardNo,
-			@RequestParam("empNo") int empNo,
+			@RequestParam("empNo") int empNo, @RequestParam("memberEmpno")int memberEmpno,
 			Board board, Attachment attachment,
 			 @RequestParam(value="upFile", required=false) 
 			 MultipartFile[] upFiles,
@@ -392,7 +396,7 @@ public class BoardController {
     	} catch(Exception e) {
     		log.error("게시판 수정 오류! ", e);
     	}
-    	return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo;
+    	return "redirect:/board/view.do?boardNo="+boardNo+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
 	
     }
     
@@ -537,7 +541,7 @@ public class BoardController {
     			boardScrap.setNo(boardNo);
 				int result = boardService.insertScrap(boardScrap);
 				
-				log.debug("scrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapresult={}",result);
+				log.debug("scrapresult={}",result);
 				
 			}
     
@@ -552,9 +556,21 @@ public class BoardController {
     			boardScrap.setEmpNo(memberEmpno);
     			boardScrap.setNo(boardNo);
 				int result = boardService.deleteScrap(boardScrap);
-				
+
 				log.debug("scrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapresult={}",result);
-				
+
 			}
+    @GetMapping("/userLogin.do")
+   	public String userLogin(Model model,
+   							HttpServletRequest request,
+   							HttpServletResponse response){
+   		    	
+   		List<Member> memberList = boardService.userLogin();
+   		List<LoginVO> userList= MemberController.userList;
+   		model.addAttribute("userList", userList);
+   		model.addAttribute("memberList", memberList);
+   		 return "board/userLogin";
+   	}
+    
 		
 }

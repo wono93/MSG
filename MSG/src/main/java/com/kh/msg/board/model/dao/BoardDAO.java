@@ -72,4 +72,6 @@ public interface BoardDAO {
 
 	int countComment(Comment comment);
 
+	List<Member> userLogin();
+
 }

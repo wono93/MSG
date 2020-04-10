@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="com.kh.msg.member.controller.MemberController"%>
+<%@page import="com.kh.msg.member.model.vo.LoginVO"%>
+<%@page import="com.kh.msg.member.model.vo.OrgChart"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Enumeration" %>
 <html lang="en">
-<head>
+<%
+	//OrgChart oc = null;
+	//if(session.getAttribute("memberLoggedIn") != null){
+	//	oc = (OrgChart)session.getAttribute("memberLoggedIn");	
+	//}
+	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
+	String userId = oc.getUserId();
+	int empNo = oc.getEmpNo();
+%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -50,12 +65,7 @@
         	});
         });
         </script>
-        
-    <title>boardWrite</title>
-</head>
-<body>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-		<form name="boardFrm" 
+<form name="boardFrm" 
 		  action="${pageContext.request.contextPath}/board/write.do" 
 		  method="post" 
 		  onsubmit="return boardValidate();"
@@ -63,17 +73,9 @@
     <section>
         <div>
             <article style="width: 1200; height: 100%;">
-                <div class="subNav">
-                    <h3>커뮤니케이션</h3>
-                    <ul>
-                        <li onclick="#">이메일</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
-                     </ul>
-                </div>
-                  
+               
                 <div class="content">
-                    <div class="control">
-                        
+                    <div class="control">  
                         <div class="boardBB">
                             <p class="com4">게시판</p>
                             <p class="com4">제 목</p>
@@ -82,7 +84,6 @@
                     </div>
                         <div style="top: 20px;" id="first1" class="select-box1">
                            <!--<div id="boardBB">-->
-                                
                             <div style="width: 403px;" class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
                                 <input class="select-box__input" name="catag" type="radio" id="asd3" value="건의" checked="checked"/>
@@ -102,8 +103,6 @@
                                 <p class="select-box__input-text">전체</p>
                                 </div> -->
                             </div>
-                       
-                        
                             <ul class="select-box__list">
                                 <li>
                                 <label class="select-box__option" for="asd3" aria-hidden="aria-hidden">건의사항</label>
@@ -118,7 +117,6 @@
                                 <label class="select-box__option" for="2" aria-hidden="aria-hidden">문서종류</label>
                                 </li> -->
                             </ul>
-                        
                         <div id="boardTitle">
                             <input type="text" name="title" id="srchWord">
                         </div>
@@ -134,9 +132,7 @@
                             <img class="profile" src="${memberLoggedIn.empImage}">
                         </div>
                     </div>
-
                 </div>
-                
                 <div id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content"></textarea>
@@ -189,6 +185,3 @@
         </div>
     </section>
             </form>
-
-</body>
-</html>

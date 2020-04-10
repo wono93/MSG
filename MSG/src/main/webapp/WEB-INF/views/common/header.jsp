@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+<%@page import="com.kh.msg.member.controller.MemberController"%>
+<%@page import="com.kh.msg.member.model.vo.LoginVO"%>
 <%@page import="com.kh.msg.member.model.vo.OrgChart"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.msg.chat.model.vo.DirectMsg"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Enumeration" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -29,8 +32,9 @@
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
+    
 <%
-	
+	List<LoginVO> userList= MemberController.userList;
 	//OrgChart oc = null;
 	//if(session.getAttribute("memberLoggedIn") != null){
 	//	oc = (OrgChart)session.getAttribute("memberLoggedIn");	
@@ -46,6 +50,7 @@
 </script>
 </head>
 <body>
+	
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
 		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
@@ -105,7 +110,10 @@
 	            </p>
 			</ul>
             <ul class="secnav" id="channelList"></ul>
-            <ul class="secnav" id="dmList"></ul>
+            <ul class="secnav" id="dmList">
+            
+            </ul>
+           
         </ul>
     </nav>
     <label for="hamburger" class="hamburger"> 
@@ -130,14 +138,12 @@
         </div>
     </side> 
     
-	        <div id="channelGenModal" class="ch-modal">
+        <div id="channelGenModal" class="ch-modal">
             <!-- Modal content -->
             <div class="ch-modal-content">
-                
                 <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
                 <div id="ch-content">
                     <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
-
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
                             <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" id="" class="ch-member-img">
@@ -160,8 +166,6 @@
                                 </tr> --%>
                             </table>
                         </div>
-
-
                         <div class="srchChBar">
                             <div class="select-box">
                                 <div class="select-box__current" tabindex="1">
