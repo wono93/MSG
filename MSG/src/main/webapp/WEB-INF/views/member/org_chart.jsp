@@ -118,7 +118,7 @@
 					            <input type="text" name="keyword" id="srchWord">
 					            <button type="submit" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search"
 					                    style="font-size:15px"></i> 검색</button>
-				            <button class="yellowBtn" onclick="location.href='${pageContext.request.contextPath}/member/insert.do'">사원추가</button>
+				            <button type="button" class="yellowBtn" onclick="location.href='${pageContext.request.contextPath}/member/addEmp.do'">사원추가</button>
 				        </div>
 			        </form>
 			    </div>

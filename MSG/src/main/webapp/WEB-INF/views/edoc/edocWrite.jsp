@@ -541,7 +541,6 @@
 										}
 									});
 						});
-
 		function removeFlow(obj) {
 			jq("#deadline").siblings("tr").remove();
 			var indexStr = jq(obj).parent().parent("tr").attr("id");
@@ -665,10 +664,8 @@
 				flowCd = $('input[name="flowLineCheck"]:checked').attr("id")
 						.substr(8); // 해당 번호의 flowLine 배열이 전결이라는 의미. 단, 번호는 1부터 매겼음에 유의.
 			}
-			var tmp = {};
-			flowLine.push(tmp); // 컨트롤러에서 flowLine을 String[][] 로 인식하기 위해 더미 데이터 한 줄 추가
 
-			console.log(flowLine);
+			//console.log(flowLine);
 			
 			
 			// 여기서부터 다시 파일 첨부
@@ -679,51 +676,37 @@
 			   formData.append("files", filesTempArr[i]);
 			}
 			
+			formData.append("empNo", empNo);
+			formData.append("secuCd", secuCd);
+			formData.append("prsvCd", prsvCd);
+			formData.append("edocTitle", edocTitle);
+			formData.append("vctnCd", vctnCd);
+			formData.append("startDt", startDt);
+			formData.append("endDt", endDt);
+			formData.append("leaveAmt", leaveAmt);
+			formData.append("leavePurpose", leavePurpose);
+			formData.append("leaveContact", leaveContact);
+			formData.append("typeCd", typeCd);
+			formData.append("flowLine", flowLine);
+			formData.append("flowCd", flowCd);
+			formData.append("surEmpNo", surEmpNo);
 			
 			
+			
+			//console.log(formData);
+			var edocAttJson;
 			
  			$.ajax({
 				type : "post",
-				url : "/msg/edoc/edocAtt.do",
+				url : "/msg/edoc/write.do",
 				data : formData,
-//				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수???
-// 				dataType : "json",
+				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수
 				processData : false, // ajax로 파일 전송을 하기 위해 필수
 				contentType : false, // ajax로 파일 전송을 하기 위해 필수
-				success : function(model) {
-					console.log(model)
-				}
-			});
-
-/*  			$.ajax({
-				type : "post",
-				url : "/msg/edoc/write.do",
-				traditional : true, // 배열 전달용
-				data : {
-					empNo : empNo,
-					secuCd : secuCd,
-					prsvCd : prsvCd,
-					edocTitle : edocTitle,
-					vctnCd : vctnCd,
-					startDt : startDt,
-					endDt : endDt,
-					leaveAmt : leaveAmt,
-					leavePurpose : leavePurpose,
-					leaveContact : leaveContact,
-					typeCd : typeCd,
-					surEmpNo : surEmpNo,
-					flowLine : flowLine,
-					flowCd : flowCd,
-					upFiles : formData 
-				},
-				dataType : "text",
 				success : function(response) {
-					location.href = "/msg/edoc/list.do";
+		 			location.href="${pageContext.request.contextPath}/edoc/list.do";
 				}
 			});
-			 */
-			
-			
 			
 		}
 		// 체크박스 라디오 버튼처럼 동작시키는 함수

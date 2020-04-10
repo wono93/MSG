@@ -39,14 +39,14 @@ public class EdocDAOImpl implements EdocDAO {
 
 	@Override
 	public List<EdocSrch> selectList(int cPage, int numPerPage, String srchWord, String srchType) {
-		int offset = (cPage-1)*numPerPage;
+		int offset = (cPage - 1) * numPerPage;
 		int limit = numPerPage;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		Map<String, String> map = new HashMap<>();
 		map.put("srchWord", srchWord);
 		map.put("srchType", srchType);
-		
+
 		return sqlSession.selectList("edoc.srchList", map, rowBounds);
 	}
 
@@ -55,16 +55,16 @@ public class EdocDAOImpl implements EdocDAO {
 		Map<String, String> map = new HashMap<>();
 		map.put("srchWord", srchWord);
 		map.put("srchType", srchType);
-		
+
 		return sqlSession.selectOne("edoc.selectEdocTotalContents", map);
 	}
 
 	@Override
 	public List<EdocSrch> selectMyList(int cPage, int numPerPage, Map<String, String> map) {
-		int offset = (cPage-1)*numPerPage;
+		int offset = (cPage - 1) * numPerPage;
 		int limit = numPerPage;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		return sqlSession.selectList("edoc.myList", map, rowBounds);
 	}
 
@@ -93,6 +93,15 @@ public class EdocDAOImpl implements EdocDAO {
 	public int edocFlowWrite(EdocFlow edocFlow) {
 		return sqlSession.insert("edoc.edocFlowWrite", edocFlow);
 	}
-	
-	
+
+	@Override
+	public int insertPdf(EdocAtt edocAtt) {
+		return sqlSession.insert("edoc.pdfAttWrite", edocAtt);
+	}
+
+	@Override
+	public EdocAtt selectPdf(String attachId) {
+		return sqlSession.selectOne("edoc.selectPdf", attachId);
+	}
+
 }

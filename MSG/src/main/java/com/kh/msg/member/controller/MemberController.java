@@ -34,8 +34,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
+import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
+import com.kh.msg.member.model.vo.Job;
 import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
@@ -56,7 +58,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	//전역변수 접속자확인 시작
+		//전역변수 접속자확인 시작
 		 public static List<LoginVO> userList = new ArrayList<LoginVO>(); 
 		 //접속자 확인 끝
 	
@@ -68,8 +70,6 @@ public class MemberController {
 			) {
 		
 		try {
-			
-			
 			// 로그인 처리
 			// 1. memberId 로 member 객체 조회
 			// bcryptPasswordEncoder를 이용한 비교
@@ -85,10 +85,9 @@ public class MemberController {
 	         
 	        PrintWriter out =response.getWriter();
 	        HttpSession session=request.getSession();
-	                 
+	        
 	        String id=request.getParameter("userId");
 	        String pw=request.getParameter("password");
-	        
 	        //접속자 확인 끝
 	        
 			// 2. member.password와 사용자가 입력한 password 를 비교해서 로그인 처리
@@ -99,68 +98,31 @@ public class MemberController {
 				memberService.loginLog(member.getEmpNo()); 
 				
 				
-				
 				//접속자 확인 시작
-				System.out.println(" session.getId() :" + session.getId());         
+	            for(int i=0; i<userList.size(); i++) {
+		            System.out.println("userList.get(i) : " +userList.get(i));
+		            if(userList.get(i).getId().equals(userId)) {
+		                userList.remove(i);
+		            }
+		            
+		        }
+	            System.out.println(" session.getId() :" + session.getId());         
 	            LoginImpl loginUser =new LoginImpl(id, pw, session.getId());
 	            LoginVO loginVO=new LoginVO();
-	            session.setAttribute("loginUser", loginUser);           
-	             
+	            
+	            session.setAttribute("loginUser", loginUser);   
 	            loginVO.setId(id);
 	            loginVO.setSessionid(session.getId());
 	            userList.add(loginVO);
-				//접속자 호가인끝
+				//접속자 호가인
 	            
-	            
-	            
-				
-				
 			} else {
 				// 로그인 실패
 				redirectAttributes.addFlashAttribute("msg", "입력한 아이디 또는 비밀번호가 일치하지 않습니다");
 				return "redirect:/";
 			}
 			
-			
-			
-			//접속자 확인 시작
-			out.print("<html><body>");
-	        out.print("현재 접속 아이디 : "+id+"<br>");          
-	 
-	        userList(out);      //접속자 중복 제거 및 접속자 목록
-	 
-	         
-	        
-	        out.println("세션 유효 시간 : " + session.getMaxInactiveInterval() + "<br>");
-	        out.print("</body></html>"); 
-	        
-	        
-	        out.print("<html>");
-	        out.println("<head>");
-	        out.println("<script type='text/javascript'>");
-	        out.println("setTimeout('history.go(0);', 3000)"); //3초마다
-	        out.println("</script>");
-	        out.println("</head>");
-	        out.print("<body>");
-	        
-	        userList(out);      //접속자 중복 제거 및 접속자 목록
-	         
-	        LoginImpl loginUser =(LoginImpl)session.getAttribute("loginUser");
-	        
-	         
-	        if(loginUser==null) {
-	            out.println("<a href='login.html'>로그인 </a><br>"); 
-	        }else{
-	            out.println("<a href='logout.do?id=" + loginUser.getId() + "'>로그아웃 </a><br>"); 
-	            for(int i=0; i<userList.size(); i++) {
-	            System.out.println("userListerjhieriehiehi="+userList.get(i).getId()+"<br>");
-	            }
-	        }
-	         
-	        out.println("세션 유효 시간 : " + session.getMaxInactiveInterval() + "<br>");
-	        out.print("</body></html>");   
-	        //접속자 확인 끝
-	        
+
 
 		} catch (Exception e) {
 			log.error("로그인 처리 예외",e);
@@ -168,41 +130,9 @@ public class MemberController {
 			throw new MemberException("로그인 처리 도중 오류가 발생했습니다.");
 		}
 		
-		
 		return "/common/welcome";
 	}
 	
-	//접속자 중복 제거 및 접속자 목록    접속자확인 시작
-    private void userList(PrintWriter out) {
-     
-        //중복 아이디 제거
-        HashSet<LoginVO> hs = new HashSet<LoginVO>(userList);       
-        userList = new ArrayList<LoginVO>(hs);
-        
-        if(userList!=null &&userList.size()>0) {
-            out.println("*** 접속 자 목록 *** <br>");
-                                     
-            for(int i=0; i<userList.size(); i++) {
-                if(userList.get(i)==null || userList.get(i).equals("")) {
-                    userList.remove(i); 
-                    LoginImpl.setLoginUserCount(LoginImpl.getLoginUserCount() - 1);
- 
-                }else {                     
-                    out.println(userList.get(i).getId()+"<br>");  
-                    
-                }               
-            }
- 
-            out.print("총 로그인 접속자수는 "+ LoginImpl.getLoginUserCount() + "<br>");
-            out.print("<a href='loginTest'>접속자 목록</a><br>");
-            System.out.println("userList(PrintWriter out) userList size : " +userList.size());
-            System.out.println("userList="+userList);
-        }else {
-            out.print("총 로그인 접속자수는 0 <br>");
-        }
-    }
-    //접속자 확인 끝
- 
 	@GetMapping("/logout.do")
 	public String logout(SessionStatus sessionStatus,HttpServletRequest request, HttpServletResponse response, @ModelAttribute("memberLoggedIn") Member member) {
 		log.debug("[" + member.getUserId() + "] 가 로그아웃 했습니다.");
@@ -215,27 +145,23 @@ public class MemberController {
 		//request.getSession().invalidate();
 		
 		
+		/*
 		//접속자 확인 시작
-		String id = request.getParameter("userId");
+		String id = member.getUserId();
         
         if(id!=null){
             List<LoginVO> userList= MemberController.userList;
             if(userList!=null && userList.size()>0) {                    
-                System.out.println("id 제거 : " + id);
+               
                 for(int i=0; i<userList.size(); i++) {
-                    System.out.println("userList.get(i) : " +userList.get(i));
-                    if(userList.get(i).equals(id)) {
-                        userList.remove(i);
-                    }
-                }
+		           
+		        }
             }
             System.out.println("userList size : " +userList.size());
         }       
+        */
         request.getSession().invalidate();
-       
         //접속자 확인 끝
-        
-        
         
 		//session 리셋
 //		if (!sessionStatus.isComplete())
@@ -467,11 +393,112 @@ public class MemberController {
 	
 	
 	@GetMapping("/ioLog.do")
-	public String ioLog(Model model) {
+	public String ioLog(Model model,
+			@RequestParam(value = "startDate", required = false) String srcDateStart,
+			@RequestParam(value = "endDate", required = false) String srcDateEnd,
+			@RequestParam(value="searchBy",required=false) String searchBy,
+			@RequestParam(value="keyword",required=false) String keyword
+			
+			) {
+		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
+		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		Date monthAgoDate = monthAgo.getTime();
+		
+		if(srcDateStart == null && srcDateEnd == null) {
+			srcDateStart = fmt.format(monthAgoDate);
+			srcDateEnd = fmt.format(curDate);
+		}
+		
 		List<IOLog> list = null;
+		Map<String, String> map = new HashMap<String, String>();
+		
+		log.debug("srcDateStart = {}", srcDateStart);
+		log.debug("srcDateEnd = {}", srcDateEnd);
+		
+		map.put("srcDateStart", srcDateStart);
+		map.put("srcDateEnd", srcDateEnd);
+		
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
+		
+		list = memberService.ioLog(map);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("srcDateStart", srcDateStart);
+		model.addAttribute("srcDateEnd", srcDateEnd);
 		
 		
 		return "/member/ioLog";
+	}
+	
+	@GetMapping("/addEmp.do")
+	public String addEmp(Model model) {
+		List<Department> depts = null;
+		List<Job> jobs = null;
+		
+		depts = memberService.getDepts();
+		jobs = memberService.getJobs();
+		
+		model.addAttribute("depts", depts);
+		model.addAttribute("jobs", jobs);
+		
+		return "/member/addEmpForm";
+	}
+	
+	
+	@PostMapping("/addEmpFormSubmit.do")
+	public String submitNewEmp(Model model, 
+			@RequestParam(value="empImage_", required=false) MultipartFile empImage,
+			@RequestParam(value="userId", required=false) String userId,
+			@RequestParam(value="userPwd", required=false) String userPwd,
+			@RequestParam(value="empName", required=false) String empName,
+			@RequestParam(value="empRRNNo", required=false) String empRRNNo,
+			@RequestParam(value="empEmail", required=false) String empEmail,
+			@RequestParam(value="empAddress", required=false) String empAddress,
+			@RequestParam(value="deptCd", required=false) String deptCd,
+			@RequestParam(value="jobCd", required=false) String jobCd,
+			@RequestParam(value="isManager", required=false) String isManager,
+			@RequestParam(value="authority", required=false) String authority,
+			HttpServletRequest request, RedirectAttributes redirectAttributes,
+			Member member) {
+		try {
+			//파일명 재생성 renamedFileName으로 저장하기
+			String file = empImage.getOriginalFilename();
+			String renamedFile = Utils.getRefile(file);
+			
+			//파일이동
+			String saveDirectory
+			= request.getServletContext()
+			.getRealPath("/resources/upload/empImg");
+			
+			empImage.transferTo(new File(saveDirectory, renamedFile));
+			log.debug("renamedFile  = {}",renamedFile);
+			member.setEmpImage(renamedFile);
+    		member.setEmpName(empName);
+    		member.setUserId(userId);
+    		member.setUserPwd(bcryptPasswordEncoder.encode(userPwd));
+    		member.setEmpEmail(empEmail);
+    		member.setEmpAddress(empAddress);
+    		member.setEmpRRNNo(empRRNNo);
+    		member.setDeptCd(deptCd);
+    		member.setJobCd(jobCd);
+    		member.setAuthority(authority);
+    		member.setIsManager(isManager);
+    			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		int result = memberService.submitNewEmp(member);
+
+		
+		
+		return "member/org_chart";
 	}
 	
 	public String getBirthDay(String empRRNNo) {

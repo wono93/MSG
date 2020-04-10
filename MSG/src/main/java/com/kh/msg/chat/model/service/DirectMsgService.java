@@ -19,4 +19,6 @@ public interface DirectMsgService {
 
 	List<DirectMsg> headerDmList(String fromId);
 
+	List<Member> userLogin();
+
 }

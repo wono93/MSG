@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.msg.member.model.dao.MemberDAO;
+import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
+import com.kh.msg.member.model.vo.Job;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 import com.kh.msg.member.model.vo.WorkTimes;
 @Service("memberServiceImpl")
@@ -61,5 +64,29 @@ public class MemberServiceImpl implements MemberService {
 	public List<WorkTimes> getLog(HashMap<String, Object> map) {
 		
 		return memberDAO.getLog(map);
+	}
+
+	@Override
+	public List<IOLog> ioLog(Map<String, String> map) {
+		
+		return memberDAO.ioLog(map);
+	}
+
+	@Override
+	public List<Department> getDepts() {
+		
+		return memberDAO.getDepts();
+	}
+
+	@Override
+	public List<Job> getJobs() {
+		
+		return memberDAO.getJobs();
+	}
+
+	@Override
+	public int submitNewEmp(Member member) {
+		
+		return memberDAO.submitNewEmp(member);
 	}
 }

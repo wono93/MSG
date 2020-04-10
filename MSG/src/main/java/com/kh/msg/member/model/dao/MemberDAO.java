@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
+import com.kh.msg.member.model.vo.Job;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 import com.kh.msg.member.model.vo.WorkTimes;
 
@@ -26,5 +29,13 @@ public interface MemberDAO {
 	void logoutLog(int empNo);
 
 	List<WorkTimes> getLog(HashMap<String, Object> map);
+
+	List<IOLog> ioLog(Map<String, String> map);
+
+	List<Department> getDepts();
+
+	List<Job> getJobs();
+
+	int submitNewEmp(Member member);
 	
 }
