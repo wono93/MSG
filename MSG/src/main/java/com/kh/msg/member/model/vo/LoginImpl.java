@@ -3,8 +3,11 @@ package com.kh.msg.member.model.vo;
 import java.util.List;
 
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kh.msg.member.controller.MemberController;
 
@@ -13,7 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
- 
+
 
 @Getter
 @Setter

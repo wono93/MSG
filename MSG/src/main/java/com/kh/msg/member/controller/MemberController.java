@@ -34,8 +34,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
+import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
+import com.kh.msg.member.model.vo.Job;
 import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
@@ -391,11 +393,112 @@ public class MemberController {
 	
 	
 	@GetMapping("/ioLog.do")
-	public String ioLog(Model model) {
+	public String ioLog(Model model,
+			@RequestParam(value = "startDate", required = false) String srcDateStart,
+			@RequestParam(value = "endDate", required = false) String srcDateEnd,
+			@RequestParam(value="searchBy",required=false) String searchBy,
+			@RequestParam(value="keyword",required=false) String keyword
+			
+			) {
+		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
+		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
+		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		Date monthAgoDate = monthAgo.getTime();
+		
+		if(srcDateStart == null && srcDateEnd == null) {
+			srcDateStart = fmt.format(monthAgoDate);
+			srcDateEnd = fmt.format(curDate);
+		}
+		
 		List<IOLog> list = null;
+		Map<String, String> map = new HashMap<String, String>();
+		
+		log.debug("srcDateStart = {}", srcDateStart);
+		log.debug("srcDateEnd = {}", srcDateEnd);
+		
+		map.put("srcDateStart", srcDateStart);
+		map.put("srcDateEnd", srcDateEnd);
+		
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
+		
+		list = memberService.ioLog(map);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("srcDateStart", srcDateStart);
+		model.addAttribute("srcDateEnd", srcDateEnd);
 		
 		
 		return "/member/ioLog";
+	}
+	
+	@GetMapping("/addEmp.do")
+	public String addEmp(Model model) {
+		List<Department> depts = null;
+		List<Job> jobs = null;
+		
+		depts = memberService.getDepts();
+		jobs = memberService.getJobs();
+		
+		model.addAttribute("depts", depts);
+		model.addAttribute("jobs", jobs);
+		
+		return "/member/addEmpForm";
+	}
+	
+	
+	@PostMapping("/addEmpFormSubmit.do")
+	public String submitNewEmp(Model model, 
+			@RequestParam(value="empImage_", required=false) MultipartFile empImage,
+			@RequestParam(value="userId", required=false) String userId,
+			@RequestParam(value="userPwd", required=false) String userPwd,
+			@RequestParam(value="empName", required=false) String empName,
+			@RequestParam(value="empRRNNo", required=false) String empRRNNo,
+			@RequestParam(value="empEmail", required=false) String empEmail,
+			@RequestParam(value="empAddress", required=false) String empAddress,
+			@RequestParam(value="deptCd", required=false) String deptCd,
+			@RequestParam(value="jobCd", required=false) String jobCd,
+			@RequestParam(value="isManager", required=false) String isManager,
+			@RequestParam(value="authority", required=false) String authority,
+			HttpServletRequest request, RedirectAttributes redirectAttributes,
+			Member member) {
+		try {
+			//파일명 재생성 renamedFileName으로 저장하기
+			String file = empImage.getOriginalFilename();
+			String renamedFile = Utils.getRefile(file);
+			
+			//파일이동
+			String saveDirectory
+			= request.getServletContext()
+			.getRealPath("/resources/upload/empImg");
+			
+			empImage.transferTo(new File(saveDirectory, renamedFile));
+			log.debug("renamedFile  = {}",renamedFile);
+			member.setEmpImage(renamedFile);
+    		member.setEmpName(empName);
+    		member.setUserId(userId);
+    		member.setUserPwd(bcryptPasswordEncoder.encode(userPwd));
+    		member.setEmpEmail(empEmail);
+    		member.setEmpAddress(empAddress);
+    		member.setEmpRRNNo(empRRNNo);
+    		member.setDeptCd(deptCd);
+    		member.setJobCd(jobCd);
+    		member.setAuthority(authority);
+    		member.setIsManager(isManager);
+    			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		int result = memberService.submitNewEmp(member);
+
+		
+		
+		return "member/org_chart";
 	}
 	
 	public String getBirthDay(String empRRNNo) {

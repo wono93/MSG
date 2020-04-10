@@ -1,7 +1,7 @@
 package com.kh.msg.member.model.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class IOLog extends HrMntList implements Serializable {
 
