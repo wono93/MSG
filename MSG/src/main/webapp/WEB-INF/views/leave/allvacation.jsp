@@ -246,6 +246,7 @@
 							<th>시작일자</th>
 							<th>종료일자</th>
 							<th>사용일수</th>
+							<th>사유</th>
 						</tr>
 						<c:forEach items="${leaveList}" var="leave" varStatus="vs">
 							<tr
@@ -258,35 +259,30 @@
 								<td>${leave.vctnStdt }</td>
 								<td>${leave.vctnEndt}</td>
 								<td>${leave.vctnUsed}</td>
+								<td>${leave.vctnReason }</td>
 							</tr>
 						</c:forEach>
 					</table>
 					<div class="pagination">
-						<a href="#" class="arrow">&laquo;</a> <a href="#">1</a> <a
-							href="#" class="active">2</a> <a href="#">3</a> <a href="#">4</a>
-						<a href="#">5</a> <a href="#" class="arrow">&raquo;</a>
+					${pageBar }
 					</div>
 					<div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="1"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'd.dept_name'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">부서</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="2"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'b.emp_name'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">이름</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="3" value="4"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio"  id="3" value="vctn_nm" name="srchTypeInput" ${srchType eq 'c.vctn_nm'?'checked="checked"':"" } />
 									<p class="select-box__input-text">휴가종류</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="2" value="3"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio"  id="2" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">전체</p>
 								</div>
 								<img class="select-box__icon"
@@ -304,7 +300,7 @@
 									aria-hidden="aria-hidden">휴가종류</label></li>
 							</ul>
 						</div>
-						<input type="text" name="" id="srchWord">
+						<input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="검색창 나중에 위 쪽으로 올릴것">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
@@ -314,6 +310,33 @@
 		</div>
 
 	</section>
-
+	<script>
+	
+	$("#srchBtn").click(function(){
+		
+		//폼 태그 생성
+        var form = document.createElement('form');
+        //폼 속성 set attribute
+        form.name = 'newForm';
+        form.method = 'get';
+        form.action = '/msg/leave/list.do';
+        form.target = '_self';        
+        //input 태그 생성
+        var input1 = document.createElement('input');
+   
+        //input태그에 set attribute
+        input1.setAttribute("type", "hidden");
+        input1.setAttribute("name", "srchWord");
+        input1.setAttribute("value", $("#srchWord").val());        
+       
+        //완성된 input 태그를 form에 append
+        form.appendChild(input1);
+        //form 태그
+        document.body.appendChild(form);
+        // form 제출
+        form.submit();
+	});
+	
+	</script>
 </body>
 </html>
