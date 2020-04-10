@@ -9,6 +9,14 @@ function charToBoolean(a){
 	else if (a == "N" || a =="n") return false;
 }
 
+//function booleanTochar(a){
+//	if(a == true) return "Y";
+//	else if(a == false) return "N";
+//}
+
+var typeFilter = [];
+var empFilter = [];
+
 var draggedEventIsAllDay;
 var activeInactiveWeekends = true;
 
@@ -27,28 +35,28 @@ function getDisplayEventDate(event) {
   return displayEventDate;
 }
 
-//function filtering(event) {
-//  var show_username = true;
-//  var show_type = true;
-//
-//  var username = $('input:checkbox.filter:checked').map(function () {
-//    return $(this).val();
-//  }).get();
-//  var types = $('#type_filter').val();
-//
-//  show_username = username.indexOf(event.username) >= 0;
-//
-//  if (types && types.length > 0) {
-//    if (types[0] == "all") {
-//      show_type = true;
-//    } else {
-//      show_type = types.indexOf(event.type) >= 0;
-//    }
-//  }
-//
-////  return show_username && show_type;
-//  return true;
-//}
+function filtering(event) {
+  var show_username = true;
+  var show_type = true;
+
+  var username = $('input:checkbox.filter:checked').map(function () {
+    return $(this).val();
+  }).get();
+  var types = $('#type_filter').val();
+
+  show_username = username.indexOf(event.username) >= 0;
+
+  if (types && types.length > 0) {
+    if (types[0] == "all") {
+      show_type = true;
+    } else {
+      show_type = types.indexOf(event.type) >= 0;
+    }
+  }
+
+//  return show_username && show_type;
+  return true;
+}
 
 function calDateWhenResize(event) {
 
@@ -96,39 +104,62 @@ function calDateWhenDragnDrop(event) {
   return newDates;
 }
 
+$(document).ready(function(){
+	
+	markDept(); //달력 위쪽에 어떤 부서인지 표시하기
+	
+//일정별 필터, 등록자별 필터
+	$('.filter').on('change', function () {
+		/*console.log('필터');*/
+		typeFilter = $('#type_filter').val();
+		console.log(typeFilter);
+		
+		empFilter = [];
+		
+		empF = $(".emp_filter:checked");
+		$.each(empF, (key,value)=>{
+			if(!empFilter.includes(value.value))
+			empFilter.push(value.value);
+			
+		});
+		console.log(empFilter);
+		
+		$('#calendar').fullCalendar('rerenderEvents');
+	});
+});
 
 var calendar = $('#calendar').fullCalendar({
 
-//  eventRender: function (event, element, view) {
-//
-//    //일정에 hover시 요약
-//    element.popover({
-//      title: $('<div />', {
-//        class: 'popoverTitleCalendar',
-//        text: event.title
-//      }).css({
-//        'background': event.backgroundColor,
-//        'color': event.textColor
-//      }),
-//      content: $('<div />', {
-//          class: 'popoverInfoCalendar'
-//        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-//        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
-//        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-//        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
-//      delay: {
-//        show: "800",
-//        hide: "50"
-//      },
-//      trigger: 'hover',
-//      placement: 'top',
-//      html: true,
-//      container: 'body'
-//    });
-//
-//    return filtering(event);
-//
-//  },
+  eventRender: function (event, element, view) {
+
+    //일정에 hover시 요약
+    element.popover({
+      title: $('<div />', {
+        class: 'popoverTitleCalendar',
+        text: event.title
+      }).css({
+        'background': event.backgroundColor,
+        'color': event.textColor
+      }),
+      content: $('<div />', {
+          class: 'popoverInfoCalendar'
+        }).append('<p><strong>등록자:</strong> ' + event.jobName + " " + event.username + '</p>')
+        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
+        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
+        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+      delay: {
+        show: "800",
+        hide: "50"
+      },
+      trigger: 'hover',
+      placement: 'top',
+      html: true,
+      container: 'body'
+    });
+
+    return filtering(event);
+
+  },
 
   //주말 숨기기 & 보이기 버튼
   customButtons: {
@@ -172,52 +203,58 @@ var calendar = $('#calendar').fullCalendar({
   /** 이 부 분을 고 쳐 써 야 해  **/
   events: function (start, end, timezone, callback) {
 
+	jQuery.ajaxSettings.traditional = true;
 	  
-    $.ajax({
+	$.ajax({
       type: "get",
       url: getContextPath()+"/sched/calendar.do",
       data: {
         // 실제 사용시, 날짜를 전달해 일정기간 데이터만 받아오기를 권장
     	 start: start.format(),
-    	 end : end.format()
+    	 end : end.format(),
+    	 empFilter : empFilter,  	//등록자별 필터
+    	 typeFilter : typeFilter	//일정구분별 필터
       },
       dataType:'json',
+      contentType: 'application/json; charset=UTF-8',
 
       success: function (response) {
           var events=[];
-    	  console.log(response); //등록된 일정 객체를 가져옴
-        var fixedDate = response.map(function (array) {
-          if (charToBoolean(array.allDayYn) && array.scheStart !== array.scheEnd) {
-            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
-            array.scheEnd = moment(array.scheEnd).add(1, 'days');
+    	  console.log(response.list); //등록된 일정 객체를 가져옴
+    	  console.log(response.eList);
+        var fixedDate = response.list.map(function (array) {
+//        	console.log("boolean?="+array.allDayYn);
+//          if (charToBoolean(array.allDayYn) && array.scheStart !== array.scheEnd) {
+//            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
+//            array.scheEnd = moment(array.scheEnd).add(1, 'days');
             
             var evt={
             		
             		
             		_id: array.scheCode,
+            		allDay: charToBoolean(array.alldayYn),
+            		deptName : array.deptName,
+            		jobName : array.jobName,
             		title: array.scheName,
             		start: array.scheStart,
             		end: array.scheEnd,
             		description:array.scheEx,
             		type: array.scheCate,
-            		username:array.deptName+" "+array.jobName+" "+array.empName,
+            		userno:array.empNo, //임의삽입
+            		username:array.empName,
             		backgroundColor: array.scheColor,
-            		textColor:"#fefefe",
-            		allDay: charToBoolean(array.alldayYn)
-            		/*fullNo:array.fullNo,
-            		*/
+            		textColor:"#fefefe"
             		
             }
             
             events.push(evt);
-          }
+//          }
           return array;
         })
         
-        console.log(events);
         
         callback(events);
-//        callback(fixedDate);
+        callback(fixedDate);
       }
     });
   },
@@ -235,17 +272,33 @@ var calendar = $('#calendar').fullCalendar({
     /** 리사이즈시 수정된 날짜반영
      * 하루를 빼야 정상적으로 반영됨. */
     var newDates = calDateWhenResize(event);
+    //alert(event._id);
 
     //리사이즈한 일정 업데이트
     $.ajax({
       type: "get",
-      url: "",
-      data: {
-        //id: event._id,
-        //....
-      },
-      success: function (response) {
+      url: getContextPath()+"/sched/selectSched/"+event._id,
+      success: function (data) {
         alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+        console.log(newDates.startDate.length);
+	        $.ajax({
+	        	type: "post",
+	        	url : getContextPath()+"/sched/resizeSched",
+	        	data : {
+	        		resizeStart : newDates.startDate,
+	        		resizeEnd : newDates.endDate,
+	        		scheCode : data.scheCode
+	        	},
+	        	success:{
+	        	
+	        	},
+	        	error:(x,s,e)=>{
+	        		console.log(x,s,e);
+	        	}
+	        });
+      },
+      error:(x,s,e)=>{
+    	  console.log(x,s,e);
       }
     });
 
@@ -272,16 +325,42 @@ var calendar = $('#calendar').fullCalendar({
     var newDates = calDateWhenDragnDrop(event);
 
     //드롭한 일정 업데이트
+//    $.ajax({
+//      type: "get",
+//      url: "",
+//      data: {
+//        //...
+//      },
+//      success: function (response) {
+//        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+//      }
+//    });
     $.ajax({
-      type: "get",
-      url: "",
-      data: {
-        //...
-      },
-      success: function (response) {
-        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
-      }
-    });
+        type: "get",
+        url: getContextPath()+"/sched/selectSched/"+event._id,
+        success: function (data) {
+          alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+          console.log(newDates.startDate.length);
+  	        $.ajax({
+  	        	type: "post",
+  	        	url : getContextPath()+"/sched/resizeSched",
+  	        	data : {
+  	        		resizeStart : newDates.startDate,
+  	        		resizeEnd : newDates.endDate,
+  	        		scheCode : data.scheCode
+  	        	},
+  	        	success:{
+  	        	
+  	        	},
+  	        	error:(x,s,e)=>{
+  	        		console.log(x,s,e);
+  	        	}
+  	        });
+        },
+        error:(x,s,e)=>{
+      	  console.log(x,s,e);
+        }
+      });
 
   },
 
@@ -352,7 +431,7 @@ var calendar = $('#calendar').fullCalendar({
   allDaySlot: true,
   displayEventTime: true,
   displayEventEnd: true,
-  firstDay: 0, //월요일이 먼저 오게 하려면 1
+  firstDay: 1, //월요일이 먼저 오게 하려면 1, 일요일은 0
   weekNumbers: false,
   selectable: true,
   weekNumberCalculation: "ISO",
