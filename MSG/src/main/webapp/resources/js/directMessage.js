@@ -1,6 +1,7 @@
 var lastID = 0;
 var toId = "";
 
+
 hdjq(function(){
     hdjq(".dmBar").hide();
 });
@@ -12,6 +13,7 @@ hdjq(function(){
     	hdjq(".dmBar").fadeOut(100);
     })
 });
+
 hdjq(document).ready(function(){
 	dmListFunction();
 	var repeatDmList = setInterval(function() {
@@ -32,24 +34,22 @@ function dmListFunction() {
 		success : function(data) {
 			hdjq("#dmList").html('<p>Direct Message</p>');
 			for (var i = 0; i < data.length; i++) {
-				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
 			}
-			
 		}
 	});
 }
 function addList(empImage, empName, jobName, toId) {
 	hdjq("#dmList").append(
 						 '<li>'+
-			             '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+						  '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+ 
+						  '<i class="fas fa-circle" style="font-size:15px; color:green;  margin-right:5px;"></i>'+	
 						 '<img src="/msg/resources/image/'+empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
 						 '</span>'+
-						 '</a>'+
 						 '</li>');
 }
-
 
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();

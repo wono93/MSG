@@ -50,4 +50,5 @@
 		where
 			to_id = #{from_id}
 	</select>
+	
 </mapper>

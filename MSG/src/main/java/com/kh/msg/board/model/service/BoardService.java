@@ -72,5 +72,7 @@ public interface BoardService {
 
 	int countComment(Comment comment);
 
+	List<Member> userLogin();
+
 	
 }

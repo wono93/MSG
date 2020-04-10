@@ -13,14 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.chat.model.service.DirectMsgService;
 import com.kh.msg.chat.model.vo.DirectMsg;
+import com.kh.msg.member.controller.MemberController;
+import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
@@ -38,9 +42,10 @@ public class DirectMsgController {
 	
 	@ResponseBody
 	@GetMapping("/headerDmList.do")
-	public void headerDmList(HttpSession session, HttpServletResponse response) {
+	public void headerDmList(HttpSession session, HttpServletResponse response,  Model model) {
 		
 		try {
+			List<LoginVO> userList= MemberController.userList;
 			
 			OrgChart m = (OrgChart)session.getAttribute("memberLoggedIn");
 			
@@ -52,24 +57,27 @@ public class DirectMsgController {
 			
 			JSONArray jsonArr = new JSONArray();
 			
-			for(int i = 0; i < list.size(); i++) {
-				JSONObject sObject = new JSONObject(); 
-				sObject.put("empImage", list.get(i).getEmpImage());
-				sObject.put("empName", list.get(i).getEmpName());
-				sObject.put("toId", list.get(i).getUserId());
-				sObject.put("jobName", list.get(i).getJobName());
-
-				jsonArr.add(sObject);
-			}
-			
+				for(int i = 0; i < list.size(); i++) {
+					JSONObject sObject = new JSONObject(); 
+						log.debug("login id====="+list.get(i).getUserId());
+						sObject.put("empImage", list.get(i).getEmpImage());
+						sObject.put("empName", list.get(i).getEmpName());
+						sObject.put("toId", list.get(i).getUserId());
+						sObject.put("jobName", list.get(i).getJobName());
+						jsonArr.add(sObject);
+						log.debug("jsonArr=======!!위에!"+jsonArr);
+				}
+				
 			response.setCharacterEncoding("UTF-8");
 			PrintWriter out;
 			out = response.getWriter();
 			out.write(jsonArr.toString());
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}catch(NullPointerException n) {
+			n.printStackTrace();
+		}
 	}
 	
 	
@@ -122,7 +130,6 @@ public class DirectMsgController {
 							  @RequestParam("listType") String listType,
 							  HttpServletRequest request,
 							  HttpServletResponse response){
-		
 		
 //		String listType = request.getParameter("listType");
 		
@@ -212,5 +219,7 @@ public class DirectMsgController {
 		return result.toString();
 		
 	}
+
+   
 	
 }
