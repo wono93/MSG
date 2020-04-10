@@ -35,6 +35,7 @@ import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
 import com.kh.msg.member.model.vo.HrMntList;
+import com.kh.msg.member.model.vo.IOLog;
 import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
