@@ -25,7 +25,7 @@ import com.kh.msg.sched.model.vo.Schedule;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import oracle.net.aso.r;
+
 
 @Controller
 @Slf4j
