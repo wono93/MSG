@@ -471,7 +471,9 @@ public class MemberController {
 	@GetMapping("/ioLog.do")
 	public String ioLog(Model model,
 			@RequestParam(value = "startDate", required = false) String srcDateStart,
-			@RequestParam(value = "endDate", required = false) String srcDateEnd
+			@RequestParam(value = "endDate", required = false) String srcDateEnd,
+			@RequestParam(value="searchBy",required=false) String searchBy,
+			@RequestParam(value="keyword",required=false) String keyword
 			
 			) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
@@ -488,8 +490,16 @@ public class MemberController {
 		List<IOLog> list = null;
 		Map<String, String> map = new HashMap<String, String>();
 		
+		log.debug("srcDateStart = {}", srcDateStart);
+		log.debug("srcDateEnd = {}", srcDateEnd);
+		
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
+		
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
 		
 		list = memberService.ioLog(map);
 		
