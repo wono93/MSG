@@ -86,4 +86,19 @@ public class EdocServiceImpl implements EdocService {
 		else log.debug("edocFlow.edocWrite@EdocServiceImp = edocFlow이 등록되었습니다.");
 		return result;
 	}
+
+	@Override
+	public String insertPdf(EdocAtt edocAtt) {
+		
+		int result = edocDAO.insertPdf(edocAtt);
+		String attachId = edocAtt.getAttachId();
+		return attachId;
+	}
+
+	@Override
+	public EdocAtt selectPdf(String attachId) {
+		EdocAtt edocAtt = edocDAO.selectPdf(attachId);  
+		
+		return edocAtt;
+	}
 }
