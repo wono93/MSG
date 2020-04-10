@@ -48,12 +48,13 @@ public class SchedController {
 	@GetMapping("/calendar.do")
 	//public ModelAndView cal() {
 	public ModelAndView schedList(HttpSession session,
-						          @RequestParam(value="empFilter") List<String> empFilter,
-						          @RequestParam(value="typeFilter") List<String> typeFilter) throws IOException {
+						          @RequestParam(value="empFilter", required=false) List<String> empFilter,
+						          @RequestParam(value="typeFilter", required=false) List<String> typeFilter) throws IOException {
 //	public List<Schedule> cal(HttpServletResponse response) throws IOException {
 		ModelAndView mav = new ModelAndView();
 		
-//		List<String> empFilter = '';
+		log.debug("typeFilter={}",typeFilter);
+		log.debug("empFilter={}",empFilter);
 
 		List<Schedule> list = schedService.schedList(empFilter, typeFilter);
 		mav.addObject("list", list); //예약된 일정목록

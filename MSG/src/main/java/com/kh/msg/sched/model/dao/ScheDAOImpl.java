@@ -20,7 +20,10 @@ public class ScheDAOImpl implements ScheDAO {
 	
 	@Override
 	public List<Schedule> schedList(List<String> empList, List<String> typeList) {
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		
+		map.put("empList", empList);
+		map.put("typeList", typeList);
 		return sqlSession.selectList("sched.schedList");
 	}
 	
