@@ -11,71 +11,73 @@
 
 	<select id="jstreeMem" resultType="jstreeMem">
 		select
-			*
+		*
 		from
-			emp_tb
-			join job_tb using(job_cd)
-			join dept_tb using(dept_cd)
+		emp_tb
+		join job_tb using(job_cd)
+		join dept_tb using(dept_cd)
 		where
-			emp_no = ${empNo}
+		emp_no = ${empNo}
 	</select>
-	
+
 	<select id="srchList" resultMap="EdocSrchFlowCollection">
 		select
-			*
+		*
 		from
-			edoc_all_tb
+		edoc_all_tb
 		<where>
 			<if test="srchType == 'all'">
-				edoc_title like '%' ||  #{srchWord} || '%'
+				edoc_title like '%' || #{srchWord} || '%'
 				or
-				emp_name like '%' ||  #{srchWord} || '%'
+				emp_name like
+				'%' || #{srchWord} || '%'
 				or
-				form_nm like '%' ||  #{srchWord} || '%'
+				form_nm like '%' || #{srchWord} || '%'
 				or
-				edoc_id like '%' ||  #{srchWord} || '%'
+				edoc_id like '%' || #{srchWord} || '%'
 				and edoc_end = 'y'
 			</if>
 			<if test="srchType != 'all'">
-				${srchType} like '%' ||  #{srchWord} || '%'
-				and edoc_end = 'y'
-			</if>		
+				${srchType} like '%' || #{srchWord} || '%'
+				and edoc_end =
+				'y'
+			</if>
 		</where>
 		order by edoc_dt desc
 	</select>
 	<select id="selectEdocTotalContents" resultType="_int">
 		select
-			count(*)
+		count(*)
 		from
-			edoc_tb
+		edoc_tb
 		where
-			edoc_org_id is null
-			and edoc_end = 'y'
+		edoc_org_id is null
+		and edoc_end = 'y'
 	</select>
-	
-	<select id="myList" resultMap="EdocSrchFlowCollection">	
+
+	<select id="myList" resultMap="EdocSrchFlowCollection">
 		select
-			*
+		*
 		from
-			(select
-				*
-			from
-				edoc_all_tb
-			<where>
-				<if test="srchType == 'all'">
-					edoc_title like '%' ||  #{srchWord} || '%'
-					or
-					emp_name like '%' ||  #{srchWord} || '%'
-					or
-					form_nm like '%' ||  #{srchWord} || '%'
-					or
-					edoc_id like '%' ||  #{srchWord} || '%'
-				</if>
-				<if test="srchType != 'all'">
-					${srchType} like '%' ||  #{srchWord} || '%'
-				</if>
-			</where>
-			)
+		(select
+		*
+		from
+		edoc_all_tb
+		<where>
+			<if test="srchType == 'all'">
+				edoc_title like '%' || #{srchWord} || '%'
+				or
+				emp_name like '%' || #{srchWord} || '%'
+				or
+				form_nm like '%' || #{srchWord} || '%'
+				or
+				edoc_id like '%' || #{srchWord} || '%'
+			</if>
+			<if test="srchType != 'all'">
+				${srchType} like '%' || #{srchWord} || '%'
+			</if>
+		</where>
+		)
 		<where>
 			<if test='myDocu == "y"'>
 				or
@@ -86,14 +88,16 @@
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st is NULL
+				and flow_st is
+				NULL
 				and flow_nm = '결재')
 			</if>
 			<if test='compDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st = 'y'
+				and flow_st =
+				'y'
 				and edoc_end = 'y'
 				and flow_nm = '결재')
 			</if>
@@ -101,34 +105,35 @@
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_nm = '참조')
+				and flow_nm =
+				'참조')
 			</if>
 		</where>
 		order by edoc_dt desc
 	</select>
 	<select id="selectMyEdocTotalContents" resultType="_int">
 		select
-			count(DISTINCT edoc_id)
+		count(DISTINCT edoc_id)
 		from
-			(select
-				*
-			from
-				edoc_all_tb
-			<where>
-				<if test="srchType == 'all'">
-					edoc_title like '%' ||  #{srchWord} || '%'
-					or
-					emp_name like '%' ||  #{srchWord} || '%'
-					or
-					form_nm like '%' ||  #{srchWord} || '%'
-					or
-					edoc_id like '%' ||  #{srchWord} || '%'
-				</if>
-				<if test="srchType != 'all'">
-					${srchType} like '%' ||  #{srchWord} || '%'
-				</if>
-			</where>
-			)
+		(select
+		*
+		from
+		edoc_all_tb
+		<where>
+			<if test="srchType == 'all'">
+				edoc_title like '%' || #{srchWord} || '%'
+				or
+				emp_name like '%' || #{srchWord} || '%'
+				or
+				form_nm like '%' || #{srchWord} || '%'
+				or
+				edoc_id like '%' || #{srchWord} || '%'
+			</if>
+			<if test="srchType != 'all'">
+				${srchType} like '%' || #{srchWord} || '%'
+			</if>
+		</where>
+		)
 		<where>
 			<if test='myDocu == "y"'>
 				or
@@ -139,14 +144,16 @@
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st is NULL
+				and flow_st is
+				NULL
 				and flow_nm = '결재')
 			</if>
 			<if test='compDocu == "y"'>
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_st = 'y'
+				and flow_st =
+				'y'
 				and edoc_end = 'y'
 				and flow_nm = '결재')
 			</if>
@@ -154,71 +161,97 @@
 				or
 				(flow_emp_no = ${empNo}
 				and flow_ord != 1
-				and flow_nm = '참조')
+				and flow_nm =
+				'참조')
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="newEdocId" resultType="string">
-	select
+		select
 		'E'||to_char(sysdate + 9/24,'yymmdd')||'-'||seq_edoc_id.NEXTVAL
-	from
+		from
 		dual
 	</select>
 	<insert id="edocWrite">
-	{call
+		{call
 		declare
 		begin
-			insert
-				into
-					edoc_tb
-				values
-					(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate, NULL, NULL);
-			insert
-				into
-					leave_ltt_tb
-				values 
-					(#{edocId}, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt}, #{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} );
-			commit;
+		insert
+		into
+		edoc_tb
+		values
+		(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate,
+		NULL, NULL);
+		insert
+		into
+		leave_ltt_tb
+		values
+		(#{edocId}, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'),
+		to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt},
+		#{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} );
+		commit;
 		end
-	}
+		}
 	</insert>
 	<insert id="edocAttWrite">
 		insert into
-			edoc_att_tb
+		edoc_att_tb
 		values
-			(seq_attach_id.NEXTVAL, #{edocId}, #{originFilename}, #{renamedFilename}, sysdate, NULL, NULL)
+		(seq_attach_id.NEXTVAL, #{edocId}, #{originFilename}, #{renamedFilename}, sysdate, NULL,
+		NULL, NULL)
 	</insert>
 	<insert id="edocFlowWrite">
-		insert into flow_exe_tb values(#{edocId}, #{flowCd}, #{flowEmpNo}, #{flowOrd}, default, default, default)
+		insert into flow_exe_tb values(#{edocId}, #{flowCd},
+		#{flowEmpNo}, #{flowOrd}, default, default, default)
 	</insert>
+	<insert id="pdfAttWrite">
+		insert into
+		edoc_att_tb
+		values
+		(seq_attach_id.NEXTVAL, #{edocId}, #{originFilename}, #{renamedFilename}, sysdate, NULL,
+		NULL, 'Y')
+		<selectKey keyProperty="attachId" resultType="string" order="AFTER">
+			select seq_attach_id.currval from dual
+		</selectKey>
+	</insert>
+	<select id="selectPdf" resultType="EdocAtt">	
+		select
+			*
+		from
+			edoc_att_tb
+		where
+			attach_id = #{attachId}
+	</select>
+
+
 
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
-		<id column="edoc_id" property="edocId"/>
-		<result column="secu_cd" property="secuCd"/>
-		<result column="prsv_cd" property="prsvCd"/>
-		<result column="emp_no" property="empNo"/>
-		<result column="emp_mod_no" property="empModNo"/>
-		<result column="edoc_title" property="edocTitle"/>
-		<result column="edoc_ver" property="edocVer"/>
-		<result column="edoc_org_id" property="edocOrgId"/>
-		<result column="edoc_dt" property="edocDt"/>
-		<result column="edoc_end" property="edocEnd"/>
-		<result column="edoc_end_dt" property="edocEndDt"/>
-		<result column="type_cd" property="typeCd"/>
-		<result column="form_nm" property="formNm"/>
-		<result column="prsv_amt" property="prsvAmt"/>
-		<result column="secu_nm" property="secuNm"/>
-		<result column="emp_name" property="empName"/>
+		<id column="edoc_id" property="edocId" />
+		<result column="secu_cd" property="secuCd" />
+		<result column="prsv_cd" property="prsvCd" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_mod_no" property="empModNo" />
+		<result column="edoc_title" property="edocTitle" />
+		<result column="edoc_ver" property="edocVer" />
+		<result column="edoc_org_id" property="edocOrgId" />
+		<result column="edoc_dt" property="edocDt" />
+		<result column="edoc_end" property="edocEnd" />
+		<result column="edoc_end_dt" property="edocEndDt" />
+		<result column="type_cd" property="typeCd" />
+		<result column="form_nm" property="formNm" />
+		<result column="prsv_amt" property="prsvAmt" />
+		<result column="secu_nm" property="secuNm" />
+		<result column="emp_name" property="empName" />
 		<collection property="edocFlowList" ofType="EdocFlow">
-			<id column="edoc_id" property="edocId"/>
-			<result column="flow_cd" property="flowCd"/>
-			<result column="flow_nm" property="flowNm"/>
-			<result column="flow_emp_no" property="flowEmpNo"/>
-			<result column="flow_ord" property="flowOrd"/>
-			<result column="flow_st" property="flowSt"/>
+			<id column="edoc_id" property="edocId" />
+			<result column="flow_cd" property="flowCd" />
+			<result column="flow_nm" property="flowNm" />
+			<result column="flow_emp_no" property="flowEmpNo" />
+			<result column="flow_ord" property="flowOrd" />
+			<result column="flow_st" property="flowSt" />
 		</collection>
 	</resultMap>
-	
-	
+
+
 </mapper>

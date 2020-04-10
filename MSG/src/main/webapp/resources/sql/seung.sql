@@ -534,3 +534,19 @@ from
 
 
 
+			insert
+				into
+					edoc_tb
+				values
+					('E200410-11', 'S3','P4', 1, NULL, 'asfadf', 0, NULL, sysdate, NULL, NULL);
+                    commit;
+			insert
+				into
+					leave_ltt_tb
+				values 
+					('E200410-11', 'P4', to_date('2020-04-01', 'YYYY-MM-DD HH24:MI:SS'), to_date('2020-04-03', 'YYYY-MM-DD HH24:MI:SS'), 2, 'asd', '2', 'F1', 0 );
+                    
+insert into
+			edoc_att_tb
+		values
+			(seq_attach_id.NEXTVAL, 'E200410-14', 'KakaoTalk_20200301_140136786.jpg', '20200409_171238653_830.jpg', sysdate, NULL, NULL);

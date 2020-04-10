@@ -2,6 +2,9 @@ package com.kh.msg.leave.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+
+import com.kh.msg.edoc.model.vo.EdocFlow;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +29,7 @@ public class Leave implements Serializable{
 	 private String empName;
 	 private String deptName;
 	 private String vctnNm;
-	 
+	 private String vctnReason;
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 
