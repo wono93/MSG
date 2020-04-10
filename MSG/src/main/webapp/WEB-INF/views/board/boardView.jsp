@@ -28,8 +28,8 @@
         		location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
         	}
 
- 		function update(no, empNo){
- 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no+"&empNo="+empNo;
+ 		function update(no, empNo, memberEmpno){
+ 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
  			}
 		 		
 		
@@ -183,8 +183,6 @@
 						alert("스크랩 등록");
 					}
 				 
-				 
-				 
 				 function deleteFunction() {
 						var memberEmpno = ${memberLoggedIn.empNo};
 						var boardNo = ${board.no};
@@ -205,16 +203,11 @@
 						alert("스크랩 취소");
 					}
 				</script>
-							
-							
                             <div id="member">
                                 <p class="com3">${member.deptCd }</p>
                                 <p class="com3">${member.jobCd }</p>
                                 <p class="com3">${member.empName }</p>
                             </div>
-                            
-                            
-							
                             
                         </div>
                         <div id="comRight">
@@ -252,7 +245,7 @@
                         <div style="margin-top:35px; width: 100%; height: 100%; z-index: 77; position: relative; 
                             display: inline-block;">
                             
-                            <button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }');">수정</button>
+                            <button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }', '${memberLoggedIn.memberEmpno }');">수정</button>
                             
                             <form name="boardFrm" 
 							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
@@ -270,12 +263,10 @@
                             <p class="com5">${countComment } 개의 댓글</p>
                             <br>
                         </div>
-                      
-                       	
 						<c:forEach items="${commentList}" var="c">
 							<form name="boardFrm" 
-						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }&empNo=${board.empNo}"
-						  method="post" 
+						  action="${pageContext.request.contextPath}/board/deleteComment.do?boardNo=${board.no }&empNo=${board.empNo}&memberEmpno=${memberLoggedIn.empNo}"
+						  method="post"
 						  onsubmit="return boardValidate();"
 						  enctype="multipart/form-data">
 		                        <div id="commentUser">
@@ -283,10 +274,9 @@
 		                                <tr>
 		                                    <td style="padding-left: 0px; padding-right: 0px; width: 50px;">
 		                                        <div class="box1" style="background: #BDBDBD;">
-		                                        <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
+		                                        	<img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
 		                                        </div>
 		                                    </td>
-				                                    
 	                                    	<td style="padding: 0; width: 166px;">
 	                                    		${c.deptCd} ${c.jobCd}  ${c.empName }
 	                                    	</td>

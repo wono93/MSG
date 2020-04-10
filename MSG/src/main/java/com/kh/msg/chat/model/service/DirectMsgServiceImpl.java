@@ -40,6 +40,12 @@ public class DirectMsgServiceImpl implements DirectMsgService {
 	public List<DirectMsg> headerDmList(String fromId) {
 		return directMsgDAO.headerDmList(fromId);
 	}
+
+	@Override
+	public List<Member> userLogin() {
+		// TODO Auto-generated method stub
+		return directMsgDAO.userLogin();
+	}
 	
 
 }

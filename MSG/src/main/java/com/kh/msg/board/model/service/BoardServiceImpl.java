@@ -231,5 +231,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.countComment(comment);
 	}
 
+	@Override
+	public List<Member> userLogin() {
+		// TODO Auto-generated method stub
+		return boardDAO.userLogin();
+	}
+
 	
 }

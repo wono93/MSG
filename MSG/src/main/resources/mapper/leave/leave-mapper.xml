@@ -3,44 +3,182 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="leave">
-       <!-- 총 게시글 갯수 출력 -->
-<select id="countBoard" resultType="int">
-	SELECT COUNT(*) FROM VCTN_UPDT_TB
-</select>
-
-<!-- 페이징 처리 후 게시글 조회 -->
-<!-- <select id="selectBoard" resultType="LeaveModal">
-	SELECT * 
-		FROM (
-			SELECT ROWNUM RN, A.* 
-				FROM (
-						SELECT * 
-						FROM VCTN_UPDT_TB 
-						ORDER BY SEQ DESC 
-						) A
-				)
-	WHERE RN BETWEEN #{start} AND #{end}
-</select>
-	 -->
-	<insert id="insertModal">
-		INSERT INTO VCTN_UPDT_TB 
-		VALUES(
-		    'VCTN' || TO_CHAR(VCTN_SEQ.nextval),
-			#{edocId},
-			#{vctnCd}, <!-- 휴가코드 -->
-			#{vctnNo}, 
-			#{vctnAmt}, <!-- 조절량 -->
-			default,
-			#{vctnReason} <!--근거  -->
-			)
-	</insert>
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="selectSetVacationTotalContents" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		EMP_TB B
+		, DEPT_TB D
+		,VCTN_TB E
+		<include refid="SetSearch"></include>
+		AND
+		B.DEPT_CD = D.DEPT_CD
+		AND B.EMP_NO = E.EMP_NO
+		ORDER by B.EMP_NO
+		asc
+	</select>
 	
+	<select id="selectAllVacationTotalContents" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		VCTN_HIS_TB A
+		, EMP_TB B
+		, VCTN_TYPE_TB C
+		,DEPT_TB D
+		<include refid="search"></include>
+		AND A.EMP_NO
+		= B.EMP_NO
+		AND A.VCTN_CD = C.VCTN_CD
+		AND B.DEPT_CD = D.DEPT_CD
+		order by
+		a.vctn_dtl_no desc
+	</select>
+	
+	<select id="selectMyVacationTotalContents" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		EMP_TB A
+		,VCTN_HIS_TB B
+		,VCTN_TYPE_TB C
+		<include refid="MySearch"></include>
+		AND
+		A.EMP_NO=B.EMP_NO
+		AND B.VCTN_CD=C.VCTN_CD
+		ORDER BY B.VCTN_DTL_NO DESC
+	</select>
+	<!-- 페이징 처리 후 게시글 조회 -->
+
+	<select id="selectSetLeaveList" resultType="LeaveSum">
+		SELECT
+		B.EMP_NO
+		,E.VCTN_NO
+		,D.DEPT_NAME
+		,B.EMP_NAME
+		,TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,B.HIRE_DATE)/12,0) ) Longevity
+		,E.ANNUAL
+		,E.REWARD
+		FROM
+		EMP_TB B
+		, DEPT_TB D
+		,VCTN_TB E
+		<include refid="SetSearch"></include>
+		AND B.DEPT_CD = D.DEPT_CD
+		AND B.EMP_NO = E.EMP_NO
+		ORDER by B.EMP_NO
+		asc 
+	</select>
+	
+	<select id="selectLeaveList" resultType="Leave">	
+		SELECT
+		a.vctn_dtl_no
+		,a.vctn_stdt
+		, a.vctn_endt
+		,a.app_dt
+		, a.vctn_used
+		, b.emp_name
+		, d.dept_name
+		, c.vctn_nm
+		, a.vctn_Reason
+		FROM
+		VCTN_HIS_TB A
+		, EMP_TB B
+		, VCTN_TYPE_TB C
+		,DEPT_TB D
+		<include refid="search"></include>
+		AND A.EMP_NO= B.EMP_NO
+		AND A.VCTN_CD = C.VCTN_CD
+		AND B.DEPT_CD = D.DEPT_CD
+		order by
+		a.vctn_dtl_no desc
+		</select>
+	<select id="selectMyLeaveList" resultType="MyLeave" parameterType="Member"> 
+		SELECT
+		A.EMP_NO
+		,B.VCTN_DTL_NO
+		,B.VCTN_STDT
+		,B.VCTN_ENDT
+		,A.USER_ID
+		,B.VCTN_REASON
+		,C.VCTN_NM
+		,c.VCTN_CD
+		,B.VCTN_USED
+		FROM
+		EMP_TB A
+		,VCTN_HIS_TB B
+		,VCTN_TYPE_TB C
+		<include refid="MySearch"></include>
+		AND A.EMP_NO=B.EMP_NO
+		AND B.VCTN_CD=C.VCTN_CD
+		ORDER BY B.VCTN_DTL_NO DESC
+	</select>
+	<!-- 검색 옵션  -->
+	<sql id="search">
+		<choose>
+			<!--전체 검색  -->
+			<when test="srchType == 'all'">
+			 WHERE (D.DEPT_NAME like '%'|| #{srchWord} || '%' 
+                      OR  B.EMP_NAME like '%'||#{srchWord} ||'%' 
+                      OR C.VCTN_NM like '%'||#{srchWord}||'%')
+			</when>
+			<!--일부 검색  -->
+			<otherwise>
+				where ${srchType} like '%'||#{srchWord}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 나의휴가 검색 옵션  -->
+	<sql id="MySearch">
+		<choose>
+			<!--전체 검색  -->
+			<when test="srchType == 'all'">
+			 WHERE (B.VCTN_REASON like '%'|| #{srchWord} || '%' 
+                      OR C.VCTN_NM like '%'||#{srchWord} ||'%')
+			</when>
+			<!--일부 검색  -->
+			<otherwise>
+				where ${srchType} like '%'||#{srchWord}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 휴가조정 검색 옵션  -->
+	<sql id="SetSearch">
+		<choose>
+			<!--전체 검색  -->
+			<when test="srchType == 'all'">
+			 WHERE (D.DEPT_NAME like '%'|| #{srchWord} || '%' 
+                      OR  B.EMP_NAME like '%'||#{srchWord} ||'%' 
+                      )
+			</when>
+			<!--일부 검색  -->
+			<otherwise>
+				where ${srchType} like '%'||#{srchWord}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 모달   -->
+
+	<insert id="insertModal">
+		INSERT INTO VCTN_UPDT_TB
+		VALUES(
+		'VCTN' || TO_CHAR(VCTN_SEQ.nextval),
+		#{edocId},
+		#{vctnCd}, <!-- 휴가코드 -->
+		#{vctnNo},
+		#{vctnAmt}, <!-- 조절량 -->
+		default,
+		#{vctnReason} <!--근거 -->
+		)
+	</insert>
+
 	<select id="selectModalSearch" resultType="Edoc">
-	SELECT
-	*
-	FROM
-	EDOC_TB
-	</select> 
+		SELECT
+		*
+		FROM
+		EDOC_TB
+	</select>
 
 
 	<resultMap type="leaveModal" id="leaveModal"></resultMap>
@@ -67,28 +205,7 @@
 		B.VCTN_NO = C.VCTN_NO
 		AND C.EMP_NO = E.EMP_NO
 	</select>
-	<resultMap type="leave" id="leave"></resultMap>
-	<select id="selectLeaveList" resultMap="leave">
-		SELECT
-		a.vctn_dtl_no
-		,a.vctn_stdt
-		, a.vctn_endt
-		, a.app_dt
-		, a.vctn_used
-		, b.emp_name
-		,
-		d.dept_name
-		, c.vctn_nm
-		FROM VCTN_HIS_TB A
-		, EMP_TB B
-		, VCTN_TYPE_TB C
-		,DEPT_TB D
-		WHERE 1=1
-		AND A.EMP_NO = B.EMP_NO
-		AND A.VCTN_CD = C.VCTN_CD
-		AND B.DEPT_CD = D.DEPT_CD
-		order by a.vctn_dtl_no desc
-	</select>
+
 	<resultMap type="leaveSet" id="leaveSet"></resultMap>
 	<select id="selectLeaveList2" resultMap="leaveSet">
 		SELECT

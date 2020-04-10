@@ -9,12 +9,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channel.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelModify.css">
+    <script src="${pageContext.request.contextPath }/resources/js/channelModify.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channel.js"></script>
 </head>
 <body>
+	<input type="hidden" name="chEx" value="${chEx }" id="inputChEx"/>
+	<input type="hidden" name="regId" value="${regId }" id="inputRegId"/>
 	<input type="hidden" name="userId" value="${userId }" id="inputUserId"/>
 	<input type="hidden" name="chNo" value="${chNo }" id="inputChNo"/>
 	<input type="hidden" name="chName" value="${chName }" id="inputChName"/>
+	
     <section>
         <div>
             <article>
@@ -31,8 +36,10 @@
 				        </div>
 				        <p id="channel-title"></p>
 				        <div class="btnGrp">
-					        <button id="video" class="button">화상회의</button>
-					        <button id="addmember" class="button">구성원 추가/삭제</button>
+					        <!-- <button id="video" class="button">화상회의</button> -->
+					        <c:if test="${regId == userId }">
+						        <button id="addmember" class="button">채널 수정</button>
+					        </c:if>
 				        </div>
 					</div>
 					
@@ -46,5 +53,70 @@
 			</article>
 		</div>
     </section>    
+    
+    <div id="channelModifyModal" class="ch-modal">
+   		<!-- Modal content -->
+            <div class="ch-modal-content">
+                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon closeModify" id="close-btn">
+                <div id="ch-content">
+                    <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
+
+                        <div class="channelGenTitle">
+                            <h3>채널 수정</h3>
+                            <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" class="ch-member-img">
+                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king">
+                        </div>
+
+                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3" value="${chName }">
+                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4" value="${chEx }">
+
+                        <div id="ch-member-list">
+                            <table id="ch-member-table">
+                            </table>
+                        </div>
+
+                        <div class="channel_srchChBar">
+                            <div class="channel_select-box">
+                                <div class="channel_select-box__current" tabindex="1">
+                                    <div class="channel_select-box__value">
+                                        <input class="channel_select-box__input" type="radio" id="MT1" value="emp_name" name="chModifySearchType" checked="checked"/>
+                                        <p class="channel_select-box__input-text">이름</p>
+                                    </div>
+                                    <div class="select-box__value">
+                                        <input class="channel_select-box__input" type="radio" id="MT2" value="dept_name" name="chModifySearchType" />
+                                        <p class="channel_select-box__input-text">부서</p>
+                                    </div>
+                                    <div class="channel_select-box__value">
+                                        <input class="channel_select-box__input" type="radio" id="MT3" value="job_name" name="chModifySearchType" />
+                                        <p class="channel_select-box__input-text">직위</p>
+                                    </div>
+                                    <img class="channel_select-box__icon"
+                                        src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
+                                        aria-hidden="true" />
+                                </div>
+                                <ul class="channel_select-box__list">
+                                    <li>
+                                        <label class="channel_select-box__option" for="MT1" aria-hidden="aria-hidden">이름</label>
+                                    </li>
+                                    <li>
+                                        <label class="channel_select-box__option" for="MT2" aria-hidden="aria-hidden">부서</label>
+                                    </li>
+                                    <li>
+                                        <label class="channel_select-box__option" for="MT3" aria-hidden="aria-hidden">직위</label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="text" name="chModifyKeyword" id="srchModifyChWord" tabindex="1">
+                           	<a href="#" onclick="searchMemberCh()" tabindex="2">
+	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="ch-search-icon">
+                           	</a>
+                            <div class="chDivBtn">
+                                <button type="submit" class="ch-button">확인</button>
+                            </div>
+                        </div>
+                    </form>
+             </div>
+		</div>
+	</div>
 </body>
 </html>

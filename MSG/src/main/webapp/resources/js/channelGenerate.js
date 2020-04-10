@@ -2,8 +2,6 @@ hdjq(document).ready(function(){
     // Get the modal
     var channelModal = document.getElementById("channelGenModal");
 
-    
-    
     // Get the button that opens the modal
     var channelBtn = document.getElementById("plus-icon");
 
@@ -49,16 +47,10 @@ function searchMemberCh(){
 	});
 }
 
-let style = {
-        color: "red",
-        border: "2px solid red"
-    };
-
 var arr = new Array(); 
 
 function addChMember(empImage, empName, deptName, jobName, empNo){
 	
-	console.log(arr);
 	for(var i=0; i<arr.length; i++){
 		if(empNo == arr[i])
 			return false;
@@ -76,6 +68,7 @@ function addChMember(empImage, empName, deptName, jobName, empNo){
 	
 	arr.push(empNo);
 	
+	console.log(arr);
 }
 function deleteMember(obj){
 	var delTr = hdjq(obj).parents("tr");

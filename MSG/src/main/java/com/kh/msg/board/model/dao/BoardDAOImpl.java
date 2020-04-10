@@ -203,4 +203,10 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("board.countComment", comment);
 	}
 
+	@Override
+	public List<Member> userLogin() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.userLogin");
+	}
+
 }

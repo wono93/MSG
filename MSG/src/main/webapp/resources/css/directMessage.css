@@ -1,133 +1,156 @@
-	.dmBar{
-	  position: absolute;
-	  right: 0px;
-	  z-index: 10;
-	}
+.dmBar {
+	position: absolute;
+	right: 0px;
+	z-index: 10;
+}
 
-    .dmButton{
-        font-size: 14px;
-        padding: 7px 23px;
-        background: #999999;
-    }
-    .button:hover{
-        background: #F4CA25;
-    }
-    #dm-container{
-        width: 400px;
-        padding: 10px 10px;
-        background-color: #FEFEFE;
-        height: 600px;
-        overflow-y: scroll;
-    }
-    /* member img */
-    .member-img{
-        width: 50px; 
-        height: 50px;
-        object-position: top;
-        object-fit: cover;
-        border-radius: 50%;
-        float: inherit;
-    }
-    /* hr date */
-    #hr-container{
-        text-align: center;
-        color: #999999;
-        font-size: 5px;
-    }
-    .dmHr{
-        width: 130px;
-        display: inline-block;
-    }
-    #span-date{
-        position: relative;
-        left : 0px;
-        top : -4px;
-    }
-    #hr-left{
-        position: relative;
-        float: left;
-    }
-    #hr-right{
-        position: relative;
-        float: right;
-    }
-    /* dm */
-    .dm-content{
-        padding: 15px;
-        max-width: 238px;
-        max-height: calc(100% - 70px);
-        margin: 0 10px;
-        float: inherit;
-        position: relative;
-    }
-    .dm-time{
-        color: #999999;
-        /* float: inherit; */
-        font-size: 5px;
-        top:79%;
-        width:50px;
-        position: absolute;
-    }
-    #from-dm-time{
-        left: 103%;
-    }
-    #to-dm-time{
-        right: 97%;
-    }
-    /* to dm */
-    #to-dm{
-        float: right;
-        margin: 10px;
-        min-width: 380px;
-    }
-    #to-dm-content{
-        background: #F4CA25;
-    }
-    /* from dm */
-    #from-dm{
-        float: left;
-        margin: 10px;
-        min-width: 380px;
-    }
-    #from-dm-content{
-        background-color: #EBEBEB;
-    }
-    /* send dm */
-    #send-dm-container{
-        background-color: #EBEBEB;
-        width: 400px;
-        height: 108px;
-        padding: 10px 10px;
-    }
-    #send-dm-button{
-        float: right;
-    }
-    #send-dm-button:hover{
-        background: #F4CA25;
-    }
-    #msgContent{
-        resize: none;
-        background-color: #FEFEFE;
-        border: none;
-    }
-    #title-container{
-        background-color: #ffffff;
-        width: 400px;
-        height: 70px;
-        padding: 10px 10px;
-        text-align: center;
-        font-size: 25px;
-    }
-    #name-span{
-        margin: 25px auto;
-        font-weight: 500;
-    }
-    #dmClose{
-        float: right;
-        width: 20px;
-        margin: 5px 5px 0 0;
-    }
-    #entire-container {
-    width: fit-content;
-    box-shadow: -5px -5px 30px 5px grey;
+.dmButton {
+	font-size: 14px;
+	padding: 7px 23px;
+	background: #999999;
+}
+
+.button:hover {
+	background: #F4CA25;
+}
+
+#dm-container {
+	width: 400px;
+	padding: 10px 10px;
+	background-color: #FEFEFE;
+	height: 600px;
+	overflow-y: scroll;
+}
+/* member img */
+.member-img {
+	width: 50px;
+	height: 50px;
+	object-position: top;
+	object-fit: cover;
+	border-radius: 50%;
+	float: inherit;
+}
+/* hr date */
+#hr-container {
+	text-align: center;
+	color: #999999;
+	font-size: 5px;
+}
+
+.dmHr {
+	width: 130px;
+	display: inline-block;
+}
+
+#span-date {
+	position: relative;
+	left: 0px;
+	top: -4px;
+}
+
+#hr-left {
+	position: relative;
+	float: left;
+}
+
+#hr-right {
+	position: relative;
+	float: right;
+}
+/* dm */
+.dm-content {
+	padding: 12px;
+	max-width: 238px;
+	max-height: calc(100% - 70px);
+	margin: 3px 10px;
+	float: inherit;
+	position: relative;
+}
+
+.dm-time {
+	color: #999999;
+	/* float: inherit; */
+	font-size: 5px;
+	top: 79%;
+	width: 50px;
+	position: absolute;
+}
+
+#from-dm-time {
+	left: 103%;
+}
+
+#to-dm-time {
+	right: 97%;
+}
+/* to dm */
+#to-dm {
+	float: right;
+	margin: 10px;
+	min-width: 375px;
+}
+
+#to-dm-content {
+	background: #F4CA25;
+}
+/* from dm */
+#from-dm {
+	float: left;
+	margin: 10px;
+	min-width: 375px;
+}
+
+#from-dm-content {
+	background-color: #EBEBEB;
+}
+/* send dm */
+#send-dm-container {
+	background-color: #EBEBEB;
+	width: 400px;
+	height: 108px;
+	padding: 10px 10px;
+}
+
+#send-dm-button {
+	float: right;
+}
+
+#send-dm-button:hover {
+	background: #F4CA25;
+}
+
+#msgContent {
+	resize: none;
+	background-color: #FEFEFE;
+	border: none;
+}
+
+#title-container {
+	background-color: #ffffff;
+	width: 400px;
+	height: 70px;
+	padding: 10px 10px;
+	text-align: center;
+	font-size: 25px;
+}
+
+#name-span {
+	margin: 25px auto;
+	font-weight: 500;
+}
+
+#dmClose {
+	float: right;
+	width: 20px;
+	margin: 5px 5px 0 0;
+}
+
+#entire-container {
+	width: fit-content;
+	box-shadow: -5px -5px 30px 5px grey;
+}
+
+#dmListTitle {
+	margin: 0;
+	border-bottom: 1px solid gray;
 }

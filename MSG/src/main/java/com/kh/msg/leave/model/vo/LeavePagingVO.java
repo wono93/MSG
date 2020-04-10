@@ -1,13 +1,21 @@
 package com.kh.msg.leave.model.vo;
 
-public class leavePagingVo {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class LeavePagingVO {
 	private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 	private int cntPage = 5;
 
-	public leavePagingVo() {
-		}
-
-	public leavePagingVo(int total, int nowPage, int cntPerPage) {
+	public LeavePagingVO(int total, int nowPage, int cntPerPage) {
 	setNowPage(nowPage);
 	setCntPerPage(cntPerPage);
 	setTotal(total);

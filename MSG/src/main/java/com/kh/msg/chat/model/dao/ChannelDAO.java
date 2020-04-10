@@ -10,7 +10,7 @@ import com.kh.msg.member.model.vo.OrgChart;
 
 public interface ChannelDAO {
 
-	List<ChannelInfo> headerChList(String fromId);
+	List<Integer> chMemberList(String fromId);
 
 	List<ChannelMsg> channelListByNumber(Map<String, Object> param);
 
@@ -24,7 +24,17 @@ public interface ChannelDAO {
 
 	int generateChannel(ChannelInfo chInfo);
 
-	int addChannelMember(Map<String, Object> param);
+	int addChannelMember(int empNo, int chNo);
+
+	List<ChannelInfo> headerChList(List<Integer> chNoList);
+
+	List<OrgChart> presentMember(int chNo);
+
+	int deleteChannelMember(int chNo);
+	
+	int modifyChannel(ChannelInfo chInfo);
+
+	
 
 
 }

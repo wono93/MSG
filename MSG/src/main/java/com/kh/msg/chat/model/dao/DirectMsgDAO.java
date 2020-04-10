@@ -18,4 +18,6 @@ public interface DirectMsgDAO {
 
 	List<DirectMsg> headerDmList(String fromId);
 
+	List<Member> userLogin();
+
 }

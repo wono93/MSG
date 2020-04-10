@@ -115,7 +115,7 @@
 					</div>
 					<table>
 						<tr>
-							<th rowspan="2"></th>
+							<th rowspan="2" id="vctnNoHide"></th>
 							<th rowspan="2">부서</th>
 							<th rowspan="2">이름</th>
 							<th rowspan="2">근속연수</th>
@@ -131,7 +131,7 @@
 						</tr>
 						<c:forEach items="${listSum}" var="leave" varStatus="vs">
 							<tr>
-								<td>${leave.vctnNo }</td>
+								<td id="vctnNoHide">${leave.vctnNo }</td>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
 								<td>${leave.longevity}</td>
@@ -152,26 +152,21 @@
 						</c:forEach>
 					</table>
 					<div class="pagination">
-						<a href="#" class="arrow">&laquo;</a> <a href="#">1</a> <a
-							href="#" class="active">2</a> <a href="#">3</a> <a href="#">4</a>
-						<a href="#">5</a> <a href="#" class="arrow">&raquo;</a>
+					${pageBar }
 					</div>
 					<div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="1"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'd.dept_name'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">부서</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="2"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'b.emp_name'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">이름</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="2" value="3"
-										name="Ben" checked="checked" />
+									<input class="select-box__input" type="radio" id="2" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">전체</p>
 								</div>
 								<img class="select-box__icon"
@@ -187,7 +182,7 @@
 									aria-hidden="aria-hidden">이름</label></li>
 							</ul>
 						</div>
-						<input type="text" name="" id="srchWord">
+						<input type="text"  name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="검색창 나중에 위 쪽으로 올릴것">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
@@ -240,24 +235,6 @@
 				</div>
 				</p>
 				<br> <br>
-					<div style="display: block; text-align: center;">		
-		<c:if test="${paging.startPage != 1 }">
-			<a href="/boardList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-		</c:if>
-		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-			<c:choose>
-				<c:when test="${p == paging.nowPage }">
-					<b>${p }</b>
-				</c:when>
-				<c:when test="${p != paging.nowPage }">
-					<a href="/boardList?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-				</c:when>
-			</c:choose>
-		</c:forEach>
-		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="/boardList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-		</c:if>
-	</div>
 				<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
@@ -266,8 +243,42 @@
 		</div>
 
 	</section>
-
+	<style>
+	#vctnNoHide{ display:none;
+	
+	}
+	
+	</style>
 	<script>
+	
+	$("#srchBtn").click(function(){
+		
+		//폼 태그 생성
+        var form = document.createElement('form');
+        //폼 속성 set attribute
+        form.name = 'newForm';
+        form.method = 'get';
+        form.action = '/msg/leave/update.do';
+        form.target = '_self';        
+        //input 태그 생성
+        var input1 = document.createElement('input');
+   
+        //input태그에 set attribute
+        input1.setAttribute("type", "hidden");
+        input1.setAttribute("name", "srchWord");
+        input1.setAttribute("value", $("#srchWord").val());        
+       
+        //완성된 input 태그를 form에 append
+        form.appendChild(input1);
+        //form 태그
+        document.body.appendChild(form);
+        // form 제출
+        form.submit();
+	});
+	
+	</script>
+	<script>
+
 		/*기조정내역 테이블  */
 		function modalDel() {
 			alert("기존내용 삭제");
@@ -297,7 +308,7 @@
 						str += '<tr class ="delTr"><td>' + item.vctnNm
 								+ '</td><td>' + item.vctnAmt + '</td><td>'
 								+ item.edocId + '</td><td>' + item.vctnReason
-								+ '</td><td>'+item.vctnUpdtDt;
+								+ '</td><td>' + item.vctnUpdtDt;
 						str += '</tr>'
 					});
 					$("#modalAjax").append(str);
@@ -331,16 +342,15 @@
 		function modalSub() {
 			var vctnCd = "";
 			if ($("input:radio[id='box2']").is(":checked")) {
-				
-				
+
 				vctnCd = "1";
 
 			} else if ($("input:radio[id='box1']").is(":checked")) {
 
 				vctnCd = "2";
 
-			} 
-			if(vctnCd == ""){
+			}
+			if (vctnCd == "") {
 				alert("연차 또는 포상을 선택해주세요.")
 				return;
 			}
@@ -372,14 +382,14 @@
 				},
 				dataType : "JSON",
 				success : function(data) {
-					
+
 				}
 			});
-					 /* $(".modal").modal('hide'); */
-					$(".delTr").remove();
-					/*  $("#test").hide(); */
-					  $("#test").modal("hide");   
-				/* 	$(".jquery-modal blocker current").modal("hide"); */
+			/* $(".modal").modal('hide'); */
+			$(".delTr").remove();
+			/*  $("#test").hide(); */
+			$("#test").modal("hide");
+			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
 	</script>

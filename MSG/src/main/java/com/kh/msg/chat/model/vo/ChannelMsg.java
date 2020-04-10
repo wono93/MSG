@@ -22,7 +22,7 @@ public class ChannelMsg extends OrgChart implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int msgNo;
+	private int chMsgNo;
 	private int chNo;
 	private int empNo;
 	private String userId;
