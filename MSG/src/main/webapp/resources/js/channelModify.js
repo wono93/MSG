@@ -1,51 +1,68 @@
 hdjq(document).ready(function(){
     // Get the modal
-    var channelModal = document.getElementById("channelGenModal");
+    var channelModifyModal = document.getElementById("channelModifyModal");
 
     // Get the button that opens the modal
-    var channelBtn = document.getElementById("plus-icon");
-
+    var channelModifyBtn = document.getElementById("addmember");
+    
     // Get the <span> element that closes the modal
-    var channelSpan = document.getElementsByClassName("close")[0];
+    var channelModifySpan = document.getElementsByClassName("closeModify")[0];
 
     // When the user clicks on the button, open the modal
-    channelBtn.onclick = function () {
-    	channelModal.style.display = "block";
+    channelModifyBtn.onclick = function () {
+    	channelModifyModal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
-    channelSpan.onclick = function () {
-    	channelModal.style.display = "none";
+    channelModifySpan.onclick = function () {
+    	channelModifyModal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == channelModal) {
-        	channelModal.style.display = "none";
-        }
+//    window.onclick = function (event) {
+//        if (event.target == channelModifyModal) {
+//        	channelModifyModal.style.display = "none";
+//        }
+//    }
+    function presentMember(){
+    	hdjq.ajax({
+    		type:"GET",
+    		url:"/msg/chat/modifyChannel.do",
+    		data:{
+    			chNo: chNo
+    		},
+    		dataType: "json",
+    		success : function(data) {
+//    			console.log(chSearchType+", "+chModifyKeyword);
+    			for (var i = 0; i < data.length; i++) {
+    				addChMember(data[i]['empImage'], data[i]['empName'], data[i]['deptName'], data[i]['jobName'], data[i]['empNo']);
+    			}
+    		}
+    	});
     }
 });
 
 function searchMemberCh(){
-	var chKeyword = hdjq("input[name=chKeyword").val();
+	var chModifyKeyword = hdjq("input[name=chModifyKeyword").val();
 	
-	var chSearchType = hdjq("input[name=chSearchType]:checked").val();
+	var chModifySearchType = hdjq("input[name=chModifySearchType]:checked").val();
 	hdjq.ajax({
 		type:"GET",
 		url:"/msg/chat/searchListCh.do",
 		data:{
-			keyword: chKeyword,
-			searchType: chSearchType
+			keyword: chModifyKeyword,
+			searchType: chModifySearchType
 		},
 		dataType: "json",
 		success : function(data) {
-//			console.log(chSearchType+", "+chKeyword);
+//			console.log(chSearchType+", "+chModifyKeyword);
 			for (var i = 0; i < data.length; i++) {
 				addChMember(data[i]['empImage'], data[i]['empName'], data[i]['deptName'], data[i]['jobName'], data[i]['empNo']);
 			}
 		}
 	});
 }
+
 
 var arr = new Array(); 
 

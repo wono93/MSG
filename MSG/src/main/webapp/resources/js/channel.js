@@ -3,9 +3,9 @@ var chjq = jQuery.noConflict();
 
 chjq(document).ready(function(){
 	channelMemberFunction();
-//	setInterval(function() {
-//		channelMemberFunction();
-//	}, 10000);
+	setInterval(function() {
+		channelMemberFunction();
+	}, 10000);
 });
 function channelMemberFunction() {
 	var chName = chjq("#inputChName").val();
@@ -22,6 +22,7 @@ function channelMemberFunction() {
 				addChannelMember(data[i]['empImage'],data[i]['regId'],data[i]['userId']);
 			}
 		}
+		
 	});
 	hdjq('#channel-member-container').empty();
 }
@@ -30,11 +31,11 @@ function addChannelMember(empImage, regId, userId){
 	if(userId == regId){
 		hdjq("#channel-member-container").append('<a href="#">'
 				+'<img src="/msg/resources/image/king.svg" id="head">'
-				+'<img src="/msg/resources/image/'+empImage+'" class="channel-member-img" id="head-aura">'
+				+'<img src="/msg/resources/upload/empImg/'+empImage+'" class="channel-member-img" id="head-aura">'
 				+'</a>');
 	}
 	else{
-		hdjq("#channel-member-container").append('<a href="#"><img src="/msg/resources/image/'+empImage+'" class="channel-member-img" id="public"></a>');
+		hdjq("#channel-member-container").append('<a href="#"><img src="/msg/resources/upload/empImg/'+empImage+'" class="channel-member-img" id="public"></a>');
 	}
 }
 
@@ -120,7 +121,7 @@ function addChannelChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, e
 	if(userId != chatId ){
 		chjq("#channel-container").append(
 									'<div id="channel-from-msg">'
-					                +'<img src="/msg/resources/image/'+empImage+'" id="channel-from-msg-img" class="channel-member-img">'
+					                +'<img src="/msg/resources/upload/empImg/'+empImage+'" id="channel-from-msg-img" class="channel-member-img">'
 					                +'<div id="channel-from-msg-content" class="channel-msg-content">'+msgContent
 					                +'<span id="channel-from-msg-time" class="channel-msg-time">'
 					                +msgTime
@@ -133,7 +134,7 @@ function addChannelChat(userId, chatId, msgContent, msgTime, hrDate, hideDate, e
 	}else{
 		chjq("#channel-container").append(
 									'<div id="channel-to-msg">'
-						            +'<img src="/msg/resources/image/'+empImage+'" id="channel-to-msg-img" class="channel-member-img">'
+						            +'<img src="/msg/resources/upload/empImg/'+empImage+'" id="channel-to-msg-img" class="channel-member-img">'
 						            +'<div id="channel-to-msg-content" class="channel-msg-content">'+msgContent
 						            +'<span id="channel-to-msg-time" class="channel-msg-time">'
 						            +msgTime
@@ -173,5 +174,9 @@ function channelSubmitFunction() {
 		}
 	});
 	chjq('#channel-send-msg-content').val('');
+	
+}
+function channelModify(){
+	
 	
 }

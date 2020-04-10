@@ -28,5 +28,11 @@ public interface ChannelService {
 
 	List<ChannelInfo> headerChList(List<Integer> chNoList);
 
+	List<OrgChart> presentMember(int chNo);
+
+	int deleteChannelMember(int chNo);
+	
+	int modifyChannel(ChannelInfo chInfo);
+
 
 }

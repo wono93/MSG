@@ -482,3 +482,7 @@
     left: 17px;
     bottom: 27px;
   }
+#channelListTitle {
+	margin: 5px 0 0 0;
+	border-bottom: 1px solid gray;
+}

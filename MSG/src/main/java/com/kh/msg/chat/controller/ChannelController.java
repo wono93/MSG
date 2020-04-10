@@ -62,9 +62,11 @@ public class ChannelController {
 			
 			for(int i = 0; i < list.size(); i++) {
 				JSONObject sObject = new JSONObject(); 
-				sObject.put("userId", list.get(i).getUserId());
+				sObject.put("userId", fromId);
 				sObject.put("chNo", list.get(i).getChNo());
 				sObject.put("chName", list.get(i).getChName());
+				sObject.put("regId", list.get(i).getRegId());
+				sObject.put("chEx", list.get(i).getChEx());
 				
 				jsonArr.add(sObject);
 			}
@@ -109,11 +111,13 @@ public class ChannelController {
 		}	
 	}
 	@PostMapping("/channel.do")
-	public ModelAndView channelList(String userId, String chNo, String chName, ModelAndView mav) {
+	public ModelAndView channelList(String userId, String chNo, String chName, String chEx, String regId, ModelAndView mav) {
 		
 		mav.addObject("userId",userId);
 		mav.addObject("chNo",chNo);
 		mav.addObject("chName",chName);
+		mav.addObject("chEx",chEx);
+		mav.addObject("regId",regId);
 		mav.setViewName("/chat/channel");
 		
 		return mav;
@@ -316,6 +320,66 @@ public class ChannelController {
 		mav.addObject("chName",chName);
 		
 		mav.setViewName("chat/channel");
+		return mav;
+		
+	}
+	@PostMapping("/modifyChannel.do")
+	public ModelAndView modifyChannel(ModelAndView mav, ChannelInfo chInfo,
+			@RequestParam(value="empNo", required=false) int[] empNo,
+			@RequestParam(value="chName", required=false) String chName,
+			@RequestParam(value="regId", required=false) String regId,
+			@RequestParam(value="chEx", required=false) String chEx,
+			@RequestParam(value="regEmpNo", required=false) int regEmpNo,
+			@RequestParam(value="chNo", required=false) int chNo,
+			RedirectAttributes redirectAttributes,
+			HttpServletRequest request,
+			 HttpServletResponse response) {
+		
+		log.debug("empNo={}", empNo);
+//		log.debug("empNo.length="+ empNo.length);
+		
+		try {
+			if(chNo != 0) {
+				
+				List<OrgChart> list = channelService.presentMember(chNo);
+				
+				JSONArray jsonArr = new JSONArray();
+				
+				for(int i = 0; i < list.size(); i++) {
+					JSONObject sObject = new JSONObject(); 
+					sObject.put("empImage", list.get(i).getEmpImage());
+					sObject.put("empName", list.get(i).getEmpName());
+					sObject.put("deptName", list.get(i).getDeptName());
+					sObject.put("jobName", list.get(i).getJobName());
+					sObject.put("empNo", list.get(i).getEmpNo());
+					
+					jsonArr.add(sObject);
+					
+				}
+				
+				response.setCharacterEncoding("UTF-8");
+				
+				PrintWriter out;
+				out = response.getWriter();
+				out.write(jsonArr.toString());
+					
+			}
+			
+			int deleteResult = channelService.deleteChannelMember(chNo);
+			
+			int insertResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
+		
+			int result = channelService.modifyChannel(chInfo);
+			
+			mav.addObject("userId",regId);
+			mav.addObject("chNo",chInfo.getChNo());
+			mav.addObject("chName",chName);
+			
+			mav.setViewName("chat/channel");
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return mav;
 		
 	}

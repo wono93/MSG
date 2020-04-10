@@ -69,5 +69,19 @@ public class ChannelDAOImpl implements ChannelDAO {
 		
 	}
 
+	@Override
+	public List<OrgChart> presentMember(int chNo) {
+		return sqlSession.selectList("Channel.presentMember",chNo);
+	}
+	
+	@Override
+	public int deleteChannelMember(int chNo) {
+		return sqlSession.delete("Channel.deleteChannelMember",chNo);
+	}
+	@Override
+	public int modifyChannel(ChannelInfo chInfo) {
+		return sqlSession.update("Channel.modifyChannel",chInfo);
+	}
+
 
 }

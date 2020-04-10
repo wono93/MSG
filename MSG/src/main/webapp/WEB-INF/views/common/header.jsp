@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/directMessage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/channelGenerate.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script>
@@ -99,7 +100,7 @@
                     <i class="icon fas fa-shopping-basket" style="font-size:24px"></i> 오피스디포
                 </a>
             </li> -->
-            <ul class="secnav" id="">
+            <ul class="secnav" style="margin-bottom: 4px;">
 	            <p id="channelListTitle">Channel
 	            	<img src="/msg/resources/image/plus-icon.png" id="plus-icon" style="width:10px; heigth:10px;">
 	            </p>
@@ -143,7 +144,7 @@
 
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
-                            <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" id="" class="ch-member-img">
+                            <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="" class="ch-member-img">
                             <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king">
                         </div>
 
@@ -154,17 +155,8 @@
 
                         <div id="ch-member-list">
                             <table id="ch-member-table">
-                                <%-- <tr>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/img.jpg" id="ch-member-list-img" class="ch-member-img"></td>
-                                    <td>가디01</td>
-                                    <td>해외영업부</td>
-                                    <td>과장</td>
-                                    <td>20122222</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon" id=""></td>
-                                </tr> --%>
                             </table>
                         </div>
-
 
                         <div class="channel_srchChBar">
                             <div class="channel_select-box">

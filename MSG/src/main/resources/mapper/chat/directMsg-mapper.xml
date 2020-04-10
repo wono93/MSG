@@ -49,5 +49,6 @@
 			HEADER_DM_LIST_VIEW
 		where
 			to_id = #{from_id}
+		order by msg_date desc
 	</select>
 </mapper>

@@ -72,6 +72,21 @@ public class ChannelServiceImpl implements ChannelService {
 		return channelDAO.headerChList(chNoList);
 	}
 
+	@Override
+	public List<OrgChart> presentMember(int chNo) {
+		return channelDAO.presentMember(chNo);
+	}
 
+	@Override
+	public int deleteChannelMember(int chNo) {
+		return channelDAO.deleteChannelMember(chNo);
+	}
+	
+	@Override
+	public int modifyChannel(ChannelInfo chInfo) {
+		return channelDAO.modifyChannel(chInfo);
+	}
+
+	
 
 }

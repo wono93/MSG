@@ -45,7 +45,7 @@ function addList(empImage, empName, jobName, toId) {
 	hdjq("#dmList").append(
 						 '<li>'+
 			             '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/image/'+empImage+'" class="member-img">'+
+						 '<img src="/msg/resources/upload/empImg/'+empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
 						 '</span>'+
@@ -171,7 +171,7 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	if(toId == fromId ){
 		hdjq("#dm-container").append(
 									'<div id="from-dm">'
-					                +'<img src="/msg/resources/image/'+empImage+'" id="from-dm-img" class="member-img">'
+					                +'<img src="/msg/resources/upload/empImg/'+empImage+'" id="from-dm-img" class="member-img">'
 					                +'<div id="from-dm-content" class="dm-content">'+msgContent
 					                +'<span id="from-dm-time" class="dm-time">'
 					                +msgTime
@@ -184,7 +184,7 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	}else{
 		hdjq("#dm-container").append(
 									'<div id="to-dm">'
-						            +'<img src="/msg/resources/image/'+empImage+'" id="to-dm-img" class="member-img">'
+						            +'<img src="/resources/upload/empImg/'+empImage+'" id="to-dm-img" class="member-img">'
 						            +'<div id="to-dm-content" class="dm-content">'+msgContent
 						            +'<span id="to-dm-time" class="dm-time">'
 						            +msgTime

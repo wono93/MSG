@@ -59,10 +59,10 @@
 }
 /* dm */
 .dm-content {
-	padding: 15px;
+	padding: 12px;
 	max-width: 238px;
 	max-height: calc(100% - 70px);
-	margin: 0 10px;
+	margin: 3px 10px;
 	float: inherit;
 	position: relative;
 }
@@ -87,7 +87,7 @@
 #to-dm {
 	float: right;
 	margin: 10px;
-	min-width: 380px;
+	min-width: 375px;
 }
 
 #to-dm-content {
@@ -97,7 +97,7 @@
 #from-dm {
 	float: left;
 	margin: 10px;
-	min-width: 380px;
+	min-width: 375px;
 }
 
 #from-dm-content {
