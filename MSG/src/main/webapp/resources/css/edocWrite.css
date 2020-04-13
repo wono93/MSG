@@ -646,7 +646,6 @@ table .textIpt {
 }
 .flowBoxX{
 	width : 10px;
-	padding
 }
 .flowLineTable td:first-child {
 	width: 110px;
@@ -671,5 +670,53 @@ table .textIpt {
 	border: none !important;
 }
 .flowLineTable th {
+	border-bottom: 2px solid #999999 !important;
+}
+
+/* 여기서부터 협조선 테이블 css */
+.coopBox {
+	padding : 10px;
+	overflow: scroll;
+	overflow-x:hidden;
+}
+.coopLineTable {
+    height: 130px;
+}
+
+.coopLineTable * {
+	padding: 0px !important;
+	text-align: center;
+	margin-bottom : none !important;
+}
+.coopLineTable td{
+	height: 40px !important;
+	font-size: 16px;
+}
+.coopBoxX{
+	width : 10px;
+}
+.coopLineTable td:first-child {
+	width: 110px;
+}
+.coopLineTable td:nth-child(2) {
+	width: 60px;
+}
+.coopLineTable td:nth-child(3) {
+	width: 80px;
+}
+.coopLineTable td:nth-child(4) {
+	width: 50px;
+
+}
+.coopLineTable td:last-child {
+	width: 50px;
+}
+.coopLineTable {
+	border-top : none !important;
+}
+.coopLineTable * {
+	border: none !important;
+}
+.coopLineTable th {
 	border-bottom: 2px solid #999999 !important;
 }
