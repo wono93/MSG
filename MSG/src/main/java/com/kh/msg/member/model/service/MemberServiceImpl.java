@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<IOLog> ioLog(Map<String, String> map) {
+	public List<IOLog> ioLog(Map<String, Object> map) {
 		
 		return memberDAO.ioLog(map);
 	}
@@ -90,10 +90,16 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDAO.submitNewEmp(member);
 	}
-	
+
 	@Override
-	public List<Board> mainBoardList(Member member) {
-		// TODO Auto-generated method stub
-		return memberDAO.mainBoardList(member);
+	public int countIOLog(Map<String, Object> map) {
+		
+		return memberDAO.countIOLog(map);
+	}
+
+	@Override
+	public int countEmpLog(HashMap<String, Object> map) {
+		
+		return memberDAO.countEmpLog(map);
 	}
 }

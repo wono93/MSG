@@ -17,8 +17,8 @@ public class SchedServiceImpl implements SchedService {
 	ScheDAO scheDAO;
 	
 	@Override
-	public List<Schedule> schedList(List<String> empList, List<String> typeList) {
-		return scheDAO.schedList(empList, typeList);
+	public List<Schedule> schedList(String deptName, List<String> empList, List<String> typeList) {
+		return scheDAO.schedList(deptName, empList, typeList);
 	}
 	
 	@Override

@@ -48,7 +48,7 @@
 							<th>보존연한</th>
 						</tr>
 						<c:forEach items="${srchList }" var="ed">
-							<tr data-edoc-no="${ed.edocId }">
+							<tr data-edoc-no="${ed.edocId }" data-edoc-title="${ed.edocTitle }">
 								<td>${ed.edocId }</td>
 								<td>${ed.formNm }</td>
 								<td>${ed.edocTitle }</td>
@@ -65,27 +65,27 @@
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="D0"
-										value="edoc_title" name="Ben" />
+										value="edoc_title" name="srchTypeInput" ${srchType eq 'edoc_title'?'checked="checked"':"" } />
 									<p class="select-box__input-text">제목</p>
 								</div>
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="D1"
-										value="emp_name" name="Ben" />
+										value="emp_name" name="srchTypeInput" ${srchType eq 'emp_name'?'checked="checked"':"" } />
 									<p class="select-box__input-text">기안자</p>
 								</div>
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="D2"
-										value="form_nm" name="Ben" />
+										value="form_nm" name="srchTypeInput" ${srchType eq 'form_nm'?'checked="checked"':"" } />
 									<p class="select-box__input-text">문서종류</p>
 								</div>
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="D3"
-										value="edoc_id" name="Ben" />
+										value="edoc_id" name="srchTypeInput" ${srchType eq 'edoc_id'?'checked="checked"':"" } />
 									<p class="select-box__input-text">문서ID</p>
 								</div>
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="D4"
-										value="all" name="Ben" checked="checked" />
+										value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" } />
 									<p class="select-box__input-text">전체</p>
 								</div>
 								<img class="select-box__icon"
@@ -105,7 +105,7 @@
 									aria-hidden="aria-hidden">문서ID</label></li>
 							</ul>
 						</div>
-						<input type="text" name="" id="srchWord">
+						<input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
@@ -122,14 +122,56 @@
 									.on(
 											"click",
 											function() {
-												let edocId = $(this).attr(
-														"data-edoc-no");
-												console.log(edocId);
+												let edocId = $(this).attr("data-edoc-no");
+												let edocTitleFromPage = $(this).attr("data-edoc-title");
+												// console.log(edocTitle);
 												location.href = "${pageContext.request.contextPath}/edoc/edocSrchView.do?edocId="
-														+ edocId;
+														+ edocId
+														+"&edocTitleFromPage="
+														+ edocTitleFromPage;
 											});
 
 						});
+		$("#srchBtn").click("srchStart", function(){
+			var arrayDocuCheck = new Array();
+			$(".docuCheck:checked").each(function(){
+				arrayDocuCheck.push($(this).val());
+				if(arrayDocuCheck==null){
+					arrayDocuCheck.push("nothing");
+				}
+			});
+			
+			//폼 태그 생성
+	        var form = document.createElement('form');
+	        //폼 속성 set attribute
+	        form.name = 'newForm';
+	        form.method = 'get';
+	        form.action = '/msg/edoc/srch.do';
+	        form.target = '_self';        
+	        //input 태그 생성
+	        var input1 = document.createElement('input');
+	        var input2 = document.createElement('input');
+	        var input3 = document.createElement('input');
+	        //input태그에 set attribute
+	        input1.setAttribute("type", "hidden");
+	        input1.setAttribute("name", "member");
+	        input1.setAttribute("value", "$(memberLoggedIn.empNo)");
+	        input2.setAttribute("type", "hidden");
+	        input2.setAttribute("name", "srchWord");
+	        input2.setAttribute("value", $("#srchWord").val());        
+	        input3.setAttribute("type", "hidden");
+	        input3.setAttribute("name", "srchType");
+	        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
+	        //완성된 input 태그를 form에 append
+	        form.appendChild(input1);
+	        form.appendChild(input2);
+	        form.appendChild(input3);
+	        //form 태그
+	        document.body.appendChild(form);
+	        // form 제출
+	        form.submit();
+		});
+		
 	</script>
 </body>
 </html>

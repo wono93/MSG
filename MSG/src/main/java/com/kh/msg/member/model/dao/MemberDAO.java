@@ -31,7 +31,7 @@ public interface MemberDAO {
 
 	List<WorkTimes> getLog(HashMap<String, Object> map);
 
-	List<IOLog> ioLog(Map<String, String> map);
+	List<IOLog> ioLog(Map<String, Object> map);
 
 	List<Department> getDepts();
 
@@ -39,6 +39,8 @@ public interface MemberDAO {
 
 	int submitNewEmp(Member member);
 
-	List<Board> mainBoardList(Member member);
+	int countIOLog(Map<String, Object> map);
+
+	int countEmpLog(HashMap<String, Object> map);
 	
 }

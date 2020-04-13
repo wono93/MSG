@@ -528,12 +528,6 @@ from
 
 
 -- 
-
-
-
-
-
-
 			insert
 				into
 					edoc_tb
@@ -550,3 +544,147 @@ insert into
 			edoc_att_tb
 		values
 			(seq_attach_id.NEXTVAL, 'E200410-14', 'KakaoTalk_20200301_140136786.jpg', '20200409_171238653_830.jpg', sysdate, NULL, NULL);
+            
+            
+-- attachId 입력하여 edocAtt 객체 가져오기
+
+select * from edoc_att_tb where attach_id = 1;
+select * from edoc_tb join leave_ltt_tb using(edoc_id);
+
+
+-- 
+select * from leave_ltt_view;
+select * from edoc_tb;
+select * from flow_exe_tb where edoc_id = 'E200412-1' order by flow_ord desc;
+select * from leave_ltt_tb;
+select edoc_id, flow_cd, emp_no flow_emp_no, emp_name flow_nm, flow_ord, flow_st, flow_cmt, flow_dt from flow_exe_tb join emp_tb using(emp_no) where edoc_id = 'E200405-1' order by flow_ord desc;
+select * from edoc_att_tb;
+delete from edoc_att_tb where edoc_pdf_st = 'Y';
+select * from emp_tb;
+commit;
+
+
+select * from edoc_tb join leave_ltt_tb using(edoc_id) join SEC_LV_TB using(secu_cd) join PRESERV_tb using(prsv_cd);
+
+select A."EDOC_ID",A."EMP_NO",A."EMP_NAME",A."EMP_MOD_NO",A."EDOC_TITLE",A."EDOC_VER",A."EDOC_ORG_ID",A."EDOC_DT",A."EDOC_END",A."EDOC_END_DT",A."VCTN_CD", A."VCTN_NM",A."START_DT",A."END_DT",A."LEAVE_AMT",A."LEAVE_PURPOSE",A."LEAVE_CONTACT",A."TYPE_CD",A."SUR_EMP_NO",A."SECU_CD",A."PRSV_CD", E.emp_name sur_emp_name from
+(select "EDOC_ID","EMP_NO", "EMP_NAME","EMP_MOD_NO","EDOC_TITLE","EDOC_VER","EDOC_ORG_ID","EDOC_DT","EDOC_END","EDOC_END_DT","VCTN_CD", "VCTN_NM","START_DT","END_DT","LEAVE_AMT","LEAVE_PURPOSE","LEAVE_CONTACT","TYPE_CD","SUR_EMP_NO" sur_emp_no,"SECU_NM" SECU_CD,"PRSV_AMT" PRSV_CD from edoc_tb join leave_ltt_tb using(edoc_id) join SEC_LV_TB using(secu_cd) join PRESERV_tb using(prsv_cd) join emp_tb using(emp_no) join vctn_type_tb using(vctn_cd)) A join emp_tb E on sur_emp_no = E.emp_no;
+
+--
+
+select * from edoc_flow_ex_view where edoc_id = 'E200412-4';
+
+select * from flow_exe_tb;
+
+
+select * from edoc_all_tb;
+where 
+    flow_emp_no = 1
+--	and flow_ord != 1
+    and flow_st is
+    NULL
+    and flow_nm = '결재';
+    
+    
+(select*from ch_info_tb I left join
+(select ch_no,msg_date,msg_content from ch_msg_tb where rowid in
+(select max(rowid) from ch_msg_tb group by ch_no)) R
+on I.ch_no = R.ch_no);
+on M.ch_no = ch_no
+where M.emp_no = 1;
+
+
+--
+select
+		*
+		from
+		edoc_all_tb
+		 WHERE (edoc_title like '%' || NULL || '%'
+				or
+				emp_name like
+				'%' || NULL || '%'
+				or
+				form_nm like '%' || NULL || '%'
+				or
+				edoc_id like '%' || NULL || '%') 
+		order by edoc_dt desc;
+
+select A."EDOC_ID",A."SECU_CD",A."PRSV_CD",A."EMP_NO",A."EMP_MOD_NO",A."EDOC_TITLE",A."EDOC_VER",A."EDOC_ORG_ID",A."EDOC_DT",A."EDOC_END",A."EDOC_END_DT", A."TYPE_CD", t.form_nm, p.prsv_amt, s.secu_nm, U.emp_name
+from 
+(select * from (select E.*, O.type_cd from edoc_tb E join leave_ltt_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join ofc_ltt_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join invoice_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join cost_tb O on E.edoc_id = O.edoc_id)
+union (select E.*, O.type_cd from edoc_tb E join edoc_exp_tb O on E.edoc_id = O.edoc_id)) A
+join edoc_type_tb T on A.type_cd = T.type_cd
+join preserv_tb P on A.prsv_cd = P.prsv_cd
+join sec_lv_tb S on A.secu_cd = S.secu_cd
+join emp_tb U on A.emp_no = U.emp_no
+where A.edoc_org_id is null;
+
+select * from emp_tb;
+select * from edoc_tb;
+
+
+--
+
+
+select *
+			from
+			(
+			 
+			 
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				
+ (select
+					*
+				from
+					edoc_all_tb
+ where (flow_st is null or flow_st = 'N')
+ and flow_cd in ('F1','F2')) A
+					join
+					
+ (select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					
+ (select *
+ from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N')
+ and flow_cd in ('F1','F2'))group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id
+ and A.flow_ord = B.flow_ord
+		 	where
+		 		emp_no = 5			 
+			 
+			)
+			 WHERE edoc_title like '%' || '' || '%'
+					or
+					emp_name like '%' || '' || '%'
+					or
+					form_nm like '%' || '' || '%'
+					or
+					edoc_id like '%' || '' || '%' 
+			order by edoc_dt desc;
+            
+--
+select A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+from
+    (select
+            *
+    from
+        edoc_all_tb
+    where (flow_st is null or flow_st = 'N')
+        and flow_cd in ('F1','F2')) A
+        join
+    (select edoc_id, min(flow_ord) flow_ord
+    from    (select *
+            from edoc_all_tb
+            where (flow_st is null or flow_st = 'N')
+                and flow_cd in ('F1','F2')) group by edoc_id) B
+                    on A.edoc_id = B.edoc_id
+                and A.flow_ord = B.flow_ord
+		 	where
+		 		emp_no = 5;

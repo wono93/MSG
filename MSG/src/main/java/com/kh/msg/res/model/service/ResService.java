@@ -39,5 +39,10 @@ public interface ResService {
 
 	int delRes(String resCate, String resCode);
 
+	int confToSchedInsert(ConfReservation cr);
+
+	int carToSchedInsert(CarReservation cr);
+
+	int delResToSched(String resCate, String resCode);
 
 }

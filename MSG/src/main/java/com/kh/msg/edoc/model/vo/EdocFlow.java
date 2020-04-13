@@ -22,14 +22,15 @@ public class EdocFlow implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private int flowExeNo;
 	private String edocId;
 	private String flowCd;
 	private String flowNm;
-	private int flowEmpNo;
+	private String flowEmpNo;
 	private int flowOrd;
 	private String flowSt;
 	private String flowCmt;
-	private Date flowDt;
+	private String flowDt;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
