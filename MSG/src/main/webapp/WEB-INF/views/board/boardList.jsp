@@ -69,7 +69,11 @@
     		});
     		
     	});
-    	
+    	<!-- "${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}" -->
+    	function view(no, empNo, memberEmpno){
+        	location.href="${pageContext.request.contextPath}/board/view.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
+        	
+        }
     </script>
     <title>boardListForm</title>
     
@@ -184,7 +188,7 @@
                                 </li> -->
                             </ul>
                         </div>
-                        <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/write.do'"><i class="far fa-edit"></i> 글쓰기</button>
+	                        <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/summer.do'"><i class="far fa-edit"></i> 글쓰기</button>
                     </div>
                 <div id="44">
                     <table>
@@ -199,14 +203,14 @@
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
 							<c:if test="${b.dateb < 2 }">
-	                        	<tr style="z-index:999; color: rgb(93, 93, 253);">
+	                        	<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color: rgb(93, 93, 253);">
 							</c:if>
 							<c:if test="${b.dateb >= 2 }">
-								<tr style="z-index:999;">
+								<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3;">
 							</c:if>
 						<c:forEach items="${readList }" var="r">
 							<c:if test="${r.no == b.no && r.empNo == memberLoggedIn.empNo }">
-								<tr style="z-index:999; color: #a5a3a3;">
+								<tr  onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color: #a5a3a3;">
 							</c:if>
 						</c:forEach>
 	                            	<td>${b.no }</td>
@@ -217,15 +221,17 @@
 		                        </c:forEach>    
 	                            <td>${b.catag }</td>
 	                            <td>
-	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
+	                            
 	                                ${b.title }
 	                                <c:forEach items="${board.commentList }" var="c" varStatus="vs">
 	                                	<p>${vs.count}</p>
 	                                </c:forEach>
-	                            </a>
-	                            	<c:if test="${b.dateb<2 }">
+	                            
+	                            
+	                            	<c:if test="${b.dateb<2  }">
 	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
 	                                </c:if>
+                               
 	                            </td>
 	                            <td>
 		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >

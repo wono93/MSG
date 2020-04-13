@@ -9,7 +9,7 @@
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <title>boardWrite</title>
+    <title>boardUpdate</title>
 </head>
 <body>
 <section>
@@ -28,7 +28,7 @@
                 
 			
 				<div style="height:100%">
-					<iframe src="${pageContext.request.contextPath }/board/write.do" name="iframeWrite" align="right" scrolling="no" frameborder="0" marginheight="50" marginwidth="0" width="100%" height="900px"></iframe>
+					<iframe src="${pageContext.request.contextPath }/board/update.do?boardNo=${board.no}&empNo=${board.empNo}&memberEmpno=${memberLoggedIn.empNo}" name="iframeWrite1" align="right" scrolling="no" frameborder="0" marginheight="50" marginwidth="0" width="100%" height="900px"></iframe>
 
 				</div>
     	</article>

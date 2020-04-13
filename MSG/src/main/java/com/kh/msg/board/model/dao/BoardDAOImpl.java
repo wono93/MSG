@@ -23,7 +23,7 @@ public class BoardDAOImpl implements BoardDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Board> selectBoardList() {
+	public List<Board> selectBoardList(int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.selectBoardList");
 	}
@@ -208,5 +208,4 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.userLogin");
 	}
-
 }

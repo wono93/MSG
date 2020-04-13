@@ -12,7 +12,6 @@
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
     
     <script>
-    
     $(()=>{
     	$("tr[data-board-no]").on("click", function(e){
     		console.log(this, e.target);//tr, td
@@ -194,7 +193,7 @@
                             <th>글쓴이</th>
                             <th>카테고리</th>
                             <th>제목</th>
-                            <th>첨부파일</th>
+                            <th>메모</th>
                             <th>작성일</th>
                             <th>조회수 </th>
                         </tr>
@@ -208,22 +207,21 @@
 		                            	<td>${m.empName }</td>
 		                        	</c:if>
 		                        </c:forEach>    
-	                            <td>asd</td>
-	                            <td>
-	                            <a href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
-	                                ${b.memo}
-	                            </a>
-	                            	
-	                            </td>
+	                            <td>${b.catag }</td>
+		                            <td>
+	                            <c:forEach items="${boardList }" var="bb">
+		                            <c:if test="${bb.no == b.no }">
+					                            <a style="position:relative; z-index:1;" href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
+						                           ${bb.content }
+					                            </a>
+		                            </c:if>
+	                            </c:forEach> 
+		                            </td>
 	                            		<td>
-		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
-			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
-			                            		<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
-			                            	</c:if>
-	                            	</c:forEach>
+		                            ${b.memo}
                             			</td>
-	                            <td>123</td>
-	                            <td>123
+	                            <td>${b.date }</td>
+	                            <td>${b.cnt}
 	                            	<input type="hidden" name="no" value="${b.no }"/>
 	                            </td>
 	                        </tr>
