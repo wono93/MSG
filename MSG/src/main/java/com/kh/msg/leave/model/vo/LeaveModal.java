@@ -21,8 +21,7 @@ public class LeaveModal implements Serializable{
 	private int empNo;
 	private int annual;
 	private int reward;
-	private int vctnNo;
-	private int vctnCd;
+	private String vctnCd;
 	private String vctnNm;
 	private int vctnAmt;
 	private String vctnUpdtDt;

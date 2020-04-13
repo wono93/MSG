@@ -32,6 +32,7 @@ public class Comment implements Serializable {/**
 	private String jobCd;
 	private String deptCd;
 	private String empName;
+	private String empImage;
 	private List<Member> memberList;
 	
 	public static long getSerialversionuid() {

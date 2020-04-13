@@ -8,7 +8,7 @@ import com.kh.msg.sched.model.vo.Schedule;
 
 public interface SchedService {
 
-	List<Schedule> schedList(List<String> empFilter, List<String> typeFilter);
+	List<Schedule> schedList(String deptName, List<String> empFilter, List<String> typeFilter);
 
 	List<SchedEmp> deptEmpList(int empNo);
 		

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.kh.msg.member.controller.MemberController;
 import com.kh.msg.member.model.service.MemberService;
+import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 
@@ -44,19 +45,17 @@ public class MsgSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		se.getSession().setMaxInactiveInterval(30*60); 
+		se.getSession().setMaxInactiveInterval(60*30);
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
 		
-		
 		Member member = (Member) session.getAttribute("memberLoggedIn");
 		log.debug("세션이 종료되었습니다 = {}", member.getEmpName());
 		log.debug("로그아웃 = ============"+se.getSession().getId());
-		
-		
+
 		List<LoginVO> userList= MemberController.userList;
 		//접소자 목록에서 제거
         
@@ -66,7 +65,6 @@ public class MsgSessionListener implements HttpSessionListener {
             }
         }
 		
-		
 //		ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
 //		context = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
 //		WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
@@ -74,11 +72,10 @@ public class MsgSessionListener implements HttpSessionListener {
 		
 		//DispatcherServlet이 관리하는 빈 context가져오기: HttpServletRequest가 필요.
 		//dispatch단에서 request session에 넘겨서 받아오는 방식
-		
+        
 //		HttpServletRequest req = (HttpServletRequest)session.getAttribute("req");
 //		WebApplicationContext context = RequestContextUtils.findWebApplicationContext(req);
 
-		
 		//이렇게 해주면 dispatcher 단에서 request를 session에 넘겨서 받아오지 않아도 됨
 		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		WebApplicationContext context = RequestContextUtils.findWebApplicationContext(req);
@@ -86,10 +83,6 @@ public class MsgSessionListener implements HttpSessionListener {
 		//관리하는 모든 빈의 이름 조회
 //		log.debug(Arrays.toString(context.getBeanDefinitionNames()));
 		
-		
-//		
-		
-         
 		memberService = context.getBean(MemberService.class);
 		log.debug("memberService={}, {}", memberService==null, memberService);
 		

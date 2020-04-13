@@ -24,147 +24,242 @@
 		select
 		*
 		from
-		edoc_all_tb
+		edoc_srch_view
 		<where>
 			<if test="srchType == 'all'">
-				edoc_title like '%' || #{srchWord} || '%'
+				(edoc_title like '%' || #{srchWord} || '%'
 				or
 				emp_name like
 				'%' || #{srchWord} || '%'
 				or
 				form_nm like '%' || #{srchWord} || '%'
 				or
-				edoc_id like '%' || #{srchWord} || '%'
-				and edoc_end = 'y'
+				edoc_id like '%' || #{srchWord} || '%')
+				and edoc_end = 'Y'
 			</if>
 			<if test="srchType != 'all'">
 				${srchType} like '%' || #{srchWord} || '%'
-				and edoc_end =
-				'y'
+				and edoc_end ='Y'
 			</if>
 		</where>
 		order by edoc_dt desc
 	</select>
 	<select id="selectEdocTotalContents" resultType="_int">
 		select
-		count(*)
-		from
-		edoc_tb
-		where
-		edoc_org_id is null
-		and edoc_end = 'y'
-	</select>
-
-	<select id="myList" resultMap="EdocSrchFlowCollection">
-		select
-		*
-		from
-		(select
-		*
-		from
-		edoc_all_tb
-		<where>
-			<if test="srchType == 'all'">
-				edoc_title like '%' || #{srchWord} || '%'
-				or
-				emp_name like '%' || #{srchWord} || '%'
-				or
-				form_nm like '%' || #{srchWord} || '%'
-				or
-				edoc_id like '%' || #{srchWord} || '%'
-			</if>
-			<if test="srchType != 'all'">
-				${srchType} like '%' || #{srchWord} || '%'
-			</if>
-		</where>
-		)
-		<where>
-			<if test='myDocu == "y"'>
-				or
-				(emp_no = ${empNo}
-				and edoc_end is NULL)
-			</if>
-			<if test='reqDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_st is
-				NULL
-				and flow_nm = '결재')
-			</if>
-			<if test='compDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_st =
-				'y'
-				and edoc_end = 'y'
-				and flow_nm = '결재')
-			</if>
-			<if test='refDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_nm =
-				'참조')
-			</if>
-		</where>
-		order by edoc_dt desc
-	</select>
-	<select id="selectMyEdocTotalContents" resultType="_int">
-		select
 		count(DISTINCT edoc_id)
 		from
 		(select
 		*
 		from
-		edoc_all_tb
+		edoc_srch_view
 		<where>
 			<if test="srchType == 'all'">
-				edoc_title like '%' || #{srchWord} || '%'
+				(edoc_title like '%' || #{srchWord} || '%'
 				or
-				emp_name like '%' || #{srchWord} || '%'
+				emp_name like
+				'%' || #{srchWord} || '%'
 				or
 				form_nm like '%' || #{srchWord} || '%'
 				or
-				edoc_id like '%' || #{srchWord} || '%'
+				edoc_id like '%' || #{srchWord} || '%')
+				and edoc_end = 'Y'
 			</if>
 			<if test="srchType != 'all'">
 				${srchType} like '%' || #{srchWord} || '%'
+				and edoc_end ='Y'
 			</if>
 		</where>
-		)
-		<where>
+		order by edoc_dt desc)
+	</select>
+
+	<select id="myList" resultMap="EdocSrchFlowCollection">
+			select *
+			from
+			(
 			<if test='myDocu == "y"'>
-				or
-				(emp_no = ${empNo}
-				and edoc_end is NULL)
+			select * from edoc_all_tb
+			where 
+				emp_no = ${empNo}
+				and flow_ord = 1
+				and flow_cd in ('F1', 'F2')
+				and edoc_end is NULL
 			</if>
 			<if test='reqDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_st is
-				NULL
-				and flow_nm = '결재')
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where (flow_st is null or flow_st = 'N') and flow_cd in ('F1','F2')) A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N') and flow_cd in ('F1','F2'))group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
+			</if>
+			<if test='coopDocu == "y"'>
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where (flow_st is null or flow_st = 'N') and flow_cd ='F3') A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N') and flow_cd = 'F3') group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
 			</if>
 			<if test='compDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_st =
-				'y'
-				and edoc_end = 'y'
-				and flow_nm = '결재')
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where flow_st = 'Y' and flow_cd in ('F1','F2','F3')) A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						flow_st = 'Y' and flow_cd in ('F1','F2','F3')) group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
 			</if>
 			<if test='refDocu == "y"'>
-				or
-				(flow_emp_no = ${empNo}
-				and flow_ord != 1
-				and flow_nm =
-				'참조')
+			select * from edoc_all_tb
+			where 
+				flow_emp_no = ${empNo}
+				and flow_cd = 'F4'
 			</if>
-		</where>
+			)
+			<where>
+				<if test="srchType == 'all'">
+					edoc_title like '%' || #{srchWord} || '%'
+					or
+					emp_name like '%' || #{srchWord} || '%'
+					or
+					form_nm like '%' || #{srchWord} || '%'
+					or
+					edoc_id like '%' || #{srchWord} || '%'
+				</if>
+				<if test="srchType != 'all'">
+					${srchType} like '%' || #{srchWord} || '%'
+				</if>
+			</where>
+			order by edoc_dt desc
+	</select>
+	<select id="selectMyEdocTotalContents" resultType="_int">
+		select
+		count(DISTINCT edoc_id)
+		from
+		(
+					select *
+			from
+			(
+			<if test='myDocu == "y"'>
+			select * from edoc_all_tb
+			where 
+				emp_no = ${empNo}
+				and flow_ord = 1
+				and flow_cd in ('F1', 'F2')
+				and edoc_end is NULL
+			</if>
+			<if test='reqDocu == "y"'>
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where (flow_st is null or flow_st = 'N') and flow_cd in ('F1','F2')) A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N') and flow_cd in ('F1','F2'))group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
+			</if>
+			<if test='coopDocu == "y"'>
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where (flow_st is null or flow_st = 'N') and flow_cd ='F3') A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N') and flow_cd = 'F3') group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
+			</if>
+			<if test='compDocu == "y"'>
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				(select
+					*
+				from
+					edoc_all_tb where flow_st = 'Y' and flow_cd in ('F1','F2','F3')) A
+					join
+					(select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					(select * from edoc_all_tb
+					where
+						flow_st = 'Y' and flow_cd in ('F1','F2','F3')) group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = ${empNo}
+			</if>
+			<if test='refDocu == "y"'>
+			select * from edoc_all_tb
+			where 
+				flow_emp_no = ${empNo}
+				and flow_cd = 'F4'
+			</if>
+			)
+			<where>
+				<if test="srchType == 'all'">
+					edoc_title like '%' || #{srchWord} || '%'
+					or
+					emp_name like '%' || #{srchWord} || '%'
+					or
+					form_nm like '%' || #{srchWord} || '%'
+					or
+					edoc_id like '%' || #{srchWord} || '%'
+				</if>
+				<if test="srchType != 'all'">
+					${srchType} like '%' || #{srchWord} || '%'
+				</if>
+			</where>
+			order by edoc_dt desc
+		)
 	</select>
 
 	<select id="newEdocId" resultType="string">
@@ -177,20 +272,17 @@
 		{call
 		declare
 		begin
-		insert
-		into
-		edoc_tb
-		values
-		(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate,
-		NULL, NULL);
-		insert
-		into
-		leave_ltt_tb
-		values
-		(#{edocId}, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'),
-		to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt},
-		#{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} );
-		commit;
+			insert
+			into
+				edoc_tb
+			values
+				(#{edocId}, #{secuCd},#{prsvCd}, #{empNo}, NULL, #{edocTitle}, 0, NULL, sysdate, NULL, NULL);
+			insert
+			into
+				leave_ltt_tb
+			values
+				(#{edocId}, #{vctnCd}, to_date(#{startDt}, 'YYYY-MM-DD HH24:MI:SS'),to_date(#{endDt}, 'YYYY-MM-DD HH24:MI:SS'), #{leaveAmt}, #{leavePurpose}, #{leaveContact}, #{typeCd}, ${surEmpNo} );
+			commit;
 		end
 		}
 	</insert>
@@ -203,7 +295,7 @@
 	</insert>
 	<insert id="edocFlowWrite">
 		insert into flow_exe_tb values(#{edocId}, #{flowCd},
-		#{flowEmpNo}, #{flowOrd}, default, default, default)
+		#{flowEmpNo}, #{flowOrd}, default, default, default, seq_flow_exe_no.NEXTVAL)
 	</insert>
 	<insert id="pdfAttWrite">
 		insert into
@@ -223,9 +315,55 @@
 		where
 			attach_id = #{attachId}
 	</select>
-
-
-
+	<delete id="deleteEdocPdfSt">
+		delete from edoc_att_tb where edoc_pdf_st = 'Y'
+	</delete>
+	<select id="selectEdocLeaveLtt" resultType="EdocLeaveLtt">
+		select * from leave_ltt_view where edoc_id = #{edocId}
+	</select>
+	<select id="selectEdocFlowList" resultType="EdocFlow">
+		select edoc_id, flow_cd, emp_no flow_emp_no, emp_name flow_nm, flow_ord, flow_st, flow_cmt, flow_dt from flow_exe_tb join emp_tb using(emp_no) where edoc_id = #{edoc_id} order by flow_ord desc
+	</select>
+	<select id="selectEdocAttList" resultType="EdocAtt">
+		select * from edoc_att_tb where edoc_id = #{edocId}
+	</select>
+	<select id="selectEdocFlowExList" resultType="EdocFlowEx">
+		select * from edoc_flow_ex_view where edoc_id = #{edoc_id}
+	</select>
+	<update id="updateFlowExe">
+		update flow_exe_tb
+		set
+			flow_st = #{flowSt},
+			flow_cmt = #{flowCmt},
+			flow_dt = sysdate
+		where
+			edoc_id = #{edocId}
+			and
+			flow_cd = #{flowCd}
+			and
+			emp_no = ${flowEmpNo}
+	</update>
+	<select id="countSt" resultType="_int">
+		select
+			count(*)
+		from
+			flow_exe_tb
+		where
+			edoc_id = #{edocId}
+			and
+			(flow_cd = 'F1' or flow_cd = 'F2')
+			and
+			(flow_st is null or flow_st = 'N')
+	
+	</select>
+	<update id="updateEdocSt">
+		update edoc_tb
+		set
+			edoc_end = 'Y',
+			edoc_end_dt = sysdate
+		where
+			edoc_id = #{edocId}
+	</update>
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
 		<id column="edoc_id" property="edocId" />
 		<result column="secu_cd" property="secuCd" />

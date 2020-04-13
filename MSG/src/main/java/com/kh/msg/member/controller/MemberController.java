@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
@@ -29,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
@@ -42,6 +43,7 @@ import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
+import com.kh.msg.member.model.vo.PagingVO;
 import com.kh.msg.member.model.vo.WorkTimes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	MemberService memberService;
+	
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 	
@@ -62,7 +65,7 @@ public class MemberController {
 		 public static List<LoginVO> userList = new ArrayList<LoginVO>(); 
 		 //접속자 확인 끝
 	
-	 
+	
 	@PostMapping("/login.do")
 	public String login(@RequestParam("userId") String userId, @RequestParam("password") String password,
 			RedirectAttributes redirectAttributes, Model model,
@@ -82,7 +85,7 @@ public class MemberController {
 			//접속자확인 시작
 			request.setCharacterEncoding("utf-8");
 	        response.setContentType("text/html; charset=utf-8");
-	         
+	        
 	        PrintWriter out =response.getWriter();
 	        HttpSession session=request.getSession();
 	        
@@ -96,7 +99,6 @@ public class MemberController {
 				model.addAttribute("memberLoggedIn", member);
 				//로그인 성공시, 로그에 로그인 기록과 동시에 지각여부 체크
 				memberService.loginLog(member.getEmpNo()); 
-				
 				
 				//접속자 확인 시작
 	            for(int i=0; i<userList.size(); i++) {
@@ -114,7 +116,6 @@ public class MemberController {
 	            loginVO.setId(id);
 	            loginVO.setSessionid(session.getId());
 	            userList.add(loginVO);
-				//접속자 호가인
 	            
 			} else {
 				// 로그인 실패
@@ -214,31 +215,64 @@ public class MemberController {
 	
 	//메인페이지에서 인사관리자/관리자의 근태 페이지 첫 소환
 	@GetMapping("/empLogBoard.do")
-	public String empLogBoard(Model model) {
+	public String empLogBoard(
+							  @RequestParam(value = "startDate", required = false) String srcDateStart,
+							  @RequestParam(value = "endDate", required = false) String srcDateEnd,
+							  @RequestParam(value = "searchBy", required=false) String searchBy,
+							  @RequestParam(value = "keyword", required=false) String keyword,
+							  @RequestParam(value = "nowPage", required=false)String nowPage,
+							  @RequestParam(value = "cntPerPage", required=false)String cntPerPage,
+							  PagingVO pvo,
+							  Model model) {
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
 		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		Date monthAgoDate = monthAgo.getTime();
-		String srcDateStart = fmt.format(monthAgoDate);
-		String srcDateEnd = fmt.format(curDate);
 		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
-
+		List<HrMntList> list = null;
+		HashMap<String, Object> map = new HashMap<>();
+		
+		if(srcDateStart == null && srcDateEnd == null) {
+			srcDateStart = fmt.format(monthAgoDate);
+			srcDateEnd = fmt.format(curDate);
+		}
+		
+		if(searchBy != "" && keyword != "") {
+			map.put("searchBy", searchBy);
+			map.put("keyword", keyword);
+		}
+		
+		int total = memberService.countEmpLog(map);
+		
+		
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+		pvo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
 		log.debug("srcDateStart={}", srcDateStart);
 		log.debug("srcDateEnd={}", srcDateEnd);
 
-		List<HrMntList> list = null;
-		HashMap<String, Object> map = new HashMap<>();
 		map.put("srcDateStart", srcDateStart);
 		map.put("srcDateEnd", srcDateEnd);
+		map.put("start", pvo.getStart());
+		map.put("end", pvo.getEnd());
 
 		list = memberService.selectList(map);
 
 		model.addAttribute("list", list);
-		
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
 		model.addAttribute("bsnsDay", bsnsDay);
+		model.addAttribute("searchBy", searchBy);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("paging", pvo);
 		
 		
 		return "member/empLogBoard";
@@ -393,13 +427,16 @@ public class MemberController {
 	
 	
 	@GetMapping("/ioLog.do")
-	public String ioLog(Model model,
+	public String ioLog(Model model, PagingVO pvo,
 			@RequestParam(value = "startDate", required = false) String srcDateStart,
 			@RequestParam(value = "endDate", required = false) String srcDateEnd,
 			@RequestParam(value="searchBy",required=false) String searchBy,
-			@RequestParam(value="keyword",required=false) String keyword
+			@RequestParam(value="keyword",required=false) String keyword,
+			@RequestParam(value="nowPage", required=false)String nowPage,
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage
 			
 			) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		Calendar monthAgo = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
 		Date curDate = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
@@ -411,25 +448,50 @@ public class MemberController {
 			srcDateEnd = fmt.format(curDate);
 		}
 		
-		List<IOLog> list = null;
-		Map<String, String> map = new HashMap<String, String>();
-		
-		log.debug("srcDateStart = {}", srcDateStart);
-		log.debug("srcDateEnd = {}", srcDateEnd);
-		
-		map.put("srcDateStart", srcDateStart);
-		map.put("srcDateEnd", srcDateEnd);
 		
 		if(searchBy != "" && keyword != "") {
 			map.put("searchBy", searchBy);
 			map.put("keyword", keyword);
 		}
+
+		
+		map.put("srcDateStart", srcDateStart);
+		map.put("srcDateEnd", srcDateEnd);
+		
+		
+		int total = memberService.countIOLog(map);
+		
+		
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+		pvo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		
+		
+		
+		List<IOLog> list = null;
+		
+		log.debug("srcDateStart = {}", srcDateStart);
+		log.debug("srcDateEnd = {}", srcDateEnd);
+		
+		
+		map.put("start", pvo.getStart());
+		map.put("end", pvo.getEnd());
 		
 		list = memberService.ioLog(map);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("srcDateStart", srcDateStart);
 		model.addAttribute("srcDateEnd", srcDateEnd);
+		model.addAttribute("searchBy", searchBy);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("paging", pvo);
 		
 		
 		return "/member/ioLog";
@@ -501,6 +563,23 @@ public class MemberController {
 		return "member/org_chart";
 	}
 	
+	
+	/*
+	@GetMapping("/login.do")
+	public ModelAndView login(ModelAndView modelAndView, Member member){
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<Board> boardList = memberService.mainBoardList(member);
+		log.debug("boardList="+boardList);
+		
+		mav.addObject("boardList",boardList);
+		mav.setViewName("/common/welcome");
+		return mav;
+	}
+	*/
+	
+	
 	public String getBirthDay(String empRRNNo) {
 		char flag = empRRNNo.charAt(6);
 		String birthDay = flag == '1'|| flag == '2' ? "19" : "20";
@@ -531,4 +610,6 @@ public class MemberController {
 		return workingDays;
 
 	}
+	 
+	 
 }

@@ -20,7 +20,7 @@ public class LeavePlus implements Serializable{
 	 private int vctnUsed;
 	 private int empNo;
 	 private int dtlNo;
-	 private int vctnCd;
+	 private String vctnCd;
       	 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

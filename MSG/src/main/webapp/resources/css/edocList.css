@@ -271,6 +271,15 @@ table td:nth-child(2){
 .reqDocu-container input:checked ~ .reqDocu-checkmark:after { display: inline; }
 .reqDocu-container .reqDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.coopDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.coopDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.coopDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.coopDocu-container:hover input ~ .coopDocu-checkmark { background-color: #ccc;}
+.coopDocu-container input:checked ~ .coopDocu-checkmark { background-color: #F4CA25; }
+.coopDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.coopDocu-container input:checked ~ .coopDocu-checkmark:after { display: inline; }
+.coopDocu-container .coopDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
 .compDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .compDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
 .compDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}

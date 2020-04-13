@@ -65,7 +65,6 @@ public class BoardController {
 		List<Board> list = boardService.selectBoardList();
 		log.debug("list="+list);
 		
-		
 		mav.addObject("list",list);
 		mav.setViewName("board/boardList");
 		return mav;
@@ -209,8 +208,10 @@ public class BoardController {
 	}
 	
 	@PostMapping("/deleteBoard.do")
-	public String deleteBoard(Attachment attachment,Comment comment,
+	public String deleteBoard(Attachment attachment,Comment comment,@RequestParam("boardNo")int boardNo,
 			Board board, RedirectAttributes redirectAttributes) {
+		attachment.setBrdNo(boardNo);
+		comment.setBrdNo(boardNo);
 		int result1 = boardService.deleteAttachment(attachment);
 		int result2 = boardService.deleteCommentBoard(comment);
     	int result3 = boardService.deleteBoard(board);
@@ -218,13 +219,14 @@ public class BoardController {
     	return "redirect:/board/list.do";
 	}
 	
-	@GetMapping("/write.do")
-	public String write() {
+	@GetMapping("/summer.do")
+	public String summer() {
 		return "board/summerNote";
 	}
 	
-	@GetMapping("/summer.do")
-	public String summer() {
+	
+	@GetMapping("/write.do")
+	public String write() {
 		return "board/boardWrite";
 	}
 	
@@ -337,6 +339,16 @@ public class BoardController {
     	model.addAttribute("board", board);
     	
 		return "board/boardUpdate";
+    }
+    
+    @GetMapping("/iframeUpdate.do")
+    public String iframeUpdate(@RequestParam("boardNo") int boardNo,
+			 Model model) {
+    	Board board = boardService.selectOne(boardNo);
+    	
+    	model.addAttribute("board", board);
+    	
+		return "board/iframeUpdate";
     }
     
     @PostMapping("/update.do")
@@ -464,7 +476,7 @@ public class BoardController {
     	vo.setEmpNo(empNo);
     	List<Member> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
-    	
+
     	model.addAttribute("attachList", attachList);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("empNo", empNo);
@@ -477,7 +489,7 @@ public class BoardController {
     }
     
     @GetMapping("/scrapList.do")
-    public String scrapList(BoardPagingVo vo, Model model, BoardScrap boardScrap
+    public String scrapList(BoardPagingVo vo, Model model, BoardScrap boardScrap, Board board
     		, @RequestParam(value="empNo", required=false)int empNo
     		, @RequestParam(value="nowPage", required=false)String nowPage
     		, @RequestParam(value="cntPerPage", required=false)String cntPerPage
@@ -497,9 +509,11 @@ public class BoardController {
     	vo = new BoardPagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
     	vo.setEmpNo(empNo);
+    	board.setEmpNo(empNo);
     	List<Member> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
-    	
+    	List<Board> boardList = boardService.selectBoardList(empNo);
+    	model.addAttribute("boardList", boardList);
     	model.addAttribute("attachList", attachList);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("empNo", empNo);
@@ -571,6 +585,7 @@ public class BoardController {
    		model.addAttribute("memberList", memberList);
    		 return "board/userLogin";
    	}
+   
     
 		
 }

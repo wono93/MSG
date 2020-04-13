@@ -106,5 +106,23 @@ public class ResDAOImpl implements ResDAO {
 		return sqlSession.delete("res.delRes", map);
 	}
 
+	@Override
+	public int confToSchedInsert(ConfReservation cr) {
+		return sqlSession.insert("res.confToSchedInsert", cr);
+	}
+
+	@Override
+	public int carToSchedInsert(CarReservation cr) {
+		return sqlSession.insert("res.carToSchedInsert", cr);
+	}
+
+	@Override
+	public int delResToSched(String resCate, String resCode) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("resCate", resCate);
+		map.put("resCode", resCode);
+		return sqlSession.delete("res.delResToSched", map);
+	}
+
 
 }

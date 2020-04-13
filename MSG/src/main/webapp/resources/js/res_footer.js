@@ -314,6 +314,7 @@ function intoConfCode(){
 //체크된 차량코드 input:hidden에 담아주기
 function intoCarCode(){
 	let radioVal =  $('input[name="car"]:checked').val();
+	//console.log(radioVal);
 	$('#carCode').val(radioVal);
 	console.log($('#carCode').val());
 }

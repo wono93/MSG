@@ -92,7 +92,7 @@
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/sched/cal.do">
+                <a href="${pageContext.request.contextPath}/sched/calcover.do">
                     <i class="icon far fa-calendar-alt" style="font-size:24px"></i> 일정관리
                 </a>
             </li>
