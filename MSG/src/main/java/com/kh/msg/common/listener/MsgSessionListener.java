@@ -45,8 +45,8 @@ public class MsgSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-//		se.getSession().setMaxInactiveInterval(30); 
-		se.getSession().setMaxInactiveInterval(30*60); 
+		se.getSession().setMaxInactiveInterval(30 * 60); 
+
 	}
 
 	@Override

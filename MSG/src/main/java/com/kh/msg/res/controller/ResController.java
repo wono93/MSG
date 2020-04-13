@@ -66,9 +66,11 @@ public class ResController {
 	public ModelAndView confResInsert( ConfReservation cr, RedirectAttributes redirectAttributes) {
 		ModelAndView mav = new ModelAndView();
 		
-		//log.debug("confReservation={}", cr);
 		
 		int result = resService.confResInsert(cr);
+		//log.debug("confReservation___={}", cr);
+		
+		resService.confToSchedInsert(cr);
 
 		mav.setViewName("redirect:/res/myResView.do");
 		return mav;
@@ -91,9 +93,11 @@ public class ResController {
 	public ModelAndView carResInsert(CarReservation cr) {
 	ModelAndView mav = new ModelAndView();
 	
-	//log.debug("carReservation={}", cr);
+	log.debug("carReservation={}", cr);
 	
 	int result = resService.carResInsert(cr);
+	
+	resService.carToSchedInsert(cr);
 	
 	mav.setViewName("redirect:/res/myResView.do");
 	return mav;
@@ -265,6 +269,7 @@ public class ResController {
 		log.debug("삭제할 예약코드 = "+resCate+" / 어떤거?="+resCode);
 		String msg = resService.delRes(resCate, resCode)>0?"선택하신 예약내역이 삭제되었습니다.":"선택 예약내역을 삭제하는 데 실패했습니다.";
 		
+		resService.delResToSched(resCate, resCode);
 		//String 전송하면 클라이언트에서 json parse error -> map 전송
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
