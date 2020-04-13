@@ -12,7 +12,7 @@ import com.kh.msg.member.model.vo.Member;
 
 public interface BoardService {
 
-	List<Board> selectBoardList();
+	List<Board> selectBoardList(int empNo);
 
 	int insertBoard(Board board, List<Attachment> attachList);
 
@@ -74,5 +74,4 @@ public interface BoardService {
 
 	List<Member> userLogin();
 
-	
 }

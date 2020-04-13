@@ -1,5 +1,6 @@
 package com.kh.msg.sched.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +13,27 @@ import com.kh.msg.member.model.vo.OrgChart;
 import com.kh.msg.sched.model.vo.SchedEmp;
 import com.kh.msg.sched.model.vo.Schedule;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class ScheDAOImpl implements ScheDAO {
 
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+	 
 	@Override
-	public List<Schedule> schedList(List<String> empList, List<String> typeList) {
+	public List<Schedule> schedList(String dept_name, List<String> empList, List<String> typeList) {
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		
-		return sqlSession.selectList("sched.schedList");
+		List<String> deptName = new ArrayList<String>();
+		deptName.add(dept_name);
+		
+		map.put("deptName", deptName);
+		map.put("empList", empList);
+		map.put("typeList", typeList);
+		//log.debug("map_={}",map);
+		return sqlSession.selectList("sched.schedList",map);
 	}
 	
 	@Override

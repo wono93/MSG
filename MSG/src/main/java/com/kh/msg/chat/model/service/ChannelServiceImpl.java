@@ -54,15 +54,16 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public int addChannelMember(int[] empNo, int chNo, int regEmpNo) {
+	public int addChannelMember(int[] empNo, int chNo) {
 		
 		int result = 0;
 		
-		result = channelDAO.addChannelMember(regEmpNo, chNo);
+//		result = channelDAO.addChannelMember(regEmpNo, chNo);
 		
 		for(int i=0; i<empNo.length; i++) {
 			result = channelDAO.addChannelMember(empNo[i], chNo);
 		}
+//		result = channelDAO.insert(, chNo);
 		
 		return result;
 	}
@@ -87,6 +88,5 @@ public class ChannelServiceImpl implements ChannelService {
 		return channelDAO.modifyChannel(chInfo);
 	}
 
-	
 
 }

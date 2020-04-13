@@ -37,8 +37,8 @@
 				        <p id="channel-title"></p>
 				        <div class="btnGrp">
 					        <!-- <button id="video" class="button">화상회의</button> -->
-					        <c:if test="${regId == userId }">
-						        <button id="addmember" class="button">채널 수정</button>
+					        <c:if test="${regId == memberLoggedIn.userId }">
+						        <button id="addMemberModify" class="channel-button">채널 수정</button>
 					        </c:if>
 				        </div>
 					</div>
@@ -47,7 +47,7 @@
 		        
 			        <div id="channel-send-msg-container">
 			            <textarea name="" id="channel-send-msg-content" cols="150" rows="5"></textarea>
-			            <button onclick="channelSubmitFunction();" id="channel-send-msg-button" class="button">전송</button>
+			            <button onclick="channelSubmitFunction();" id="channel-send-msg-button" class="channel-button">전송</button>
 			        </div>
 		        </div>
 			</article>
@@ -57,23 +57,37 @@
     <div id="channelModifyModal" class="ch-modal">
    		<!-- Modal content -->
             <div class="ch-modal-content">
-                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon closeModify" id="close-btn">
+                <a href="#">
+	                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon closeModify" id="close-btn">
+                </a>
                 <div id="ch-content">
-                    <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
-
+                    <form action="${pageContext.request.contextPath}/chat/modifyChannel.do" method="Post">
                         <div class="channelGenTitle">
                             <h3>채널 수정</h3>
-                            <img src="${pageContext.request.contextPath}/resources/image/${memberLoggedIn.empImage}" class="ch-member-img">
-                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king">
+                            <a href="#">
+	                            <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="ch-modify-aura" class="ch-member-img">
+	                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="ch-modify-head">
+                            </a>
                         </div>
 
                         <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3" value="${chName }">
                         <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4" value="${chEx }">
+                        <input type="hidden" name="regEmpNo" value="${memberLoggedIn.empNo }">
+                        <input type="hidden" name="regId" value="${memberLoggedIn.userId }">
+                        <input type="hidden" name="chNo" value="${chNo}">
 
-                        <div id="ch-member-list">
-                            <table id="ch-member-table">
-                            </table>
-                        </div>
+					<div id="ch-member-list">
+						<table id="ch-modify-member-table">
+							<tr>
+                          		<td><img src="/msg/resources/upload/empImg/${memberLoggedIn.empImage }" id="ch-member-list-img" class="ch-member-img"></td>
+                           		<td>${memberLoggedIn.empName }</td>
+                           		<td>${memberLoggedIn.deptName }</td>
+                           		<td>${memberLoggedIn.jobName }</td>
+                           		<td class="delNo">${memberLoggedIn.empNo }</td>
+								<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
+							</tr>
+                        </table>
+                 	</div>
 
                         <div class="channel_srchChBar">
                             <div class="channel_select-box">
@@ -107,16 +121,17 @@
                                 </ul>
                             </div>
                             <input type="text" name="chModifyKeyword" id="srchModifyChWord" tabindex="1">
-                           	<a href="#" onclick="searchMemberCh()" tabindex="2">
+                           	<a href="#" onclick="searchMemberModify();" tabindex="2">
 	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="ch-search-icon">
                            	</a>
                             <div class="chDivBtn">
+                                <button type="button" class="ch-button" id="ch-delete-button" onclick="deleteChannel();">채널 삭제</button>
                                 <button type="submit" class="ch-button">확인</button>
                             </div>
                         </div>
-                    </form>
+					</form>
+				</div>
              </div>
 		</div>
-	</div>
 </body>
 </html>

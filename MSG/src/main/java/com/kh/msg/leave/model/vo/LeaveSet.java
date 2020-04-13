@@ -22,7 +22,6 @@ public class LeaveSet implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
      private int empNo;
-	 private int vctnNo;
 	 private String deptName;
 	 private String empName;
 	 private int longevity;

@@ -16,6 +16,10 @@ body {
     font-family: "Noto Sans KR";
     background-color: #ebebeb;
 }
+#44{
+	postition: relative;
+    z-index: 99;
+}
 section{
     position: absolute;
     text-align: center;
@@ -30,6 +34,8 @@ section > div {
     height: 100%;
     vertical-align: middle;
 /*     border: 1px solid black; */
+postition: relative;
+    z-index: 99;
 }
 article > .content {
     display: inline-block;
@@ -38,6 +44,8 @@ article > .content {
     vertical-align: middle;
 /*     border: 1px solid black; */
     background-color: #fefefe;
+    postition: relative;
+    z-index: 99;
 }
 article > .subNav {
     display: inline-block;
@@ -50,6 +58,8 @@ article > .subNav {
     width: 1020px;
     height: 140px;
     vertical-align: middle;
+    postition: relative;
+    z-index: 99;
 }
 
 /* 여기서부터 테이블 */
@@ -59,11 +69,16 @@ table {
     border-top: 4px solid #999999;
     border-collapse: collapse;
     font-size: 12pt;
+    postition: relative;
+    z-index: 99;
 }
 th, td {
+	
     border-bottom: 1px solid #999999;
     padding: 10px;
     text-align: center; 
+    postition: relative;
+    z-index: 99;
 }
 table th:nth-child(4){
     width: 350px;
@@ -142,19 +157,22 @@ table td:nth-child(2){
     color: #333333;
     margin-top: 50px;
     height: 250px;
-  
+  	z-index:1;
   }
   @media (min-width: 110px) {
     .select-box {
       width: 200px;
       margin-right: 80px;
       height: 300px;
-     
+     postition: relative;
+    z-index: 0;
     }
     #first{
       width: 375px;
       text-align: left;
       height: 200px;
+      postition: relative;
+		z-index: 0;
     }
   }
   .select-box__current {

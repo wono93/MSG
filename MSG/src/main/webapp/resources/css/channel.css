@@ -75,7 +75,7 @@ article>.subNav {
 	margin: 0 0 17px 0;
 }
 
-.button {
+/* .button {
 	font-size: 14px;
 	padding: 13px 20px;
 	background: #999999;
@@ -84,11 +84,26 @@ article>.subNav {
 
 .button:hover {
 	background: #F4CA25;
+} */
+.channel-button {
+	background-color: #fefefe;
+	border: 1px solid #999999;
+	color: #999999;
+	font-size: 14px;
+	font-weight: 400;
+	width: 65px;
+	height: 40px;
 }
 
+.channel-button:hover {
+	background: #F4CA25;
+}
+#addMemberModify{
+	width: 90px;
+}
 #channel-container {
 	width: 920px;
-    padding: 50px 50px;
+	padding: 10px 50px;
 	background-color: #FEFEFE;
 	height: 600px;
 	overflow-y: scroll;
@@ -176,7 +191,8 @@ article>.subNav {
 #channel-send-msg-container {
 	background-color: #FEFEFE;
 	width: 860px;
-	padding: 60px 80px;
+	padding: 10px 80px;
+	margin: 30px 0;
 }
 
 #channel-send-msg-container textarea {
@@ -208,4 +224,3 @@ article>.subNav {
 #public {
 	margin: 15px 5px;
 }
-

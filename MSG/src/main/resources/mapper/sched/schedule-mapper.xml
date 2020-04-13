@@ -3,10 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sched">
-	<select id="schedList" resultType="schedule">
+	<select id="schedList"  resultType="schedule">
 	select * 
 	from sched_tb
-	</select>
+	<where>
+		dept_name =
+		<foreach collection="deptName" item="dept" open="(" close=")" separator=",">
+		 #{dept}
+		</foreach>
+	<if test="empList != null">
+	and emp_no in
+		<foreach collection="empList" item="emp" open="(" close=")" separator=",">
+	${emp}
+		</foreach>
+	</if>
+	<if test="typeList != null">
+	and sche_cate in
+		<foreach collection="typeList" item="type" open="(" close=")" separator=",">
+	 #{type}
+		</foreach>
+	</if>
+	</where>
+	</select>	
 	<select id="deptEmpList" resultType="schedemp"><!-- 로그인한 사용자와 같은 팀의 사원번호, 주민번호, 부서명, 직급명 , 사원이름-->
 	select e.emp_no "emp_no",
 		   e.emp_rrn_no "emp_rrn_no",
@@ -45,7 +63,7 @@
 	</update>
 	<delete id="deleteSched">
 	delete from sched_tb
-	where sche_code = ${scheCode}
+	where sche_code = #{scheCode}
 	</delete> 
 	<select id="selectSched" resultType="schedule">
 	select *

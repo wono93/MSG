@@ -31,19 +31,23 @@
                             <h1>문서 유형</h1>
                             <div class="checkbox_wrap">
                                 <label class="myDocu-container kor float" for="myDocu">내 기안문서
-                                            <input type="checkbox" name="myDocu" id="myDocu" class="docuCheck" value="myDocu" ${docuCheckMap["myDocu"]=="y"?'checked="checked"':'' }>
+                                            <input type="radio" name="arrayDocuCheck" id="myDocu" class="docuCheck" value="myDocu" ${docuCheckMap["myDocu"]=="y"?'checked="checked"':'' } checked="checked">
                                             <span class="myDocu-checkmark"></span>
                                </label>
                                 <label class="reqDocu-container kor float" for="reqDocu">결재요청문서
-                                            <input type="checkbox" name="reqDocu" id="reqDocu" class="docuCheck" value="reqDocu" ${docuCheckMap["reqDocu"]=="y"?'checked="checked"':'' }>
+                                            <input type="radio" name="arrayDocuCheck" id="reqDocu" class="docuCheck" value="reqDocu" ${docuCheckMap["reqDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="reqDocu-checkmark"></span>
                                </label>
+                                <label class="coopDocu-container kor float" for="coopDocu">협조요청문서
+                                            <input type="radio" name="arrayDocuCheck" id="coopDocu" class="docuCheck" value="coopDocu" ${docuCheckMap["coopDocu"]=="y"?'checked="checked"':'' }>
+                                            <span class="coopDocu-checkmark"></span>
+                               </label>
                                 <label class="compDocu-container kor float" for="compDocu">결재완료문서
-                                            <input type="checkbox" name="compDocu" id="compDocu" class="docuCheck" value="compDocu" ${docuCheckMap["compDocu"]=="y"?'checked="checked"':'' }>
+                                            <input type="radio" name="arrayDocuCheck" id="compDocu" class="docuCheck" value="compDocu" ${docuCheckMap["compDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="compDocu-checkmark"></span>
                                </label>
                                 <label class="refDocu-container kor float" for="refDocu">참조 문서
-                                            <input type="checkbox" name="refDocu" id="refDocu" class="docuCheck" value="refDocu" ${docuCheckMap["refDocu"]=="y"?'checked="checked"':'' }>
+                                            <input type="radio" name="arrayDocuCheck" id="refDocu" class="docuCheck" value="refDocu" ${docuCheckMap["refDocu"]=="y"?'checked="checked"':'' }>
                                             <span class="refDocu-checkmark"></span>
                                </label>
                             </div>
@@ -61,7 +65,7 @@
                             <th>상태</th>
                         </tr>
 					<c:forEach items="${myEdocList }" var="ed">
-						<tr data-edoc-no="${ed.edocId }">
+						<tr data-edoc-no="${ed.edocId }" data-edoc-title="${ed.edocTitle }">
 							<td>${ed.edocId }</td>
 							<td>${ed.formNm }</td>
 							<td>${ed.edocTitle }</td>
@@ -185,8 +189,12 @@
     $(document).ready(function(){
     	$("tr[data-edoc-no]").on("click", function() {
 			let edocId = $(this).attr("data-edoc-no");
+			let edocTitleFromPage = $(this).attr("data-edoc-title");
 			console.log(edocId);
-			location.href="${pageContext.request.contextPath}/edoc/srchDtl.do?edocId="+edocId;
+			location.href = "${pageContext.request.contextPath}/edoc/edocSrchView.do?edocId="
+				+ edocId
+				+"&edocTitleFromPage="
+				+ edocTitleFromPage;
 		});
  	});
 

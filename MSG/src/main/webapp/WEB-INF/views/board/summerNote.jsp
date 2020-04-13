@@ -25,10 +25,15 @@
                 <br>
                 <br>
                 <br>
-	<iframe src="${pageContext.request.contextPath }/board/write.do" align="right" scrolling="no" frameborder="0" marginheight="50" marginwidth="0" width="100%" height="100%"></iframe>
-                </article>
-              </div>
-            </section>
+                
+			
+				<div style="height:100%">
+					<iframe src="${pageContext.request.contextPath }/board/write.do" name="iframeWrite" align="right" scrolling="no" frameborder="0" marginheight="50" marginwidth="0" width="100%" height="900px"></iframe>
+
+				</div>
+    	</article>
+	</div>
+</section>
 		
 		
 </body>

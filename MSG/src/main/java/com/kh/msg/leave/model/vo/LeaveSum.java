@@ -20,16 +20,11 @@ public class LeaveSum implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
    	 private int empNo;
-	 private int vctnNo;
 	 private String deptName;
 	 private String empName;
 	 private int longevity;
-	 private int reward;
-     private int annual;
-     private int annualUsed;
-     private int rewardUsed;
-     private int otherUsed;
-     	
+	 private int annual;
+     private int reward;
      
 	public static long getSerialversionuid() {
 		return serialVersionUID;
