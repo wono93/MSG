@@ -64,25 +64,57 @@
 					<div class="content">
 						<div class="control">
 							<h2>조회날짜</h2>
-							<input type='text' id='timepicker-start' class='datepicker-here' name="startDate"
-								data-language='ko' data-date-format="yyyy-m-d"
+							<input type='text' id='timepicker-start' class='datepicker-here'
+								name="startDate" data-language='ko' data-date-format="yyyy-m-d"
 								autocomplete="off" minutesStep="10" /> <i
 								class='far fa-calendar-alt starticon' style='font-size: 32px'></i>
-							<span>~</span> <input type='text' id='timepicker-end'  name="endDate"
-								class='datepicker-here' data-language='ko'
+							<span>~</span> <input type='text' id='timepicker-end'
+								name="endDate" class='datepicker-here' data-language='ko'
 								data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10" />
 							<i class='far fa-calendar-alt endicon' style='font-size: 32px'></i>
 						</div>
 						<hr class="boardHr" />
 						<div class="logView">
-							<ol>
-								<c:forEach items="${list }" var="io">
-									<li><fmt:formatDate value="${io.taken}"
+							<ol style="list-style:none;">
+								<c:forEach items="${list }" var="io" varStatus="vs">
+									<li>${vs.count}. <fmt:formatDate value="${io.taken}"
 											pattern="YYYY-MM-dd HH:mm" /> by ${io.empName }
 										(${io.inoutFg })</li>
 								</c:forEach>
 							</ol>
-
+							
+							
+							
+							
+							<div class="pagination">
+								<c:if test="${paging.startPage != 1 }">
+									<a
+										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}" class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
+								</c:if>
+								<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+									var="p">
+									<c:choose>
+										<c:when test="${p == paging.nowPage }">
+											<a class="active">${p }</a>
+										</c:when>
+										<c:when test="${p != paging.nowPage }">
+											<a
+												href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}">${p }</a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${paging.endPage != paging.lastPage}">
+									<a
+										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}" class="arrow"  style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
+								</c:if>
+							</div>
+							
+							
+							
+							
+							
+							
+							
 							<div class="srchBar">
 								<div class="select-box">
 									<div class="select-box__current" tabindex="1">

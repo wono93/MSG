@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<IOLog> ioLog(Map<String, String> map) {
+	public List<IOLog> ioLog(Map<String, Object> map) {
 		
 		return memberDAO.ioLog(map);
 	}
@@ -88,5 +88,17 @@ public class MemberServiceImpl implements MemberService {
 	public int submitNewEmp(Member member) {
 		
 		return memberDAO.submitNewEmp(member);
+	}
+
+	@Override
+	public int countIOLog(Map<String, Object> map) {
+		
+		return memberDAO.countIOLog(map);
+	}
+
+	@Override
+	public int countEmpLog(HashMap<String, Object> map) {
+		
+		return memberDAO.countEmpLog(map);
 	}
 }
