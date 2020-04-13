@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.kh.msg.member.controller.MemberController;
 import com.kh.msg.member.model.service.MemberService;
-import com.kh.msg.member.model.vo.LoginImpl;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 
@@ -45,7 +44,7 @@ public class MsgSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		se.getSession().setMaxInactiveInterval(30); 
+		se.getSession().setMaxInactiveInterval(30*60); 
 	}
 
 	@Override

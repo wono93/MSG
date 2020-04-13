@@ -324,3 +324,14 @@ to {
 	text-align: center;
 	border: none;
 }
+#ch-head {
+	width: 24px;
+	right:16px;
+	position: absolute;
+	padding: 0px 0px 0px 17px;
+}
+
+#ch-aura {
+	border: #f4ca25 solid 3px;
+	margin: 12px 0;
+}
