@@ -26,7 +26,7 @@ public class MyLeave implements Serializable{
 	private String userId;
 	private String vctnReason;
 	private String vctnNm;
-	private int vctnCd;		
+	private String vctnCd;		
     private int vctnUsed;   
      
 	public static long getSerialversionuid() {

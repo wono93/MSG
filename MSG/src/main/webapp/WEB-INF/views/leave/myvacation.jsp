@@ -96,13 +96,6 @@
 				<div class="content">
 					<div class="control">
 						<h3 class="h3title">
-							<%-- <c:forEach  items="${leaveListInfoPlus}" var="leave1" varStatus="vs" begin="1" end="1">
-							<tr>
-							<th>${leave1.deptName}</th>
-							<th>${leave1.jobName}</th>
-							<th>${leave1.empName}</th>
-						</tr>
-						</c:forEach> --%>
 						${memberLoggedIn.deptName } ${memberLoggedIn.jobName } ${memberLoggedIn.empName }
 							</h3>
 							<form>
