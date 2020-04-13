@@ -36,7 +36,7 @@ public class EdocSrch extends Edoc implements Serializable{
 	public EdocSrch(String edocId, String secuCd, String prsvCd, int empNo, int empModNo, String edocTitle, int edocVer,
 			int edocOrgId, String edocDt, String edocEnd, String edocEndDt, String typeCd, String formNm, int prsvAmt,
 			String secuNm, String empName, List<EdocFlow> edocFlowList) {
-		super(edocId, secuCd, prsvCd, empNo, empModNo, edocTitle, edocVer, edocOrgId, edocDt, edocEnd, edocEndDt, edocFlowList);
+		super(edocId, secuCd, prsvCd, empNo, empName, empModNo, edocTitle, edocVer, edocOrgId, edocDt, edocEnd, edocEndDt, edocFlowList);
 		this.typeCd = typeCd;
 		this.formNm = formNm;
 		this.prsvAmt = prsvAmt;
