@@ -7,17 +7,15 @@
 	<select id="selectSetVacationTotalContents" resultType="int">
 		SELECT COUNT(*)
 		FROM
-		EMP_TB B
-		, DEPT_TB D
-		,VCTN_TB E
-		<include refid="SetSearch"></include>
-		AND
-		B.DEPT_CD = D.DEPT_CD
-		AND B.EMP_NO = E.EMP_NO
-		ORDER by B.EMP_NO
-		asc
+		EMP_TB A
+		, DEPT_TB B
+		,VCTN_TB C
+	<include refid="SetSearch"></include>
+		AND A.DEPT_CD = B.DEPT_CD
+		AND C.EMP_NO = A.EMP_NO
+		ORDER BY EMP_NO
 	</select>
-	
+
 	<select id="selectAllVacationTotalContents" resultType="int">
 		SELECT COUNT(*)
 		FROM
@@ -29,11 +27,12 @@
 		AND A.EMP_NO
 		= B.EMP_NO
 		AND A.VCTN_CD = C.VCTN_CD
-		AND B.DEPT_CD = D.DEPT_CD
+		AND B.DEPT_CD =
+		D.DEPT_CD
 		order by
 		a.vctn_dtl_no desc
 	</select>
-	
+
 	<select id="selectMyVacationTotalContents" resultType="int">
 		SELECT COUNT(*)
 		FROM
@@ -49,49 +48,51 @@
 	<!-- 페이징 처리 후 게시글 조회 -->
 
 	<select id="selectSetLeaveList" resultType="LeaveSum">
-		SELECT
-		B.EMP_NO
-		,E.VCTN_NO
-		,D.DEPT_NAME
-		,B.EMP_NAME
-		,TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,B.HIRE_DATE)/12,0) ) Longevity
-		,E.ANNUAL
-		,E.REWARD
+	       SELECT
+		A.emp_no
+		,B.DEPT_NAME
+		,A.EMP_NAME
+		,TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,A.HIRE_DATE)/12,0) ) Longevity
+		,C.ANNUAL
+		,C.REWARD
 		FROM
-		EMP_TB B
-		, DEPT_TB D
-		,VCTN_TB E
-		<include refid="SetSearch"></include>
-		AND B.DEPT_CD = D.DEPT_CD
-		AND B.EMP_NO = E.EMP_NO
-		ORDER by B.EMP_NO
-		asc 
+		EMP_TB A
+		, DEPT_TB B
+		,VCTN_TB C
+	<include refid="SetSearch"></include>
+		AND A.DEPT_CD = B.DEPT_CD
+		AND C.EMP_NO = A.EMP_NO
+		ORDER BY EMP_NO
 	</select>
-	
-	<select id="selectLeaveList" resultType="Leave">	
+
+	<select id="selectLeaveList" resultType="Leave">
 		SELECT
 		a.vctn_dtl_no
 		,a.vctn_stdt
 		, a.vctn_endt
 		,a.app_dt
 		, a.vctn_used
-		, b.emp_name
+		,
+		b.emp_name
 		, d.dept_name
 		, c.vctn_nm
 		, a.vctn_Reason
 		FROM
 		VCTN_HIS_TB A
-		, EMP_TB B
+		,
+		EMP_TB B
 		, VCTN_TYPE_TB C
 		,DEPT_TB D
 		<include refid="search"></include>
 		AND A.EMP_NO= B.EMP_NO
 		AND A.VCTN_CD = C.VCTN_CD
-		AND B.DEPT_CD = D.DEPT_CD
+		AND B.DEPT_CD =
+		D.DEPT_CD
 		order by
 		a.vctn_dtl_no desc
-		</select>
-	<select id="selectMyLeaveList" resultType="MyLeave" parameterType="Member"> 
+	</select>
+	<select id="selectMyLeaveList" resultType="MyLeave"
+		parameterType="Member">
 		SELECT
 		A.EMP_NO
 		,B.VCTN_DTL_NO
@@ -109,56 +110,57 @@
 		<include refid="MySearch"></include>
 		AND A.EMP_NO=B.EMP_NO
 		AND B.VCTN_CD=C.VCTN_CD
-		ORDER BY B.VCTN_DTL_NO DESC
+		ORDER BY B.VCTN_DTL_NO
+		DESC
 	</select>
-	<!-- 검색 옵션  -->
+	<!-- 검색 옵션 -->
 	<sql id="search">
 		<choose>
-			<!--전체 검색  -->
+			<!--전체 검색 -->
 			<when test="srchType == 'all'">
-			 WHERE (D.DEPT_NAME like '%'|| #{srchWord} || '%' 
-                      OR  B.EMP_NAME like '%'||#{srchWord} ||'%' 
-                      OR C.VCTN_NM like '%'||#{srchWord}||'%')
+				where (D.DEPT_NAME like '%'|| #{srchWord} || '%'
+				OR B.EMP_NAME like '%'||#{srchWord} ||'%'
+				OR C.VCTN_NM like '%'||#{srchWord}||'%')
 			</when>
-			<!--일부 검색  -->
+			<!--일부 검색 -->
 			<otherwise>
 				where ${srchType} like '%'||#{srchWord}||'%'
 			</otherwise>
 		</choose>
 	</sql>
-	
-	<!-- 나의휴가 검색 옵션  -->
+
+	<!-- 나의휴가 검색 옵션 -->
 	<sql id="MySearch">
 		<choose>
-			<!--전체 검색  -->
+			<!--전체 검색 -->
 			<when test="srchType == 'all'">
-			 WHERE (B.VCTN_REASON like '%'|| #{srchWord} || '%' 
-                      OR C.VCTN_NM like '%'||#{srchWord} ||'%')
+				WHERE (B.VCTN_REASON like '%'|| #{srchWord} || '%'
+				OR C.VCTN_NM like '%'||#{srchWord} ||'%')
 			</when>
-			<!--일부 검색  -->
+			<!--일부 검색 -->
 			<otherwise>
 				where ${srchType} like '%'||#{srchWord}||'%'
 			</otherwise>
 		</choose>
 	</sql>
-	
-	<!-- 휴가조정 검색 옵션  -->
+
+	<!-- 휴가조정 검색 옵션 -->
 	<sql id="SetSearch">
 		<choose>
-			<!--전체 검색  -->
+			<!--전체 검색 -->
 			<when test="srchType == 'all'">
-			 WHERE (D.DEPT_NAME like '%'|| #{srchWord} || '%' 
-                      OR  B.EMP_NAME like '%'||#{srchWord} ||'%' 
-                      )
+				WHERE (B.DEPT_NAME like '%'|| #{srchWord} || '%'
+				OR A.EMP_NAME like '%'||#{srchWord} ||'%'
+				)
 			</when>
-			<!--일부 검색  -->
+			<!--일부 검색 -->
 			<otherwise>
 				where ${srchType} like '%'||#{srchWord}||'%'
 			</otherwise>
 		</choose>
 	</sql>
-	
-	<!-- 모달   -->
+
+	<!-- 모달 -->
 
 	<insert id="insertModal">
 		INSERT INTO VCTN_UPDT_TB
@@ -166,10 +168,10 @@
 		'VCTN' || TO_CHAR(VCTN_SEQ.nextval),
 		#{edocId},
 		#{vctnCd}, <!-- 휴가코드 -->
-		#{vctnNo},
 		#{vctnAmt}, <!-- 조절량 -->
 		default,
-		#{vctnReason} <!--근거 -->
+		#{vctnReason}, <!--근거 -->
+		#{empNo}
 		)
 	</insert>
 
@@ -184,10 +186,7 @@
 	<resultMap type="leaveModal" id="leaveModal"></resultMap>
 	<select id="selectModalList" resultMap="leaveModal">
 		SELECT
-		E.EMP_NO
-		,C.ANNUAL
-		,C.REWARD
-		,C.VCTN_NO
+		C.EMP_NO
 		,A.VCTN_CD
 		,A.VCTN_NM
 		,B.VCTN_AMT
@@ -197,20 +196,17 @@
 		FROM
 		VCTN_TYPE_TB A
 		,VCTN_UPDT_TB B
-		,VCTN_TB C
-		,EMP_TB E
+		,EMP_TB C
 		WHERE E.EMP_NO= #{empNo}
-		AND B.VCTN_CD = A.VCTN_CD
 		AND
-		B.VCTN_NO = C.VCTN_NO
-		AND C.EMP_NO = E.EMP_NO
+		B.VCTN_CD = A.VCTN_CD
+		AND B.EMP_NO = C.EMP_NO
 	</select>
 
 	<resultMap type="leaveSet" id="leaveSet"></resultMap>
-	<select id="selectLeaveList2" resultMap="leaveSet">
+	<select id="selectSettingLeaveList" resultMap="leaveSet">
 		SELECT
 		B.EMP_NO
-		,E.VCTN_NO
 		,D.DEPT_NAME
 		,B.EMP_NAME
 		,TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,B.HIRE_DATE)/12,0) ) Longevity
@@ -228,40 +224,20 @@
 		asc
 	</select>
 	<resultMap type="leavePlus" id="leavePlus"></resultMap>
-	<select id="selectLeaveList3" resultMap="leavePlus">
-		SELECT SUM(A.VCTN_USED)
+	<select id="selectPlusLeaveList" resultMap="leavePlus">
+		SELECT
+		SUM(A.VCTN_USED)
 		VCTN_USED
 		, A.EMP_NO
 		, MAX(a.vctn_dtl_no) DTL_NO
-		, A.VCTN_CD
+		,
+		A.VCTN_CD
 		FROM
 		VCTN_HIS_TB A
 		GROUP BY a.vctn_cd, A.EMP_NO
-		ORDER BY a.emp_no
+		ORDER BY
+		a.emp_no
 		asc
-	</select>
-	<resultMap type="myLeave" id="myLeave"></resultMap>
-	<select id="selectLeaveList4" parameterType="Member"
-		resultMap="myLeave">
-		SELECT
-		A.EMP_NO
-		,B.VCTN_DTL_NO
-		,B.VCTN_STDT
-		,B.VCTN_ENDT
-		,A.USER_ID
-		,B.VCTN_REASON
-		,C.VCTN_NM
-		,c.VCTN_CD
-		,B.VCTN_USED
-		FROM
-		EMP_TB A
-		,VCTN_HIS_TB B
-		,VCTN_TYPE_TB C
-		WHERE A.EMP_NO = #{empNo}
-		AND
-		A.EMP_NO=B.EMP_NO
-		AND B.VCTN_CD=C.VCTN_CD
-		ORDER BY B.VCTN_DTL_NO DESC
 	</select>
 
 	<resultMap type="leaveInfoPlus" id="leaveInfoPlus"></resultMap>
@@ -294,6 +270,35 @@
 		AND A.DEPT_CD = E.DEPT_CD
 		AND A.JOB_CD = F.JOB_CD
 	</select>
-
+	<!-- 사용한 휴가 (연차,포상,기타) -->
+		<select  id="selectAnnualList" resultType="LeaveAnnual">
+		SELECT
+		SUM(VCTN_USED) Annual
+		,EMP_NO
+		,VCTN_CD
+		FROM
+        	    VCTN_HIS_TB  
+        WHERE  VCTN_CD = 'V1'
+		GROUP BY vctn_cd, EMP_NO
+	</select>
+	<select  id="selectRewardList" resultType="LeaveReward">
+		SELECT
+		SUM(VCTN_USED) Reward
+		,EMP_NO
+		,VCTN_CD
+		FROM
+        	    VCTN_HIS_TB  
+        WHERE  VCTN_CD = 'V2'
+		GROUP BY vctn_cd, EMP_NO
+	</select>
+	
+	<select id="selectOtherList" resultType="LeaveOther">
+  select
+        emp_no
+        ,SUM(vctn_used) Other
+        from
+        vctn_his_tb
+        where (vctn_cd !='V1' and vctn_cd !='V2') group by emp_no
+	</select>
 </mapper>
 

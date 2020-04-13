@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.edoc.model.vo.Edoc;
 import com.kh.msg.leave.model.dao.LeaveDAO;
 import com.kh.msg.leave.model.vo.Leave;
+import com.kh.msg.leave.model.vo.LeaveAnnual;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
 import com.kh.msg.leave.model.vo.LeaveModal;
+import com.kh.msg.leave.model.vo.LeaveOther;
 import com.kh.msg.leave.model.vo.LeavePlus;
+import com.kh.msg.leave.model.vo.LeaveReward;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
 import com.kh.msg.leave.model.vo.MyLeave;
-import com.kh.msg.leave.model.vo.LeavePagingVO;
 import com.kh.msg.member.model.vo.Member;
 
 @Service
@@ -25,22 +27,22 @@ public class LeaveServiceImpl implements LeaveService {
 	LeaveDAO leaveDAO;
 
 	@Override
-	public List<LeaveSet> selectLeaveList2() {
+	public List<LeaveSet> selectSettingLeaveList() {
 
-		return leaveDAO.selectLeaveList2();
+		return leaveDAO.selectSettingLeaveList();
 	}
 
 	@Override
-	public List<LeavePlus> selectLeaveList3() {
+	public List<LeavePlus> selectPlusLeaveList() {
 
-		return leaveDAO.selectLeaveList3();
+		return leaveDAO.selectPlusLeaveList();
 	}
 
-	@Override
-	public List<MyLeave> selectLeaveList4(Member member) {
-
-		return leaveDAO.selectLeaveList4(member);
-	}
+	/*
+	 * @Override public List<MyLeave> selectLeaveList4(Member member) {
+	 * 
+	 * return leaveDAO.selectLeaveList4(member); }
+	 */
 
 	@Override
 	public List<LeaveInfoPlus> selectleaveListInfoPlus(Member member) {
@@ -61,9 +63,9 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public int insertModal(int vctnNo, String edocId, String vctnCd, int vctnAmt, String vctnReason) {
+	public int insertModal(int empNo, String edocId, String vctnCd, int vctnAmt, String vctnReason) {
 
-		return leaveDAO.insertModal(vctnNo, edocId, vctnCd, vctnAmt, vctnReason);
+		return leaveDAO.insertModal(empNo, edocId, vctnCd, vctnAmt, vctnReason);
 	}
 
 	// 게시글 카운트
@@ -93,11 +95,11 @@ public class LeaveServiceImpl implements LeaveService {
 
 	//휴가조정 내역 리스트
 
-	@Override
-	public List<LeaveSum> selectSetLeaveList(int cPage, int numPerPage, Map<String, String> map) {
-		
-		return leaveDAO.selectSetLeaveList(cPage, numPerPage, map);
-	}
+	
+	 @Override public List<LeaveSum> selectSetLeaveList(int cPage, int numPerPage,
+	 Map<String, String> map) {
+	 
+	 return leaveDAO.selectSetLeaveList(cPage, numPerPage, map); }
 
 	
 	//모든 휴가 내역 리스트
@@ -113,5 +115,26 @@ public class LeaveServiceImpl implements LeaveService {
 	
 		return leaveDAO.selectMyLeaveList( cPage, numPerPage, map);
 	}
+	
+	//사용한 휴가
+	@Override
+	public List<LeaveAnnual> selectAnnualList() {
+		
+		return leaveDAO.selectAnnualList();
+	
+	}
+
+	@Override
+	public List<LeaveReward> selectRewardList() {
+		
+		return leaveDAO.selectRewardList();
+	}
+
+	@Override
+	public List<LeaveOther> selectOtherList() {
+		
+		return leaveDAO.selectOtherList();
+	}
+
 
 }
