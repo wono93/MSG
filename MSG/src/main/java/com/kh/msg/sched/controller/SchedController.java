@@ -34,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-
 @Controller
 @Slf4j
 @RequestMapping("/sched")
@@ -45,18 +44,32 @@ public class SchedController {
 	@Autowired
 	SchedService schedService;
 	
+	@GetMapping("/calcover.do")
+	public ModelAndView schedList_() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("sched/calcover");
+		return mav;
+	}
+	
 	@ResponseBody
 	@GetMapping("/calendar.do")
 	//public ModelAndView cal() {
 	public ModelAndView schedList(HttpSession session,
-						          @RequestParam(value="empFilter") List<String> empFilter,
-						          @RequestParam(value="typeFilter") List<String> typeFilter) throws IOException {
+//								  @RequestParam(value="deptName") String deptName,
+						          @RequestParam(value="empFilter", required=false) List<String> empFilter,
+						          @RequestParam(value="typeFilter", required=false) List<String> typeFilter) throws IOException {
 //	public List<Schedule> cal(HttpServletResponse response) throws IOException {
+		OrgChart o = (OrgChart)session.getAttribute("memberLoggedIn");
 		ModelAndView mav = new ModelAndView();
 		
-//		List<String> empFilter = '';
+		log.debug("typeFilter={}",typeFilter);
+		log.debug("empFilter={}",empFilter);
 
-		List<Schedule> list = schedService.schedList(empFilter, typeFilter);
+		List<Schedule> list = schedService.schedList(o.getDeptName(), empFilter, typeFilter);
+//		List<Schedule> list = schedService.schedList(deptName, empFilter, typeFilter);
+		
+//		log.debug("o0o={}",o);
 		mav.addObject("list", list); //예약된 일정목록
 		
 		

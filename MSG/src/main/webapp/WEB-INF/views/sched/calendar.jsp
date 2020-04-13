@@ -18,7 +18,7 @@
 	.center1200>h3{ margin:75px 0 0 60px; font-size:36px; font-weight:900;text-align:left;}
 	.center1200 li:first-of-type{margin-left:60px;}
 	.center1200 li{list-style: none; float: left; margin: 30px 65px 30px 0; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
-	.container{width:1200px; margin:0 auto; padding:30px; min-height: 100px; padding:48px 0 0 53px;background-color:#fff;}
+	.container{width:1200px; margin:0 auto; padding:30px; min-height: 100px; padding:48px 0 0 53px;background-color:#fff; position:relative; left:-310px;}
 	#containert>span{font-size:30px; margin-left: 30px;}
 	
 	</style>
@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%-- <%@ include file="/WEB-INF/views/common/header.jsp" %> --%>
 <input type="hidden" id="userEmpNo" value="${memberLoggedIn.empNo}" /> 
 <input type="hidden" id="userEmpName" value="${memberLoggedIn.empName}" /> 
 <input type="hidden" id="userDeptName" value="${memberLoggedIn.deptName}" /> 
@@ -46,12 +46,12 @@
         <div>
             <article>
 			 	<div class="center1200">
-			        <h3>일정관리</h3>
+<%-- 			        <h3>일정관리</h3>
 			            <ul>
 			                <li>내 일정</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/confRes.do'">회의실</li>
 			                <li onclick="location.href='${pageContext.request.contextPath}/res/carRes.do'">법인차량</li>
-			             </ul>
+			             </ul> --%>
 			    </div>
 			    <div class="container">
 			
@@ -178,6 +178,8 @@
 			                            <option value="팀 일정">팀 일정</option>
 			                            <option value="부서 일정">부서 일정</option>
 			                            <option value="회사 일정">회사 일정</option>
+			                            <option value="회의실 예약">회의실 예약</option>
+			                            <option value="차량 예약">차량 예약</option>
 			                        </select>
 			                    </div>
 			                </div>
@@ -217,6 +219,7 @@
     <script src="${pageContext.request.contextPath}/resources/fullCalendar/js/etcSetting.js"></script>
 </body>
     <style>
+    .panel-body{margin-bottom:20px;}
     .fc-today-button{margin-left:70px;}
     input{auto-complete:off;}
     

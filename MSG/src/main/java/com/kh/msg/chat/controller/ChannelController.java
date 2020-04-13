@@ -313,34 +313,33 @@ public class ChannelController {
 		
 		int chNo = chInfo.getChNo();
 		
-		int memberResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
+		int memberResult = channelService.addChannelMember(empNo, chNo);
 		
-		mav.addObject("userId",regId);
+		Map<String, Object> param = new HashMap<>();
+		param.put("chNo", chNo);
+		param.put("empNo", regEmpNo);
+		param.put("userId", regId);
+		param.put("msgContent", "채널이 생성되었습니다.");
+		
+		result = channelService.insert(param);
+		
 		mav.addObject("chNo",chInfo.getChNo());
 		mav.addObject("chName",chName);
+		mav.addObject("regId",regId);
+		mav.addObject("userId",regId);
 		
 		mav.setViewName("chat/channel");
+
 		return mav;
-		
 	}
-	@PostMapping("/modifyChannel.do")
-	public ModelAndView modifyChannel(ModelAndView mav, ChannelInfo chInfo,
-			@RequestParam(value="empNo", required=false) int[] empNo,
-			@RequestParam(value="chName", required=false) String chName,
-			@RequestParam(value="regId", required=false) String regId,
-			@RequestParam(value="chEx", required=false) String chEx,
-			@RequestParam(value="regEmpNo", required=false) int regEmpNo,
-			@RequestParam(value="chNo", required=false) int chNo,
-			RedirectAttributes redirectAttributes,
+	@GetMapping("/modifyChannel.do")
+	@ResponseBody
+	public void modifyChannel(
+			@RequestParam("chNo") int chNo,
 			HttpServletRequest request,
-			 HttpServletResponse response) {
-		
-		log.debug("empNo={}", empNo);
-//		log.debug("empNo.length="+ empNo.length);
+			HttpServletResponse response) {
 		
 		try {
-			if(chNo != 0) {
-				
 				List<OrgChart> list = channelService.presentMember(chNo);
 				
 				JSONArray jsonArr = new JSONArray();
@@ -362,30 +361,66 @@ public class ChannelController {
 				PrintWriter out;
 				out = response.getWriter();
 				out.write(jsonArr.toString());
-					
-			}
+				
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	@PostMapping("/modifyChannel.do")
+	public ModelAndView modifyChannel(ModelAndView mav, ChannelInfo chInfo,
+			@RequestParam(value="empNo", required=false) int[] empNo,
+			@RequestParam(value="chName", required=false) String chName,
+			@RequestParam(value="regId", required=false) String regId,
+//			@RequestParam(value="regEmpNo", required=false) int regEmpNo,
+			HttpServletRequest request,
+			 HttpServletResponse response) {
+		
+		log.debug("empNo={}", empNo);
+			int chNo = chInfo.getChNo();
+		log.debug("chNo="+chNo);
 			
 			int deleteResult = channelService.deleteChannelMember(chNo);
 			
-			int insertResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
+			
+//			int insertResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
+			int insertResult = channelService.addChannelMember(empNo, chNo);
 		
 			int result = channelService.modifyChannel(chInfo);
 			
 			mav.addObject("userId",regId);
+			mav.addObject("regId",regId);
 			mav.addObject("chNo",chInfo.getChNo());
 			mav.addObject("chName",chName);
 			
 			mav.setViewName("chat/channel");
 		
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return mav;
+		
+	}
+	@PostMapping("/deleteChannel.do")
+	public ModelAndView deleteChannel(ChannelInfo chInfo,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelAndView mav
+			) {
+		
+		int chNo = chInfo.getChNo();
+		log.debug("chNo="+chNo);
+		
+		int deleteResult = channelService.deleteChannelMember(chNo);
+		
+		mav.setViewName("/common/welcome");
+
 		return mav;
 		
 	}
 	
 	
-	
+	@GetMapping("/main.do")
+	public String main() {
+		return "/common/welcome";
+	}
 	
 	
 	

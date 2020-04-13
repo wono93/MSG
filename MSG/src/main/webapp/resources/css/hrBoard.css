@@ -326,9 +326,6 @@ article > .content{
 .empLogView{
     float: left;
 }
-.logView ol{
-    display: inline-block;
-}
 .board{width: 100%; line-height: 46px; margin-top: 20px;}
 .board th, .board td{color: #333; width: 25%; text-align: center;}
 .board tr{/* width:980px; */display:flex;border-bottom: 1px solid #999;}

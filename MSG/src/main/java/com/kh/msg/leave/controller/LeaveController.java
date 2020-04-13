@@ -25,10 +25,12 @@ import com.kh.msg.edoc.model.vo.Edoc;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.leave.model.service.LeaveService;
 import com.kh.msg.leave.model.vo.Leave;
+import com.kh.msg.leave.model.vo.LeaveAnnual;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
 import com.kh.msg.leave.model.vo.LeaveModal;
-import com.kh.msg.leave.model.vo.LeavePagingVO;
+import com.kh.msg.leave.model.vo.LeaveOther;
 import com.kh.msg.leave.model.vo.LeavePlus;
+import com.kh.msg.leave.model.vo.LeaveReward;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
 import com.kh.msg.leave.model.vo.MyLeave;
@@ -129,13 +131,13 @@ public class LeaveController {
 		log.debug("leaveMyList.toString()={}", leaveMyList.toString());
 		int totalContents = leaveService.selectMyVacationTotalContents(map);
 
-		int au = 0;
-		int ru = 0;
-		int fu = 0;
-		int fau = 0;
-		int su = 0;
-		int uu = 0;
-		int ou = 0;
+		int annual = 0; // 연차
+		int reward = 0; // 포상
+		int official = 0; // 공가
+		int funeral = 0; // 경조사
+		int sick = 0; // 병가
+		int unpaid = 0; // 무급
+		int other = 0; // 기타
 
 		for (int i = 0; i < leaveListInfoPlus.size(); i++) {
 
@@ -146,31 +148,31 @@ public class LeaveController {
 			lip.setEmpName(leaveListInfoPlus.get(i).getEmpName());
 			lip.setAnnual(leaveListInfoPlus.get(i).getAnnual());
 			lip.setReward(leaveListInfoPlus.get(i).getReward());
-			if (leaveListInfoPlus.get(i).getVctnCd() == 1) {
-				au += leaveListInfoPlus.get(i).getVctnUsed();
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 2) {
-				ru += leaveListInfoPlus.get(i).getVctnUsed();
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 3) {
-				fu += leaveListInfoPlus.get(i).getVctnUsed();
+			if (leaveListInfoPlus.get(i).getVctnCd().equals("V1")) {
+				annual += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V2")) {
+				reward += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V3")) {
+				official += leaveListInfoPlus.get(i).getVctnUsed();
 				;
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 4) {
-				fau += leaveListInfoPlus.get(i).getVctnUsed();
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 5) {
-				su += leaveListInfoPlus.get(i).getVctnUsed();
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 6) {
-				uu += leaveListInfoPlus.get(i).getVctnUsed();
-			} else if (leaveListInfoPlus.get(i).getVctnCd() == 7) {
-				ou += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V4")) {
+				funeral += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V5")) {
+				sick += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V6")) {
+				unpaid += leaveListInfoPlus.get(i).getVctnUsed();
+			} else if (leaveListInfoPlus.get(i).getVctnCd().equals("V7")) {
+				other += leaveListInfoPlus.get(i).getVctnUsed();
 			}
 
 		}
-		lip.setAnnualUsed(au);
-		lip.setRewardUsed(ru);
-		lip.setFloatingUsed(fu);
-		lip.setFamilyeventUsed(fau);
-		lip.setSickleaveUsed(su);
-		lip.setUnpaidUsed(uu);
-		lip.setOtherUsed(ou);
+		lip.setAnnualUsed(annual);
+		lip.setRewardUsed(reward);
+		lip.setFloatingUsed(official);
+		lip.setFamilyeventUsed(funeral);
+		lip.setSickleaveUsed(sick);
+		lip.setUnpaidUsed(unpaid);
+		lip.setOtherUsed(other);
 		lip.setAnnualNotUsed(lip.getAnnual() - lip.getAnnualUsed());
 		lip.setRewardNotused(lip.getReward() - lip.getRewardUsed());
 
@@ -242,21 +244,22 @@ public class LeaveController {
 
 	@PostMapping("/update.do") // 모달 내 insert 테이블
 	@ResponseBody
-	public String modalInsert(@RequestParam("vctnNo") int vctnNo, @RequestParam("edocId") String edocId,
+	public String modalInsert(@RequestParam("empNo") int empNo, @RequestParam("edocId") String edocId,
 			@RequestParam("vctnCd") String vctnCd, @RequestParam("vctnAmt") int vctnAmt,
 			@RequestParam("vctnReason") String vctnReason, RedirectAttributes redirectAttributes) {
 
 		// 1.비지니스로직 실행
 
-		int result = leaveService.insertModal(vctnNo, edocId, vctnCd, vctnAmt, vctnReason);
+		int result = leaveService.insertModal(empNo, edocId, vctnCd, vctnAmt, vctnReason);
 
 		return "redirect:/leave/update.do";
 	}
-	
+
+	/* 전체 휴가조wjd 리스트 */
 	@GetMapping("/update.do")
 	public ModelAndView setList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
 			@RequestParam(value = "srchType", defaultValue = "all") String srchType) {
-		log.debug("=========vacation 조정 휴가 리스트=========");
+		log.debug("=========setvacation 조정 휴가 리스트=========");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage = 15;
 
@@ -264,50 +267,24 @@ public class LeaveController {
 		map.put("srchWord", srchWord);
 		map.put("srchType", srchType);
 
+		/* log.debug("leaveList.toString()={}", leaveList.toString()); */
+		int totalContents = leaveService.selectAllVacationTotalContents(map);
+
 		log.debug("leaveService={}", leaveService.getClass());
-		List<LeaveSet> leaveList2 = leaveService.selectLeaveList2();
-		List<LeavePlus> leaveList3 = leaveService.selectLeaveList3();
-		List<LeaveSum> listSum = new ArrayList<>();
-		int emp = 0;
-		log.debug("listSum.toString()={}", listSum.toString());
-		int totalContents = leaveService.selectSetVacationTotalContents(map);
 
-		for (int i = 0; i < leaveList2.size(); i++) {
-			LeaveSum ls = new LeaveSum();
-			ls.setVctnNo(leaveList2.get(i).getVctnNo());
-			ls.setDeptName(leaveList2.get(i).getDeptName());
-			ls.setEmpName(leaveList2.get(i).getEmpName());
-			ls.setLongevity(leaveList2.get(i).getLongevity());
-			ls.setReward(leaveList2.get(i).getReward());
-			ls.setAnnual(leaveList2.get(i).getAnnual());
-			ls.setEmpNo(leaveList2.get(i).getEmpNo());
+		List<LeaveAnnual> listAnnual = leaveService.selectAnnualList();
+		List<LeaveReward> listReward = leaveService.selectRewardList();
+		List<LeaveOther> listOther = leaveService.selectOtherList();
+		List<LeaveSum> listSum = leaveService.selectSetLeaveList(cPage, numPerPage, map);
+			
+		
+		mav.addObject("listOther", listOther);
+		mav.addObject("listAnnual", listAnnual);
+		mav.addObject("listReward", listReward);
 
-			int ot = 0;
-			for (int j = emp; j < leaveList3.size(); j++) {
-				if (ls.getEmpNo() == leaveList3.get(j).getEmpNo()) {
-					if (leaveList3.get(j).getVctnCd() == 1) {
-						ls.setAnnualUsed(leaveList3.get(j).getVctnUsed());
-					} else if (leaveList3.get(j).getVctnCd() == 2) {
-						ls.setRewardUsed(leaveList3.get(j).getVctnUsed());
-					} else {
-
-						ot += leaveList3.get(j).getVctnUsed();
-					}
-
-				} else {
-					emp = j;
-					break;
-				}
-
-			}
-			ls.setOtherUsed(ot);
-			listSum.add(ls);
-		}
-
-		listSum = leaveService.selectSetLeaveList(cPage, numPerPage, map);
 		mav.addObject("listSum", listSum);
 
-		// 여기서부터 페이징
+//			여기서부터 페이징
 		final int totalPage = (int) (Math.ceil((double) totalContents / numPerPage));
 		final int pageBarSize = 5;
 		final int pageStart = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
@@ -318,7 +295,7 @@ public class LeaveController {
 		if (pageNo == 1) {
 			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
 		} else {
-			pageBar += "<a href='/msg/leave/update.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
+			pageBar += "<a href='/msg/leave/list.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
 					+ srchType + "'>&laquo;</a>";
 		}
 
@@ -326,7 +303,7 @@ public class LeaveController {
 			if (pageNo == cPage) {
 				pageBar += "<a class='active'>" + pageNo + "</a>";
 			} else {
-				pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+				pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
 						+ srchType + "'>" + pageNo + "</a>";
 			}
 			pageNo++;
@@ -335,8 +312,8 @@ public class LeaveController {
 		if (pageNo > totalPage) {
 			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
 		} else {
-			pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
-					+ srchType + "'>&raquo;</a>";
+			pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType=" + srchType
+					+ "'>&raquo;</a>";
 		}
 		;
 

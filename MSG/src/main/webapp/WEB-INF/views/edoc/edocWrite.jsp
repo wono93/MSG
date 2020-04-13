@@ -331,38 +331,38 @@
 									<div id="selectVac" class="select-box">
 										<div id="currentExp2" class="select-box__current" tabindex="1">
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V0"
-													value="7" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V7"
+													value="V7" name="leaveCheck" />
 												<p class="select-box__input-text">기타</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V1"
-													value="6" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V6"
+													value="V6" name="leaveCheck" />
 												<p class="select-box__input-text">무급</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V2"
-													value="5" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V5"
+													value="V5" name="leaveCheck" />
 												<p class="select-box__input-text">병가</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V3"
-													value="4" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V4"
+													value="V4" name="leaveCheck" />
 												<p class="select-box__input-text">경조사</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V4"
-													value="3" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V3"
+													value="V3" name="leaveCheck" />
 												<p class="select-box__input-text">공가</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V5"
-													value="2" name="leaveCheck" />
+												<input class="select-box__input" type="radio" id="V2"
+													value="V2" name="leaveCheck" />
 												<p class="select-box__input-text">포상</p>
 											</div>
 											<div class="select-box__value">
-												<input class="select-box__input" type="radio" id="V6"
-													value="1" name="leaveCheck" checked="checked" />
+												<input class="select-box__input" type="radio" id="V1"
+													value="V1" name="leaveCheck" checked="checked" />
 												<p class="select-box__input-text">연가</p>
 											</div>
 											<img class="select-box__icon"
@@ -370,19 +370,19 @@
 												alt="Arrow Icon" aria-hidden="true" />
 										</div>
 										<ul id="listExp2" class="select-box__list">
-											<li><label class="select-box__option" for="V6"
-												aria-hidden="aria-hidden">연가</label></li>
-											<li><label class="select-box__option" for="V5"
-												aria-hidden="aria-hidden">포상</label></li>
-											<li><label class="select-box__option" for="V4"
-												aria-hidden="aria-hidden">공가</label></li>
-											<li><label class="select-box__option" for="V3"
-												aria-hidden="aria-hidden">경조사</label></li>
-											<li><label class="select-box__option" for="V2"
-												aria-hidden="aria-hidden">병가</label></li>
 											<li><label class="select-box__option" for="V1"
+												aria-hidden="aria-hidden">연가</label></li>
+											<li><label class="select-box__option" for="V2"
+												aria-hidden="aria-hidden">포상</label></li>
+											<li><label class="select-box__option" for="V3"
+												aria-hidden="aria-hidden">공가</label></li>
+											<li><label class="select-box__option" for="V4"
+												aria-hidden="aria-hidden">경조사</label></li>
+											<li><label class="select-box__option" for="V5"
+												aria-hidden="aria-hidden">병가</label></li>
+											<li><label class="select-box__option" for="V6"
 												aria-hidden="aria-hidden">무급</label></li>
-											<li><label class="select-box__option" for="V0"
+											<li><label class="select-box__option" for="V7"
 												aria-hidden="aria-hidden">기타 휴가</label></li>
 										</ul>
 									</div>
@@ -467,9 +467,20 @@
 						<td>협조</td>
 					</tr>
 					<tr>
-						<td><i class="fas fa-angle-double-right arrowIcon"
-							style="font-size: 48px; color: #333333"></i></td>
-						<td class="flowBox"></td>
+						<td>
+							<div id="coopArrow">
+								<i class="fas fa-angle-double-right arrowIcon"
+									style="font-size: 48px; color: #333333"></i>
+							</div>
+						</td>
+						<td class="coopBox">
+							<table id="coopLineTb" class="coopLineTable">
+								<tr id="deadlineCoop">
+									<th colspan=3>이름</th>
+									<th>삭제</th>
+								</tr>
+							</table>
+						</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -478,7 +489,7 @@
 					<tr>
 						<td><i class="fas fa-angle-double-right arrowIcon"
 							style="font-size: 48px; color: #333333"></i></td>
-						<td class="flowBox"></td>
+						<td class="refBox"></td>
 					</tr>
 					<tr>
 						<td class="marginTd" colspan="2"></td>
@@ -493,6 +504,42 @@
 		</div>
 	</div>
 	<script>
+	$(document).ready(function() { // 결재선 1번에 일단 기안자 넣도록 설정
+		var jsTreeEmpNo = <%=oc.getEmpNo()%>;
+		$.ajax({
+			type : "get",
+			url : "/msg/edoc/jstreeMem.do",
+			data : {
+				id : jsTreeEmpNo
+			},
+			dataType : "json",
+			success : function(response) {
+				var tmp = [ response['empNo'],
+						response['dept'],
+						response['job'],
+						response['name'] ];
+
+				flowLine.push(tmp);
+
+				var i = flowLine.length - 1;
+				$("#flowLineTb")
+						.append(
+								"<tr id=flowLine"+i+"><td>"
+										+ response['dept']
+										+ "</td><td>"
+										+ response['job']
+										+ "</td><td>"
+										+ response['name']
+										+ "</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='checkbox' name='flowLineCheck' id='flowLine"
+										+ flowLine.length
+										+ "' onClick='flowLineCheck(this);'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeFlow(this);' class='flowBoxX'/></td></tr>");
+				/* console.log(flowLine); */
+			}
+		});
+	    
+	});
+	
+		// 모달 기능(결재선)
 		$("#flowArrow")
 				.click(
 						function() {
@@ -515,6 +562,12 @@
 											for ( var i in flowLine) {
 												if (flowLine[i][0] == tmp[0]) {
 													alert("결재선이 중복됩니다. 다시 선택하세요.");
+													return;
+												}
+											}
+											for ( var i in coopLine) {
+												if (coopLine[i][0] == tmp[0]) {
+													alert("협조선과 결재선은 중복될 수 없습니다. 다시 선택하세요.");
 													return;
 												}
 											}
@@ -566,6 +619,86 @@
 			}
 
 		};
+		
+		//모달 기능(참조)
+		$("#coopArrow")
+				.click(
+						function() {
+							$.ajax({
+										type : "get",
+										url : "/msg/edoc/jstreeMem.do",
+										data : {
+											id : selectedTree
+										},
+										dataType : "json",
+										success : function(response) {
+											var tmp = [ response['empNo'],
+													response['dept'],
+													response['job'],
+													response['name'] ];
+											if (tmp[0] == ('fail')) {
+												alert("협조에 부서를 추가할 수는 없습니다.다시 선택하세요.");
+												return;
+											}
+											for ( var i in flowLine) {
+												if (flowLine[i][0] == tmp[0]) {
+													alert("협조선과 결재선은 중복될 수 없습니다. 다시 선택하세요.");
+													return;
+												}
+											}
+											for ( var i in coopLine) {
+												if (coopLine[i][0] == tmp[0]) {
+													alert("협조가 중복됩니다. 다시 선택하세요.");
+													return;
+												}
+											}
+											coopLine.push(tmp);
+											/* console.log(flowLine.length); */
+											if (coopLine.length > 3) { // 참조 3명 제한
+												alert("협조는 최대 3명까지 지정 가능합니다.");
+												coopLine.splice(3, 1);
+												return;
+											}
+											var i = coopLine.length - 1;
+											$("#coopLineTb")
+													.append(
+															"<tr id=coopLine"+i+"><td>"
+																	+ response['dept']
+																	+ "</td><td>"
+																	+ response['job']
+																	+ "</td><td>"
+																	+ response['name']
+																	+ "</td><td id='coopBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeCoop(this);' class='coopBoxX'/></td></tr>");
+											/* console.log(coopLine); */
+										}
+									});
+						});
+		function removeCoop(obj) {
+			jq("#deadlineCoop").siblings("tr").remove();
+			var indexStr = jq(obj).parent().parent("tr").attr("id");
+			/* console.log(indexStr); */
+			var indexNo = indexStr.substr(indexStr.length - 1);
+			/* console.log(indexNo); */
+			coopLine.splice(indexNo, 1);
+			/* console.log(coopLine); */
+
+			for ( var i in coopLine) {
+				var j = +i + 1;
+				$("#coopLineTb")
+						.append(
+								"<tr id=coopLine"+i+"><td>"
+										+ coopLine[i][1]
+										+ "</td><td>"
+										+ coopLine[i][2]
+										+ "</td><td>"
+										+ coopLine[i][3]
+										+ "</td><td id='coopBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeCoop(this);' class='coopBoxX'/></td></tr>");
+			}
+
+		};
+		
+		
+		// 여기서부터 datepicker
 		var timePick;
 		$('#timepicker-startend').datepicker({
 			onSelect : function onSelect(fd) {
@@ -633,7 +766,7 @@
 			}
 
 			//여기서부터 휴가 양식
-			var vctnCd = $("input[name=periodCheck]:checked").val();
+			var vctnCd = $("input[name=leaveCheck]:checked").val();
 
 			if (timePick == null) {
 				alert("휴가 기간을 입력하세요.");
@@ -688,6 +821,7 @@
 			formData.append("leaveContact", leaveContact);
 			formData.append("typeCd", typeCd);
 			formData.append("flowLine", flowLine);
+			formData.append("coopLine", coopLine);
 			formData.append("flowCd", flowCd);
 			formData.append("surEmpNo", surEmpNo);
 			
@@ -703,8 +837,10 @@
 				enctype: 'multipart/form-data', // ajax로 파일 전송을 하기 위해 필수
 				processData : false, // ajax로 파일 전송을 하기 위해 필수
 				contentType : false, // ajax로 파일 전송을 하기 위해 필수
+				dataType : 'text',
 				success : function(response) {
-		 			location.href="${pageContext.request.contextPath}/edoc/list.do";
+		 			/* console.log(response); */
+					location.href="${pageContext.request.contextPath}"+response;
 				}
 			});
 			

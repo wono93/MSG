@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.EdocAtt;
 import com.kh.msg.edoc.model.vo.EdocFlow;
+import com.kh.msg.edoc.model.vo.EdocFlowEx;
 import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
@@ -33,5 +34,20 @@ public interface EdocService {
 
 	EdocAtt selectPdf(String attachId);
 
+	EdocLeaveLtt selectEdocLeaveLtt(String edocId);
+
+	List<EdocFlow> selectEdocFlowList(String edocId);
+
+	List<EdocAtt> selectEdocAttList(String edocId);
+
+	int deleteEdocPdfSt();
+
+	List<EdocFlowEx> selectEdocFlowExList(String edocId);
+
+	int updateFlowExe(EdocFlow edocFlow);
+
+	int countSt(EdocFlow edocFlow);
+
+	int updateEdocSt(EdocFlow edocFlow);
 	
 }

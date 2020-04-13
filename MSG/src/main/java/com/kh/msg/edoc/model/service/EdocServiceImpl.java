@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.edoc.model.dao.EdocDAO;
 import com.kh.msg.edoc.model.vo.EdocAtt;
 import com.kh.msg.edoc.model.vo.EdocFlow;
+import com.kh.msg.edoc.model.vo.EdocFlowEx;
 import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
@@ -100,5 +101,53 @@ public class EdocServiceImpl implements EdocService {
 		EdocAtt edocAtt = edocDAO.selectPdf(attachId);  
 		
 		return edocAtt;
+	}
+
+	@Override
+	public EdocLeaveLtt selectEdocLeaveLtt(String edocId) {
+		EdocLeaveLtt edocLeaveLtt = edocDAO.selectEdocLeaveLtt(edocId);
+		return edocLeaveLtt;
+	}
+
+	@Override
+	public List<EdocFlow> selectEdocFlowList(String edocId) {
+		List<EdocFlow> edocFlowList = edocDAO.selectEdocFlowList(edocId);
+		return edocFlowList;
+	}
+
+	@Override
+	public List<EdocAtt> selectEdocAttList(String edocId) {
+		List<EdocAtt> edocAttList = edocDAO.selectEdocAttList(edocId);
+		return edocAttList;
+	}
+
+	@Override
+	public int deleteEdocPdfSt() {
+		int result = edocDAO.deleteEdocPdfSt();
+		return result;
+	}
+
+	@Override
+	public List<EdocFlowEx> selectEdocFlowExList(String edocId) {
+		List<EdocFlowEx> edocFlowExList = edocDAO.selectEdocFlowExList(edocId);
+		return edocFlowExList;
+	}
+
+	@Override
+	public int updateFlowExe(EdocFlow edocFlow) {
+		int result = edocDAO.updateFlowExe(edocFlow);
+		return result;
+	}
+
+	@Override
+	public int countSt(EdocFlow edocFlow) {
+		int count = edocDAO.countSt(edocFlow);
+		return count;
+	}
+
+	@Override
+	public int updateEdocSt(EdocFlow edocFlow) {
+		int complete = edocDAO.updateEdocSt(edocFlow);
+		return complete;
 	}
 }

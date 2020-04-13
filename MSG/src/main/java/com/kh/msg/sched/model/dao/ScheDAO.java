@@ -8,7 +8,7 @@ import com.kh.msg.sched.model.vo.Schedule;
 
 public interface ScheDAO {
 
-	List<Schedule> schedList(List<String> empList, List<String> typeList);
+	List<Schedule> schedList(String deptName, List<String> empList, List<String> typeList);
 
 	List<SchedEmp> deptEmpList(int empNo);
 	
