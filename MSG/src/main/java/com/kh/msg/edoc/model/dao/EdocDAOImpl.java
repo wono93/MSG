@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.edoc.model.vo.EdocAtt;
 import com.kh.msg.edoc.model.vo.EdocFlow;
+import com.kh.msg.edoc.model.vo.EdocFlowEx;
 import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
@@ -102,6 +103,47 @@ public class EdocDAOImpl implements EdocDAO {
 	@Override
 	public EdocAtt selectPdf(String attachId) {
 		return sqlSession.selectOne("edoc.selectPdf", attachId);
+	}
+
+	@Override
+	public EdocLeaveLtt selectEdocLeaveLtt(String edocId) {
+		return sqlSession.selectOne("edoc.selectEdocLeaveLtt", edocId);
+	}
+
+	@Override
+	public List<EdocFlow> selectEdocFlowList(String edocId) {
+
+		return sqlSession.selectList("edoc.selectEdocFlowList", edocId);
+	}
+
+	@Override
+	public List<EdocAtt> selectEdocAttList(String edocId) {
+		return sqlSession.selectList("edoc.selectEdocAttList", edocId);
+	}
+
+	@Override
+	public int deleteEdocPdfSt() {
+		return sqlSession.delete("edoc.deleteEdocPdfSt");
+	}
+
+	@Override
+	public List<EdocFlowEx> selectEdocFlowExList(String edocId) {
+		return sqlSession.selectList("edoc.selectEdocFlowExList", edocId);
+	}
+
+	@Override
+	public int updateFlowExe(EdocFlow edocFlow) {
+		return sqlSession.update("edoc.updateFlowExe", edocFlow);
+	}
+
+	@Override
+	public int countSt(EdocFlow edocFlow) {
+		return sqlSession.selectOne("edoc.countSt", edocFlow);
+	}
+
+	@Override
+	public int updateEdocSt(EdocFlow edocFlow) {
+		return sqlSession.update("edoc.updateEdocSt", edocFlow);
 	}
 
 }

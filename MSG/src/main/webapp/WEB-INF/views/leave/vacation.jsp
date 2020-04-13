@@ -36,6 +36,11 @@
 <title>vacation</title>
 </head>
 <script>
+
+$( document ).ready( function() {
+     $( 'td:empty' ).append( 0 );
+   } );	
+
 	// yearcheck ++
 	function upYear() {
 		var yearCheck = document.getElementById('yearcheck');
@@ -81,6 +86,7 @@
 		console.log(yearValueStr);
 		return Number(yearValueStr);
 	}
+	
 </script>
 
 
@@ -93,11 +99,16 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
-	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
 					</ul>
 				</div>
 				<div class="content">
@@ -115,7 +126,6 @@
 					</div>
 					<table>
 						<tr>
-							<th rowspan="2" id="vctnNoHide"></th>
 							<th rowspan="2">부서</th>
 							<th rowspan="2">이름</th>
 							<th rowspan="2">근속연수</th>
@@ -128,45 +138,67 @@
 							<th>연차</th>
 							<th>포상</th>
 							<th>기타</th>
-						</tr>
-						<c:forEach items="${listSum}" var="leave" varStatus="vs">
+						</tr>			
+					 	<c:forEach items="${listSum}" var="leave">
 							<tr>
-								<td id="vctnNoHide">${leave.vctnNo }</td>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
 								<td>${leave.longevity}</td>
 								<td>${leave.annual}</td>
 								<td>${leave.reward}</td>
-								<td>${leave.annualUsed}</td>
-								<td>${leave.rewardUsed }</td>
-								<td>${leave.otherUsed }</td>
-								<td><p>
+								<c:set var="zero" value="0" />
+								<td id="tdZero"> 						
+								 <c:forEach items="${listAnnual}" var="an" varStatus="vs">																						
+									<c:if test="${leave.empNo == an.empNo }">
+									 ${an.annual }
+									</c:if>
+								</c:forEach> 
+								</td>
+									<td id="tdZero">
+								 <c:forEach items="${listReward }" var="rw">							
+									<c:if test="${leave.empNo == rw.empNo }">
+									 ${rw.reward }
+									</c:if>					
+								</c:forEach> 
+								</td>
+								<td id="tdZero">
+								 <c:forEach items="${listOther }" var="lo">							
+									<c:if test="${leave.empNo == lo.empNo }">
+									 ${lo.other }
+									</c:if>					
+								</c:forEach> 
+								</td>
+								<%-- <td><p>
 										<a href="#test" rel="modal:open">
 											<button class="penbutton" id="modalBtn" name="modalNm"
 												value="${leave.empNo}" onclick="modal(this);">
 												<i class='fas fa-pencil-alt'> </i>
 											</button>
 										</a>
-									</p></td>
+									</p></td> --%>
 							</tr>
-						</c:forEach>
+						</c:forEach> 			
 					</table>
-					<div class="pagination">
-					${pageBar }
-					</div>
+					<div class="pagination">${pageBar }</div>
 					<div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'd.dept_name'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="0"
+										value="dept_name" name="srchTypeInput"
+										${srchType eq 'd.dept_name'?'checked="checked"':"" } />
 									<p class="select-box__input-text">부서</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'b.emp_name'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="1"
+										value="emp_name" name="srchTypeInput"
+										${srchType eq 'b.emp_name'?'checked="checked"':"" } />
 									<p class="select-box__input-text">이름</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="2" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="2"
+										value="all" name="srchTypeInput"
+										${srchType eq 'all'?'checked="checked"':"" } />
 									<p class="select-box__input-text">전체</p>
 								</div>
 								<img class="select-box__icon"
@@ -182,7 +214,9 @@
 									aria-hidden="aria-hidden">이름</label></li>
 							</ul>
 						</div>
-						<input type="text"  name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="검색창 나중에 위 쪽으로 올릴것">
+						<input type="text" name="" id="srchWord"
+							value="${srchWord eq 'null'?'':srchWord }"
+							placeholder="검색창 나중에 위 쪽으로 올릴것">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
@@ -243,42 +277,39 @@
 		</div>
 
 	</section>
-	<style>
-	#vctnNoHide{ display:none;
-	
-	}
-	
-	</style>
 	<script>
-	
-	$("#srchBtn").click(function(){
+	$(document).ready(function() {
+		if($('#tdZero').text()==null){
+		$('#tdZero').append("0");
+		}
+		});
 		
-		//폼 태그 생성
-        var form = document.createElement('form');
-        //폼 속성 set attribute
-        form.name = 'newForm';
-        form.method = 'get';
-        form.action = '/msg/leave/update.do';
-        form.target = '_self';        
-        //input 태그 생성
-        var input1 = document.createElement('input');
-   
-        //input태그에 set attribute
-        input1.setAttribute("type", "hidden");
-        input1.setAttribute("name", "srchWord");
-        input1.setAttribute("value", $("#srchWord").val());        
-       
-        //완성된 input 태그를 form에 append
-        form.appendChild(input1);
-        //form 태그
-        document.body.appendChild(form);
-        // form 제출
-        form.submit();
-	});
-	
+		$("#srchBtn").click(function() {
+
+			//폼 태그 생성
+			var form = document.createElement('form');
+			//폼 속성 set attribute
+			form.name = 'newForm';
+			form.method = 'get';
+			form.action = '/msg/leave/update.do';
+			form.target = '_self';
+			//input 태그 생성
+			var input1 = document.createElement('input');
+
+			//input태그에 set attribute
+			input1.setAttribute("type", "hidden");
+			input1.setAttribute("name", "srchWord");
+			input1.setAttribute("value", $("#srchWord").val());
+
+			//완성된 input 태그를 form에 append
+			form.appendChild(input1);
+			//form 태그
+			document.body.appendChild(form);
+			// form 제출
+			form.submit();
+		});
 	</script>
 	<script>
-
 		/*기조정내역 테이블  */
 		function modalDel() {
 			alert("기존내용 삭제");
@@ -287,15 +318,14 @@
 		};
 
 		/* 모달 테이블 */
-		var vctnNo;
+		var empNo;
 
 		function modal(btn) {
 
 			var btnNo = $(btn).val();
 			console.log("empNo =", btnNo);
-			vctnNo = $(btn).parent().parent().parent().parent().children()
-					.eq(0).text();
-			console.log("vctnNo =", vctnNo)
+			empNo = $(btn).val();
+
 			$.ajax({
 				url : "/msg/leave/modal",
 				type : "GET",
@@ -343,11 +373,11 @@
 			var vctnCd = "";
 			if ($("input:radio[id='box2']").is(":checked")) {
 
-				vctnCd = "1";
+				vctnCd = "V1";
 
 			} else if ($("input:radio[id='box1']").is(":checked")) {
 
-				vctnCd = "2";
+				vctnCd = "V2";
 
 			}
 			if (vctnCd == "") {
@@ -368,13 +398,12 @@
 			console.log("vctnReason", vctnReason);
 			console.log("vctnCd", vctnCd);
 			console.log("vctnAmt", vctnAmt);
-			console.log("vctnNo", vctnNo);
 
 			$.ajax({
 				url : "/msg/leave/update.do",
 				type : "POST",
 				data : {
-					vctnNo : vctnNo,
+					empNo : empNo,
 					edocId : edocId,
 					vctnCd : vctnCd,
 					vctnAmt : vctnAmt,
@@ -392,6 +421,8 @@
 			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
+		
+	
 	</script>
 
 </body>

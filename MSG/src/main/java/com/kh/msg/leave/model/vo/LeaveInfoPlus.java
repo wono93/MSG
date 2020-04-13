@@ -25,7 +25,7 @@ public class LeaveInfoPlus   implements Serializable{
 	private String userId;
 	private int annual;
 	private int reward;
-	private int vctnCd;
+	private String vctnCd;
 	private String vctnNm;
 	private int vctnUsed;
 	private int annualUsed;

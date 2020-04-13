@@ -32,5 +32,33 @@ $("#edit-start, #edit-end").datetimepicker({
 //	});
 //});
 
+$(document).ready(function(){
+	
+	markDept(); //달력 위쪽에 어떤 부서인지 표시하기
+	
+//일정별 필터, 등록자별 필터
+	$('.filter').on('change', function () {
+//		console.log('필터');
+		typeFilter = $('#type_filter').val();
+		console.log(typeFilter);
+		
+		empFilter = [];
+		
+		empF = $(".emp_filter:checked");
+		$.each(empF, (key,value)=>{
+			if(!empFilter.includes(value.value))
+			empFilter.push(value.value);
+			
+		});
+		console.log(empFilter);
+		
+//		$('#calendar').fullCalendar('rerenderEvents');
+		$('#calendar').fullCalendar('refetchEvents');
+		
+		
+		  
+	});
+});
+
 
 

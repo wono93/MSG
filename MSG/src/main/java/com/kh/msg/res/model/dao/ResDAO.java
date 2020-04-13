@@ -38,5 +38,11 @@ public interface ResDAO {
 	List<Car> selectCarListEnd(String resUseDate, String resReturnDate);
 
 	int delRes(String resCate, String resCode);
+	
+	int confToSchedInsert(ConfReservation cr);
+
+	int carToSchedInsert(CarReservation cr);
+
+	int delResToSched(String resCate, String resCode);
 
 }

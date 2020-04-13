@@ -79,8 +79,9 @@
 	margin-left: 30px;
 }
 </style>
-<script>
-	//아이콘 클릭 시 dateTimePicker focus
+
+ <script>
+	
 
 	$(function() {
 		$('.starticon').click(function() {
@@ -142,7 +143,7 @@
 			}
 		}
 	})
-</script>
+</script> 
 <script>
 	// yearcheck ++
 	function upYear() {
@@ -210,27 +211,15 @@
 				</div>
 				<div class="content">
 					<div class="control">
-						<form>
-							<!-- <input type="text" data-range="true" data-multiple-dates-separator=" ~ " data-date-format="yyyy-m-d D"
-                                    data-language="ko" id='timepicker-startend' class="datepicker-here"/>
-                                    <i class='far fa-calendar-alt startendicon' style='font-size:32px'></i> -->
-							<input type='text' id='timepicker-start' class='datepicker-here'
-								data-language='ko' data-timepicker="true"
-								data-date-format="yyyy-m-d D" data-time-format='hh:ii AA'
+							<input type='text' id='timepicker-start' class='datepicker-here' name="startDate"
+								data-language='ko' data-date-format="yyyy-m-d"
 								autocomplete="off" minutesStep="10" /> <i
-								class='far fa-calendar-alt starticon' id="start1"
-								style='font-size: 32px'></i> <span class="wavepart">&nbsp;&nbsp;&nbsp;&nbsp;~</span>
-							<input type='text' id='timepicker-end' class='datepicker-here'
-								data-language='ko' data-timepicker="true"
-								data-date-format="yyyy-m-d D" data-time-format='hh:ii AA'
-								autocomplete="off" minutesStep="10" /> <i
-								class='far fa-calendar-alt endicon' id="end1"
-								style='font-size: 32px'></i>
-							<p>
-								<button type="submit" id="checkcal">휴가확인</button>
-							</p>
-						</form>
-					</div>
+								class='far fa-calendar-alt starticon' style='font-size: 32px'></i>
+							<span>~</span> <input type='text' id='timepicker-end'  name="endDate"
+								class='datepicker-here' data-language='ko'
+								data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10" />
+							<i class='far fa-calendar-alt endicon' style='font-size: 32px'></i>
+						</div>
 					<table>
 						<tr>
 							<th></th>

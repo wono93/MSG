@@ -51,6 +51,9 @@
 				        <input type="hidden" name="resUseDate" />
 				        <input type="hidden" name="resReturnDate" />
 				        <input type="hidden" name="resEnrolldate" />
+				         <input type="hidden" name="empNo" class="empNo" value='${memberLoggedIn.empNo}'/>
+				        <input type="hidden" name="isManager" class="isManager" value="${memberLoggedIn.isManager}"/>
+				      	<input type="hidden" name="carCode" id="carCode" />
 				        <button id="getCarReserv"type="button">예약하기</button>
 				        <table class="res-table">
 				            <tr>
@@ -76,10 +79,14 @@
 				            	</tr> 
 				            </c:forEach>
 				        </table>
-				      <input type="hidden" name="carCode" id="carCode" />
+				       <c:if test="${memberLoggedIn.isManager } == 'Y'or'y'">
 				      <button id="add-car" type="button">법인차량 추가</button>
 			          <button id="update-car" type="button" >수정</button>
 			          <button id="del-car" type="button">삭제</button>
+			          </c:if>
+			          <c:if test="${memberLoggedIn.isManager }=='N'or'n'">
+			          <div class="notManagerDiv"></div>
+			          </c:if>
 				    </form>
 			    </div>
             </article>

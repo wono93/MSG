@@ -11,6 +11,9 @@
 	<insert id="confResInsert">
 	insert into conf_rsvn_tb
 	values(seq_confrsvn_confcode.nextval, #{empNo}, #{croomCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	<selectKey keyProperty="resCode" resultType="string" order="AFTER"> 
+ 		select seq_confrsvn_confcode.currval from dual
+ 	</selectKey>
 	<!-- resCode, empNo, croomCode, resEnrolldate, resUsedate, resReturndate -->
 	</insert>
 	<select id="selectCarList" resultType="car">
@@ -21,6 +24,9 @@
 	<insert id="carResInsert">
 	insert into car_rsvn_tb
 	values(seq_carrsvn_carcode.nextval, #{empNo}, #{carCode}, #{resEnrolldate}, #{resUseDate}, #{resReturnDate})
+	<selectKey keyProperty="resCode" resultType="string" order="AFTER"> 
+ 		select seq_carrsvn_carcode.currval from dual
+ 	</selectKey>
 	<!-- resCode, empNo, carCode, resEnrolldate, resUsedate, resReturndate -->
 	</insert>
 	<select id="selectAllConfResList" resultType="resview" parameterType="member">
@@ -129,5 +135,23 @@
 		<when test="resCate == '법인차량'"> car_rsvn_tb </when>
 	</choose>
 	where res_code = ${resCode}
+	</delete>
+	 <insert id="confToSchedInsert" parameterType="confReservation">
+	insert into sched_tb(sche_code, sche_cate, emp_no, emp_name, job_name, dept_name, sche_name, sche_start, sche_end, sche_color, sche_ex, allday_yn, res_code)
+		select seq_sche_schecode.nextval, '회의실 예약', emp_no, emp_name, job_name, dept_name, croom_name, res_usedate, res_returndate, '#91d4ce', null, 'N', res_code
+		from conf_rsvn_sche_trigger_view
+		where res_code = ${resCode}
+	</insert>
+	<insert id="carToSchedInsert" parameterType="carReservation">
+	insert into sched_tb(sche_code, sche_cate, emp_no, emp_name, job_name, dept_name, sche_name, sche_start, sche_end, sche_color, sche_ex, allday_yn, res_code)
+		select seq_sche_schecode.nextval, '차량 예약', emp_no, emp_name, job_name, dept_name, car_name, res_usedate, res_returndate, '#45bb89', null, 'N', res_code
+		from car_rsvn_sche_trigger_view
+		where res_code = ${resCode}
+	</insert>
+	<delete id="delResToSched">
+	delete from sched_tb
+	where res_code = ${resCode} 
+	<if test="resCate == '회의실'"> and sche_cate = '회의실 예약'</if>
+	<if test="resCate == '법인차량'"> and sche_cate = '차량 예약'</if>
 	</delete>
 </mapper>

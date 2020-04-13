@@ -1,6 +1,7 @@
 package com.kh.msg.leave.model.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.kh.msg.leave.model.vo.LeavePagingVO;
 import com.kh.msg.edoc.model.vo.Edoc;
 import com.kh.msg.leave.model.vo.Leave;
+import com.kh.msg.leave.model.vo.LeaveAnnual;
 import com.kh.msg.leave.model.vo.LeaveInfoPlus;
 import com.kh.msg.leave.model.vo.LeaveModal;
+import com.kh.msg.leave.model.vo.LeaveOther;
 import com.kh.msg.leave.model.vo.LeavePlus;
+import com.kh.msg.leave.model.vo.LeaveReward;
 import com.kh.msg.leave.model.vo.LeaveSet;
 import com.kh.msg.leave.model.vo.LeaveSum;
 import com.kh.msg.leave.model.vo.MyLeave;
@@ -28,22 +30,22 @@ public class LeaveDAOImpl implements LeaveDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<LeaveSet> selectLeaveList2() {
+	public List<LeaveSet> selectSettingLeaveList() {
 
-		return sqlSession.selectList("leave.selectLeaveList2");
+		return sqlSession.selectList("leave.selectSettingLeaveList");
 	}
 
 	@Override
-	public List<LeavePlus> selectLeaveList3() {
+	public List<LeavePlus> selectPlusLeaveList() {
 
-		return sqlSession.selectList("leave.selectLeaveList3");
+		return sqlSession.selectList("leave.selectPlusLeaveList");
 	}
 
-	@Override
-	public List<MyLeave> selectLeaveList4(Member member) {
-
-		return sqlSession.selectList("leave.selectLeaveList4", member);
-	}
+	/*
+	 * @Override public List<MyLeave> selectLeaveList4(Member member) {
+	 * 
+	 * return sqlSession.selectList("leave.selectLeaveList4", member); }
+	 */
 
 	@Override
 	public List<LeaveInfoPlus> selectleaveListInfoPlus(Member member) {
@@ -64,10 +66,10 @@ public class LeaveDAOImpl implements LeaveDAO {
 	}
 
 	@Override
-	public int insertModal(int vctnNo, String edocId, String vctnCd, int vctnAmt, String vctnReason) {
+	public int insertModal(int empNo, String edocId, String vctnCd, int vctnAmt, String vctnReason) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("vctnNo", vctnNo + "");
+		map.put("empNo", empNo + "");
 		map.put("edocId", edocId);
 		map.put("vctnCd", vctnCd);
 		map.put("vctnAmt", vctnAmt + "");
@@ -77,31 +79,32 @@ public class LeaveDAOImpl implements LeaveDAO {
 	}
 
 	// 게시글 카운트
-	
-	//휴가조정내역 카운트
+
+	// 휴가조정내역 카운트
 	@Override
 	public int selectSetVacationTotalContents(Map<String, String> map) {
-		
+
 		return sqlSession.selectOne("leave.selectSetVacationTotalContents", map);
 	}
-	
-	//모든휴가내역 카운트
+
+	// 모든휴가내역 카운트
 	@Override
 	public int selectAllVacationTotalContents(Map<String, String> map) {
 
 		return sqlSession.selectOne("leave.selectAllVacationTotalContents", map);
 	}
-	
-	//나의휴가내역 카운트
+
+	// 나의휴가내역 카운트
 	@Override
 	public int selectMyVacationTotalContents(Map<String, String> map) {
-		
+
 		return sqlSession.selectOne("leave.selectMyVacationTotalContents", map);
 	}
 
 	// 페이징바,검색
-	
-	//휴가조정내역 리스트
+
+	// 휴가조정내역 리스트
+
 	@Override
 	public List<LeaveSum> selectSetLeaveList(int cPage, int numPerPage, Map<String, String> map) {
 		int offset = (cPage - 1) * numPerPage;
@@ -120,16 +123,34 @@ public class LeaveDAOImpl implements LeaveDAO {
 
 		return sqlSession.selectList("leave.selectLeaveList", map, rowBounds);
 	}
-	
-	//나의 휴가내역 리스트
+
+	// 나의 휴가내역 리스트
 	@Override
 	public List<MyLeave> selectMyLeaveList(int cPage, int numPerPage, Map<String, String> map) {
 		int offset = (cPage - 1) * numPerPage;
 		int limit = numPerPage;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		return sqlSession.selectList("leave.selectMyLeaveList", map, rowBounds);
 	}
+	
+	//휴가 사용 내역
+	@Override
+	public List<LeaveOther> selectOtherList() {
+		
+		return sqlSession.selectList("leave.selectOtherList");
+	}
 
+	@Override
+	public List<LeaveReward> selectRewardList() {
+	
+		return sqlSession.selectList("leave.selectRewardList");
+	}
+
+	@Override
+	public List<LeaveAnnual> selectAnnualList() {
+		
+		return sqlSession.selectList("leave.selectAnnualList");
+	}
 
 }
