@@ -182,7 +182,7 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	}else{
 		hdjq("#dm-container").append(
 									'<div id="to-dm">'
-						            +'<img src="/resources/upload/empImg/'+empImage+'" id="to-dm-img" class="member-img">'
+						            +'<img src="/msg/resources/upload/empImg/'+empImage+'" id="to-dm-img" class="member-img">'
 						            +'<div id="to-dm-content" class="dm-content">'+msgContent
 						            +'<span id="to-dm-time" class="dm-time">'
 						            +msgTime

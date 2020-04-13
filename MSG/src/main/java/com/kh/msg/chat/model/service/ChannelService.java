@@ -24,7 +24,7 @@ public interface ChannelService {
 
 	int generateChannel(ChannelInfo chInfo);
 
-	int addChannelMember(int[] empNo, int chNo, int regEmpNo);
+	int addChannelMember(int[] empNo, int chNo);
 
 	List<ChannelInfo> headerChList(List<Integer> chNoList);
 
@@ -33,6 +33,7 @@ public interface ChannelService {
 	int deleteChannelMember(int chNo);
 	
 	int modifyChannel(ChannelInfo chInfo);
+
 
 
 }

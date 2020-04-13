@@ -1,6 +1,6 @@
-var chLastID = 0;
 var chjq = jQuery.noConflict();
-
+var chLastID = 0;
+var chNo = 0;
 chjq(document).ready(function(){
 	channelMemberFunction();
 	setInterval(function() {
@@ -10,7 +10,7 @@ chjq(document).ready(function(){
 function channelMemberFunction() {
 	var chName = chjq("#inputChName").val();
 	
-	var chNo = chjq("#inputChNo").val();
+	chNo = chjq("#inputChNo").val();
 	chjq.ajax({
 		type : "GET",
 		url : "/msg/chat/channelMember.do",
@@ -174,9 +174,5 @@ function channelSubmitFunction() {
 		}
 	});
 	chjq('#channel-send-msg-content').val('');
-	
-}
-function channelModify(){
-	
 	
 }

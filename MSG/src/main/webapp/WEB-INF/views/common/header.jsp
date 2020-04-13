@@ -48,6 +48,7 @@
 <script>	
 	var fromId = '<%=userId%>';
 	var empNo = '<%=empNo%>';
+	var eempNo = '<%=empNo%>';
 </script>
 </head>
 <body>
@@ -114,7 +115,7 @@
             <ul class="secnav" id="">
 	            <p id="dmListTitle">Direct Message</p>
 	        </ul>
-            <ul class="secnav" id="dmList" style="height:238px;"></ul>
+            <ul class="secnav" id="dmList" style="height:223px;"></ul>
         </ul>
     </nav>
     <label for="hamburger" class="hamburger"> 
@@ -124,7 +125,9 @@
     <side class="dmBar">
     	<div id="entire-container">
 			<div id="title-container">
-				<img src="${pageContext.request.contextPath}/resources/image/X-icon.png" id="dmClose">
+				<a href="#">
+					<img src="${pageContext.request.contextPath}/resources/image/X-icon.png" id="dmClose">
+				</a>
 				<div id="name-span"></div>
 			</div>
 			
@@ -142,13 +145,17 @@
         <div id="channelGenModal" class="ch-modal">
             <!-- Modal content -->
             <div class="ch-modal-content">
-                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
+	            <a href="#">
+	                <img src="${pageContext.request.contextPath}/resources/image/X-icon.png" alt="" class="x-icon close" id="close-btn">
+	            </a>
                 <div id="ch-content">
                     <form action="${pageContext.request.contextPath}/chat/generateChannel.do" method="Post">
                         <div class="channelGenTitle">
                             <h3>채널만들기</h3>
-                            <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="" class="ch-member-img">
-                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="king">
+                            <a href="#">
+	                            <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" id="ch-aura" class="ch-member-img">
+	                            <img src="${pageContext.request.contextPath}/resources/image/king.svg" id="ch-head">
+                            </a>
                         </div>
 
                         <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3">
@@ -158,6 +165,14 @@
 
                         <div id="ch-member-list">
                             <table id="ch-member-table">
+                            	<tr>
+                            		<td><img src="/msg/resources/upload/empImg/${memberLoggedIn.empImage }" id="ch-member-list-img" class="ch-member-img"></td>
+                            		<td>${memberLoggedIn.empName }</td>
+                            		<td>${memberLoggedIn.deptName }</td>
+                            		<td>${memberLoggedIn.jobName }</td>
+                            		<td class="delNo">${memberLoggedIn.empNo }</td>
+									<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
+								</tr>
                             </table>
                         </div>
                         <div class="channel_srchChBar">

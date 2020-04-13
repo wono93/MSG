@@ -86,15 +86,19 @@
 			default)
 	</insert>
 	<select id="presentMember" resultType="OrgChart">
-		SELECT 
-			EMP_IMAGE, EMP_NO, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
-		FROM 
-			EMP_TB E 
-		    LEFT JOIN DEPT_TB D
-		        USING (DEPT_CD)
-		    LEFT JOIN JOB_TB J
-		        USING (JOB_CD)
-		where ch_no = #{chNo}
+		select 
+			I.ch_no, A.*
+        from 
+        	ch_member_tb I left join
+		        (SELECT 
+					E.EMP_IMAGE, E.EMP_NO, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+				FROM 
+					EMP_TB E 
+				    LEFT JOIN DEPT_TB D
+				        USING (DEPT_CD)
+				    LEFT JOIN JOB_TB J
+				        USING (JOB_CD))A on I.emp_no = A.emp_no
+		where I.ch_no = #{chNo}
 	</select>
 	<delete id="deleteChannelMember">
 		delete from ch_member_tb where ch_no = #{chNo}
