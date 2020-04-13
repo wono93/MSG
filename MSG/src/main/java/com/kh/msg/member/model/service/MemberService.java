@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
 
 import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
@@ -33,12 +32,16 @@ public interface MemberService {
 
 	List<WorkTimes> getLog(HashMap<String, Object> map);
 
-	List<IOLog> ioLog(Map<String, String> map);
+	List<IOLog> ioLog(Map<String, Object> map);
 
 	List<Department> getDepts();
 
 	List<Job> getJobs();
 
 	int submitNewEmp(Member member);
+
+	int countIOLog(Map<String, Object> map);
+
+	int countEmpLog(HashMap<String, Object> map);
 
 }

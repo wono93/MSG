@@ -24,23 +24,49 @@
 		</if>
 	</select>
 	
-	<select id="selectIOLog" resultType="IOLog">
-		SELECT L.TAKEN, L.INOUT_FG, E.EMP_NAME 
+	<!-- 총 로그 갯수 출력 -->
+	<select id="countIOLog" resultType="int">
+		SELECT COUNT(*) 
 		FROM LOG_TB L LEFT JOIN EMP_TB E
 		USING (EMP_NO)
-		WHERE
-			<choose>
-				<when test = "srcDateStart != srcDateEnd">
-					TO_CHAR(TAKEN,'YYYY-MM-DD') BETWEEN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD') AND TO_CHAR(TO_DATE(#{srcDateEnd},'YYYY-MM-DD'),'YYYY-MM-DD')
-				</when>
-				<otherwise>
-					TO_CHAR(TAKEN,'YYYY-MM-DD') IN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD')
-				</otherwise>
-			</choose>
+		WHERE 
+		<choose>
+			<when test = "srcDateStart != srcDateEnd">
+				TO_CHAR(TAKEN,'YYYY-MM-DD') BETWEEN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD') AND TO_CHAR(TO_DATE(#{srcDateEnd},'YYYY-MM-DD'),'YYYY-MM-DD')
+			</when>
+			<otherwise>
+				TO_CHAR(TAKEN,'YYYY-MM-DD') IN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD')
+			</otherwise>
+		</choose>
 			<if test = "searchBy != null and searchBy != ''">
 				AND	${searchBy} IN #{keyword}
 			</if>
-		ORDER BY TAKEN
+	</select>
+	
+	<select id="selectIOLog" resultType="IOLog">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+				FROM (
+					SELECT L.TAKEN, L.INOUT_FG, E.EMP_NAME 
+					FROM LOG_TB L LEFT JOIN EMP_TB E
+					USING (EMP_NO)
+					WHERE
+						<choose>
+							<when test = "srcDateStart != srcDateEnd">
+								TO_CHAR(TAKEN,'YYYY-MM-DD') BETWEEN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD') AND TO_CHAR(TO_DATE(#{srcDateEnd},'YYYY-MM-DD'),'YYYY-MM-DD')
+							</when>
+							<otherwise>
+								TO_CHAR(TAKEN,'YYYY-MM-DD') IN TO_CHAR(TO_DATE(#{srcDateStart},'YYYY-MM-DD'),'YYYY-MM-DD')
+							</otherwise>
+						</choose>
+						<if test = "searchBy != null and searchBy != ''">
+							AND	${searchBy} IN #{keyword}
+						</if>
+					ORDER BY TAKEN DESC
+				) A
+			)
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="selectEmpLog" resultType="WorkTimes">
