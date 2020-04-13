@@ -104,84 +104,7 @@ function calDateWhenDragnDrop(event) {
   return newDates;
 }
 
-$(document).ready(function(){
-	
-	markDept(); //달력 위쪽에 어떤 부서인지 표시하기
-	
-//일정별 필터, 등록자별 필터
-	$('.filter').on('change', function () {
-//		console.log('필터');
-		typeFilter = $('#type_filter').val();
-		console.log(typeFilter);
-		
-		empFilter = [];
-		
-		empF = $(".emp_filter:checked");
-		$.each(empF, (key,value)=>{
-			if(!empFilter.includes(value.value))
-			empFilter.push(value.value);
-			
-		});
-		console.log(empFilter);
-		
-		$('#calendar').fullCalendar('rerenderEvents');
-		
-//		$.ajax({
-//		      type: "get",
-//		      url: getContextPath()+"/sched/calendar.do",
-//		      data: {
-//		        // 실제 사용시, 날짜를 전달해 일정기간 데이터만 받아오기를 권장
-//		    	 start: start.format(),
-//		    	 end : end.format(),
-//		    	 typeFilter : typeFilter,	//일정구분별 필터
-//		    	 empFilter : empFilter	//등록자별 필터
-//		      },
-//		      traditional:true,
-//		      dataType:'json',
-//		      contentType: 'application/json; charset=UTF-8',
-//
-//		      success: function (response) {
-//		          var events=[];
-//		    	  console.log(response.list); //등록된 일정 객체를 가져옴
-//		    	  console.log(response.eList);
-//		        var fixedDate = response.list.map(function (array) {
-////		        	console.log("boolean?="+array.allDayYn);
-////		          if (charToBoolean(array.allDayYn) && array.scheStart !== array.scheEnd) {
-////		            // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
-////		            array.scheEnd = moment(array.scheEnd).add(1, 'days');
-//		            
-//		            var evt={
-//		            		
-//		            		
-//		            		_id: array.scheCode,
-//		            		allDay: charToBoolean(array.alldayYn),
-//		            		deptName : array.deptName,
-//		            		jobName : array.jobName,
-//		            		title: array.scheName,
-//		            		start: array.scheStart,
-//		            		end: array.scheEnd,
-//		            		description:array.scheEx,
-//		            		type: array.scheCate,
-//		            		userno:array.empNo, //임의삽입
-//		            		username:array.empName,
-//		            		backgroundColor: array.scheColor,
-//		            		textColor:"#fefefe"
-//		            		
-//		            }
-//		            
-//		            events.push(evt);
-////		          }
-//		          return array;
-//		        })
-//		        
-//		        
-//		        callback(events);
-//		        callback(fixedDate);
-//		      }
-//		    });
-////		  });
-	});
-});
+
 
 var calendar = $('#calendar').fullCalendar({
 
@@ -217,17 +140,17 @@ var calendar = $('#calendar').fullCalendar({
   },
 
   //주말 숨기기 & 보이기 버튼
-  customButtons: {
-    viewWeekends: {
-      text: '주말',
-      click: function () {
-        activeInactiveWeekends ? activeInactiveWeekends = false : activeInactiveWeekends = true;
-        $('#calendar').fullCalendar('option', {
-          weekends: activeInactiveWeekends
-        });
-      }
-    }
-  },
+//  customButtons: {
+//    viewWeekends: {
+//      text: '주말',
+//      click: function () {
+//        activeInactiveWeekends ? activeInactiveWeekends = false : activeInactiveWeekends = true;
+//        $('#calendar').fullCalendar('option', {
+//          weekends: activeInactiveWeekends
+//        });
+//      }
+//    }
+//  },
 
   header: {
     left: 'today, viewWeekends',
@@ -258,7 +181,6 @@ var calendar = $('#calendar').fullCalendar({
   /** 이 부 분을 고 쳐 써 야 해  **/
   events: function (start, end, timezone, callback) {
 
-	//jQuery.ajaxSettings.traditional = true;
 	
 	$.ajax({
       type: "get",
@@ -267,6 +189,7 @@ var calendar = $('#calendar').fullCalendar({
         // 실제 사용시, 날짜를 전달해 일정기간 데이터만 받아오기를 권장
     	 start: start.format(),
     	 end : end.format(),
+    	 deptName : $("#userDeptName").val(),
     	 typeFilter : typeFilter,	//일정구분별 필터
     	 empFilter : empFilter	//등록자별 필터
       },
@@ -381,16 +304,6 @@ var calendar = $('#calendar').fullCalendar({
     var newDates = calDateWhenDragnDrop(event);
 
     //드롭한 일정 업데이트
-//    $.ajax({
-//      type: "get",
-//      url: "",
-//      data: {
-//        //...
-//      },
-//      success: function (response) {
-//        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
-//      }
-//    });
     $.ajax({
         type: "get",
         url: getContextPath()+"/sched/selectSched/"+event._id,

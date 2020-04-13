@@ -86,6 +86,21 @@ public class ResServiceImpl implements ResService {
 	public int delRes(String resCate, String resCode) {
 		return resDAO.delRes(resCate, resCode);
 	}
+
+	@Override
+	public int confToSchedInsert(ConfReservation cr) {
+		return resDAO.confToSchedInsert(cr);
+	}
+
+	@Override
+	public int carToSchedInsert(CarReservation cr) {
+		return resDAO.carToSchedInsert(cr);
+	}
+
+	@Override
+	public int delResToSched(String resCate, String resCode) {
+		return resDAO.delResToSched(resCate, resCode);
+	}
 	
 	
 
