@@ -12,7 +12,7 @@ import com.kh.msg.member.model.vo.Member;
 
 public interface BoardDAO {
 
-	List<Board> selectBoardList();
+	List<Board> selectBoardList(int empNo);
 
 	int insertAttachment(Attachment attach);
 

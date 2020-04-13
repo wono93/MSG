@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
 import com.kh.msg.member.model.vo.IOLog;
@@ -40,5 +41,7 @@ public interface MemberService {
 	List<Job> getJobs();
 
 	int submitNewEmp(Member member);
+
+	List<Board> mainBoardList(Member member);
 
 }

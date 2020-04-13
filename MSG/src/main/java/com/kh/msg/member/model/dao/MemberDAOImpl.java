@@ -13,6 +13,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.member.model.vo.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -142,5 +143,11 @@ public class MemberDAOImpl implements MemberDAO {
 	public int submitNewEmp(Member member) {
 		
 		return sqlSession.insert("member.submitNewEmp", member);
+	}
+
+	@Override
+	public List<Board> mainBoardList(Member member) {
+		
+		return sqlSession.selectList("member.mainBoardList", member);
 	}
 }

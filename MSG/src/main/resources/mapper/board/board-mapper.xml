@@ -5,7 +5,7 @@
 <mapper namespace="board">
 	<resultMap type="board" id="board"></resultMap>
 	<select id="selectBoardList" resultMap="board">
-		SELECT * FROM BRD_TB
+		SELECT * FROM BRD_TB where emp_no = #{empNo}
 	</select>
 	
 	<resultMap type="member" id="member"></resultMap>
@@ -149,7 +149,7 @@
 		update
 			brd_tb
 		set
-			cnt =+ 1
+			cnt = cnt + 1
 		where
 			no = #{no}
 	</update>

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.member.model.dao.MemberDAO;
 import com.kh.msg.member.model.vo.Department;
 import com.kh.msg.member.model.vo.HrMntList;
@@ -88,5 +89,11 @@ public class MemberServiceImpl implements MemberService {
 	public int submitNewEmp(Member member) {
 		
 		return memberDAO.submitNewEmp(member);
+	}
+	
+	@Override
+	public List<Board> mainBoardList(Member member) {
+		// TODO Auto-generated method stub
+		return memberDAO.mainBoardList(member);
 	}
 }

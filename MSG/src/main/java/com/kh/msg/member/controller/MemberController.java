@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.SimpleTimeZone;
@@ -29,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.model.exception.MemberException;
 import com.kh.msg.member.model.service.MemberService;
@@ -55,6 +56,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	MemberService memberService;
+	
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 	
@@ -62,7 +64,7 @@ public class MemberController {
 		 public static List<LoginVO> userList = new ArrayList<LoginVO>(); 
 		 //접속자 확인 끝
 	
-	 
+	
 	@PostMapping("/login.do")
 	public String login(@RequestParam("userId") String userId, @RequestParam("password") String password,
 			RedirectAttributes redirectAttributes, Model model,
@@ -82,7 +84,7 @@ public class MemberController {
 			//접속자확인 시작
 			request.setCharacterEncoding("utf-8");
 	        response.setContentType("text/html; charset=utf-8");
-	         
+	        
 	        PrintWriter out =response.getWriter();
 	        HttpSession session=request.getSession();
 	        
@@ -96,7 +98,6 @@ public class MemberController {
 				model.addAttribute("memberLoggedIn", member);
 				//로그인 성공시, 로그에 로그인 기록과 동시에 지각여부 체크
 				memberService.loginLog(member.getEmpNo()); 
-				
 				
 				//접속자 확인 시작
 	            for(int i=0; i<userList.size(); i++) {
@@ -501,6 +502,23 @@ public class MemberController {
 		return "member/org_chart";
 	}
 	
+	
+	/*
+	@GetMapping("/login.do")
+	public ModelAndView login(ModelAndView modelAndView, Member member){
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<Board> boardList = memberService.mainBoardList(member);
+		log.debug("boardList="+boardList);
+		
+		mav.addObject("boardList",boardList);
+		mav.setViewName("/common/welcome");
+		return mav;
+	}
+	*/
+	
+	
 	public String getBirthDay(String empRRNNo) {
 		char flag = empRRNNo.charAt(6);
 		String birthDay = flag == '1'|| flag == '2' ? "19" : "20";
@@ -531,4 +549,6 @@ public class MemberController {
 		return workingDays;
 
 	}
+	 
+	 
 }

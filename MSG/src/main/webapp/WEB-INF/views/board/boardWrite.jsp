@@ -21,6 +21,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/boardWrite.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
@@ -30,7 +31,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script> 
+    
     <script>
+    
         $(document).ready(function() {
             $('#summernote').summernote({
             height: 380,                 // set editor height
@@ -48,7 +51,7 @@
         	}
         	return true;
         }
-
+        
         $(()=>{
         	
         	$("[name=upFile]").on("change", e => {
@@ -64,25 +67,35 @@
         		}
         	});
         });
+        function gogo(){
+        	parent.location.href="${pageContext.request.contextPath}/board/list.do"
+        	location.reload();
+        }
         </script>
-<form name="boardFrm" 
-		  action="${pageContext.request.contextPath}/board/write.do" 
-		  method="post" 
-		  onsubmit="return boardValidate();"
-		  enctype="multipart/form-data">
-    <section>
-        <div>
+        
+    <section style="height:100%">
+        <div style="height: 100%;">
             <article style="width: 1200; height: 100%;">
                
-                <div class="content">
-                    <div class="control">  
+                <div style="display: inline-block;
+			    width: 1020px;
+			    height: 100%;
+			    vertical-align: middle;
+			    border: 1px solid black;
+			    background-color: #fefefe;" class="content">
+                <form
+			  action="${pageContext.request.contextPath}/board/summer.do" 
+			  method="post" 
+			  onsubmit="return boardValidate();"
+			  enctype="multipart/form-data" target="iframeWrite">
+                    <div style="position:relative; height:150px; left:15px;" class="control">  
                         <div class="boardBB">
                             <p class="com4">게시판</p>
                             <p class="com4">제 목</p>
                         </div>
                 <div class="boardBC">
                     </div>
-                        <div style="top: 20px;" id="first1" class="select-box1">
+                        <div style="top: 20px; z-index: 1;" id="first1" class="select-box1">
                            <!--<div id="boardBB">-->
                             <div style="width: 403px;" class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
@@ -98,10 +111,7 @@
                                 <p class="select-box__input-text">공지사항 & 행사정보</p>
                             </div>
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
-                                <!-- <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>
-                                <p class="select-box__input-text">전체</p>
-                                </div> -->
+                                
                             </div>
                             <ul class="select-box__list">
                                 <li>
@@ -129,30 +139,33 @@
                         <p class="com3">${memberLoggedIn.empName}</p>
                         <p class="com3"></p>
                         <div class="box" style="background: #BDBDBD;">
-                            <img class="profile" src="${memberLoggedIn.empImage}">
+                            <img class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${memberLoggedIn.empImage}">
                         </div>
                     </div>
                 </div>
-                <div id="api">
+                <div style="margin-left:48px; margin-top:11px" id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content"></textarea>
                       </div>
                 </div>
                     <!-- <input type="file" name="upFile" id="upFile1" style="bottom: 10px;" /> --> 
-                <div id="file">
-                	<div id="fileDiv">
-	                    <p>
-		                    <input type="file" id="upFile0" name="upFile">
-			                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
-	                    </p>
-                	</div>
-                    <!-- <input type="file"/> -->
-	                <br/><br/>
-	                <a style="float:left;" href="#this" class="btn" id="addFile">파일 추가</a> 
-                 </div>
+               
+				<div style="height:140px; overflow:auto" id="file">
+                		<div id="fileDiv">
+		                    <p>
+			                    <input type="file" id="upFile0"  name="upFile">
+				                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
+		                    </p>
+		                    <hr>
+	                	</div>
+	                    <!-- <input type="file"/> -->
+		                
+		                <a style="float:left;" href="#this" class="btn" id="addFile" >파일 추가</a>
+                 </div>	
         <script type="text/javascript">
-
-        var gfv_count = 1;
+        
+      
+      var gfv_count = 1;
         $(document).ready(function(){
 	        $("#addFile").on("click", function(e){ //파일 추가 버튼 
 	        	e.preventDefault(); fn_addFile(); 
@@ -163,7 +176,7 @@
         });
         
         function fn_addFile(){ 
-        	var str = "<p><input type='file' id='upFile"+(gfv_count++)+"' name='upFile'><a href='#this' class='btn' name='delete'>삭제</a></p>";
+        	var str = "<p><input type='file'   id='upFile"+(gfv_count++)+"' name='upFile'><a href='#this' class='btn' id='delete' name='delete'>삭제</a></p><hr>";
         	$("#fileDiv").append(str); 
         	$("a[name='delete']").on("click", function(e){//삭제 버튼
         		e.preventDefault(); fn_deleteFile($(this)); 
@@ -174,14 +187,14 @@
         	}
 
       </script>
-                    <div class="srchBar">
-                        <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
-                        <input type="hidden" name="empNo" value="${memberLoggedIn.empNo}"/>
-                        <button type="submit" name="" id="yellowBtn" class="btn">글쓰기</button>
-                    </div>
-                </div>
-            	
+                
+						<div id="writebtn" style="position:relative;" class="srchBar">
+		                  	    <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
+			        		<input type="hidden" name="empNo" value="${memberLoggedIn.empNo}"/>
+							<button type="submit" onclick="gogo();" name="" id="yellowBtn" class="btn">글쓰기</button>   
+						</div>
+           			</form>
+				</div>
             </article>
         </div>
     </section>
-            </form>

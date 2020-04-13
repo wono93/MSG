@@ -29,7 +29,7 @@
         	}
 
  		function update(no, empNo, memberEmpno){
- 				location.href = "${pageContext.request.contextPath}/board/update.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
+ 				location.href = "${pageContext.request.contextPath}/board/iframeUpdate.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
  			}
 		 		
 		
@@ -44,6 +44,21 @@
 		*/
 		
     </script>
+    <style>
+    #yellowBtn{
+	    background-color: #f4ca25;
+	    border: none;
+	    color: #333333;
+	    padding: 9px 19px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 14px;
+	    font-weight: 600;
+	    margin-right: 20px;
+    	margin-top: 13px;
+	}
+    </style>
     
     <!-- 
 		    $(document).ready(function () {
@@ -113,7 +128,7 @@
                 <div class="content">
                     <div class="control">
                         <div class="box" style="background: #BDBDBD;">
-                            <img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
+                            <img class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${member.empImage}">
                         </div>
                         <div id="comLeft">
                             <div id="title">
@@ -121,33 +136,39 @@
                                 ${board.title }
                                 </p>
                             </div>
-                            
 				    <div>
 						<c:if test="${board.no != boardScrap.no && boardScrap.empNo != memberLoggedIn.empNo }">
-							<p>
+					    <div style="">
+							<p style="position:absolute; margin-left:200px; top:270px;">
 								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
-									<img id="star1" class="myImg" src="${pageContext.request.contextPath}/resources/image/star1.png" width="50" height="50">
+									<i id="star1"  class="far fa-star" style="color:black; font-size: 40px; "></i>
 								</a>
 							</p>
+						</div>
 						</c:if>
 						<c:if test="${board.no == boardScrap.no && boardScrap.empNo == memberLoggedIn.empNo }">
-							<p>
+						<div style="">
+							<p style="position:absolute; margin-left:200px; top:270px;">
 								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
-									<img id="star1" class="myImg" src="${pageContext.request.contextPath}/resources/image/star0.jpg" width="50" height="50">
+									<i id="star1" class="fas fa-star" style="color:black; font-size: 40px; "></i>
 								</a>
 							</p>
+						</div>
 						</c:if>
+						
+						
 				            <div style="bottom:200px; z-index: 100;" id="ex1" class="modal">
-				              <textarea class="memo" id="memo" name="memo" rows="" cols=""></textarea>
+				            <p>Scrap memo</p>
+				              <textarea style="width:427px; height:94px;" class="memo" id="memo" name="memo" rows="" cols=""></textarea>
 				              <div>
 				              <!-- 
 							  <button id="send-dm-button" class="dmButton" rel="modal:close"
 								onclick="submitFunction();">등록</button>
 				               -->
-								<a href="#" onclick="submitFunction();" rel="modal:close">등록</a>
+							  	<a href="#" id="grayBtn3" class="btn" rel="modal:close">닫기</a>
 				              </div>
 				              <div>
-							  <a href="#"  rel="modal:close">닫기</a>
+								<a href="#" id="yellowBtn" class="btn" onclick="submitFunction();" rel="modal:close">등록</a>
 				              </div>
 							</div>
 			        </div>
@@ -175,7 +196,7 @@
 								memo : encodeURIComponent(memo)
 							},
 							success : function(result) {
-								 $('#star1').attr("src", '${pageContext.request.contextPath}/resources/image/star0.jpg');
+								 $('#star1').attr("class", 'fas fa-star');
 								 $('#Scr').attr("onclick", "deleteFunction();");
 								 $('#Scr').attr("rel", "");
 							}
@@ -195,7 +216,7 @@
 								memberEmpno : encodeURIComponent(memberEmpno),
 							},
 							success : function(result) {
-								 $('#star1').attr("src", '${pageContext.request.contextPath}/resources/image/star1.png');
+								 $('#star1').attr("class", 'far fa-star');
 								 $('#Scr').attr("onclick", "");
 								 $('#Scr').attr("rel", "modal:open");
 							}
@@ -244,17 +265,18 @@
                     <div>
                         <div style="margin-top:35px; width: 100%; height: 100%; z-index: 77; position: relative; 
                             display: inline-block;">
-                            
-                            <button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }', '${memberLoggedIn.memberEmpno }');">수정</button>
-                            
+                             <c:if test="${memberLoggedIn.empNo == board.empNo || memberLoggedIn.authority eq 'H' || memberLoggedIn.authority eq 'A' }">
+                            	<button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }', '${memberLoggedIn.empNo }');">수정</button>
+                            </c:if>
                             <form name="boardFrm" 
-							  action="${pageContext.request.contextPath}/board/deleteBoard.do" 
+							  action="${pageContext.request.contextPath}/board/deleteBoard.do?boardNo=${board.no}" 
 							  method="post" 
 							  onsubmit="return boardValidate();"
 							  enctype="multipart/form-data">
-							  
+							  <c:if test="${memberLoggedIn.empNo == board.empNo || memberLoggedIn.authority eq 'H' || memberLoggedIn.authority eq 'A' }">
                             	<button style="z-index:78;" type="submit" name="" id="grayBtn1" class="btn">삭제</button>
                             	<input type="hidden" name="no" value="${board.no }" />
+							  </c:if>
 							</form>
                         </div>
                     </div>
@@ -274,7 +296,7 @@
 		                                <tr>
 		                                    <td style="padding-left: 0px; padding-right: 0px; width: 50px;">
 		                                        <div class="box1" style="background: #BDBDBD;">
-		                                        	<img class="profile" src="${pageContext.request.contextPath}/resources/image/worker.jpg">
+		                                        	<img class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${c.empImage}">
 		                                        </div>
 		                                    </td>
 	                                    	<td style="padding: 0; width: 166px;">
@@ -287,7 +309,9 @@
 		                                        ${c.date }
 		                                        <br>
 		                                        <input type="hidden" name="no" value="${c.no }">
-		                                        <button type="submit" name="" id="grayBtn3" class="btn">삭제</button>
+		                                         <c:if test="${memberLoggedIn.empNo == c.empNo || memberLoggedIn.authority eq 'H' || memberLoggedIn.authority eq 'A' }">
+		                                        	<button type="submit" name="" id="grayBtn3" class="btn">삭제</button>
+		                                        </c:if>
 		                                    </td>
 		                                </tr>
 		                            </table>
