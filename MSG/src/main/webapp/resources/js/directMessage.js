@@ -71,6 +71,7 @@ function dmWindow(paramId, empName){
 	hdjq(".dmBar").fadeIn(100);
 	toId = paramId;
 	chatListFunction(0, toId, fromId);
+	
 //	console.log("dmWindow@JS=toId:"+toId+", fromId:"+fromId);
 	
 	var repeat = setInterval(function() {
@@ -80,7 +81,6 @@ function dmWindow(paramId, empName){
 	hdjq("#dmClose").click(function(){
 		clearInterval(repeat);
 	});
-	
 	
 }
 function autoClosingAlert(selecter, delay) {
@@ -160,7 +160,7 @@ function chatListFunction(type, toId, fromId) {
 				
 			}
 			lastID = Number(parsed.last);
-//			console.log(lastID+"@ajax");
+			console.log(lastID+"@ajax");
 		}
 	});
 }
