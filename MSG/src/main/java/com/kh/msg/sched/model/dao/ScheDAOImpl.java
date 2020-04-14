@@ -86,7 +86,7 @@ public class ScheDAOImpl implements ScheDAO {
 	public List<Schedule> mainSchedList(int empNo, String deptName) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("empNo",empNo+"");
-		map.put("deptName", deptName);
+		map.put("deptName", deptName); 
 		return sqlSession.selectList("mainSchedList", map);
 	}
 

@@ -50,7 +50,7 @@
 	var fromId = '<%=userId%>';
 	var empNo = '<%=empNo%>';
 	var eempNo = '<%=empNo%>';
-	var empDept = '<%=deptName%>' /* 민희 웰컴페이지에서 일정 받아올 때 씁니다 */
+	var empDept = '<%=deptName%>' /* 민희 웰컴페이지에서 일정 받아올 때 씁니다 */ 
 </script>
 </head>
 <body>
