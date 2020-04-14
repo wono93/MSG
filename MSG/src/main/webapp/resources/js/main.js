@@ -22,7 +22,10 @@ var thisWeekMon = printWeek();
 
 $(document).ready(function(){
 	
-	console.log(thisWeekMon);
+//	var $informSched = $("#informSched");
+//	informSched.findAll("td").addClass('floatLeft');
+//	informSched.findAll("tr").children("td:eq(0)").append("<div class='typeCircle'></div>")
+	
 	for(var i=1; i<8; i++){
 		$("#day_"+i).html(thisWeekMon);
 		thisWeekMon++;
@@ -35,17 +38,48 @@ $(document).ready(function(){
 		type : "get",
 		dataType : "json",
 		success : data =>{
-//			// 현재출력값 지우고
-//			$("tr.ajaxHide-tr").remove();
-//			//기본상태 : 회의실예약내역 + 차량예약내역
-//			
-//			// 예약이 없는 차량은 다시 출력
-//			//console.log(data.borrowable);
-//			 (data.borrowable);
-//			
-//			// 받아온 이미 예약된 차량은 라디오 비활성화 후 출력
-//			//console.log(data.unborrowable);
-//			createTr_unborrowableCar(data.unborrowable);
+			console.log(data);
+			
+			for(var i=0; i < data.length; i++){
+				start = new Date(data[i].scheStart);
+				end = new Date(data[i].scheEnd);
+				
+//				console.log(i+"번째 start="+start);
+//				console.log(i+"번째 end="+end);
+//				console.log(i+"번째 차이="+(end-start));
+				
+				if((end - start) > 1000*60*60*24){ //마감 - 시작 기간이 하루가 넘으면
+//					while(start < end){
+						//하루하루 끊으면서 '하루종일'은 'Y'처리하며 new Schedule 생성
+						//생성된 schedule을 td#day_1~7와 비교해서 일치하면 .next().next()의 text()에 값 넣어주기
+						for(var j=1; j<8; j++){
+							if($("#day_"+j).html() == start.getDate()){
+								//console.log(i+"번째 "+$("#day_"+j).html()+"   "+start.getDate() );
+								console.log(data[i].scheName);
+								$("#day_"+j).parent("tr").children("td:eq(2)").append("<div title='"+data[i].scheName+"' style='margin-left:10px; width:20px; height:20px; float:left; background:"+data[i].scheColor+"'></div>");
+								if(start < end) start.setDate(start.getDate()+1);
+							}
+							else if($("#day_"+j).html() == end.getDate()){
+								$("#day_"+j).parent("tr").children("td:eq(2)").append("<div title='"+data[i].scheName+"' style='margin-left:10px; width:20px; height:20px; float:left; background:"+data[i].scheColor+"'></div>");
+								if(start < end) end.setDate(end.getDate()-1);
+							}
+						}
+						
+					}
+					
+//				}
+				
+				else{ //일정이 하루 미만이라면
+//				console.log(start.getDate());
+					//td#day_1~7와 비교해서 일치하면 값 넣어주기
+					for(var j=1; j<8; j++){
+						if($("#day_"+j).html() == start.getDate()){
+							console.log(i+"번째 "+$("#day_"+j).html()+"   "+start.getDate() );
+							$("#day_"+j).parent("tr").children("td:eq(2)").append("<div style='margin-left:10px; width:20px; height:20px; border-radius:20px; float:left; background:"+data[i].scheColor+"'></div><p style='float:left; margin:0 0 0 10px;'>"+data[i].scheName+"</p>");
+						}
+					}
+				}
+			}
 			
 		},
 		error: (x,s,e) =>{
