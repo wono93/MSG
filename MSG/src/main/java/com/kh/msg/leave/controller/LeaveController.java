@@ -50,7 +50,8 @@ public class LeaveController {
 
 	/* 전체 휴가내역 리스트 */
 	@GetMapping("/list.do")
-	public ModelAndView allList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+	public ModelAndView allList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "srchWord", defaultValue = "") String srchWord,
 			@RequestParam(value = "srchType", defaultValue = "all") String srchType) {
 		log.debug("=========allvacation 모든 휴가 리스트=========");
 		ModelAndView mav = new ModelAndView();
@@ -111,7 +112,8 @@ public class LeaveController {
 
 	// 나의 휴가 내역
 	@GetMapping("/select.do")
-	public ModelAndView myList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+	public ModelAndView myList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "srchWord", defaultValue = "") String srchWord,
 			@RequestParam(value = "srchType", defaultValue = "all") String srchType, HttpSession session) {
 		log.debug("=========myvacation 나의 휴가 리스트=========");
 		ModelAndView mav = new ModelAndView();
@@ -257,7 +259,8 @@ public class LeaveController {
 
 	/* 전체 휴가조wjd 리스트 */
 	@GetMapping("/update.do")
-	public ModelAndView setList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, String srchWord,
+	public ModelAndView setList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, 
+			@RequestParam(value = "srchWord", defaultValue = "") String srchWord,
 			@RequestParam(value = "srchType", defaultValue = "all") String srchType) {
 		log.debug("=========setvacation 조정 휴가 리스트=========");
 		ModelAndView mav = new ModelAndView();
@@ -268,7 +271,7 @@ public class LeaveController {
 		map.put("srchType", srchType);
 
 		/* log.debug("leaveList.toString()={}", leaveList.toString()); */
-		int totalContents = leaveService.selectAllVacationTotalContents(map);
+		int totalContents = leaveService.selectSetVacationTotalContents(map);
 
 		log.debug("leaveService={}", leaveService.getClass());
 
@@ -295,7 +298,7 @@ public class LeaveController {
 		if (pageNo == 1) {
 			pageBar += "<a href=\"#\" class=\"arrow\">&laquo;</a>";
 		} else {
-			pageBar += "<a href='/msg/leave/list.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
+			pageBar += "<a href='/msg/leave/update.do?cPage=" + (pageNo - 1) + "&srchWord=" + srchWord + "&srchType="
 					+ srchType + "'>&laquo;</a>";
 		}
 
@@ -303,7 +306,7 @@ public class LeaveController {
 			if (pageNo == cPage) {
 				pageBar += "<a class='active'>" + pageNo + "</a>";
 			} else {
-				pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
+				pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType="
 						+ srchType + "'>" + pageNo + "</a>";
 			}
 			pageNo++;
@@ -312,7 +315,7 @@ public class LeaveController {
 		if (pageNo > totalPage) {
 			pageBar += "<a href=\"#\" class=\"arrow\">&raquo;</a>";
 		} else {
-			pageBar += "<a href='/msg/leave/list.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType=" + srchType
+			pageBar += "<a href='/msg/leave/update.do?cPage=" + pageNo + "&srchWord=" + srchWord + "&srchType=" + srchType
 					+ "'>&raquo;</a>";
 		}
 		;
