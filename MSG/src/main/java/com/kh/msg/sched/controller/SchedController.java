@@ -2,8 +2,10 @@ package com.kh.msg.sched.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +42,12 @@ import net.sf.json.JSONObject;
 public class SchedController {
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	SimpleDateFormat trans = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Autowired
 	SchedService schedService;
+	
+
 	
 	@GetMapping("/calcover.do")
 	public ModelAndView schedList_() {
@@ -209,6 +214,19 @@ public class SchedController {
 		
 		List<Schedule> list = schedService.mainSchedList(empNo,deptName);
 		for(Schedule s : list) {
+			try {
+				Date start = trans.parse(s.getScheEnd());
+				Date end = trans.parse(s.getScheStart());
+				
+				System.out.println(start+" "+end);
+				//일정 종료시점 - 시작시점 > 하루면
+				if(end.getTime() - start.getTime() > 24 * 60 * 60 * 1000) {
+					//하루 이상인 일정을 하루 단위로 쪼개기
+					
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		//log.debug("o0o={}",list);
 		mav.addObject(list);
