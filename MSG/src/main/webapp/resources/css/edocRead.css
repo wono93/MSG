@@ -84,7 +84,7 @@ article > .subNav {
 .subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 
 /* 여기서부터 테이블들 */
-table {
+.edocJsp table {
     margin-top: 15px;
     display: inline-block;
     border-top: 3px solid #999999;
@@ -93,14 +93,14 @@ table {
     table-layout: fixed;
     word-break: break-all;
 }
-th, td {
+.edocJsp th, td {
     border-bottom: 1px solid #999999;
     padding: 10px 0px;
 }
-table th {
+.edocJsp table th {
     background-color: #ebebeb;
 }
-table tr:last-child {
+.edocJsp table tr:last-child {
     border-bottom: 4px solid #999999;
 }
 
