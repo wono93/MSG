@@ -50,7 +50,7 @@ table {
 }
 th, td {
     border-bottom: 1px solid #999999;
-    padding: 10px;
+    padding: 9px;
 }
 table th:nth-child(3){
     width: 350px;
@@ -114,6 +114,14 @@ table td:nth-child(2){
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
+}
+#timepicker-start, #timepicker-end {
+    width: 210px;
+    height: 50px;
+    border: 2px solid #999;
+    font-size: 19px;
+    padding-left: 20px;
+    margin-top: 40px;
 }
 
 /* 여기서부터 select-box */
@@ -246,7 +254,10 @@ html{background-color: #ededed; }
 
 .content{
 	width:1020px;
-	margin:0 auto;min-height: 1200px;padding: 48px 0px 0px 0px;background-color:#fefefe;text-align: center;
+	margin:0 auto;
+	min-height: 1200px;
+	background-color:#fefefe;
+	text-align: center;
 }
 .content>span{font-size:30px; margin-left: 30px;}
 
@@ -259,7 +270,6 @@ html{background-color: #ededed; }
     display: inline-block;
     width: 100%;
     vertical-align: middle;
-    text-align: left;
     border: 0 solid white;
     height: auto;
 }
@@ -283,7 +293,7 @@ table th:nth-child(3){
     width: 350px;
 }
 table td:nth-child(3){
-    padding-left: 30px;
+    padding-left: 17px;
     text-align: center;
 }
 table td:nth-child(2){
@@ -327,7 +337,7 @@ article > .content{
     float: left;
 }
 .board{width: 100%; line-height: 46px; margin-top: 20px;}
-.board th, .board td{color: #333; width: 25%; text-align: center;}
+.board th, .board td{color: #333;width: 34%;text-align: center;}
 .board tr{/* width:980px; */display:flex;border-bottom: 1px solid #999;}
 .board tr:first-child{ border-top: 4px solid #999;}
 .board tr:last-child{ margin-bottom:50px;}

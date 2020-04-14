@@ -61,7 +61,6 @@
 					method="get">
 					<div class="content">
 						<div class="control">
-							<h2>조회날짜</h2>
 							<input type='text' id='timepicker-start' name="startDate"
 								class='datepicker-here' data-language='ko'
 								data-date-format="yyyy-mm-dd" autocomplete="off"

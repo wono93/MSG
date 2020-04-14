@@ -27,10 +27,12 @@ article {
 	margin: 0 auto;
 	font-size: 16px;
 }
+section > div {
+	border: none;
+}
 
-article>.content {
+article .content {
 	background-color: #FEFEFE;
-	border: 1px solid black;
 	width: 900px;
 	height: 800px;
 	position: absolute;
@@ -146,7 +148,7 @@ article>.content {
 .quote-left::before, .quote-right::before {
 	position: relative;
 	top: -30px;
-	color: #999;
+	color: #F4CA25;
 }
 
 .buttons {
@@ -154,9 +156,21 @@ article>.content {
 	margin-top: 50px;
 }
 
+.buttons button:hover {
+    font-weight: bold;
+    color: #fefefe;
+    border: none;
+    background-color: #f4ca25;
+    cursor: pointer;
+}
+
 .buttons button {
-	font-size: 20px;
-	font-family: inherit;
+    width: 100px;
+    height: 55px;
+    font-size: 19px;
+    color: #999;
+    background-color: #fefefe;
+    border: 1px solid #999;
 	margin: 20px;
 }
 
@@ -425,7 +439,6 @@ to {
 										aria-hidden="aria-hidden">관리자</label></li>
 								</ul>
 							</div>
-							<button type="button" class="temp_pwd">임시비밀번호발급</button>
 							<button type="submit" class="submit">수정</button>
 						</div>
 					</div>
