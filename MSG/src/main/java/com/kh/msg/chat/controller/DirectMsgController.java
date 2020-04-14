@@ -64,7 +64,7 @@ public class DirectMsgController {
 						sObject.put("empName", list.get(i).getEmpName());
 						sObject.put("toId", list.get(i).getUserId());
 						sObject.put("jobName", list.get(i).getJobName());
-						sObject.put("sessionId", userList.get(i).getId());
+
 						jsonArr.add(sObject);
 						log.debug("jsonArr=======!!위에!"+jsonArr);
 				}
