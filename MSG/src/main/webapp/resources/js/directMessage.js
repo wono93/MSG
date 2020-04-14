@@ -37,12 +37,25 @@ function dmListFunction() {
 		success : function(data) {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
-					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+				console.log(data[i]['sessionId']);
+						addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
 			}
-		}
+		} 
 	});
 }
 function addList(empImage, empName, jobName, toId) {
+	hdjq("#dmList").append(
+						 '<li>'+
+						 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+						 '<i class="fas fa-circle" style="color: green; margin-right:5px; font-size:15px"></i>'+
+						 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+						 '<span class="headerlistname">'+empName+' '+
+						 jobName+
+						 '</span>'+
+						 '</li>');
+}
+/*
+function outaddList(empImage, empName, jobName, toId) {
 	hdjq("#dmList").append(
 						 '<li>'+'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
 						 '<img src="/msg/resources/upload/empImg/'+empImage+'" class="member-img">'+
@@ -51,7 +64,7 @@ function addList(empImage, empName, jobName, toId) {
 						 '</span>'+
 						 '</li>');
 }
-
+*/
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();
 	hdjq("#name-span").html(empName);

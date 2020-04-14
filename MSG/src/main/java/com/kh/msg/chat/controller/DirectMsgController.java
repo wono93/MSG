@@ -64,10 +64,18 @@ public class DirectMsgController {
 						sObject.put("empName", list.get(i).getEmpName());
 						sObject.put("toId", list.get(i).getUserId());
 						sObject.put("jobName", list.get(i).getJobName());
+						sObject.put("sessionId", userList.get(i).getId());
 						jsonArr.add(sObject);
 						log.debug("jsonArr=======!!위에!"+jsonArr);
 				}
-				
+				/*
+				for(int i = 0; i < list.size(); i++) {					
+					JSONObject sObject = new JSONObject();
+					sObject.put("sessionId", userList.get(i).getId());
+					jsonArr.add(sObject);
+					log.debug("jsonArr=======!!아래!"+jsonArr);
+				}
+				*/
 			response.setCharacterEncoding("UTF-8");
 			PrintWriter out;
 			out = response.getWriter();
