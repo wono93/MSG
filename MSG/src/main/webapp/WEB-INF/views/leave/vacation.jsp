@@ -25,9 +25,12 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-	
-	<link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
-	    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/edocList.css">
+
+<%-- <link
+	href="${pageContext.request.contextPath }/resources/css/reservation.css"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/edocList.css"> --%>
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <!-- jQuery ui style sheet -->
 <link rel="stylesheet"
@@ -39,10 +42,9 @@
 <title>vacation</title>
 </head>
 <script>
-
-$( document ).ready( function() {
-     $( 'td:empty' ).append( 0 );
-   } );	
+	$(document).ready(function() {
+		$('td:empty').append(0);
+	});
 
 	// yearcheck ++
 	function upYear() {
@@ -68,7 +70,7 @@ $( document ).ready( function() {
 	}
 	// yearcheck(modal) ++
 	function plus() {
-		var yearCheck = document.getElementById('Qty');
+		var yearCheck = document.getElementById('person_');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue + 1;
 		yearCheck.value = yearValue;
@@ -76,7 +78,7 @@ $( document ).ready( function() {
 
 	// yearcheck(modal)--
 	function minus() {
-		var yearCheck = document.getElementById('Qty');
+		var yearCheck = document.getElementById('person_');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue - 1;
 		yearCheck.value = yearValue;
@@ -84,12 +86,11 @@ $( document ).ready( function() {
 
 	// input(yearcheck) 값 불러오기
 	function getYearCheckValue2() {
-		var yearCheck = document.getElementById('Qty');
+		var yearCheck = document.getElementById('person_');
 		var yearValueStr = yearCheck.value;
 		console.log(yearValueStr);
 		return Number(yearValueStr);
 	}
-	
 </script>
 
 
@@ -141,8 +142,8 @@ $( document ).ready( function() {
 							<th>연차</th>
 							<th>포상</th>
 							<th>기타</th>
-						</tr>			
-					 	<c:forEach items="${listSum}" var="leave">
+						</tr>
+						<c:forEach items="${listSum}" var="leave">
 							<tr>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
@@ -150,28 +151,23 @@ $( document ).ready( function() {
 								<td>${leave.annual}</td>
 								<td>${leave.reward}</td>
 								<c:set var="zero" value="0" />
-								<td id="tdZero"> 						
-								 <c:forEach items="${listAnnual}" var="an" varStatus="vs">																						
-									<c:if test="${leave.empNo == an.empNo }">
+								<td id="tdZero"><c:forEach items="${listAnnual}" var="an"
+										varStatus="vs">
+										<c:if test="${leave.empNo == an.empNo }">
 									 ${an.annual }
 									</c:if>
-								</c:forEach> 
-								</td>
-									<td id="tdZero">
-								 <c:forEach items="${listReward }" var="rw">							
-									<c:if test="${leave.empNo == rw.empNo }">
+									</c:forEach></td>
+								<td id="tdZero"><c:forEach items="${listReward }" var="rw">
+										<c:if test="${leave.empNo == rw.empNo }">
 									 ${rw.reward }
-									</c:if>					
-								</c:forEach> 
-								</td>
-								<td id="tdZero">
-								 <c:forEach items="${listOther }" var="lo">							
-									<c:if test="${leave.empNo == lo.empNo }">
+									</c:if>
+									</c:forEach></td>
+								<td id="tdZero"><c:forEach items="${listOther }" var="lo">
+										<c:if test="${leave.empNo == lo.empNo }">
 									 ${lo.other }
-									</c:if>					
-								</c:forEach> 
-								</td>
-								 <td><p>
+									</c:if>
+									</c:forEach></td>
+								<td><p>
 										<a href="#test" rel="modal:open">
 											<button class="penbutton" id="modalBtn" name="modalNm"
 												value="${leave.empNo}" onclick="modal(this);">
@@ -180,7 +176,7 @@ $( document ).ready( function() {
 										</a>
 									</p></td>
 							</tr>
-						</c:forEach> 			
+						</c:forEach>
 					</table>
 					<div class="pagination">${pageBar }</div>
 					<div class="srchBar">
@@ -231,51 +227,54 @@ $( document ).ready( function() {
 		<div id="test" class="modal">
 			<h1 style="margin-left: 40px;">휴가조정</h1>
 			<p>
-			 <div class="checkbox_wrap">
-                                <label class="myDocu-container kor float" for="myDocu">연차
-                                            <input type="radio" name="arrayDocuCheck" id="myDocu" class="docuCheck" value="myDocu"  checked="checked">
-                                            <span class="myDocu-checkmark"></span>
-                               </label>
-                                <label class="reqDocu-container kor float" for="reqDocu">포상
-                                            <input type="radio" name="arrayDocuCheck" id="reqDocu" class="docuCheck" value="reqDocu" >
-                                            <span class="reqDocu-checkmark"></span>
-                               </label>
-                            </div>
-			<div class="checkbox custom">
+			<div class="checkbox_wrap">
+				<label class="myDocu-container kor float" for="myDocu">연차 <input
+					type="radio" name="arrayDocuCheck" id="myDocu" class="docuCheck"
+					value="myDocu" checked="checked"> <span
+					class="myDocu-checkmark"></span>
+				</label> <label class="reqDocu-container kor float" for="reqDocu">포상
+					<input type="radio" name="arrayDocuCheck" id="reqDocu"
+					class="docuCheck" value="reqDocu"> <span
+					class="reqDocu-checkmark"></span>
+				</label>
+			</div>
+			<!-- <div class="checkbox custom">
 				조정할휴가 <input id="box2" class="css-checkbox" type="radio" name="abc" />
 				<label for="box2" class="css-label-yellow">연차</label> <input
 					id="box1" class="css-checkbox" type="radio" name="abc" /> <label
 					for="box1" class="css-label-red">포상</label>
+			</div> -->
+			</p>
+			<p>
+			<div class="updown custom">
+				조정
+				<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+				<input type="text" id="person_" value="0" name="carSize"
+					readonly="true" />
+				<button type="button" class="plusBtn" onclick="plus();">+</button>
 			</div>
 			</p>
-			  <p>
-						<div class="updown custom">
-							조정
-							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
-							<input type="text" id="person_" value="0" name="carSize" readonly="true" />
-							<button type="button" class="plusBtn" onclick="plus();">+</button>
-						</div>
-						</p>
-			<p>			
+			<!-- <p>			
 			<div class="updown custom">
 				조절량
 				<button type="button" class="upQtyBtn" onclick="upYear2();">+</button>
 				<input type="text" id="Qty" value="0" readonly="true" name="Qty" />
 				<button type="button" class="downQtyBtn" onclick="downYear2();">-</button>
-			</div>
-			</p>
+			</div> 
+			</p> -->
 			<div class="ui-widget">
 				<label for="search">문서 검색: </label> <input id="search">
 
 				<p>
 				<div class="divice custom">
 					근거
-					<form id="bookid">
+					<!-- <form id="bookid">
 						<input type="text" id="reasonBox" />
-					</form>
+					</form> -->
 				</div>
 				</p>
-				<input type="text" name="carNo" id="updateCar-no" placeholder="근거를 입력해주세요."/>
+				<input type="text" name="carNo" id="updateCar-no"
+					placeholder="근거를 입력해주세요." />
 				<p>
 				<div class="setting custom">
 					기조정내역 <br> <br>
@@ -300,12 +299,6 @@ $( document ).ready( function() {
 
 	</section>
 	<script>
-	$(document).ready(function() {
-		if($('#tdZero').text()==null){
-		$('#tdZero').append("0");
-		}
-		});
-		
 		$("#srchBtn").click(function() {
 
 			//폼 태그 생성
@@ -334,7 +327,7 @@ $( document ).ready( function() {
 	<script>
 		/*기조정내역 테이블  */
 		function modalDel() {
-			
+
 			$(".delTr").remove();
 
 		};
@@ -393,11 +386,11 @@ $( document ).ready( function() {
 		/*모달 내용 삽입  */
 		function modalSub() {
 			var vctnCd = "";
-			if ($("input:radio[id='box2']").is(":checked")) {
+			if ($("input:radio[id='myDocu']").is(":checked")) {
 
 				vctnCd = "V1";
 
-			} else if ($("input:radio[id='box1']").is(":checked")) {
+			} else if ($("input:radio[id='reqDocu']").is(":checked")) {
 
 				vctnCd = "V2";
 
@@ -407,9 +400,9 @@ $( document ).ready( function() {
 				return;
 			}
 
-			var vctnAmt = $("#Qty").val();
+			var vctnAmt = $("#person_").val();
 
-			var vctnReason = $("#reasonBox").val();
+			var vctnReason = $("#updateCar-no").val();
 
 			var edocId;
 			var edocIdSearch = $("#search").val();
@@ -443,8 +436,6 @@ $( document ).ready( function() {
 			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
-		
-	
 	</script>
 
 </body>
