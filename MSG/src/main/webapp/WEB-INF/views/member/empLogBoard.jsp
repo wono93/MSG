@@ -101,7 +101,7 @@
 						<div class="pagination">
 							<c:if test="${paging.startPage != 1 }">
 								<a
-									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
+									href="${pageContext.request.contextPath}/member/empLogBoard.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
 									class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
 							</c:if>
 							<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
@@ -112,13 +112,13 @@
 									</c:when>
 									<c:when test="${p != paging.nowPage }">
 										<a
-											href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}">${p }</a>
+											href="${pageContext.request.contextPath}/member/empLogBoard.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}">${p }</a>
 									</c:when>
 								</c:choose>
 							</c:forEach>
 							<c:if test="${paging.endPage != paging.lastPage}">
 								<a
-									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
+									href="${pageContext.request.contextPath}/member/empLogBoard.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
 									class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
 							</c:if>
 						</div>
