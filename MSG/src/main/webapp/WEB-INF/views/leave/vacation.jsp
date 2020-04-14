@@ -67,7 +67,7 @@ $( document ).ready( function() {
 		return Number(yearValueStr);
 	}
 	// yearcheck(modal) ++
-	function upYear2() {
+	function plus() {
 		var yearCheck = document.getElementById('Qty');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue + 1;
@@ -75,7 +75,7 @@ $( document ).ready( function() {
 	}
 
 	// yearcheck(modal)--
-	function downYear2() {
+	function minus() {
 		var yearCheck = document.getElementById('Qty');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue - 1;
@@ -252,7 +252,7 @@ $( document ).ready( function() {
 						<div class="updown custom">
 							조정
 							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
-							<input type="text" id="person_" value="5" name="carSize" readonly="true" />
+							<input type="text" id="person_" value="0" name="carSize" readonly="true" />
 							<button type="button" class="plusBtn" onclick="plus();">+</button>
 						</div>
 						</p>
