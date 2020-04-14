@@ -687,4 +687,36 @@ from
                     on A.edoc_id = B.edoc_id
                 and A.flow_ord = B.flow_ord
 		 	where
-		 		emp_no = 5;
+		 		flow_emp_no = 5;
+
+select *
+
+from
+(select
+            *
+    from
+        edoc_all_tb
+    where (flow_st is null or flow_st = 'N')
+        and flow_cd in ('F1','F2')) A
+        join
+    (select edoc_id, min(flow_ord) flow_ord
+    from    (select *
+            from edoc_all_tb
+            where (flow_st is null or flow_st = 'N')
+                and flow_cd in ('F1','F2')) group by edoc_id) B
+                on A.edoc_id = B.edoc_id
+                and A.flow_ord = B.flow_ord
+                ;
+
+select
+            *
+    from
+        edoc_all_tb
+    where (flow_st is null or flow_st = 'N')
+        and flow_cd in ('F1','F2');
+        
+select edoc_id, min(flow_ord) flow_ord
+    from    (select *
+            from edoc_all_tb
+            where (flow_st is null or flow_st = 'N')
+                and flow_cd in ('F1','F2')) group by edoc_id;

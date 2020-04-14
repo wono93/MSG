@@ -27,7 +27,7 @@
                 </div>
                 <div class="content">
                     <div class="control">
-                        <div>
+                        <div class="docuTypeBox">
                             <h1>문서 유형</h1>
                             <div class="checkbox_wrap">
                                 <label class="myDocu-container kor float" for="myDocu">내 기안문서
@@ -52,6 +52,44 @@
                                </label>
                             </div>
                         </div>
+                        <div class="srchBar">
+	                        <div class="select-box">
+	                            <div class="select-box__current" tabindex="1">
+	                                <div class="select-box__value">
+	                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="srchTypeInput" ${srchType eq 'edoc_title'?'checked="checked"':"" }/>
+	                                <p class="select-box__input-text">제목</p>
+	                                </div>
+	                                <div class="select-box__value">
+	                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="srchTypeInput" ${srchType eq 'emp_name'?'checked="checked"':"" }/>
+	                                <p class="select-box__input-text">기안자</p>
+	                                </div>
+	                                <div class="select-box__value">
+	                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="srchTypeInput" ${srchType eq 'form_nm'?'checked="checked"':"" }/>
+	                                <p class="select-box__input-text">문서종류</p>
+	                                </div>
+	                                <div class="select-box__value"> 
+	                                <input class="select-box__input" type="radio" id="D3" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
+	                                <p class="select-box__input-text">전체</p>
+	                                </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+	                            </div>
+	                            <ul class="select-box__list">
+	                                <li>
+	                                <label class="select-box__option" for="D3" aria-hidden="aria-hidden">전체</label>
+	                                </li>
+	                                <li>
+	                                <label class="select-box__option" for="D0" aria-hidden="aria-hidden">제목</label>
+	                                </li>
+	                                <li>
+	                                <label class="select-box__option" for="D1" aria-hidden="aria-hidden">기안자</label>
+	                                </li>
+	                                <li>
+	                                <label class="select-box__option" for="D2" aria-hidden="aria-hidden">문서종류</label>
+	                                </li>
+	                            </ul>
+	                        </div>
+	                        <input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="">
+	                        <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
+	                    </div>
                     </div>
                     <table>
                         <tr>
@@ -142,44 +180,6 @@
                     </table>
                     <div class="pagination">
 						${pageBar }
-                    </div>
-                    <div class="srchBar">
-                        <div class="select-box">
-                            <div class="select-box__current" tabindex="1">
-                                <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D0" value="edoc_title" name="srchTypeInput" ${srchType eq 'edoc_title'?'checked="checked"':"" }/>
-                                <p class="select-box__input-text">제목</p>
-                                </div>
-                                <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D1" value="emp_name" name="srchTypeInput" ${srchType eq 'emp_name'?'checked="checked"':"" }/>
-                                <p class="select-box__input-text">기안자</p>
-                                </div>
-                                <div class="select-box__value">
-                                <input class="select-box__input" type="radio" id="D2" value="form_nm" name="srchTypeInput" ${srchType eq 'form_nm'?'checked="checked"':"" }/>
-                                <p class="select-box__input-text">문서종류</p>
-                                </div>
-                                <div class="select-box__value"> 
-                                <input class="select-box__input" type="radio" id="D3" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
-                                <p class="select-box__input-text">전체</p>
-                                </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
-                            </div>
-                            <ul class="select-box__list">
-                                <li>
-                                <label class="select-box__option" for="D3" aria-hidden="aria-hidden">전체</label>
-                                </li>
-                                <li>
-                                <label class="select-box__option" for="D0" aria-hidden="aria-hidden">제목</label>
-                                </li>
-                                <li>
-                                <label class="select-box__option" for="D1" aria-hidden="aria-hidden">기안자</label>
-                                </li>
-                                <li>
-                                <label class="select-box__option" for="D2" aria-hidden="aria-hidden">문서종류</label>
-                                </li>
-                            </ul>
-                        </div>
-                        <input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" placeholder="검색창 나중에 위 쪽으로 올릴것">
-                        <button type="button" name="" id="srchBtn" class="yellowBtn"><i class="fas fa-search" style="font-size:15px"></i> 검색</button>
                     </div>
                 </div>
             </article>
