@@ -112,7 +112,7 @@ function addModifyMember(empImage, empName, deptName, jobName, empNo){
 		        +'<td>'+jobName+'</td>'
 		        +'<td class="delNo">'+empNo+'</td>'
 		        +'<input type="hidden" name="empNo" value="'+empNo+'">'
-		        +'<td><img src="/msg/resources/image/X-icon.png" alt="" class="x-icon" id="" onclick="deleteModifyMember(this)"></td>'
+		        +'<td><a href="#"><img src="/msg/resources/image/X-icon.png" alt="" class="x-icon" id="" onclick="deleteModifyMember(this)"></a></td>'
 		        +'</tr>');
 	}
 	arrModify.push(empNo);
