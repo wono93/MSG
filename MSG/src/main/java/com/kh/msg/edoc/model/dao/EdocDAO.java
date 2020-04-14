@@ -11,6 +11,7 @@ import com.kh.msg.edoc.model.vo.EdocLeaveLtt;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 public interface EdocDAO {
 
@@ -53,4 +54,6 @@ public interface EdocDAO {
 	int countSt(EdocFlow edocFlow);
 
 	int updateEdocSt(EdocFlow edocFlow);
+
+	List<OrgChart> selectNameSrch();
 }

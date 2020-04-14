@@ -33,6 +33,7 @@
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
+
     
 <%
 	List<LoginVO> userList= MemberController.userList;

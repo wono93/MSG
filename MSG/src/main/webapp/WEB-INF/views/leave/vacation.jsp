@@ -168,14 +168,16 @@ $( document ).ready( function() {
 									</c:if>					
 								</c:forEach> 
 								</td>
-								<%-- <td><p>
+								<td>
+									<p>
 										<a href="#test" rel="modal:open">
 											<button class="penbutton" id="modalBtn" name="modalNm"
 												value="${leave.empNo}" onclick="modal(this);">
 												<i class='fas fa-pencil-alt'> </i>
 											</button>
 										</a>
-									</p></td> --%>
+									</p>
+								</td>
 							</tr>
 						</c:forEach> 			
 					</table>

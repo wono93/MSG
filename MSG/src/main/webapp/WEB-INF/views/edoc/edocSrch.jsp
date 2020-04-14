@@ -25,41 +25,12 @@
 				<div class="subNav">
 					<h3>전자결재</h3>
 					<ul>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/edoc/srch.do'">문서검색</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/edoc/list.do'">내문서함</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/edoc/write.do'">문서기안</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/edoc/srch.do'">문서검색</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/edoc/list.do'">내문서함</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/edoc/write.do'">문서기안</li>
 					</ul>
 				</div>
 				<div class="content">
-					<div class="control">
-						<p>여기로 검색창 옮기자</p>
-					</div>
-					<table>
-						<tr>
-							<th>문서ID</th>
-							<th>문서종류</th>
-							<th>제목</th>
-							<th>기안자</th>
-							<th>보안등급</th>
-							<th>결재완료일</th>
-							<th>보존연한</th>
-						</tr>
-						<c:forEach items="${srchList }" var="ed">
-							<tr data-edoc-no="${ed.edocId }" data-edoc-title="${ed.edocTitle }">
-								<td>${ed.edocId }</td>
-								<td>${ed.formNm }</td>
-								<td>${ed.edocTitle }</td>
-								<td>${ed.empName }</td>
-								<td>${ed.secuNm }</td>
-								<td>${ed.edocEndDt }</td>
-								<td>${ed.prsvAmt }년</td>
-							</tr>
-						</c:forEach>
-					</table>
-					<div class="pagination">${pageBar }</div>
 					<div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
@@ -110,6 +81,29 @@
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
 					</div>
+					<table>
+						<tr>
+							<th>문서ID</th>
+							<th>문서종류</th>
+							<th>제목</th>
+							<th>기안자</th>
+							<th>보안등급</th>
+							<th>결재완료일</th>
+							<th>보존연한</th>
+						</tr>
+						<c:forEach items="${srchList }" var="ed">
+							<tr data-edoc-no="${ed.edocId }" data-edoc-title="${ed.edocTitle }">
+								<td>${ed.edocId }</td>
+								<td>${ed.formNm }</td>
+								<td>${ed.edocTitle }</td>
+								<td>${ed.empName }</td>
+								<td>${ed.secuNm }</td>
+								<td>${ed.edocEndDt }</td>
+								<td>${ed.prsvAmt }년</td>
+							</tr>
+						</c:forEach>
+					</table>
+					<div class="pagination">${pageBar }</div>
 				</div>
 			</article>
 		</div>
