@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<OrgChart> orgChart(Map<String, String> map) {
+	public List<OrgChart> orgChart(Map<String, Object> map) {
 		
 		return memberDAO.orgChart(map);
 	}
@@ -101,5 +101,23 @@ public class MemberServiceImpl implements MemberService {
 	public int countEmpLog(HashMap<String, Object> map) {
 		
 		return memberDAO.countEmpLog(map);
+	}
+
+	@Override
+	public List<HrMntList> selectEmpLog(HashMap<String, Object> map) {
+		
+		return memberDAO.selectEmpLog(map);
+	}
+
+	@Override
+	public int countOneEmpLog(HashMap<String, Object> map) {
+		
+		return memberDAO.countOneEmpLog(map);
+	}
+
+	@Override
+	public int countOrgChart(Map<String, Object> map) {
+		
+		return memberDAO.countOrgChart(map);
 	}
 }

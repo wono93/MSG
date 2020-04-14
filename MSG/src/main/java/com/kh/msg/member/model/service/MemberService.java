@@ -21,7 +21,7 @@ public interface MemberService {
 
 	List<HrMntList> selectList(HashMap<String, Object> map);
 
-	List<OrgChart> orgChart(Map<String, String> map);
+	List<OrgChart> orgChart(Map<String, Object> map);
 
 	OrgChart empInfo(String empNo);
 
@@ -44,4 +44,10 @@ public interface MemberService {
 	int countIOLog(Map<String, Object> map);
 
 	int countEmpLog(HashMap<String, Object> map);
+
+	List<HrMntList> selectEmpLog(HashMap<String, Object> map);
+
+	int countOneEmpLog(HashMap<String, Object> map);
+
+	int countOrgChart(Map<String, Object> map);
 }
