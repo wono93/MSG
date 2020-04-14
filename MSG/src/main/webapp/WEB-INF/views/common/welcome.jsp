@@ -113,7 +113,7 @@
                 <div style="width: 500px;" id="content2">
                     <div style="width:500px; margin-bottom: 34px; margin-top: 30px;" id="notice">
                         <div id="calender" style="width:400px; height: 300px; margin-left: 50px; border: 1px solid black;">
-                            <p> 달력소스 오픈소스</p>
+                             <div id="calendar"></div>
                         </div>
                     </div>
                     <div id="66" style="cursor:pointer;"onclick="location.href='${pageContext.request.contextPath}/sched/calcover.do'">
