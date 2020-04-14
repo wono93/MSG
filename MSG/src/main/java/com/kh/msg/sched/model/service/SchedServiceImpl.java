@@ -53,5 +53,10 @@ public class SchedServiceImpl implements SchedService {
 		
 	}
 
+	@Override
+	public List<Schedule> mainSchedList(int empNo, String deptName) {
+		return scheDAO.mainSchedList(empNo, deptName);
+	}
+
 
 }
