@@ -56,7 +56,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 							// 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
 							long diff = today.getTime() - vctnStdt.getTime();
-							long diffDays = diff / (24 * 60 * 60 * 1000);
+							long diffDays = diff / (24 * 60 * 60 * 1000); 
 
 							hr.setVctnCount(hr.getVctnCount() + (int) diffDays + 1);
 
