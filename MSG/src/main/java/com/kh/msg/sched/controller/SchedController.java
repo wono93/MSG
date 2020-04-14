@@ -200,6 +200,21 @@ public class SchedController {
 	return mav;
 	}
 	
+	@ResponseBody
+	@GetMapping(value="/mainSchedList")
+	public ModelAndView mainSchedList(@RequestParam("empNo") int empNo,
+									  @RequestParam("deptName") String deptName) {
+		ModelAndView mav = new ModelAndView();
+		//log.debug("o0o={}",empNo+" "+deptName);
+		
+		List<Schedule> list = schedService.mainSchedList(empNo,deptName);
+		for(Schedule s : list) {
+		}
+		//log.debug("o0o={}",list);
+		mav.addObject(list);
+		return mav;
+	}
+	
 	public char yOrN(boolean allday) {
 		if(allday == true) return 'Y';
 		else return 'N';
