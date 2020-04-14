@@ -19,7 +19,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
-	<section>
+	<section class="edocJsp">
 		<div>
 			<article>
 				<div class="subNav">

@@ -58,11 +58,16 @@ article > .subNav {
 
 /* 여기서부터 버튼 양식 */
 .yellowBtn{
-    background-color: #f4ca25;
-    border: 1px solid #f4ca25;
+    background-color: #fefefe;
+    border: 1px solid #999999;
     color: #333333;
     font-size: 14px;
     font-weight: 600;
+}
+.yellowBtn:hover{
+  background-color : #f4ca25;
+  border: 1px solid #f4ca25;
+  color : #fefefe
 }
 .whiteBtn{
     background-color: #fefefe;
@@ -70,6 +75,10 @@ article > .subNav {
     color: #999999;
     font-size: 14px;
     font-weight: 400;
+}
+.whiteBtn:hover{
+	color: #333333;
+	border: 1px solid #333333;
 }
 .commonBtn{
     padding: 9px 19px;
@@ -84,7 +93,7 @@ article > .subNav {
 .subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 
 /* 여기서부터 테이블들 */
-table {
+.edocJsp table {
     margin-top: 15px;
     display: inline-block;
     border-top: 3px solid #999999;
@@ -93,23 +102,23 @@ table {
     table-layout: fixed;
     word-break: break-all;
 }
-th, td {
+.edocJsp th, td {
     border-bottom: 1px solid #999999;
     padding: 10px 0px;
 }
-th, td:first-child {
+.edocJsp th, td:first-child {
 	width: 70px;
 }
-th, td:nth-child(2) {
+.edocJsp th, td:nth-child(2) {
 	width: 100px;
 }
-th, td:nth-child(3) {
+.edocJsp th, td:nth-child(3) {
 	width: 400px;
 }
-th, td:nth-child(4) {
+.edocJsp th, td:nth-child(4) {
 	width: 100px;
 }
-th, td:last-child {
+.edocJsp th, td:last-child {
 	width: 100px;
 }
 
@@ -126,6 +135,44 @@ table th {
 table tr:last-child {
     border-bottom: 4px solid #999999;
 }
+
+/* 여기서부터 모달 테이블*/
+.modal table {
+    margin-top: 15px;
+    display: inline-block;
+    border-top: 3px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+    table-layout: fixed;
+    word-break: break-all;
+}
+.modal th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px 0px;
+}
+.modal th, td:first-child {
+	width: 70px;
+}
+.modal th, td:nth-child(2) {
+	width: 100px;
+}
+.modal th, td:nth-child(3) {
+	width: 400px;
+}
+.modal th, td:nth-child(4) {
+	width: 100px;
+}
+.modal th, td:last-child {
+	width: 100px;
+}
+
+.tbRow {
+    width: 1020px;
+    display: inline-block;
+    height: 900px;
+}
+
+
 
 /* 모달 */
 /* The Modal (background) */
@@ -164,6 +211,7 @@ table tr:last-child {
 .flowModalTb {
     border: none;
     width: 100%;
+	text-align: center;
 }
 .modal-content .divBtn {
     float: right;

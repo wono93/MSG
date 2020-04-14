@@ -7,25 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MSG</title>
-    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    
+    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>    
     <link rel="stylesheet" href="css/header.css">
-     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/main.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
 </head>
 <style>
 .welcomeBox {
-    opacity: 0.4;
-    position: absolute;
-    top: 355px;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    font-size: 30px;
-    text-align: center;
+	opacity: 0.4;
+	position: absolute;
+	top: 355px;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	font-size: 30px;
+	text-align: center;
 }
+
 .welcomeBox p {
 	font-size: 34px;
 	margin: 0;
@@ -33,6 +33,7 @@
 }
 </style>
 <script>
+	
 </script>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -116,9 +117,10 @@
                             <p> 달력소스 오픈소스</p>
                         </div>
                     </div>
-                    <div id="66" style="cursor:pointer;"onclick="location.href='${pageContext.request.contextPath}/sched/calcover.do'">
+                    <div id="66" >
                         <p style="text-align: left; margin-left: 40px;"><i style="color:#f4ca25;" class="fas fa-circle"></i > 이번 주 일정</p>
-                        <table id="calTable" style="text-align: left;">
+                        <i class="fa fa-question-circle-o" style="font-size:24px; color:#999999; position:absolute; top:525px; left:1090px;"></i>
+                        <table id="calTable" style="text-align: left; cursor:pointer;" onclick="location.href='${pageContext.request.contextPath}/sched/calcover.do'"">
                             <tr>
                                 <td id="day_1"></td>
                                 <td>월</td>
@@ -156,9 +158,42 @@
                             </tr>
 
                         </table>
+                          <!--   <div title="그룹웨어만들기" style="width:30px; height:30px; border-radius:30px; background:#f4ca25;"></div> -->
                     </div>
                 </div>
             </article>
+           <!--  <div id="informSched">
+			    <table>
+			    	<tr>
+			    		<td></td>
+			    		<td>회의</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td>기타</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td>퇴근</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td>휴가</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td>출장</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td>데드라인</td>
+			    	</tr>
+			    	<tr>
+			    		<td></td>
+			    		<td></td>
+			    	</tr>
+			    </table>
+		    </div> -->
         </div>
     </section>
 <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>

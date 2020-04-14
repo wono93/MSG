@@ -13,7 +13,7 @@
 	<include refid="SetSearch"></include>
 		AND A.DEPT_CD = B.DEPT_CD
 		AND C.EMP_NO = A.EMP_NO
-		ORDER BY EMP_NO
+		ORDER BY A.EMP_NO
 	</select>
 
 	<select id="selectAllVacationTotalContents" resultType="int">
@@ -62,7 +62,7 @@
 	<include refid="SetSearch"></include>
 		AND A.DEPT_CD = B.DEPT_CD
 		AND C.EMP_NO = A.EMP_NO
-		ORDER BY EMP_NO
+		ORDER BY A.EMP_NO
 	</select>
 
 	<select id="selectLeaveList" resultType="Leave">

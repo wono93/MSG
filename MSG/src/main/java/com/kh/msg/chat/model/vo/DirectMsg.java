@@ -23,6 +23,7 @@ public class DirectMsg extends OrgChart implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private int readDm;
 	private int msgNo;
 	private int empNo;
 	private String toId;

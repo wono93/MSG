@@ -146,7 +146,8 @@ table td:nth-child(2){
   #calTable tr>td:nth-of-type(3){  overflow: hidden; text-overflow: ellipsis;}
   
   #66{cursor:pointer !important;}
-  
+  .floatLeft{float:left;}
+  .typeCircle{width:30px; height:30px; color:#333}
   
   
   

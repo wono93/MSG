@@ -2,8 +2,10 @@ package com.kh.msg.sched.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -207,36 +209,53 @@ public class SchedController {
 	
 	@ResponseBody
 	@GetMapping(value="/mainSchedList")
-	public ModelAndView mainSchedList(@RequestParam("empNo") int empNo,
+	public List<Schedule> mainSchedList(@RequestParam("empNo") int empNo,
 									  @RequestParam("deptName") String deptName) {
-		ModelAndView mav = new ModelAndView();
+//		ModelAndView mav = new ModelAndView();
 		//log.debug("o0o={}",empNo+" "+deptName);
 		
 		List<Schedule> list = schedService.mainSchedList(empNo,deptName);
 		for(Schedule s : list) {
-			try {
-				Date start = trans.parse(s.getScheEnd());
-				Date end = trans.parse(s.getScheStart());
-				
-				System.out.println(start+" "+end);
-				//일정 종료시점 - 시작시점 > 하루면
-				if(end.getTime() - start.getTime() > 24 * 60 * 60 * 1000) {
-					//하루 이상인 일정을 하루 단위로 쪼개기
-					
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Date start = trans.parse(s.getScheEnd());
+//				Date end = trans.parse(s.getScheStart());
+//				
+//				System.out.println(start+" "+end);
+//				//일정 종료시점 - 시작시점 > 하루면
+//				if(end.getTime() - start.getTime() > 24 * 60 * 60 * 1000) {
+//					
+//					//하루 이상인 일정을 하루 단위로 쪼개기
+//					while( start.getTime() < end.getTime() ) {
+//						Schedule newSched = new Schedule();
+//						newSched = s;
+//						newSched.setAlldayYn('Y');
+//						newSched.setScheStart(trans.format(start));
+//						newSched.setScheEnd(trans.format(end));
+//						
+//						LocalDateTime.from(start.toInstant()).plusDays(1);
+//						list.add(newSched);
+//					}
+//				}
+//				
+//				else list.add(s);
+			
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
 		}
 		//log.debug("o0o={}",list);
-		mav.addObject(list);
-		return mav;
+//		mav.addObject(list);
+		return list;
 	}
 	
 	public char yOrN(boolean allday) {
 		if(allday == true) return 'Y';
 		else return 'N';
+		
+		
 	}
+	
+	
 		
 	
 }
