@@ -122,6 +122,7 @@
 	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
                            	</a>
 	            </p>
+	           	<p id="getAllReadDm">Unread:</p>
 	        </ul>
             <ul class="secnav" id="dmList" style="height:223px;"></ul>
         </ul>

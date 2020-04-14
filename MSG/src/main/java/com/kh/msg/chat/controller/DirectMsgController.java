@@ -61,26 +61,26 @@ public class DirectMsgController {
 			
 //			log.debug("list@DirectController"+list.toString());
 			
-			Map<String, Object> idMap = new HashMap<>();
-			
-			idMap.put("fromId", fromId);
 			
 			JSONArray jsonArr = new JSONArray();
-			
+			int unread = 0;
 				for(int i = 0; i < list.size(); i++) {
 					JSONObject sObject = new JSONObject(); 
 						
+					Map<String, Object> idMap = new HashMap<>();
+					
+					idMap.put("fromId", fromId);
 					idMap.put("toId",list.get(i).getUserId());
-						
-					log.debug("idMap={}",idMap);
-					int unread = directMsgService.getUnreadDm(idMap);
+					
+//					log.debug("idMap={}",idMap);
+					unread = directMsgService.getUnreadDm(idMap);
+//					log.debug("unread="+unread);
 					
 						sObject.put("empImage", list.get(i).getEmpImage());
 						sObject.put("empName", list.get(i).getEmpName());
 						sObject.put("toId", list.get(i).getUserId());
 						sObject.put("jobName", list.get(i).getJobName());
-						sObject.put("unread", unread+"");
-						log.debug("unread"+unread);
+						sObject.put("unread", unread);
 						jsonArr.add(sObject);
 				}
 			response.setCharacterEncoding("UTF-8");

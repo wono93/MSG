@@ -25,11 +25,11 @@ hdjq(document).ready(function(){
 //        		console.log("header Dm List Reload!");
         		dmListFunction();
         	}, 3000);
-//        	getAllUnreadDm();
-//        	repeatDmRead = setInterval(function() {
+        	getAllUnreadDm();
+        	repeatDmRead = setInterval(function() {
 //        		console.log("header read DM List Reload!");
-//        		getAllUnreadDm();
-//        	}, 3000);
+        		getAllUnreadDm();
+        	}, 3000);
         }
         else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
         	clearInterval(repeatDmList);
@@ -48,8 +48,8 @@ function getAllUnreadDm() {
 			fromId: fromId
 		},
 		success : function(data) {
-			hdjq("#dmListTitle").html(data);
-			console.log(data);
+			hdjq("#getAllReadDm").html(data);
+//			console.log(data);
 		}
 	});
 }
@@ -61,7 +61,8 @@ function dmListFunction() {
 		success : function(data) {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
-						addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
+//					console.log("unread="+data[i]['unread']);
 			}
 		} 
 	});
@@ -81,8 +82,8 @@ function searchMember() {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 				
-				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
-				console.log("unread"+unread);
+				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+
 			}
 		} 
 	});
@@ -94,7 +95,8 @@ function addList(empImage, empName, jobName, toId, unread) {
 						 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
 						 '<span class="headerlistname">'+empName+' '+
 						 jobName+
-						 '</span>'+unread+
+						 '</span>'
+						 +'<p id="getUnread">'+unread+'</p>'+
 						 '</li>');
 }
 function dmWindow(paramId, empName){
