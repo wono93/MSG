@@ -127,7 +127,7 @@
                             <tr>
                                 <td id="day_2"></td>
                                 <td>화</td>
-                                <td></td>
+                                <td></td> 
                             </tr>
                             <tr>
                                 <td id="day_3"></td>

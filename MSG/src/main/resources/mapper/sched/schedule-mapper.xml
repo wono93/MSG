@@ -86,6 +86,6 @@
 	<where>
 		dept_name = #{deptName} and
 		not (sche_cate in ('회의실 예약', '차량 예약', '개인일정') and emp_no != ${empNo})
-	</where>
+	</where> 
 	</select>
 </mapper>

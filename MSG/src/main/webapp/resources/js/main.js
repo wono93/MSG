@@ -1,4 +1,4 @@
-//contextPath 구하기
+//contextPath 구하기 S
 function getContextPath() { 
 	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 }
