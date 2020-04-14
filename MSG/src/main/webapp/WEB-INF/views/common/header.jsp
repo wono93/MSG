@@ -124,7 +124,13 @@
 			</ul>
             <ul class="secnav" id="channelList" style="height:120px;"></ul>
             <ul class="secnav" id="">
-	            <p id="dmListTitle">Direct Message</p>
+	            <p id="dmListTitle">Direct Message
+	            	<input type="text" name="dmKeyword" id="srchDmWord">
+                           	<a href="#" onclick="searchMember()">
+	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
+                           	</a>
+	            </p>
+	           	<p id="getAllReadDm">Unread:</p>
 	        </ul>
             <ul class="secnav" id="dmList" style="height:223px;"></ul>
         </ul>
@@ -182,6 +188,7 @@
                             		<td>${memberLoggedIn.deptName }</td>
                             		<td>${memberLoggedIn.jobName }</td>
                             		<td class="delNo">${memberLoggedIn.empNo }</td>
+                            		<td></td>
 									<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
 								</tr>
                             </table>

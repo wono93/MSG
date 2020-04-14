@@ -84,6 +84,7 @@
                            		<td>${memberLoggedIn.deptName }</td>
                            		<td>${memberLoggedIn.jobName }</td>
                            		<td class="delNo">${memberLoggedIn.empNo }</td>
+                           		<td></td>
 								<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
 							</tr>
                         </table>

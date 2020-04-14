@@ -16,8 +16,15 @@ public interface DirectMsgDAO {
 
 	DirectMsg selectOne(String toId);
 
-	List<DirectMsg> headerDmList(String fromId);
+	List<DirectMsg> headerDmList(Map<String, Object> param);
 
 	List<Member> userLogin();
+
+	int readDm(Map<String, Object> param);
+
+	int getAllUnreadDm(String fromId);
+
+	int getUnreadDm(Map<String, Object> idMap);
+
 
 }
