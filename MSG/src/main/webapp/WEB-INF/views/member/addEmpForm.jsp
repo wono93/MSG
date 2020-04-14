@@ -95,6 +95,7 @@ input {
 	display: inline-block;
 	font-weight: 600;
 	font-size: 18px;
+    text-align: left;
 }
 
 .input-div>p {
@@ -102,6 +103,7 @@ input {
 }
 
 .input-div-pic {
+    text-align: left;
 	display: inline-block;
 	font-weight: 600;
 	font-size: 18px;
@@ -164,7 +166,7 @@ input {
 	color: #999;
 	font-size: 30px;
 	font-weight: 800;
-	margin-top: 70px;
+	margin-top: 20px;
 	padding: 0;
 	cursor: pointer;
 }
@@ -176,8 +178,8 @@ input {
 }
 
 #button {
-	margin: 100px 0 30px 0;
-	text-align: center;
+	margin: 93px -10px -2px 10px;
+}
 }
 /* 파일첨부 */
 .filebox input[type="file"] {
@@ -190,6 +192,7 @@ input {
 }
 
 .filebox label {
+	position: absolute;
 	display: inline-block;
 	height: 58px;
 	margin-right: 10px;
@@ -208,6 +211,7 @@ input {
 
 .filebox .upload-name {
 	display: inline-block;
+	margin-left:126px;
 	width: 322px;
 	height: 82px;
 	font-size: 18px;
@@ -225,10 +229,11 @@ input {
 
 .saveId-container {
 	display: inline;
-	position: relative;
-	padding: 10px 0 0 70px;
-	cursor: pointer;
-	font-size: 22px;
+    position: absolute;
+    padding: 10px 0 0 70px;
+    cursor: pointer;
+    font-size: 22px;
+    top: -40px;
 }
 
 .saveId-container input {
@@ -302,14 +307,13 @@ input {
 	font-family: "Noto Sans KR";
 	font-size: 22px;
 	color: #333333;
-	left: -40px;
+	left: 10px;
 }
 
 @media ( min-width : 110px) {
 	.select-box {
-		width: 200px;
-		float: right;
-		left: 50px;
+		width: 200px;    
+		margin-right: 18px;
 	}
 }
 
@@ -362,6 +366,7 @@ input {
 
 .select-box__input-text {
 	display: none;
+	text-align:center;
 	/* width: 100%; */
 	margin: 0;
 	padding: 15px;
@@ -385,6 +390,10 @@ input {
 	animation-fill-mode: forwards;
 	-webkit-animation-timing-function: step-start;
 	animation-timing-function: step-start;
+	text-align : center;
+	overflow: scroll;
+	overflow-x : hidden;
+	height : 250px;
 }
 
 .select-box__option {
@@ -486,10 +495,10 @@ to {
 								<p>이메일</p>
 								<input type="email" name="empEmail">
 							</div>
-							<div class="filebox input-div-pic">
+							<div class="filebox input-div-pic row1">
 								<p>사진</p>
 								<label for="file"><p>파일선택</p></label> <input type="file"
-									name="empImage_" id="file"> <input type="text"
+									name="empImage_" id="file" style="display:none;"> <input type="text"
 									class="upload-name" value="선택된 파일이 없습니다" readonly />
 							</div>
 							<div class="input-div row1" style="padding-right: 40px;">
@@ -500,7 +509,7 @@ to {
 								<p>주소</p>
 								<input type="text" name="empAddress">
 							</div>
-							<div class="input-div">
+							<div class="input-div row1" style="width:110%; margin-top:34px;">
 								<div class="select-box">
 									<div class="select-box__current" tabindex="1">
 										<c:forEach items="${depts }" var="depts">
@@ -525,8 +534,6 @@ to {
 										</c:forEach>
 									</ul>
 								</div>
-							</div>
-							<div class="input-div">
 								<div class="select-box">
 									<div class="select-box__current" tabindex="1">
 										<c:forEach items="${jobs }" var="jobs">
@@ -550,15 +557,12 @@ to {
 										</c:forEach>
 									</ul>
 								</div>
-							</div>
-							<div class="input-div">
-								<label class="saveId-container float" for="isManager">팀장
-									여부 </label> <input type="checkbox" name="isManager" id="isManager"
-									value="Y"
-									style="position: relative; left: -42px; top: 35px; width: 180px;">
-							</div>
-							<div class="input-div">
-								<div class="select-box">
+								<div class="select-box"> 
+									<label class="saveId-container float" for="isManager">팀장 여부 
+									<input type="checkbox" name="isManager" id="isManager" value="Y"
+									style="position: relative; left: -65px; top: 15px; width: 180px; height: 42px"><span class="saveId-checkmark"></span></label> 
+								</div>
+								<div class="select-box" style=" margin-left: 131px;">
 									<div class="select-box__current" tabindex="1">
 										<div class="select-box__value">
 											<input class="select-box__input" type="radio" id="N"
@@ -578,13 +582,13 @@ to {
 										<div class="select-box__value">
 											<input class="select-box__input" type="radio" id="none"
 												value="none" name="authority" checked="checked" />
-											<p class="select-box__input-text" style="width: 100%;">권한설정</p>
+											<p class="select-box__input-text" style="width:100%">권한설정</p>
 										</div>
 										<img class="select-box__icon"
 											src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
 											alt="Arrow Icon" aria-hidden="true" />
 									</div>
-									<ul class="select-box__list">
+									<ul class="select-box__list" style="height:auto; overflow:auto;">
 										<li><label class="select-box__option" for="N"
 											aria-hidden="aria-hidden">일반사원</label></li>
 										<li><label class="select-box__option" for="H"
