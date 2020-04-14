@@ -72,7 +72,7 @@
 			        <div class="pagination">
 							<c:if test="${paging.startPage != 1 }">
 								<a
-									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&searchBy=${searchBy}&keyword=${keyword}"
+									href="${pageContext.request.contextPath}/member/orgChart.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&searchBy=${searchBy}&keyword=${keyword}"
 									class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
 							</c:if>
 							<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
