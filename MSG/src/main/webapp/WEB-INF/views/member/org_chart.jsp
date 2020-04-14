@@ -70,14 +70,29 @@
 		            	</c:choose>
 			        </table>
 			        <div class="pagination">
-			            <a href="emp_info.html" class="arrow">&laquo;</a>
-			            <a href="emp_info.html" class="active">1</a>
-			            <a href="emp_info.html">2</a>
-			            <a href="emp_info.html">3</a>
-			            <a href="emp_info.html">4</a>
-			            <a href="emp_info.html">5</a>
-			            <a href="emp_info.html" class="arrow">&raquo;</a>
-			        </div>
+							<c:if test="${paging.startPage != 1 }">
+								<a
+									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&searchBy=${searchBy}&keyword=${keyword}"
+									class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
+							</c:if>
+							<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+								var="p">
+								<c:choose>
+									<c:when test="${p == paging.nowPage }">
+										<a class="active">${p }</a>
+									</c:when>
+									<c:when test="${p != paging.nowPage }">
+										<a
+											href="${pageContext.request.contextPath}/member/orgChart.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&searchBy=${searchBy}&keyword=${keyword}">${p }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${paging.endPage != paging.lastPage}">
+								<a
+									href="${pageContext.request.contextPath}/member/orgChart.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&searchBy=${searchBy}&keyword=${keyword}"
+									class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
+							</c:if>
+						</div>
 			        <form>
 				        <div class="srchBar">
 				            <div class="select-box">

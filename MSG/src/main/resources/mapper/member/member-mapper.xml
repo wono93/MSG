@@ -4,10 +4,52 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	<select id="selectHrMngList" resultType="HrMntList">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+				FROM (
+					SELECT EMP_NO,EMP_NAME, D.DEPT_NAME, J.JOB_NAME,
+				        (SELECT COUNT(*) FROM LATE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) late_count,
+				        (SELECT COUNT(*) FROM LEAVE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) leave_count,
+				        (SELECT COUNT(*) FROM ABSENT_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) absent_count
+					FROM EMP_TB E 
+					    LEFT JOIN DEPT_TB D
+					        USING (DEPT_CD)
+					    LEFT JOIN JOB_TB J
+					        USING (JOB_CD)
+			
+					<if test="searchBy != null and searchBy != ''">
+					WHERE
+						${searchBy} IN #{keyword}
+					ORDER BY DEPT_CD
+					</if>
+					<if test="empNo != null and empNo != ''">
+					WHERE 
+						EMP_NO = #{empNo}
+					</if>
+				) A
+						)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="empLog" resultType="HrMntList">
 		SELECT EMP_NO,EMP_NAME, D.DEPT_NAME, J.JOB_NAME,
-	        (SELECT COUNT(*) FROM LATE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) late_count,
-	        (SELECT COUNT(*) FROM LEAVE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) leave_count,
-	        (SELECT COUNT(*) FROM ABSENT_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) absent_count
+				        (SELECT COUNT(*) FROM LATE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) late_count,
+				        (SELECT COUNT(*) FROM LEAVE_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) leave_count,
+				        (SELECT COUNT(*) FROM ABSENT_TB WHERE TAKEN BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD') AND E.EMP_NO = EMP_NO) absent_count
+		FROM EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+		WHERE 
+			EMP_NO = #{empNo}
+	</select>
+	
+	
+	<!-- 총 근태 객수 출력  -->
+	<select id="countEmpLog" resultType="int">
+		SELECT COUNT(*) 
 		FROM EMP_TB E 
 		    LEFT JOIN DEPT_TB D
 		        USING (DEPT_CD)
@@ -18,9 +60,14 @@
 			${searchBy} IN #{keyword}
 		ORDER BY DEPT_CD
 		</if>
-		<if test="empNo != null and empNo != ''">
-		WHERE 
-			EMP_NO = #{empNo}
+	</select>
+	
+	<select id="countEmpLog" resultType="int">
+		SELECT COUNT(*) FROM EMP_TB
+		<if test="searchBy != null and searchBy != ''">
+		WHERE
+			${searchBy} IN #{keyword}
+		ORDER BY DEPT_CD
 		</if>
 	</select>
 	
@@ -78,13 +125,30 @@
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="selectEmpLog" resultType="WorkTimes">
-		SELECT *
+	<!-- 워크타임스 사원별 날짜별 카운트  -->
+	<select id="countOneEmpLog" resultType="int">
+		SELECT COUNT(*)
 		FROM WORK_TIMES_TB
-		WHERE
+		WHERE 
 			WORK_DAY BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
 			AND EMP_NO = #{empNo}
 		ORDER BY WORK_DAY
+	</select>
+	
+	<select id="selectEmpLog" resultType="WorkTimes">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+				FROM (
+					SELECT *
+					FROM WORK_TIMES_TB
+					WHERE
+						WORK_DAY BETWEEN TO_DATE(#{srcDateStart},'YYYY-MM-DD') AND TO_DATE(#{srcDateEnd},'YYYY-MM-DD')
+						AND EMP_NO = #{empNo}
+					ORDER BY WORK_DAY
+		) A
+			)
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="selectVacationCount" resultType="Vacation">
@@ -97,9 +161,8 @@
 		</if>
 	</select>
 	
-	
-	<select id="orgChart" resultType="OrgChart">
-		SELECT EMP_NO, USER_ID, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+	<select id="countOrgChart" resultType="int">
+		SELECT count(*)
 		FROM EMP_TB E 
 		    LEFT JOIN DEPT_TB D
 		        USING (DEPT_CD)
@@ -111,6 +174,29 @@
 		</if>
 		ORDER BY DEPT_CD
 	</select>
+	
+	
+	<select id="orgChart" resultType="OrgChart">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+				FROM (
+					SELECT EMP_NO, USER_ID, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+					FROM EMP_TB E 
+					    LEFT JOIN DEPT_TB D
+					        USING (DEPT_CD)
+					    LEFT JOIN JOB_TB J
+					        USING (JOB_CD)
+					<if test="searchBy != null and searchBy != ''">
+					WHERE
+						${searchBy} IN #{keyword}
+					</if>
+					ORDER BY DEPT_CD
+				) A
+			)
+			WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
 	<select id="empInfo" resultType="OrgChart">
 		SELECT * 
 		FROM 
@@ -122,6 +208,7 @@
 			EMP_NO = #{EMP_NO}
 		
 	</select>
+	
 	<select id="logIn" resultType="OrgChart">
 		SELECT * 
 		FROM 
@@ -132,6 +219,7 @@
 		WHERE 
 			USER_ID = #{userId}
 	</select>
+	
 	<insert id="loginLog">
 		INSERT INTO LOG_TB VALUES(
 			#{empNo}

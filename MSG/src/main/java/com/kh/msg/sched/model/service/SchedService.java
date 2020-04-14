@@ -22,5 +22,7 @@ public interface SchedService {
 
 	int resizeSched(String resizeStart, String resizeEnd, int scheCode);
 
+	List<Schedule> mainSchedList(int empNo, String deptName);
+
 
 }

@@ -56,7 +56,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 							// 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
 							long diff = today.getTime() - vctnStdt.getTime();
-							long diffDays = diff / (24 * 60 * 60 * 1000);
+							long diffDays = diff / (24 * 60 * 60 * 1000); 
 
 							hr.setVctnCount(hr.getVctnCount() + (int) diffDays + 1);
 
@@ -82,7 +82,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<com.kh.msg.member.model.vo.OrgChart> orgChart(Map<String, String> map) {
+	public List<com.kh.msg.member.model.vo.OrgChart> orgChart(Map<String, Object> map) {
 
 		return sqlSession.selectList("member.orgChart", map);
 	}
@@ -154,5 +154,23 @@ public class MemberDAOImpl implements MemberDAO {
 	public int countEmpLog(HashMap<String, Object> map) {
 		
 		return sqlSession.selectOne("member.countEmpLog", map);
+	}
+
+	@Override
+	public List<HrMntList> selectEmpLog(HashMap<String, Object> map) {
+		
+		return sqlSession.selectList("member.empLog", map);
+	}
+
+	@Override
+	public int countOneEmpLog(HashMap<String, Object> map) {
+		
+		return sqlSession.selectOne("member.countOneEmpLog", map);
+	}
+
+	@Override
+	public int countOrgChart(Map<String, Object> map) {
+		
+		return sqlSession.selectOne("member.countOrgChart", map);
 	}
 }

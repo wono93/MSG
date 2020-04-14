@@ -15,6 +15,7 @@ import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.edoc.model.vo.Jstree;
 import com.kh.msg.edoc.model.vo.JstreeMem;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -149,5 +150,11 @@ public class EdocServiceImpl implements EdocService {
 	public int updateEdocSt(EdocFlow edocFlow) {
 		int complete = edocDAO.updateEdocSt(edocFlow);
 		return complete;
+	}
+
+	@Override
+	public List<OrgChart> selectNameSrch() {
+		List<OrgChart> orgChartList = edocDAO.selectNameSrch();
+		return orgChartList;
 	}
 }

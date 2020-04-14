@@ -71,7 +71,7 @@ table td:nth-child(2){
 }
 /* 여기서부터 페이징 */
 .pagination {
-    padding-top: 30px;
+    margin: 30px 0px;
     display: inline-block;
 }
 .pagination a {
@@ -99,21 +99,28 @@ table td:nth-child(2){
 
 /* 여기서부터 검색창 */
 .srchBar {
-    padding-top: 10px;
-    padding-bottom: 130px;
+    padding-top: 40px;
+    padding-bottom: 65px;
 }
 #srchWord {
     background-color: #ebebeb;
     color: #333333;
     border: 0;
-    height: 34px;
+    height: 36px;
     width: 230px;
     font-family: "Noto Sans KR";
     font-size: 14px;
+	float: left;
+    margin-left: 75px;
+    padding-left: 10px;
+}
+#srchWord:focus {
+  background-color : #fefefe;
+  border: 2px solid #f4ca25;
 }
 .yellowBtn{
-    background-color: #f4ca25;
-    border: 1px solid #f4ca25;
+    background-color: #fefefe;
+    border: 1px solid #999999;
     color: #333333;
     padding: 9px 19px;
     text-align: center;
@@ -121,6 +128,15 @@ table td:nth-child(2){
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
+}
+.yellowBtn:hover{
+  background-color : #f4ca25;
+  border: 1px solid #f4ca25;
+  color : #fefefe
+}
+#srchBtn {
+	float: right;
+	margin-right: 60px;
 }
 
 /* 여기서부터 select-box */
@@ -132,6 +148,8 @@ table td:nth-child(2){
     font-size: 14px;
     font-weight: 800;
     color: #333333;
+    float: left;
+    left: 60px;
   }
   @media (min-width: 110px) {
     .select-box {
@@ -144,6 +162,10 @@ table td:nth-child(2){
     border-radius: 5%;
     cursor: pointer;
     outline: none;
+  }
+  /* 드롭다운 선택 시 노랗게 강조 */
+  .select-box__current:focus {
+    border: 2px solid #f4ca25;
   }
   .select-box__current:focus + .select-box__list {
     opacity: 1;
@@ -191,7 +213,6 @@ table td:nth-child(2){
     width: 100%;
     padding: 0;
     top: 38px;
-    left: -5px;
     list-style: none;
     opacity: 0;
     -webkit-animation-name: HideList;

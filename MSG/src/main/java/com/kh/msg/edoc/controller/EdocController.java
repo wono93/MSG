@@ -776,5 +776,12 @@ public class EdocController {
 		return "redirect:/edoc/edocSrchView.do?edocId="+edocFlow.getEdocId()+"&edocTitleFromPage="+edocTitleFromPage+"";
 	}
 	
-	
+	@GetMapping("/nameSrch.do") // 모달내 검색
+	@ResponseBody
+	public List<OrgChart> nameSrch() {
+
+		List<OrgChart> orgChartList = edocService.selectNameSrch();
+		log.debug("orgChartList.nameSrch@EdocController={}", orgChartList);
+		return orgChartList;
+	}
 }

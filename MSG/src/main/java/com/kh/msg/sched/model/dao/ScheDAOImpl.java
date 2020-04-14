@@ -82,5 +82,13 @@ public class ScheDAOImpl implements ScheDAO {
 		return sqlSession.update("sched.resizeSched", map);
 	}
 
+	@Override
+	public List<Schedule> mainSchedList(int empNo, String deptName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("empNo",empNo+"");
+		map.put("deptName", deptName); 
+		return sqlSession.selectList("mainSchedList", map);
+	}
+
 
 }

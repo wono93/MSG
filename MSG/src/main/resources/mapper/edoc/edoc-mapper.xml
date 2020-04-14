@@ -364,6 +364,17 @@
 		where
 			edoc_id = #{edocId}
 	</update>
+	
+	<!-- 직원 이름 검색 -->
+	<select id="selectNameSrch" resultType="orgChart">
+		SELECT EMP_NO, USER_ID, EMP_NAME, D.DEPT_NAME, J.JOB_NAME
+		FROM EMP_TB E 
+		    LEFT JOIN DEPT_TB D
+		        USING (DEPT_CD)
+		    LEFT JOIN JOB_TB J
+		        USING (JOB_CD)
+	</select>
+	
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
 		<id column="edoc_id" property="edocId" />
 		<result column="secu_cd" property="secuCd" />
