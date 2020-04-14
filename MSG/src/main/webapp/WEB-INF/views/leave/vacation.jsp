@@ -25,6 +25,9 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	
+	<link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
+	    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/edocList.css">
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <!-- jQuery ui style sheet -->
 <link rel="stylesheet"
@@ -64,7 +67,7 @@ $( document ).ready( function() {
 		return Number(yearValueStr);
 	}
 	// yearcheck(modal) ++
-	function upYear2() {
+	function plus() {
 		var yearCheck = document.getElementById('Qty');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue + 1;
@@ -72,7 +75,7 @@ $( document ).ready( function() {
 	}
 
 	// yearcheck(modal)--
-	function downYear2() {
+	function minus() {
 		var yearCheck = document.getElementById('Qty');
 		var yearValue = getYearCheckValue2();
 		yearValue = yearValue - 1;
@@ -168,18 +171,16 @@ $( document ).ready( function() {
 									</c:if>					
 								</c:forEach> 
 								</td>
-								<td>
-									<p>
+								 <td><p>
 										<a href="#test" rel="modal:open">
 											<button class="penbutton" id="modalBtn" name="modalNm"
 												value="${leave.empNo}" onclick="modal(this);">
 												<i class='fas fa-pencil-alt'> </i>
 											</button>
 										</a>
-									</p>
-								</td>
+									</p></td>
 							</tr>
-						</c:forEach> 			
+						</c:forEach>
 					</table>
 					<div class="pagination">${pageBar }</div>
 					<div class="srchBar">
@@ -230,6 +231,16 @@ $( document ).ready( function() {
 		<div id="test" class="modal">
 			<h1 style="margin-left: 40px;">휴가조정</h1>
 			<p>
+			 <div class="checkbox_wrap">
+                                <label class="myDocu-container kor float" for="myDocu">연차
+                                            <input type="radio" name="arrayDocuCheck" id="myDocu" class="docuCheck" value="myDocu"  checked="checked">
+                                            <span class="myDocu-checkmark"></span>
+                               </label>
+                                <label class="reqDocu-container kor float" for="reqDocu">포상
+                                            <input type="radio" name="arrayDocuCheck" id="reqDocu" class="docuCheck" value="reqDocu" >
+                                            <span class="reqDocu-checkmark"></span>
+                               </label>
+                            </div>
 			<div class="checkbox custom">
 				조정할휴가 <input id="box2" class="css-checkbox" type="radio" name="abc" />
 				<label for="box2" class="css-label-yellow">연차</label> <input
@@ -237,7 +248,15 @@ $( document ).ready( function() {
 					for="box1" class="css-label-red">포상</label>
 			</div>
 			</p>
-			<p>
+			  <p>
+						<div class="updown custom">
+							조정
+							<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
+							<input type="text" id="person_" value="0" name="carSize" readonly="true" />
+							<button type="button" class="plusBtn" onclick="plus();">+</button>
+						</div>
+						</p>
+			<p>			
 			<div class="updown custom">
 				조절량
 				<button type="button" class="upQtyBtn" onclick="upYear2();">+</button>
@@ -256,6 +275,7 @@ $( document ).ready( function() {
 					</form>
 				</div>
 				</p>
+				<input type="text" name="carNo" id="updateCar-no" placeholder="근거를 입력해주세요."/>
 				<p>
 				<div class="setting custom">
 					기조정내역 <br> <br>
@@ -314,7 +334,7 @@ $( document ).ready( function() {
 	<script>
 		/*기조정내역 테이블  */
 		function modalDel() {
-			alert("기존내용 삭제");
+			
 			$(".delTr").remove();
 
 		};

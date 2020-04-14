@@ -71,6 +71,15 @@
 		</if>
 	</select>
 	
+	<select id="countEmpLog" resultType="int">
+		SELECT COUNT(*) FROM EMP_TB
+		<if test="searchBy != null and searchBy != ''">
+		WHERE
+			${searchBy} IN #{keyword}
+		ORDER BY DEPT_CD
+		</if>
+	</select>
+	
 	<!-- 총 로그 갯수 출력 -->
 	<select id="countIOLog" resultType="int">
 		SELECT COUNT(*) 
