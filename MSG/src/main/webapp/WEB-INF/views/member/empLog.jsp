@@ -106,109 +106,132 @@
 							<c:forEach items="${wt }" var="wt" varStatus="vs">
 								<tr>
 									<td>${vs.count }</td>
-									<td><fmt:formatDate value="${wt.workDay}" pattern="YYYY-MM-dd"/></td>
-									<td><fmt:formatDate value="${wt.clockIn}" pattern="HH:mm"/></td>
-									<td><fmt:formatDate value="${wt.clockOut}" pattern="HH:mm"/></td>
+									<td><fmt:formatDate value="${wt.workDay}"
+											pattern="YYYY-MM-dd" /></td>
+									<td><fmt:formatDate value="${wt.clockIn}" pattern="HH:mm" /></td>
+									<td><fmt:formatDate value="${wt.clockOut}" pattern="HH:mm" /></td>
 									<td>${wt.remark }</td>
 								</tr>
 							</c:forEach>
 						</table>
 					</div>
 					<div class="pagination">
-						<a href="emp_info.html" class="arrow">&laquo;</a> <a
-							href="emp_info.html">1</a> <a href="emp_info.html" class="active">2</a>
-						<a href="emp_info.html">3</a> <a href="emp_info.html">4</a> <a
-							href="emp_info.html">5</a> <a href="emp_info.html" class="arrow">&raquo;</a>
+						<c:if test="${paging.startPage != 1 }">
+							<a
+								href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
+								class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
+						</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<a class="active">${p }</a>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a
+										href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage != paging.lastPage}">
+							<a
+								href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
+								class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
+						</c:if>
 					</div>
 				</div>
 			</article>
 		</div>
 	</section>
 	<script>
-	//광역변수 선언
-	let startDate;
-	let endDate;
+		//광역변수 선언
+		let startDate;
+		let endDate;
 
-	//아이콘 클릭 시 dateTimePicker focus
-	$(document).ready(function() {
+		//아이콘 클릭 시 dateTimePicker focus
+		$(document).ready(function() {
 
-		$('.starticon').click(function() {
-			$('#timepicker-start').focus();
+			$('.starticon').click(function() {
+				$('#timepicker-start').focus();
+			});
+			$('.endicon').click(function() {
+				$('#timepicker-end').focus();
+			});
+
+			$("#timepicker-start").val("${srcDateStart}");
+			$("#timepicker-end").val("${srcDateEnd}");
 		});
-		$('.endicon').click(function() {
-			$('#timepicker-end').focus();
-		});
 
-		$("#timepicker-start").val("${srcDateStart}");
-		$("#timepicker-end").val("${srcDateEnd}");
-	});
-
-	$("#timepicker-start").datepicker({
-		onSelect : function onSelect(start) {
-			startDate = start;
-			if (startDate !== undefined && endDate !== undefined) {
-				validate(startDate, endDate);
-			}
-		},
-		maxDate : new Date()
-	});
-	$("#timepicker-end").datepicker({
-		onSelect : function onSelect(end) {
-			endDate = end;
-			if (startDate !== undefined && endDate !== undefined) {
-				validate(startDate, endDate);
-			}
-		},
-		maxDate : new Date()
-	});
-
-	//날짜로 변환
-	function toDate(strDate) {
-		var y = strDate.substr(0, 4);
-		var m = strDate.substr(5, 2);
-		var d = strDate.substr(8, 2);
-
-		return new Date(y, m - 1, d);
-	}
-
-	//유효성검사
-	function validate(startDate, endDate) {
-		var dstartDate = toDate(startDate);
-		var dendDate = toDate(endDate);
-
-		//검색하고자 하는 시작날짜가 종료날짜보다 나중인 경우
-		if (+dstartDate > +dendDate) {
-			alert("날짜를 다시 지정해주세요");
-		} else {
-			var bsnsDay = calcDate(dstartDate, dendDate);
-			location.href = "${pageContext.request.contextPath}/member/empLog.do?empNo="+${list.get(0).empNo} +"&startDate="
-					+ startDate + "&endDate=" + endDate + "&bsnsDay=" + bsnsDay;
-		}
-	}
-
-	function calcDate(date1, date2) {
-
-		var count = 0;
-
-		while (true) {
-			var temp_date = date1;
-			if (temp_date.getTime() > date2.getTime()) {
-				break;
-			} else {
-				var tmp = temp_date.getDay();
-				if (tmp == 0 || tmp == 6) {
-					// 주말
-					console.log("주말");
-				} else {
-					// 평일
-					console.log("평일");
-					count++;
+		$("#timepicker-start").datepicker({
+			onSelect : function onSelect(start) {
+				startDate = start;
+				if (startDate !== undefined && endDate !== undefined) {
+					validate(startDate, endDate);
 				}
-				temp_date.setDate(date1.getDate() + 1);
+			},
+			maxDate : new Date()
+		});
+		$("#timepicker-end").datepicker({
+			onSelect : function onSelect(end) {
+				endDate = end;
+				if (startDate !== undefined && endDate !== undefined) {
+					validate(startDate, endDate);
+				}
+			},
+			maxDate : new Date()
+		});
+
+		//날짜로 변환
+		function toDate(strDate) {
+			var y = strDate.substr(0, 4);
+			var m = strDate.substr(5, 2);
+			var d = strDate.substr(8, 2);
+
+			return new Date(y, m - 1, d);
+		}
+
+		//유효성검사
+		function validate(startDate, endDate) {
+			var dstartDate = toDate(startDate);
+			var dendDate = toDate(endDate);
+
+			//검색하고자 하는 시작날짜가 종료날짜보다 나중인 경우
+			if (+dstartDate > +dendDate) {
+				alert("날짜를 다시 지정해주세요");
+			} else {
+				var bsnsDay = calcDate(dstartDate, dendDate);
+				location.href = "${pageContext.request.contextPath}/member/empLog.do?empNo="
+						+ ${empNo} +"&startDate=" + startDate + "&endDate=" + endDate
+						+ "&bsnsDay=" + bsnsDay;
+				{
+					list.get(0).empNo
+				}
 			}
 		}
-		return count;
-	}
-</script>
+
+		function calcDate(date1, date2) {
+
+			var count = 0;
+
+			while (true) {
+				var temp_date = date1;
+				if (temp_date.getTime() > date2.getTime()) {
+					break;
+				} else {
+					var tmp = temp_date.getDay();
+					if (tmp == 0 || tmp == 6) {
+						// 주말
+						console.log("주말");
+					} else {
+						// 평일
+						console.log("평일");
+						count++;
+					}
+					temp_date.setDate(date1.getDate() + 1);
+				}
+			}
+			return count;
+		}
+	</script>
 </body>
 </html>

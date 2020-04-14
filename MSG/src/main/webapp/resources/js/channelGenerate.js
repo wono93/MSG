@@ -68,7 +68,7 @@ function addChMember(empImage, empName, deptName, jobName, empNo){
             +'<td>'+jobName+'</td>'
             +'<td class="delNo">'+empNo+'</td>'
             +'<input type="hidden" name="empNo" value="'+empNo+'">'
-            +'<td><img src="/msg/resources/image/X-icon.png" class="x-icon" onclick="deleteMember(this)"></td>'
+            +'<td><a href="#">img src="/msg/resources/image/X-icon.png" class="x-icon" onclick="deleteMember(this)"></td></a>'
             +'</tr>');
 	
 	arr.push(empNo);

@@ -45,7 +45,7 @@ article > .subNav {
 .control > input {
     float: left;
     margin: 0px 0px 10px 61px;
-    padding: 0px 5px;
+    padding: 0px 15px;
     width: 50%;
     height: 55px;
     font-size: 18pt;
@@ -96,169 +96,170 @@ article > .subNav {
     cursor: pointer;
 }
 
-  /* 여기서부터 select-box */
-  .select-box {
-    position: relative;
-    display: inline-block;
+/* 여기서부터 select-box */
+ .select-box {
+   position: relative;
+   display: inline-block;
+   width: 100%;
+   font-family: "Noto Sans KR";
+   font-size: 14px;
+   font-weight: 800;
+   color: #333333;
+   text-align: left;
+   padding-left: 12px;
+ }
+ form {
+     display: inline-block;
+ }
+ #selectDocu{
+   font-size: 15px;
+left: 20px;
+ }
+ @media (min-width: 70px) {
+   .select-box {
+       width: 70px;
+   }
+   #selectDocu{
+       width: 200px
+   }
+   #currentExp2{
+       width: 100px;
+   }
+ }
+ #currentExp{
+   height: 36px;
+   padding-top: 3px;
+   border: 2px solid #999999;  
+ }
+
+ .select-box__current {
+   position: relative;
+   /* border: 2px solid #999999; */
+  border-radius: 5%;
+  cursor: pointer;
+  outline: none;
+}
+.select-box__current:focus + .select-box__list {
+  opacity: 1;
+  -webkit-animation-name: none;
+          animation-name: none;
+}
+.select-box__current:focus + .select-box__list .select-box__option {
+  cursor: pointer;
+}
+.select-box__current:focus .select-box__icon {
+  -webkit-transform: translateY(-50%) rotate(180deg);
+          transform: translateY(-50%) rotate(180deg);
+}
+.select-box__icon {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 13px;
+  padding : 5px;
+  /* opacity: 0.3; */
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+#iconExp {
+    padding : 0px;
+    opacity: 0.3;
+}
+
+.select-box:hover .select-box__icon{
+	background-color: #f4ca25;
+  border-radius: 50%;
+  padding : 5px;
+  transition: background-color .3s;
+}
+ #selectDocu:hover .select-box__icon{
+    background-color: unset;
+    border-radius: none;
+    padding : 0;
+}
+
+.select-box__value {
+  display: -webkit-box;
+  display: flex;
+}
+.select-box__input {
+  display: none;
+}
+.select-box__input:checked + .select-box__input-text {
+  display: block;
+}
+.select-box__input-text {
+  display: none;
+  width: 100%;
+  margin: 0;
+  padding: 5px;
+  padding-right: 20px;
+  background-color: #fefefe;
+}
+.select-box__list {
+  position: absolute;
+  width: 70%;
+  padding: 0;
+  top: 28px;
+  /* left : -8px; */
+  z-index: 100;
+  list-style: none;
+  opacity: 0;
+  -webkit-animation-name: HideList;
+          animation-name: HideList;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-timing-function: step-start;
+          animation-timing-function: step-start;
+}
+#listExp {
+    width: 95%;
+    top : 44px;
+    left : 15px;
+}
+#listExp2 {
     width: 100%;
-    font-family: "Noto Sans KR";
-    font-size: 14px;
-    font-weight: 800;
-    color: #333333;
-    text-align: left;
-    padding-left: 12px;
-  }
-  form {
-      display: inline-block;
-  }
-  #selectDocu{
-    font-size: 15px;
-  }
-  @media (min-width: 70px) {
-    .select-box {
-        width: 70px;
-    }
-    #selectDocu{
-        width: 200px
-    }
-    #currentExp2{
-        width: 100px;
-    }
-  }
-  #currentExp{
-    height: 36px;
-    padding-top: 3px;
-    border: 2px solid #999999;  
-  }
+    top : 30px;
+    left : 12px;
+}
 
-  .select-box__current {
-    position: relative;
-    /* border: 2px solid #999999; */
-    border-radius: 5%;
-    cursor: pointer;
-    outline: none;
-  }
-  .select-box__current:focus + .select-box__list {
-    opacity: 1;
-    -webkit-animation-name: none;
-            animation-name: none;
-  }
-  .select-box__current:focus + .select-box__list .select-box__option {
-    cursor: pointer;
-  }
-  .select-box__current:focus .select-box__icon {
-    -webkit-transform: translateY(-50%) rotate(180deg);
-            transform: translateY(-50%) rotate(180deg);
-  }
-  .select-box__icon {
-    position: absolute;
-    top: 50%;
-    right: 7px;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    width: 13px;
-    padding : 5px;
-    /* opacity: 0.3; */
-    -webkit-transition: 0.2s ease;
-    transition: 0.2s ease;
-  }
-  #iconExp {
-      padding : 0px;
-      opacity: 0.3;
-  }
+.select-box__option {
+  display: block;
+  padding: 5px;
+  background-color: #fefefe;
+}
+.select-box__option:hover, .select-box__option:focus {
+  color: #333333;
+  background-color: #ebebeb;
+}
 
-  .select-box:hover .select-box__icon{
-  	background-color: #f4ca25;
-    border-radius: 50%;
-    padding : 5px;
-    transition: background-color .3s;
+@-webkit-keyframes HideList {
+  from {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
   }
-   #selectDocu:hover .select-box__icon{
-      background-color: unset;
-      border-radius: none;
-      padding : 0;
+  to {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
   }
+}
 
-  .select-box__value {
-    display: -webkit-box;
-    display: flex;
+@keyframes HideList {
+  from {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
   }
-  .select-box__input {
-    display: none;
+  to {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
   }
-  .select-box__input:checked + .select-box__input-text {
-    display: block;
-  }
-  .select-box__input-text {
-    display: none;
-    width: 100%;
-    margin: 0;
-    padding: 5px;
-    padding-right: 20px;
-    background-color: #fefefe;
-  }
-  .select-box__list {
-    position: absolute;
-    width: 70%;
-    padding: 0;
-    top: 28px;
-    /* left : -8px; */
-    z-index: 100;
-    list-style: none;
-    opacity: 0;
-    -webkit-animation-name: HideList;
-            animation-name: HideList;
-    -webkit-animation-duration: 0.5s;
-            animation-duration: 0.5s;
-    -webkit-animation-delay: 0.5s;
-            animation-delay: 0.5s;
-    -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-    -webkit-animation-timing-function: step-start;
-            animation-timing-function: step-start;
-  }
-  #listExp {
-      width: 95%;
-      top : 44px;
-      left : 15px;
-  }
-  #listExp2 {
-      width: 100%;
-      top : 30px;
-      left : 12px;
-  }
-
-  .select-box__option {
-    display: block;
-    padding: 5px;
-    background-color: #fefefe;
-  }
-  .select-box__option:hover, .select-box__option:focus {
-    color: #333333;
-    background-color: #ebebeb;
-  }
-  
-  @-webkit-keyframes HideList {
-    from {
-      -webkit-transform: scaleY(1);
-              transform: scaleY(1);
-    }
-    to {
-      -webkit-transform: scaleY(0);
-              transform: scaleY(0);
-    }
-  }
-  
-  @keyframes HideList {
-    from {
-      -webkit-transform: scaleY(1);
-              transform: scaleY(1);
-    }
-    to {
-      -webkit-transform: scaleY(0);
-              transform: scaleY(0);
-    }
-  }
+}
 
 /* datePicker */
 .datepicker-here {
@@ -285,7 +286,7 @@ table {
     border-collapse: collapse;
     font-size: 12pt;
     table-layout: fixed;
-    word-break: break-all;
+    text-overflow: ellipsis;
 }
 th, td {
     border-bottom: 1px solid #999999;
@@ -392,8 +393,8 @@ table tr:last-child {
 }
 .docuCoopTb th{
     width: 91.66px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding: 0px;
+    height: 38px;
 }
 .docuCoopTb tr:nth-child(2) td{
     padding: 0px;
@@ -464,7 +465,7 @@ table .textIpt {
 /* 넷째줄 */
 .docuAttachTb td:first-child {
     background-color: #ebebeb;
-    width: 100px;
+    width: 133px;
     font-weight: 600;
 }
 .docuAttachTb {
@@ -672,6 +673,16 @@ table .textIpt {
 .flowLineTable th {
 	border-bottom: 2px solid #999999 !important;
 }
+.flowLineTable th:first-child {
+	width: 216px;
+}
+.flowLineTable th:nth-child(2) {
+	width: 45px;
+}
+.flowLineTable th:last-child {
+	width: 45px;
+}
+
 
 /* 여기서부터 협조선 테이블 css */
 .coopBox {
@@ -681,6 +692,12 @@ table .textIpt {
 }
 .coopLineTable {
     height: 130px;
+}
+.coopLineTable th:first-child{
+    width: 250px;
+}
+.coopLineTable th:last-child{
+    width: 50px;
 }
 
 .coopLineTable * {
@@ -720,3 +737,4 @@ table .textIpt {
 .coopLineTable th {
 	border-bottom: 2px solid #999999 !important;
 }
+

@@ -180,7 +180,7 @@ $( document ).ready( function() {
 										</a>
 									</p></td>
 							</tr>
-						</c:forEach> 			
+						</c:forEach>
 					</table>
 					<div class="pagination">${pageBar }</div>
 					<div class="srchBar">

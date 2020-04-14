@@ -33,6 +33,7 @@
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
+
     
 <%
 	List<LoginVO> userList= MemberController.userList;
@@ -43,12 +44,14 @@
 	OrgChart oc = (OrgChart)session.getAttribute("memberLoggedIn");
 	String userId = oc.getUserId();
 	int empNo = oc.getEmpNo();
+	String deptName = oc.getDeptName();
 %>
 
 <script>	
 	var fromId = '<%=userId%>';
 	var empNo = '<%=empNo%>';
 	var eempNo = '<%=empNo%>';
+	var empDept = '<%=deptName%>' /* 민희 웰컴페이지에서 일정 받아올 때 씁니다 */
 </script>
 </head>
 <body>
