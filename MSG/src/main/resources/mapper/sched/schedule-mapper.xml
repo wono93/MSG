@@ -85,7 +85,9 @@
 	from sched_tb
 	<where>
 		dept_name = #{deptName} and
-		not (sche_cate in ('회의실 예약', '차량 예약', '개인일정') and emp_no != ${empNo})
+		not (sche_cate in ('회의실 예약', '차량 예약', '개인일정') and emp_no != ${empNo}) and
+		(extract(month from sche_start) = extract(month from sysdate) or
+		extract(month from sche_end) = extract(month from sysdate))
 	</where> 
 	</select>
 </mapper>
