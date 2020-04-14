@@ -36,16 +36,33 @@ public class DirectMsgServiceImpl implements DirectMsgService {
 		return directMsgDAO.selectOne(toId);
 	}
 
-	@Override
-	public List<DirectMsg> headerDmList(String fromId) {
-		return directMsgDAO.headerDmList(fromId);
-	}
 
 	@Override
 	public List<Member> userLogin() {
 		// TODO Auto-generated method stub
 		return directMsgDAO.userLogin();
 	}
-	
+
+	@Override
+	public List<DirectMsg> headerDmList(Map<String, Object> param) {
+		return directMsgDAO.headerDmList(param);
+	}
+
+	@Override
+	public int readDm(Map<String, Object> param) {
+		return directMsgDAO.readDm(param);
+	}
+
+	@Override
+	public int getAllUnreadDm(String fromId) {
+		return directMsgDAO.getAllUnreadDm(fromId);
+	}
+
+	@Override
+	public int getUnreadDm(Map<String, Object> idMap) {
+		return directMsgDAO.getUnreadDm(idMap);
+	}
+
+
 
 }

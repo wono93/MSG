@@ -4,7 +4,7 @@ hdjq(document).ready(function(){
         if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
         	channelListFunction();
         	repeatChList = setInterval(function() {
-        		console.log("header Channel List Reload!");
+//        		console.log("header Channel List Reload!");
         		channelListFunction();
         	}, 3000);
         }
@@ -26,6 +26,7 @@ function channelListFunction() {
 		}
 	});
 }
+
 function addChList(userId, chNo, chName, chEx, regId) {
 //	console.log(userId, chNo, chName, chEx, regId);
 	hdjq("#channelList").append(

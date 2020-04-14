@@ -37,16 +37,33 @@ public class DirectMsgDAOImpl implements DirectMsgDAO {
 		return sqlSession.selectOne("directMsg.selectOne",toId);
 	}
 
-	@Override
-	public List<DirectMsg> headerDmList(String fromId) {
-		return sqlSession.selectList("directMsg.headerDmList",fromId);
-	}
 
 	@Override
 	public List<Member> userLogin() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("directMsg.userLogin");
 	}
+
+	@Override
+	public List<DirectMsg> headerDmList(Map<String, Object> param) {
+		return sqlSession.selectList("directMsg.headerDmList",param);
+	}
+
+	@Override
+	public int readDm(Map<String, Object> param) {
+		return sqlSession.update("directMsg.readDm",param);
+	}
+
+	@Override
+	public int getAllUnreadDm(String fromId) {
+		return sqlSession.selectOne("directMsg.getAllUnreadDm",fromId);
+	}
+
+	@Override
+	public int getUnreadDm(Map<String, Object> idMap) {
+		return sqlSession.selectOne("directMsg.getUnreadDm",idMap);
+	}
+
 
 	
 }

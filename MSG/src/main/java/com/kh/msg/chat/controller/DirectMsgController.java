@@ -42,7 +42,8 @@ public class DirectMsgController {
 	
 	@ResponseBody
 	@GetMapping("/headerDmList.do")
-	public void headerDmList(HttpSession session, HttpServletResponse response,  Model model) {
+	public void headerDmList(@RequestParam(value="keyword", required=false) String keyword,
+			HttpSession session, HttpServletResponse response,  Model model) {
 		
 		try {
 			List<LoginVO> userList= MemberController.userList;
@@ -51,31 +52,37 @@ public class DirectMsgController {
 			
 			String fromId = m.getUserId();
 			
-			List<DirectMsg> list = directMsgService.headerDmList(fromId);
+			Map<String, Object> param = new HashMap<>();
+			param.put("keyword", keyword);
+			param.put("fromId", fromId);
+			
+			
+			List<DirectMsg> list = directMsgService.headerDmList(param);
 			
 //			log.debug("list@DirectController"+list.toString());
+			
+			Map<String, Object> idMap = new HashMap<>();
+			
+			idMap.put("fromId", fromId);
 			
 			JSONArray jsonArr = new JSONArray();
 			
 				for(int i = 0; i < list.size(); i++) {
 					JSONObject sObject = new JSONObject(); 
-						log.debug("login id====="+list.get(i).getUserId());
+						
+					idMap.put("toId",list.get(i).getUserId());
+						
+					log.debug("idMap={}",idMap);
+					int unread = directMsgService.getUnreadDm(idMap);
+					
 						sObject.put("empImage", list.get(i).getEmpImage());
 						sObject.put("empName", list.get(i).getEmpName());
 						sObject.put("toId", list.get(i).getUserId());
 						sObject.put("jobName", list.get(i).getJobName());
-
+						sObject.put("unread", unread+"");
+						log.debug("unread"+unread);
 						jsonArr.add(sObject);
-						log.debug("jsonArr=======!!위에!"+jsonArr);
 				}
-				/*
-				for(int i = 0; i < list.size(); i++) {					
-					JSONObject sObject = new JSONObject();
-					sObject.put("sessionId", userList.get(i).getId());
-					jsonArr.add(sObject);
-					log.debug("jsonArr=======!!아래!"+jsonArr);
-				}
-				*/
 			response.setCharacterEncoding("UTF-8");
 			PrintWriter out;
 			out = response.getWriter();
@@ -180,6 +187,7 @@ public class DirectMsgController {
 		
 		List<DirectMsg> chatList = directMsgService.directMsgList(param);
 		if(chatList.size() == 0 ) return "";
+		
 		for(int i = 0; i<chatList.size(); i++) {
 			result.append("[{\"value\": \"" + chatList.get(i).getEmpName() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getFromId() + "\"},");
@@ -193,7 +201,7 @@ public class DirectMsgController {
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
 		
 //		log.debug("result={}",result);
-		
+		readDm(fromId, toId);
 		return result.toString();
 		
 	}
@@ -204,7 +212,7 @@ public class DirectMsgController {
 		Map<String, Object> param = new HashMap<>();
 		param.put("fromId", fromId);
 		param.put("toId", toId);
-		param.put("msgNo", 10);
+		param.put("msgNo", 100);
 		
 //		log.debug("param={}",param);
 		
@@ -223,11 +231,70 @@ public class DirectMsgController {
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
 		
 //		log.debug("result={}",result);
-		
+		readDm(fromId, toId);
 		return result.toString();
 		
 	}
 
+   public int readDm(String fromId, String toId) {
+	   
+		Map<String, Object> param = new HashMap<>();
+		param.put("fromId", fromId);
+		param.put("toId", toId);
+		
+		int result = directMsgService.readDm(param);
+	   
+	    return result;
+   }
    
-	
+   @ResponseBody
+   @PostMapping("/getAllUnreadDm.do")
+   public void getAllUnreadDm(@RequestParam("fromId") String fromId, HttpServletRequest request,
+		   HttpServletResponse response) {
+	   try {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html;charset=UTF-8");
+			
+			if(fromId == null || fromId.equals("")) {
+					response.getWriter().write("0");
+			}else {
+				fromId = URLDecoder.decode(fromId, "UTF-8");
+				response.getWriter().write(directMsgService.getAllUnreadDm(fromId)+"");
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+   }
+   @ResponseBody
+   @PostMapping("/getUnreadDm.do")
+   public void getAllUnreadDm(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
+		   HttpServletRequest request, 
+		   HttpServletResponse response) {
+	   try {
+		   request.setCharacterEncoding("UTF-8");
+		   response.setContentType("text/html;charset=UTF-8");
+		   
+		   if(fromId == null || fromId.equals("")) {
+			   response.getWriter().write("0");
+		   }else {
+			   fromId = URLDecoder.decode(fromId, "UTF-8");
+			   response.getWriter().write(directMsgService.getAllUnreadDm(fromId)+"");
+		   }
+		   
+	   } catch (IOException e) {
+		   e.printStackTrace();
+	   }
+   }
+//	String unread = 0;
+//	if(fromId.equals(chatList.get(i).getToId())) {
+//		
+//		Map<String, Object> idMap = new HashMap<>();
+//		param.put("toId", chatList.get(i).getToId());
+//		param.put("fromId", fromId);
+//		log.debug("idMap={}",idMap);
+//			unread = directMsgService.getUnreadDm(idMap);
+//			if(unread==0) unread = 0;
+//	}
+	   
 }
