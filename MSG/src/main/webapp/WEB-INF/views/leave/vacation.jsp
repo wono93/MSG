@@ -185,13 +185,14 @@
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="0"
 										value="dept_name" name="srchTypeInput"
-										${srchType eq 'd.dept_name'?'checked="checked"':"" } />
+										${srchType eq 'dept_name'?'checked="checked"':"" } />
+										
 									<p class="select-box__input-text">부서</p>
 								</div>
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="1"
 										value="emp_name" name="srchTypeInput"
-										${srchType eq 'b.emp_name'?'checked="checked"':"" } />
+										${srchType eq 'emp_name'?'checked="checked"':"" } />
 									<p class="select-box__input-text">이름</p>
 								</div>
 								<div class="select-box__value">
@@ -294,6 +295,7 @@
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
 				<!-- 닫기버튼 -->
+				
 			</div>
 		</div>
 
@@ -310,14 +312,17 @@
 			form.target = '_self';
 			//input 태그 생성
 			var input1 = document.createElement('input');
-
+			 var input3 = document.createElement('input');
 			//input태그에 set attribute
 			input1.setAttribute("type", "hidden");
 			input1.setAttribute("name", "srchWord");
 			input1.setAttribute("value", $("#srchWord").val());
-
+			input3.setAttribute("type", "hidden");
+	        input3.setAttribute("name", "srchType");
+	        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
 			//완성된 input 태그를 form에 append
 			form.appendChild(input1);
+			form.appendChild(input3);
 			//form 태그
 			document.body.appendChild(form);
 			// form 제출
@@ -436,6 +441,10 @@
 			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
+		
+		  $(".close-modal").css("dispay", "none");
+		
+		
 	</script>
 
 </body>

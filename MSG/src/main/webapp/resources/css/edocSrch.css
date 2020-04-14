@@ -48,25 +48,25 @@ article > .subNav {
 
 
 /* 여기서부터 테이블 */
-table {
+.edocJsp table {
     width: 900px;
     margin: auto;
     border-top: 4px solid #999999;
     border-collapse: collapse;
     font-size: 12pt;
 }
-th, td {
+.edocJsp th, td {
     border-bottom: 1px solid #999999;
     padding: 10px;
 }
-table th:nth-child(3){
+.edocJsp table th:nth-child(3){
     width: 350px;
 }
-table td:nth-child(3){
+.edocJsp table td:nth-child(3){
     padding-left: 30px;
     text-align: left;
 }
-table td:nth-child(2){
+.edocJsp table td:nth-child(2){
     text-align: left;
 }
 /* 여기서부터 페이징 */
