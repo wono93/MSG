@@ -33,7 +33,7 @@ article>.subNav {
 	display: inline-block;
 	width: 940px;
 	border-bottom: 2px solid #999999;
-	padding: 40px 40px;
+	padding: 30px 40px;
 	text-align: left;
 }
 
@@ -75,16 +75,6 @@ article>.subNav {
 	margin: 0 0 17px 0;
 }
 
-/* .button {
-	font-size: 14px;
-	padding: 13px 20px;
-	background: #999999;
-	margin-right: 5px;
-}
-
-.button:hover {
-	background: #F4CA25;
-} */
 .channel-button {
 	background-color: #fefefe;
 	border: 1px solid #999999;
@@ -129,7 +119,7 @@ article>.subNav {
 }
 
 .channel-dmHr {
-	width: 380px;
+	width: 370px;
 	display: inline-block;
 }
 
@@ -141,6 +131,10 @@ article>.subNav {
 #channel-hr-right {
 	position: relative;
 	float: right;
+}
+#channel-hr-left {
+	position: relative;
+	float: left;
 }
 /* msg */
 .channel-msg-content {

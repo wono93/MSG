@@ -40,7 +40,7 @@ hdjq(document).ready(function(){
 	});
 });
 function getAllUnreadDm() {
-	console.log(fromId);
+//	console.log(fromId);
 	hdjq.ajax({
 		type : "Post",
 		url : "/msg/chat/getAllUnreadDm.do",
@@ -89,15 +89,26 @@ function searchMember() {
 	});
 }
 function addList(empImage, empName, jobName, toId, unread) {
-	hdjq("#dmList").append(
-						 '<li>'+
-						 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
-						 '<span class="headerlistname">'+empName+' '+
-						 jobName+
-						 '</span>'
-						 +'<p id="getUnread">'+unread+'</p>'+
-						 '</li>');
+	if(unread == 0){
+		hdjq("#dmList").append(
+							'<li>'+
+							'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							'<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							'<span class="headerlistname">'+empName+' '+
+							jobName+
+							'</span>'+
+							'</li>');
+	}else{
+		hdjq("#dmList").append(
+							 '<li>'+
+							 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							 '<span class="headerlistname">'+empName+' '+
+							 jobName+
+							 '</span>'+
+							 '<span class="getUnread">'+unread+'</span>'+
+							 '</li>');
+	}
 }
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();

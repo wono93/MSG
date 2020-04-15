@@ -9,6 +9,7 @@ chjq(document).ready(function(){
 });
 function channelMemberFunction() {
 	var chName = chjq("#inputChName").val();
+	var chEx = chjq("#inputChEx").val();
 	
 	chNo = chjq("#inputChNo").val();
 	chjq.ajax({
@@ -18,6 +19,7 @@ function channelMemberFunction() {
 		data:{chNo: chNo},
 		success : function(data) {
 			hdjq("#channel-title").html(chName);
+			hdjq("#channel-ex").html(chEx);
 			for (var i = 0; i < data.length; i++) {
 				addChannelMember(data[i]['empImage'],data[i]['regId'],data[i]['userId']);
 			}
