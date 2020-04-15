@@ -376,7 +376,7 @@ public class EdocController {
 		String edocTitleFromPage = edocLeaveLtt.getEdocTitle();
 		edocTitleFromPage = URLEncoder.encode(edocTitleFromPage, "UTF-8");
 		
-		return "/edocSrchView.do?edocId="+edocLeaveLtt.getEdocId()+"&edocTitleFromPage="+edocTitleFromPage+"";
+		return "/edoc/edocSrchView.do?edocId="+edocLeaveLtt.getEdocId()+"&edocTitleFromPage="+edocTitleFromPage+"";
 		
 	}
 	

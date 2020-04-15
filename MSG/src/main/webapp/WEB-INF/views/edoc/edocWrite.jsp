@@ -318,12 +318,14 @@
 						<table class="docuContentTb">
 							<tr>
 								<td>일 시</td>
-								<td><input type="text" data-range="true"
-									data-multiple-dates-separator=" ~ "
-									data-date-format="yyyy-mm-dd D" data-language="ko"
-									id='timepicker-startend' class="datepicker-here" /> <i
-									class='far fa-calendar-alt startendicon'
-									style='font-size: 32px'></i></td>
+								<td class="timepickerTd">
+									<input type="text" data-range="true"
+										data-multiple-dates-separator=" ~ "
+										data-date-format="yyyy-mm-dd D" data-language="ko"
+										id='timepicker-startend' class="datepicker-here" readonly/> <i
+										class='far fa-calendar-alt startendicon'
+										style='font-size: 32px'></i>
+								</td>
 								<td>잔여휴가</td>
 								<td></td>
 							</tr>

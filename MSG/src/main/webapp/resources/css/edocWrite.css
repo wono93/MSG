@@ -434,8 +434,19 @@ left: 20px;
 }
 
 /* 셋째줄 */
+.timepickerTd{
+	text-align: left;
+	padding-left: 25px;
+}
 #leaveAmt{
 	width : 185px;
+    border: 0;
+    float: left;
+    padding-left: 25px;
+}
+#leavePurpose{
+	float:left;
+	padding-left: 25px;	
 }
 .docuContentTb td:first-child,.docuContentTb td:nth-child(3)  {
     background-color: #ebebeb;
