@@ -34,9 +34,24 @@ hdjq(document).ready(function(){
         else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
         	clearInterval(repeatDmList);
         }
-	});
-	hdjq("#dm-search-icon").click(function(){
-			clearInterval(repeatDmList);
+        hdjq("#dm-search-icon").click(function(){
+        	clearInterval(repeatDmList, repeatDmRead);
+        });
+        hdjq("#srchDmWord").keyup(function(event){
+        	 if (event.keyCode == 13) {
+        		 searchMember();
+        		 clearInterval(repeatDmList, repeatDmRead);
+        	 }
+        });
+        hdjq("#msgContent").keyup(function(e){
+        	if (e.keyCode == 13) {
+        		submitFunction();
+        	}
+//        	if (e.ctrlKey && e.keyCode == 13) {
+//        		console.log("ctrl enter!");
+//        		hdjq("#msgContent").append("<br>");
+//        	}
+        });	
 	});
 });
 function getAllUnreadDm() {
@@ -82,7 +97,7 @@ function searchMember() {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 				
-				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
 
 			}
 		} 

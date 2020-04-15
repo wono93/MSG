@@ -56,7 +56,7 @@ public class DirectMsgController {
 			param.put("keyword", keyword);
 			param.put("fromId", fromId);
 			
-			
+			log.debug("asdasdadasdadadadadadadKEYWORD="+keyword);
 			List<DirectMsg> list = directMsgService.headerDmList(param);
 			
 //			log.debug("list@DirectController"+list.toString());
