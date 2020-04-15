@@ -501,7 +501,14 @@
 					<tr>
 						<td><i class="fas fa-angle-double-right arrowIcon"
 							style="font-size: 48px; color: #333333"></i></td>
-						<td class="refBox"></td>
+						<td class="refBox">
+							<table id="refLineTb" class="refLineTable">
+								<tr id="deadlineRef">
+									<th colspan=3>이름</th>
+									<th>삭제</th>
+								</tr>
+							</table>
+						</td>
 					</tr>
 					<tr>
 						<td class="marginTd" colspan="2"></td>
