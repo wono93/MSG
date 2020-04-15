@@ -174,11 +174,11 @@
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'B.VCTN_REASON'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'VCTN_REASON'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">사유</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'C.VCTN_NM'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'VCTN_NM'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">휴가종류</p>
 								</div>
 								<div class="select-box__value">
@@ -220,14 +220,17 @@
         form.target = '_self';        
         //input 태그 생성
         var input1 = document.createElement('input');
-   
+			 var input3 = document.createElement('input');
         //input태그에 set attribute
         input1.setAttribute("type", "hidden");
-        input1.setAttribute("name", "srchWord");
-        input1.setAttribute("value", $("#srchWord").val());        
-       
+			input1.setAttribute("name", "srchWord");
+			input1.setAttribute("value", $("#srchWord").val());
+			input3.setAttribute("type", "hidden");
+	        input3.setAttribute("name", "srchType");
+	        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
         //완성된 input 태그를 form에 append
-        form.appendChild(input1);
+       form.appendChild(input1);
+			form.appendChild(input3);
         //form 태그
         document.body.appendChild(form);
         // form 제출

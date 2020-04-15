@@ -33,6 +33,11 @@
     <script src="${pageContext.request.contextPath }/resources/js/directMessage.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/header.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/channelGenerate.js"></script>
+	<!-- jQuery ui style sheet -->
+	<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery ui library -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     
 <%
@@ -52,13 +57,16 @@
 	var empNo = '<%=empNo%>';
 	var eempNo = '<%=empNo%>';
 	var empDept = '<%=deptName%>' /* 민희 웰컴페이지에서 일정 받아올 때 씁니다 */ 
+	hdjq(function() {
+	    hdjq(".dmBar").draggable({ revert: false});
+	});
 </script>
 </head>
 <body>
-	
 	<input id="hamburger" class="hamburger" type="checkbox" /> 
     <nav class="primnav">
-		<img src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'" style="height:20px; width: 20px"/>
+    	<img class="goHomeImg" src="${pageContext.request.contextPath}/resources/image/goHome.png" onclick="location.href='${pageContext.request.contextPath}/chat/main.do'"/>
+		<img class="logoutImg" src="${pageContext.request.contextPath}/resources/image/logout.png" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'"/>
         <div class="userinfo">
             <user id="user">
                 <img src="${pageContext.request.contextPath}/resources/upload/empImg/${memberLoggedIn.empImage}" />
@@ -70,7 +78,7 @@
                 </idSection>
             </user>
         </div>
-        <br>
+<!--         <br> -->
         <ul class="firnav">
             <li>
             	<c:choose>
@@ -91,7 +99,7 @@
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/board/list.do">
-                    <i class="icon far fa-comments" style="font-size:24px"></i> 커뮤니케이션
+                    <i class="icon far fa-comments" style="font-size:24px"></i>커뮤니케이션
                 </a>
             </li>
             <li>
@@ -116,7 +124,13 @@
 			</ul>
             <ul class="secnav" id="channelList" style="height:120px;"></ul>
             <ul class="secnav" id="">
-	            <p id="dmListTitle">Direct Message</p>
+	            <p id="dmListTitle">Direct Message
+		            <span id="getAllReadDm"></span>
+		            	<input type="text" name="dmKeyword" id="srchDmWord">
+	                    	<a href="#" onclick="searchMember()">
+	                     		<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
+	                    	</a>
+	            </p>
 	        </ul>
             <ul class="secnav" id="dmList" style="height:223px;"></ul>
         </ul>
@@ -174,6 +188,7 @@
                             		<td>${memberLoggedIn.deptName }</td>
                             		<td>${memberLoggedIn.jobName }</td>
                             		<td class="delNo">${memberLoggedIn.empNo }</td>
+                            		<td></td>
 									<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
 								</tr>
                             </table>

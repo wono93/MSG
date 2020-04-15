@@ -7,28 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MSG</title>
-    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.ui.position.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.js"></script>
-    
+    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>    
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/main.css">
-    <link href="${pageContext.request.contextPath }/resources/contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
 </head>
 <style>
 .welcomeBox {
-    opacity: 0.4;
-    position: absolute;
-    top: 355px;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    font-size: 30px;
-    text-align: center;
+	opacity: 0.4;
+	position: absolute;
+	top: 355px;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	font-size: 30px;
+	text-align: center;
 }
+
 .welcomeBox p {
 	font-size: 34px;
 	margin: 0;
@@ -36,6 +33,7 @@
 }
 </style>
 <script>
+	
 </script>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -191,7 +189,6 @@
 		    </div>
         </div>
     </section>
-    
 <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
 </body>
 </html>

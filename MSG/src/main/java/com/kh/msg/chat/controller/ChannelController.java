@@ -53,7 +53,7 @@ public class ChannelController {
 			List<Integer> chNoList = channelService.chMemberList(fromId);
 			
 			
-			log.debug("chNoList@ChannelController"+chNoList.toString());
+//			log.debug("chNoList@ChannelController"+chNoList.toString());
 			
 			List<ChannelInfo> list = channelService.headerChList(chNoList);
 			
@@ -132,7 +132,7 @@ public class ChannelController {
 		
 		String listType = request.getParameter("listType");
 		
-		log.debug("listType="+listType);
+//		log.debug("listType="+listType);
 //		log.debug("userId="+userId+", chNo="+chNo+" listType="+listType);
 		try {
 			
@@ -167,7 +167,7 @@ public class ChannelController {
 		param.put("chNo", chNo);
 		param.put("chMsgNo", chMsgNo);
 		
-		log.debug("param={}",param);
+//		log.debug("param={}",param);
 		
 		List<ChannelMsg> chatList = channelService.channelListByNumber(param);
 		if(chatList.size() == 0 ) return "";
@@ -183,7 +183,7 @@ public class ChannelController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
-		log.debug("result={}",result);
+//		log.debug("result={}",result);
 		
 		return result.toString();
 		
@@ -197,7 +197,7 @@ public class ChannelController {
 		param.put("chNo", chNo);
 		param.put("chMsgNo", 10);
 		
-		log.debug("param={}",param);
+//		log.debug("param={}",param);
 
 		List<ChannelMsg> chatList = channelService.channelListByRecent(param);
 		if(chatList.size() == 0 ) return "";
@@ -213,7 +213,7 @@ public class ChannelController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
-		log.debug("result={}",result);
+//		log.debug("result={}",result);
 		
 		return result.toString();
 		
@@ -246,11 +246,11 @@ public class ChannelController {
 				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
 				
-				log.debug("param={}",param);
+//				log.debug("param={}",param);
 				
 				result = channelService.insert(param);
 				
-				log.debug("result={}",result);
+//				log.debug("result={}",result);
 				
 			}
 		}catch(Exception e) {
@@ -271,7 +271,7 @@ public class ChannelController {
 			
 			List<OrgChart> list = channelService.searchListCh(param);
 			
-			log.debug("list@ChannelController"+list.toString());
+//			log.debug("list@ChannelController"+list.toString());
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -306,7 +306,7 @@ public class ChannelController {
 										@RequestParam("regEmpNo") int regEmpNo,
 										RedirectAttributes redirectAttributes) {
 		
-		log.debug("empNo={}", empNo);
+//		log.debug("empNo={}", empNo);
 //		log.debug("empNo.length="+ empNo.length);
 		
 		int result = channelService.generateChannel(chInfo);
@@ -376,9 +376,9 @@ public class ChannelController {
 			HttpServletRequest request,
 			 HttpServletResponse response) {
 		
-		log.debug("empNo={}", empNo);
+//		log.debug("empNo={}", empNo);
 			int chNo = chInfo.getChNo();
-		log.debug("chNo="+chNo);
+//		log.debug("chNo="+chNo);
 			
 			int deleteResult = channelService.deleteChannelMember(chNo);
 			
@@ -406,7 +406,7 @@ public class ChannelController {
 			) {
 		
 		int chNo = chInfo.getChNo();
-		log.debug("chNo="+chNo);
+//		log.debug("chNo="+chNo);
 		
 		int deleteResult = channelService.deleteChannelMember(chNo);
 		

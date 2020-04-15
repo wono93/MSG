@@ -16,19 +16,43 @@ hdjq(function(){
 
 hdjq(document).ready(function(){
 	var repeatDmList = "";
+	var repeatDmRead= "";
+	var dmKeyword = hdjq("input[name=dmKeyword").html();
 	hdjq("#hamburger").change(function(){
         if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
         	dmListFunction();
         	repeatDmList = setInterval(function() {
-        		console.log("header Dm List Reload!");
+//        		console.log("header Dm List Reload!");
         		dmListFunction();
+        	}, 3000);
+        	getAllUnreadDm();
+        	repeatDmRead = setInterval(function() {
+//        		console.log("header read DM List Reload!");
+        		getAllUnreadDm();
         	}, 3000);
         }
         else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
         	clearInterval(repeatDmList);
         }
 	});
+	hdjq("#dm-search-icon").click(function(){
+			clearInterval(repeatDmList);
+	});
 });
+function getAllUnreadDm() {
+//	console.log(fromId);
+	hdjq.ajax({
+		type : "Post",
+		url : "/msg/chat/getAllUnreadDm.do",
+		data:{
+			fromId: fromId
+		},
+		success : function(data) {
+			hdjq("#getAllReadDm").html(data);
+//			console.log(data);
+		}
+	});
+}
 function dmListFunction() {
 	hdjq.ajax({
 		type : "GET",
@@ -37,38 +61,61 @@ function dmListFunction() {
 		success : function(data) {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
-				
-						addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
+//					console.log("unread="+data[i]['unread']);
 			}
 		} 
 	});
 }
-function addList(empImage, empName, jobName, toId) {
-	hdjq("#dmList").append(
-						 '<li>'+
-						 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
-						 '<span class="headerlistname">'+empName+' '+
-						 jobName+
-						 '</span>'+
-						 '</li>');
+function searchMember() {
+	var dmKeyword = hdjq("input[name=dmKeyword").val();
+//	console.log(dmKeyword);
+	
+	hdjq.ajax({
+		type : "GET",
+		url : "/msg/chat/headerDmList.do",
+		data:{
+			keyword: dmKeyword,
+		},
+		dataType: "json",
+		success : function(data) {
+			hdjq("#dmList").html('');
+			for (var i = 0; i < data.length; i++) {
+				
+				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+
+			}
+		} 
+	});
 }
-/*
-function outaddList(empImage, empName, jobName, toId) {
-	hdjq("#dmList").append(
-						 '<li>'+'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/upload/empImg/'+empImage+'" class="member-img">'+
-						 '<span class="headerlistname">'+empName+' '+
-						 jobName+
-						 '</span>'+
-						 '</li>');
+function addList(empImage, empName, jobName, toId, unread) {
+	if(unread == 0){
+		hdjq("#dmList").append(
+							'<li>'+
+							'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							'<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							'<span class="headerlistname">'+empName+' '+
+							jobName+
+							'</span>'+
+							'</li>');
+	}else{
+		hdjq("#dmList").append(
+							 '<li>'+
+							 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							 '<span class="headerlistname">'+empName+' '+
+							 jobName+
+							 '</span>'+
+							 '<span class="getUnread">'+unread+'</span>'+
+							 '</li>');
+	}
 }
-*/
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();
 	hdjq("#name-span").html(empName);
 	hdjq(".dmBar").fadeIn(100);
 	toId = paramId;
+	
 	chatListFunction(0, toId, fromId);
 	
 //	console.log("dmWindow@JS=toId:"+toId+", fromId:"+fromId);
@@ -156,10 +203,9 @@ function chatListFunction(type, toId, fromId) {
 				}
 				var msgTime = hour+":"+minute+" "+timeType;
 				addChat(result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value, fromId);
-				
 			}
 			lastID = Number(parsed.last);
-			console.log(lastID+"@ajax");
+//			console.log(lastID+"@ajax");
 		}
 	});
 }

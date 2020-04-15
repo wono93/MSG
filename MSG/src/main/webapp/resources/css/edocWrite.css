@@ -75,11 +75,16 @@ article > .subNav {
 }
 
 .yellowBtn{
-    background-color: #f4ca25;
-    border: 1px solid #f4ca25;
+    background-color: #fefefe;
+    border: 1px solid #999999;
     color: #333333;
     font-size: 14px;
     font-weight: 600;
+}
+.yellowBtn:hover{
+  background-color : #f4ca25;
+  border: 1px solid #f4ca25;
+  color : #fefefe
 }
 .whiteBtn{
     background-color: #fefefe;
@@ -87,6 +92,10 @@ article > .subNav {
     color: #999999;
     font-size: 14px;
     font-weight: 400;
+}
+.whiteBtn:hover{
+	color: #333333;
+	border: 1px solid #333333;
 }
 .commonBtn{
     padding: 9px 19px;
@@ -126,18 +135,22 @@ left: 20px;
        width: 100px;
    }
  }
- #currentExp{
-   height: 36px;
+#currentExp{
+   height: 35px;
    padding-top: 3px;
    border: 2px solid #999999;  
  }
 
- .select-box__current {
+
+.select-box__current {
    position: relative;
    /* border: 2px solid #999999; */
   border-radius: 5%;
   cursor: pointer;
   outline: none;
+}
+#currentExp:focus {
+    border: 2px solid #f4ca25;
 }
 .select-box__current:focus + .select-box__list {
   opacity: 1;
@@ -279,7 +292,7 @@ left: 20px;
 }
 
 /* 여기서부터 테이블들 */
-table {
+.edocJsp table {
     margin-bottom: 15px;
     display: inline-block;
     border-top: 3px solid #999999;
@@ -288,14 +301,14 @@ table {
     table-layout: fixed;
     text-overflow: ellipsis;
 }
-th, td {
+.edocJsp th, td {
     border-bottom: 1px solid #999999;
     padding: 10px 0px;
 }
-table th {
+.edocJsp table th {
     background-color: #ebebeb;
 }
-table tr:last-child {
+.edocJsp table tr:last-child {
     border-bottom: 4px solid #999999;
 }
 
@@ -421,6 +434,20 @@ table tr:last-child {
 }
 
 /* 셋째줄 */
+.timepickerTd{
+	text-align: left;
+	padding-left: 25px;
+}
+#leaveAmt{
+	width : 185px;
+    border: 0;
+    float: left;
+    padding-left: 25px;
+}
+#leavePurpose{
+	float:left;
+	padding-left: 25px;	
+}
 .docuContentTb td:first-child,.docuContentTb td:nth-child(3)  {
     background-color: #ebebeb;
 }
@@ -487,6 +514,30 @@ table .textIpt {
 
 
 /* 모달 */
+/* 여기서부터 테이블들 사전준비 */
+.modal table {
+    margin-bottom: 15px;
+    display: inline-block;
+    border-top: 3px solid #999999;
+    border-collapse: collapse;
+    font-size: 12pt;
+    table-layout: fixed;
+    text-overflow: ellipsis;
+}
+.modal th, td {
+    border-bottom: 1px solid #999999;
+    padding: 10px 0px;
+}
+.modal table th {
+    background-color: #ebebeb;
+}
+.modal table tr:last-child {
+    border-bottom: 4px solid #999999;
+}
+
+
+
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -577,7 +628,7 @@ table .textIpt {
 .demo {
     overflow:auto;
     border:none;
-    height:510px;
+    height:585px;
     margin: none;
     background-color: #ebebeb;
     font-size: 12pt;
@@ -738,3 +789,10 @@ table .textIpt {
 	border-bottom: 2px solid #999999 !important;
 }
 
+#fileupload{
+	width: 75px;
+	margin-right: 15px;
+}
+.removeFileupload{
+	margin-left: 15px;
+}

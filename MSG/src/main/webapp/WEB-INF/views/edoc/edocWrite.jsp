@@ -6,19 +6,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/edocWrite.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/edocWrite.css">
 <!-- jQuery ui style sheet -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
-<script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/jquery-3.4.1.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/edocWrite.js"></script>
-<script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
-<script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
-<link href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/jsTree/dist/themes/default/style.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/jsTree/dist/jstree.min.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link
+	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/jquery-3.4.1.js"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/js/edocWrite.js"></script>
+<script src="https://kit.fontawesome.com/4c554cd518.js"
+	crossorigin="anonymous"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/datepicker.min.js"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/dateTimePicker/dist/js/i18n/datepicker.ko.js"></script>
+<link
+	href="${pageContext.request.contextPath }/resources/dateTimePicker/dist/css/datepicker.min.css"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/jsTree/dist/themes/default/style.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/jsTree/dist/jstree.min.js"></script>
 <!-- jQuery ui library -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -62,7 +76,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-	<section>
+	<section class="edocJsp">
 		<div>
 			<article>
 				<div class="subNav">
@@ -304,18 +318,21 @@
 						<table class="docuContentTb">
 							<tr>
 								<td>일 시</td>
-								<td><input type="text" data-range="true"
-									data-multiple-dates-separator=" ~ "
-									data-date-format="yyyy-mm-dd D" data-language="ko"
-									id='timepicker-startend' class="datepicker-here" /> <i
-									class='far fa-calendar-alt startendicon'
-									style='font-size: 32px'></i></td>
+								<td class="timepickerTd">
+									<input type="text" data-range="true"
+										data-multiple-dates-separator=" ~ "
+										data-date-format="yyyy-mm-dd D" data-language="ko"
+										id='timepicker-startend' class="datepicker-here" readonly/> <i
+										class='far fa-calendar-alt startendicon'
+										style='font-size: 32px'></i>
+								</td>
 								<td>잔여휴가</td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>사용일수</td>
-								<td><input type="number" name="" id="leaveAmt" min="0" max="180" placeholder="사용할 휴가 일수를 입력하세요" style="width: 200px; border: 0" /></td>
+								<td><input type="number" name="" id="leaveAmt" min="0"
+									max="180" placeholder="사용할 휴가 일수를 입력하세요" /></td>
 								<td>구 분</td>
 								<td>
 									<form action="">
@@ -391,7 +408,7 @@
 								<td>연락처</td>
 								<td><input type="text" name="" id="leaveContact"
 									class="textIpt" placeholder="비상 연락처를 입력하세요"></td>
-								<td>업무대행자 <br/> 사번
+								<td>업무대행자 <br /> 사번
 								</td>
 								<td><label for="nameSrch"></label> <input id="nameSrch"
 									placeholder="이름으로 사번 검색" class="textIpt"> <input
@@ -407,7 +424,7 @@
 									<div id="fileList"></div>
 								</td>
 								<td><input type="file" id="fileupload" name="files"
-									multiple></td>
+									class="whiteBtn" multiple></td>
 							</tr>
 						</table>
 					</div>
@@ -491,9 +508,8 @@
 					</tr>
 				</table>
 				<div class="divBtn">
-					<button type="button" id="flowBoxBtn" class="whiteBtn commonBtn">확인</button>
-					<button type="button" id="closeBoxBtn"
-						class="close whiteBtn commonBtn">취소</button>
+					<button type="button" id="flowBoxBtn" class="yellowBtn commonBtn">확인</button>
+					<button type="button" id="closeBoxBtn" class="close whiteBtn commonBtn">취소</button>
 				</div>
 			</div>
 		</div>
@@ -701,21 +717,31 @@
 			}
 		})
 
-		$("#flowBoxBtn").click(
-				function() {
-					for (var i = 0; i < 6; i++) { // 결재선 표시 초기화
-						var j = i + 1;
-						$(".docuFlowTb").find("th:nth-child(" + j + ")").html(
-								"");
-					}
-					for ( var i in flowLine) { // 결재선 배열(flowLine)을 읽어 결재선 표시
-						var j = 6 - i;
-						var k = flowLine.length - i - 1;
-						$(".docuFlowTb").find("th:nth-child(" + j + ")").html(
-								flowLine[k][3]);
-					}
+		$("#flowBoxBtn").click(function() {
+				for (var i = 1; i < 6; i++) { // 결재선 표시 초기화
+					var j = i + 1;
+					$(".docuFlowTb").find("th:nth-child(" + j + ")").html(
+							"");
+				}
+				for (var i in flowLine) { // 결재선 배열(flowLine)을 읽어 결재선 표시
+					var j = 6 - i;
+					var k = flowLine.length - i - 1;
+					$(".docuFlowTb").find("th:nth-child(" + j + ")").html(
+							flowLine[k][3]);
+				}
+				for (var i = 1; i < 4; i++) { // 결재선 표시 초기화
+					var j = i + 1;
+					$(".docuCoopTb").find("th:nth-child(" + j + ")").html(
+							"");
+				}
+				for (var i in coopLine) { // 결재선 배열(flowLine)을 읽어 결재선 표시
+					var j = 4 - i;
+					var k = coopLine.length - i - 1;
+					$(".docuCoopTb").find("th:nth-child(" + j + ")").html(
+							coopLine[k][3]);
+				}
 
-				})
+		})
 
 				
 		// 파일 첨부 구현용 : 일반 함수
@@ -732,7 +758,7 @@
 		    var filesTempArrLen = filesTempArr.length;
 		    for( var i=0; i<filesArrLen; i++ ) {
 		        filesTempArr.push(filesArr[i]);
-		        $("#fileList").append("<div>" + filesArr[i].name + "<input type='button' value='삭제' onclick=\"deleteFile(event, " + (filesTempArrLen+i)+ ");\"></div>");
+		        $("#fileList").append("<div>" + filesArr[i].name + "<input type='button'  value='삭제' class='whiteBtn removeFileupload' onclick=\"deleteFile(event, " + (filesTempArrLen+i)+ ");\"></div>");
 		    }
 		    $(this).val('');
 		}
@@ -849,31 +875,36 @@
 		}
 
 		// 이름 검색 기능 (auto complete)
-		jq(document).ready(
-				function() {
-					jq.ajax({
-						url : "/msg/edoc/nameSrch.do",
-						type : "GET",
-						success : function(data) {
-							var str = [];
-							jq.each(data, function(i, item) {
-								str[i] = { label: item.deptName + " " + item.jobName
-									+ " " + item.empName, value: item.empNo }
-							});
+		jq(document).ready(function() {
+				jq.ajax({
+					url : "/msg/edoc/nameSrch.do",
+					type : "GET",
+					success : function(data) {
+						var str = [];
+						jq.each(data, function(i, item) {
+							str[i] = {
+								label : item.deptName + " " + item.jobName
+										+ " " + item.empName,
+								value : item.empNo
+							}
+						});
 
-							jq("#nameSrch").autocomplete({
-								source : str,
-								select: function(event, ui){
-									console.log(ui.item.value);
-									jq("#surEmpNo").val(ui.item.value);
-								}
-							});
-							console.log("STR =", str);
+						jq("#nameSrch").autocomplete({
+							source : str,
+							select : function(event, ui) {
+								console.log(ui.item.value);
+								jq("#surEmpNo").val(ui.item.value);
+							},
+							focus : function(event, ui) {
+								return false;
+							}
+						});
+						console.log("STR =", str);
 
-						}
+					}
 
-					});
-				})
+				});
+			})
 	</script>
 </body>
 </html>

@@ -35,6 +35,7 @@
 				        <div id="channel-member-container">
 				        </div>
 				        <p id="channel-title"></p>
+				        <p id="channel-ex"></p>
 				        <div class="btnGrp">
 					        <!-- <button id="video" class="button">화상회의</button> -->
 					        <c:if test="${regId == memberLoggedIn.userId }">
@@ -84,6 +85,7 @@
                            		<td>${memberLoggedIn.deptName }</td>
                            		<td>${memberLoggedIn.jobName }</td>
                            		<td class="delNo">${memberLoggedIn.empNo }</td>
+                           		<td></td>
 								<input type="hidden" name="empNo" value="${memberLoggedIn.empNo }">
 							</tr>
                         </table>

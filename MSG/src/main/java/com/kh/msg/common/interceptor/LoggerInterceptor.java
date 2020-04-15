@@ -29,8 +29,9 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.debug("============================== Handler ==============================");
-		logger.debug(request.getRequestURI());
+//		logger.debug(request.getRequestURI());
 		logger.debug("---------------------------------------------------------------------");
+		
 		
 		return super.preHandle(request, response, handler); // 뭔가 있어보이지만, 항상 true 리턴을 하고 있다. 필요에 따라 false 처리하면 됨.
 	}
@@ -39,7 +40,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		super.postHandle(request, response, handler, modelAndView);
+//		super.postHandle(request, response, handler, modelAndView);
 		
 		logger.debug("---------------------------------------------------------------------");
 		logger.debug("mav={}", modelAndView);
