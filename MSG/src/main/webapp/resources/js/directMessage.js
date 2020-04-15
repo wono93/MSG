@@ -34,13 +34,28 @@ hdjq(document).ready(function(){
         else if(hdjq("input:checkbox[id='hamburger']").is(":checked")==false){
         	clearInterval(repeatDmList);
         }
-	});
-	hdjq("#dm-search-icon").click(function(){
-			clearInterval(repeatDmList);
+        hdjq("#dm-search-icon").click(function(){
+        	clearInterval(repeatDmList, repeatDmRead);
+        });
+        hdjq("#srchDmWord").keyup(function(event){
+        	 if (event.keyCode == 13) {
+        		 searchMember();
+        		 clearInterval(repeatDmList, repeatDmRead);
+        	 }
+        });
+        hdjq("#msgContent").keyup(function(e){
+        	if (e.keyCode == 13) {
+        		submitFunction();
+        	}
+//        	if (e.ctrlKey && e.keyCode == 13) {
+//        		console.log("ctrl enter!");
+//        		hdjq("#msgContent").append("<br>");
+//        	}
+        });	
 	});
 });
 function getAllUnreadDm() {
-	console.log(fromId);
+//	console.log(fromId);
 	hdjq.ajax({
 		type : "Post",
 		url : "/msg/chat/getAllUnreadDm.do",
@@ -82,22 +97,33 @@ function searchMember() {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 				
-				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId']);
+				addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
 
 			}
 		} 
 	});
 }
 function addList(empImage, empName, jobName, toId, unread) {
-	hdjq("#dmList").append(
-						 '<li>'+
-						 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
-						 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
-						 '<span class="headerlistname">'+empName+' '+
-						 jobName+
-						 '</span>'
-						 +'<p id="getUnread">'+unread+'</p>'+
-						 '</li>');
+	if(unread == 0){
+		hdjq("#dmList").append(
+							'<li>'+
+							'<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							'<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							'<span class="headerlistname">'+empName+' '+
+							jobName+
+							'</span>'+
+							'</li>');
+	}else{
+		hdjq("#dmList").append(
+							 '<li>'+
+							 '<a href="#" onclick="dmWindow('+"'"+toId+"', '"+empName+"'"+');">'+
+							 '<img src="/msg/resources/upload/empImg/'+ empImage+'" class="member-img">'+
+							 '<span class="headerlistname">'+empName+' '+
+							 jobName+
+							 '</span>'+
+							 '<span class="getUnread">'+unread+'</span>'+
+							 '</li>');
+	}
 }
 function dmWindow(paramId, empName){
 	hdjq('#dm-container').empty();

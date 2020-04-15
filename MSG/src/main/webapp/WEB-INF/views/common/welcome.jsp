@@ -118,8 +118,34 @@
                         </div>
                     </div>
                     <div id="66" >
-                        <p style="text-align: left; margin-left: 40px;"><i style="color:#f4ca25;" class="fas fa-circle"></i > 이번 주 일정</p>
-                        <i class="fa fa-question-circle-o" style="font-size:24px; color:#999999; position:absolute; top:525px; left:1090px;"></i>
+                    <p class="hover_" style="text-align: left; margin-left: 40px;"><i style="color:#f4ca25;" class="fas fa-circle"></i > 이번 주 일정</p>
+                    	<div id="66hover">
+                    		<div id="informSched">
+				           		<div class="alldayY"></div>
+							    <p>하루종일</p>
+							    <div class="alldayN closer"></div>
+							    <p class="div">하루 미만</p>
+							    <hr />
+							    <div class="schedCircle" id="c1"></div>
+							    <p>회의</p>
+							    <div class="schedCircle" id="c2"></div>
+							    <p>기타</p>
+							    <div class="schedCircle" id="c3"></div>
+							    <p>외근</p>
+							    <div class="schedCircle" id="c4"></div>
+							    <p>휴가</p>
+							    <div class="schedCircle" id="c5"></div>
+							    <p>출장</p>
+							    <div class="schedCircle" id="c6"></div>
+							    <p id="over">데드라인</p>
+							    <div class="schedCircle" id="c7"></div>
+							    <p>회의실 예약</p>
+							    <div class="schedCircle closer2" id="c8"></div>
+							    <p class="over2">차량 예약</p>
+							    <div class="schedCircle" id="c9"></div>
+							    <p>생일</p>
+						    </div>
+                    	</div>
                         <table id="calTable" style="text-align: left; cursor:pointer;" onclick="location.href='${pageContext.request.contextPath}/sched/calcover.do'"">
                             <tr>
                                 <td id="day_1"></td>
@@ -162,38 +188,7 @@
                     </div>
                 </div>
             </article>
-           <!--  <div id="informSched">
-			    <table>
-			    	<tr>
-			    		<td></td>
-			    		<td>회의</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>기타</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>퇴근</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>휴가</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>출장</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>데드라인</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td></td>
-			    	</tr>
-			    </table>
-		    </div> -->
+           
         </div>
     </section>
 <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
