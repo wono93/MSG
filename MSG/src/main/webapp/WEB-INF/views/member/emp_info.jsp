@@ -14,6 +14,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/listForm.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/emp_info.css">
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
 <title>송종기 대리 :: 인적사항</title>
@@ -147,6 +149,7 @@ article .content {
 	outline: none;
 	font-family: 'Noto Sans KR', sans-serif;
 	border: none;
+	background-color: inherit;
 }
 
 .quote-left::before, .quote-right::before {
