@@ -203,6 +203,10 @@ to {
 
 .ch-button:hover {
 	background: #F4CA25;
+	border:none;
+	font-weight: 600;
+	color:#fefefe;
+	
 }
 
 .ch-modal-content textarea {
@@ -284,7 +288,7 @@ to {
 	border-bottom: 3px solid #999999;
 	padding: 10px 0;
 	height: 140px;
-	overflow: scroll;
+	overflow-y: scroll;
 	text-align: center;
 }
 
