@@ -67,16 +67,13 @@
     				}
     			});
     		});
-    		
     	});
-    	<!-- "${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}" -->
     	function view(no, empNo, memberEmpno){
         	location.href="${pageContext.request.contextPath}/board/view.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
         	
         }
     </script>
     <title>boardListForm</title>
-    
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -88,7 +85,7 @@
                     <ul>
                         <li onclick="#">이메일</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
-                     </ul>
+                    </ul>
                 </div>
                 <div class="content">
                     <div class="control">
@@ -110,7 +107,7 @@
                                     <input class="select-box__input" type="radio" id="asd6" value="자유" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">자유게시판</p>
                                 </div> 
-                                <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                                <img style="left:350px" class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             
                             <ul class="select-box__list">
@@ -146,7 +143,7 @@
                         </div>
 
 
-                        <div class="select-box">
+                        <div style="margin-right: 132px" class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
@@ -188,11 +185,11 @@
                                 </li> -->
                             </ul>
                         </div>
-	                        <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/summer.do'"><i class="far fa-edit"></i> 글쓰기</button>
+	                        <button type="button" name="" id="boardBtn" class="yellowBtn" style="cursor:pointer;"  onclick="location.href='${pageContext.request.contextPath}/board/summer.do'"><i class="far fa-edit"></i> 글쓰기</button>
                     </div>
                 <div id="44">
                     <table>
-                        <tr >
+                        <tr>
                             <th></th>
                             <th>글쓴이</th>
                             <th>카테고리</th>
@@ -203,7 +200,7 @@
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
 							<c:if test="${b.dateb < 2 }">
-	                        	<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color: rgb(93, 93, 253);">
+	                        	<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color:orangeRed;">
 							</c:if>
 							<c:if test="${b.dateb >= 2 }">
 								<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3;">
@@ -221,7 +218,6 @@
 		                        </c:forEach>    
 	                            <td>${b.catag }</td>
 	                            <td>
-	                            
 	                                ${b.title }
 	                                <c:forEach items="${board.commentList }" var="c" varStatus="vs">
 	                                	<p>${vs.count}</p>
@@ -229,14 +225,14 @@
 	                            
 	                            
 	                            	<c:if test="${b.dateb<2  }">
-	                                	<img style=" height: 20px; width: 20px;" src="${pageContext.request.contextPath}/resources/image/newIcon.jpeg" />
+	                                	<i class="fas fa-feather-alt"></i>
 	                                </c:if>
                                
 	                            </td>
 	                            <td>
 		                            <c:forEach items="${attachList }" var="a"  varStatus="vs" >
 			                            	<c:if test="${a.brdNo == b.no && a.no != null }">
-			                            		<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/image/file.png" width=16px />
+			                            		<i class="fas fa-file-download"></i>
 			                            	</c:if>
 	                            	</c:forEach>
                          		</td>

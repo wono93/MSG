@@ -162,15 +162,15 @@ table td:nth-child(2){
   @media (min-width: 110px) {
     .select-box {
       width: 200px;
-      margin-right: 80px;
-      height: 300px;
+      margin-right: 28px;
+      height: 173px;
      postition: relative;
     z-index: 0;
     }
     #first{
       width: 375px;
       text-align: left;
-      height: 200px;
+      height: 0px;
       postition: relative;
 		z-index: 0;
     }
@@ -178,8 +178,7 @@ table td:nth-child(2){
   .select-box__current {
     width: 100%;
     float: none;
-    border: 2px solid #999999;
-    border-radius: 5%;
+    border: 1px solid #999999;
     cursor: pointer;
     outline: none;
     height: 50px;
@@ -197,10 +196,10 @@ table td:nth-child(2){
             transform: translateY(-50%) rotate(180deg);
   }
   .select-box__icon {
-    position: absolute;
+    position: relative;
     float: left;
-    top: 20px;
-    right: 16px;
+    bottom:28px;
+   	left:176px;
     margin-top: 5px;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
@@ -223,7 +222,7 @@ table td:nth-child(2){
   .select-box__input-text {
     display: none;
     width: 100%;
-    margin: 0;
+    margin: 2px;
     padding: 7px;
     padding-right: 20px;
     background-color: #fefefe;

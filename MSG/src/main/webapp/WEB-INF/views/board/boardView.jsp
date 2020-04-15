@@ -139,18 +139,18 @@
 				    <div>
 						<c:if test="${board.no != boardScrap.no && boardScrap.empNo != memberLoggedIn.empNo }">
 					    <div style="">
-							<p style="position:absolute; margin-left:200px; top:270px;">
+							<p style="position:absolute; margin-left:130px; top:290px;">
 								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
-									<i id="star1"  class="far fa-star" style="color:black; font-size: 40px; "></i>
+									<i id="star1"  class="far fa-star" style="color:black; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
 						</c:if>
 						<c:if test="${board.no == boardScrap.no && boardScrap.empNo == memberLoggedIn.empNo }">
 						<div style="">
-							<p style="position:absolute; margin-left:200px; top:270px;">
+							<p style="position:absolute; margin-left:100px; top:290px;">
 								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
-									<i id="star1" class="fas fa-star" style="color:black; font-size: 40px; "></i>
+									<i id="star1" class="fas fa-star" style="color:black; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
@@ -226,7 +226,10 @@
 				</script>
                             <div id="member">
                                 <p class="com3">${member.deptCd }</p>
+                           
                                 <p class="com3">${member.jobCd }</p>
+                            	
+                           
                                 <p class="com3">${member.empName }</p>
                             </div>
                             
@@ -252,14 +255,16 @@
                         <p name="content" class="com4">
                         	${board.content }
                         </p>
-                        <c:if test="${board.attachList[0].no != 0 }" >
-							<c:forEach items="${board.attachList}" var="a" varStatus="vs">
-							
-								<button type="button" style="text-align: left;" onclick="fileDownload('${a.file}','${a.refile }');">
-									첨부파일${vs.count} - ${a.file }
-								</button>
-							</c:forEach>
-						</c:if>
+	                        <c:if test="${board.attachList[0].no != 0 }" >
+								<c:forEach items="${board.attachList}" var="a" varStatus="vs">
+                       				 <div style="text-align:left;">
+                       				 	<a style="cursor:pointer;" onclick="fileDownload('${a.file}','${a.refile }');">
+											<i style="color: orangered;"  class="fas fa-file-download"></i>
+												${a.file }
+										</a>
+                       				 </div>
+								</c:forEach>
+							</c:if>
                     </div>
                     
                     <div>

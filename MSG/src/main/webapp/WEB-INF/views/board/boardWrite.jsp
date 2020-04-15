@@ -33,7 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script> 
     
     <script>
-    
+	    
         $(document).ready(function() {
             $('#summernote').summernote({
             height: 380,                 // set editor height
@@ -70,9 +70,42 @@
         function gogo(){
         	parent.location.href="${pageContext.request.contextPath}/board/list.do"
         	location.reload();
+        	location.reload();
+        	location.reload();
         }
         </script>
-        
+        			<style>
+	                .file_input label {
+					    position:relative;
+					    cursor:pointer;
+					    display:inline-block;
+					    vertical-align:middle;
+					    overflow:hidden;
+					    width:100px;
+					    height:30px;
+					    background:#777;
+					    color:#fff;
+					    text-align:center;
+					    line-height:30px;
+					}
+					.file_input label input {
+					    position:absolute;
+					    width:0;
+					    height:0;
+					    overflow:hidden;
+					}
+					.file_input input[type=text] {
+					    vertical-align:middle;
+					    display:inline-block;
+					    width:400px;
+					    height:28px;
+					    line-height:28px;
+					    font-size:11px;
+					    padding:0;
+					    border:0;
+					    border:1px solid #777;
+					}
+                 </style>
     <section style="height:100%">
         <div style="height: 100%;">
             <article style="width: 1200; height: 100%;">
@@ -84,7 +117,7 @@
 			    border: 1px solid black;
 			    background-color: #fefefe;" class="content">
                 <form
-			  action="${pageContext.request.contextPath}/board/summer.do" 
+			  action="${pageContext.request.contextPath}/board/write.do" 
 			  method="post" 
 			  onsubmit="return boardValidate();"
 			  enctype="multipart/form-data" target="iframeWrite">
@@ -143,6 +176,16 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                
+	                <div style="text-align:left;  margin-left:50px; margin-top:35px; height:70px; width:915px;" class="file_input" id="fileDiv">
+	                			<label style="cursor:pointer; margin-top:10px;">
+	                				파일 첨부
+			                    	<input type="file" id="upFile0"  name="upFile" multiple="multiple">
+	                			</label>
+	             			  	<input style="margin-top:7px;" type="text" readonly="readonly" title="File Route">
+	               	</div>
+                
                 <div style="margin-left:48px; margin-top:11px" id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content"></textarea>
@@ -150,20 +193,22 @@
                 </div>
                     <!-- <input type="file" name="upFile" id="upFile1" style="bottom: 10px;" /> --> 
                
-				<div style="height:140px; overflow:auto" id="file">
-                		<div id="fileDiv">
-		                    <p>
-			                    <input type="file" id="upFile0"  name="upFile">
-				                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
-		                    </p>
-		                    <hr>
-	                	</div>
-	                    <!-- <input type="file"/> -->
-		                
-		                <a style="float:left;" href="#this" class="btn" id="addFile" >파일 추가</a>
-                 </div>	
+				
+                		
+                 	
+                 
         <script type="text/javascript">
-        
+        $('.file_input input[type=file]').change(function() {
+	        var fileName = $(this).val();
+	        var fileCount = $(this).get(0).files.length;
+	        if($(this).get(0).files.length == 1){
+	            $('.file_input input[type=text]').val(fileName);
+	        }
+	        else {
+	            $('.file_input input[type=text]').val('파일 '+fileCount+'개');
+	        }
+	    });
+
       
       var gfv_count = 1;
         $(document).ready(function(){
@@ -175,21 +220,22 @@
 		        });
         });
         
-        function fn_addFile(){ 
+        function fn_addFile(){
         	var str = "<p><input type='file'   id='upFile"+(gfv_count++)+"' name='upFile'><a href='#this' class='btn' id='delete' name='delete'>삭제</a></p><hr>";
         	$("#fileDiv").append(str); 
         	$("a[name='delete']").on("click", function(e){//삭제 버튼
         		e.preventDefault(); fn_deleteFile($(this)); 
-        		}); 
+        		});
         	}
         function fn_deleteFile(obj){
         	obj.parent().remove(); 
         	}
 
       </script>
-                
-						<div id="writebtn" style="position:relative;" class="srchBar">
-		                  	    <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
+      	<br>
+      	<br>
+      					<div id="writebtn" style="position:relative;" class="srchBar">
+	                  	    <button type="button" name="" id="grayBtn" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'"> 취  소 </button>
 			        		<input type="hidden" name="empNo" value="${memberLoggedIn.empNo}"/>
 							<button type="submit" onclick="gogo();" name="" id="yellowBtn" class="btn">글쓰기</button>   
 						</div>
