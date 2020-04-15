@@ -2,9 +2,19 @@
     text-align: center;
 }
 
+.pagination {
+    display: inline-block;
+    margin-top: 23px;
+}
+
+.logView:nth-child(2) > table:nth-child(1) {
+ height: 1184px;
+ width: 750px;
+}
+
 .logView{
     /* border-top: 8px solid #999999; */
-    /* margin-top: 30px; */
+    margin-top: 79px;
     width : 1020px;
     background-color: #FEFEFE;
 }
@@ -14,6 +24,6 @@
 	background-color : #999999;
 	border: 0;
 	width : 920px;
-	height : 8px;
+	height: 4px;
 	margin : 30px 50px 0px 50px;
 }

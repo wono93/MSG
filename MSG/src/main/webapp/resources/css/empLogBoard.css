@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+#timepicker-start {
+ height: 33px;
+ width: 141px;
+ position: relative;
+ left: -2.4062px;
+}
+
+.far.fa-calendar-alt.starticon {
+ position: relative;
+ left: -5.7968px;
+}
+
+.far.fa-calendar-alt.endicon {
+ position: relative;
+ left: -11.2813px;
+}
+
+
+span:nth-child(3) {
+ position: relative;
+ left: 2.3281px;
+}
+
+#timepicker-end {
+ height: 33px;
+ width: 141px;
+ position: relative;
+ left: -9.375px;
+}
+
+.far.fa-calendar-alt.endicon {
+ position: relative;
+ left: -5.75px;
+}
+
+#srchWord {
+ position: relative;
+ top: -0.093725px;
+}
+
+h1:nth-child(3) {
+ left: 30.5px;
+ position: relative;
+ top: -26.0937px;
+}
+
+.control {
+ margin-bottom: -1px;
+ padding-bottom: 15px;
+}
+
+.pagination {
+ padding-top: 0px;
+}
