@@ -62,7 +62,8 @@ article > .subNav {
     padding: 10px;
 }
 .edocJsp table th:nth-child(3){
-    width: 350px;
+    width: 280px;
+    text-overflow: ellipsis;
 }
 .edocJsp table td:nth-child(3){
     padding-left: 30px;
