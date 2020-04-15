@@ -99,7 +99,7 @@
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/board/list.do">
-                    <i class="icon far fa-comments" style="font-size:24px"></i> 커뮤니케이션
+                    <i class="icon far fa-comments" style="font-size:24px"></i>커뮤니케이션
                 </a>
             </li>
             <li>
@@ -125,12 +125,12 @@
             <ul class="secnav" id="channelList" style="height:120px;"></ul>
             <ul class="secnav" id="">
 	            <p id="dmListTitle">Direct Message
-	            	<input type="text" name="dmKeyword" id="srchDmWord">
-                           	<a href="#" onclick="searchMember()">
-	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
-                           	</a>
+		            <span id="getAllReadDm"></span>
+		            	<input type="text" name="dmKeyword" id="srchDmWord">
+	                    	<a href="#" onclick="searchMember()">
+	                     		<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
+	                    	</a>
 	            </p>
-	           	<p id="getAllReadDm">Unread:</p>
 	        </ul>
             <ul class="secnav" id="dmList" style="height:223px;"></ul>
         </ul>

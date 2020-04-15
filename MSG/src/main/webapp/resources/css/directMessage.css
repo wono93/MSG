@@ -156,15 +156,22 @@
 #srchDmWord {
 	background-color: #ebebeb;
 	color: #333333;
-	border: 0;
-	height: 17px;
-    width: 65px;
-	font-family: "Noto Sans KR";
-	font-size: 14px;
-	margin: 0 0 0 10px;
+    border: 0;
+    height: 17px;
+    width: 40px;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    margin-left: 15px;
 }
 #dm-search-icon {
 	width: 14px;
     vertical-align: bottom;
-    margin: 0 0 3px 4px;
+    margin: 0 0 3px 0;
+}
+#getAllReadDm{
+    color: #f4ca25;
+}
+.getUnread{
+	padding: 0 0 0 13px;
+    color: #f4ca25;
 }
