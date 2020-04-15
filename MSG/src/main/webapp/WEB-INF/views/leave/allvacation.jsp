@@ -207,18 +207,50 @@
                         <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+                         <li onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">나의휴가내역</li>
 					</ul>
 				</div>
 				<div class="content">
-					<div class="control">
-							<input type='text' id='timepicker-start' class='datepicker-here' name="startDate"
-								data-language='ko' data-date-format="yyyy-m-d"
-								autocomplete="off" minutesStep="10" /> <i
-								class='far fa-calendar-alt starticon' style='font-size: 32px'></i>
-							<span>~</span> <input type='text' id='timepicker-end'  name="endDate"
-								class='datepicker-here' data-language='ko'
-								data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10" />
-							<i class='far fa-calendar-alt endicon' style='font-size: 32px'></i>
+					<div class="control" style="height: 100px;">
+							 <div class="srchBar">
+						<div class="select-box">
+							<div class="select-box__current" tabindex="1">
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'dept_name'?'checked="checked"':"" }/>
+									<p class="select-box__input-text">부서</p>
+								</div>
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'emp_name'?'checked="checked"':"" }/>
+									<p class="select-box__input-text">이름</p>
+								</div>
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio"  id="3" value="vctn_nm" name="srchTypeInput" ${srchType eq 'vctn_nm'?'checked="checked"':"" } />
+									<p class="select-box__input-text">휴가종류</p>
+								</div>
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio"  id="2" value="all" name="srchTypeInput" ${srchType eq 'all'?'checked="checked"':"" }/>
+									<p class="select-box__input-text">전체</p>
+								</div>
+								<img class="select-box__icon"
+									src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+									alt="Arrow Icon" aria-hidden="true" />
+							</div>
+							<ul class="select-box__list">
+								<li><label class="select-box__option" for="2"
+									aria-hidden="aria-hidden">전체</label></li>
+								<li><label class="select-box__option" for="0"
+									aria-hidden="aria-hidden">부서</label></li>
+								<li><label class="select-box__option" for="1"
+									aria-hidden="aria-hidden">이름</label></li>
+								<li><label class="select-box__option" for="3"
+									aria-hidden="aria-hidden">휴가종류</label></li>
+							</ul>
+						</div>
+						<input type="text" name="" id="srchWord" value="${srchWord eq 'null'?'':srchWord }" >
+						<button type="button" name="" id="srchBtn" class="yellowBtn">
+							<i class="fas fa-search" style="font-size: 15px"></i> 검색
+						</button>
+					</div> 
 						</div>
 					<table>
 						<tr>
@@ -233,8 +265,7 @@
 							<th>사유</th>
 						</tr>
 						<c:forEach items="${leaveList}" var="leave" varStatus="vs">
-							<tr
-								onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">
+							<tr>
 								<td>${leave.vctnDtlNo}</td>
 								<td>${leave.deptName}</td>
 								<td>${leave.empName}</td>
@@ -250,7 +281,7 @@
 					<div class="pagination">
 					${pageBar }
 					</div>
-					<div class="srchBar">
+					<%-- <div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
@@ -288,7 +319,7 @@
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
-					</div>
+					</div> --%>
 				</div>
 			</article>
 		</div>
