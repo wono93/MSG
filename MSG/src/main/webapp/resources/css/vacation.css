@@ -235,7 +235,12 @@ table td:nth-child(2){
      color:gray; border:white; cursor: pointer;
      padding: 0px 0px;
   }
-
+	#search:focus{
+	 background-color : #fefefe;
+	border:  2px solid  #f4ca25;
+	 
+	
+	}
   .penbutton:hover{
     color: black;
   }
@@ -550,8 +555,9 @@ table td:nth-child(2){
   }
 
   #modalsub:hover{
-    background-color: orange;
-    color: white;
+    background-color: #f4ca25;
+    border: solid 1px #f4ca25;
+    color: #fefefe;
   }
 
   #modalclo{

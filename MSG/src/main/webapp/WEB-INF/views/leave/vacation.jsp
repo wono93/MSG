@@ -310,7 +310,7 @@
 			<div class="ui-widget">
 				<h3 style="margin-left: 40px; float: left;">문서 검색</h3>
 				<label for="search"> </label> <input id="search"
-					style="margin-left: 30px; margin-top: 20px; width: 400px; background: #ebebeb; border: solid; color: #ebebeb;">
+					style="margin-left: 30px; margin-top: 20px; width: 400px; background: #ebebeb; border: 2px solid  #ebebeb;">
 				<p>
 				<div class="divice custom">
 					<h3 style="left: -76px; position: relative;">근거</h3>
