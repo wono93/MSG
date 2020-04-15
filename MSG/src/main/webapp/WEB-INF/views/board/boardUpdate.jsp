@@ -73,7 +73,38 @@
 	        	location.reload();
 	        }
       </script>
-    
+    <style>
+	                .file_input label {
+					    position:relative;
+					    cursor:pointer;
+					    display:inline-block;
+					    vertical-align:middle;
+					    overflow:hidden;
+					    width:100px;
+					    height:30px;
+					    background:#777;
+					    color:#fff;
+					    text-align:center;
+					    line-height:30px;
+					}
+					.file_input label input {
+					    position:absolute;
+					    width:0;
+					    height:0;
+					    overflow:hidden;
+					}
+					.file_input input[type=text] {
+					    vertical-align:middle;
+					    display:inline-block;
+					    width:400px;
+					    height:28px;
+					    line-height:28px;
+					    font-size:11px;
+					    padding:0;
+					    border:0;
+					    border:1px solid #777;
+					}
+                 </style>
     <section style="height:100%">
         <div style="height:100%">
         
@@ -158,30 +189,33 @@
                         </div>
                     </div>
                 </div>
+                 <hr>
                 
+	                <div style=" border: 1px solid black; margin-left:50px; margin-top:35px; height:70px; width:915px;" class="file_input" id="fileDiv">
+	                			<label style="cursor:pointer; margin-top:20px;">
+	                				파일 첨부
+			                    	<input type="file" id="upFile0"  name="upFile" multiple="multiple">
+	                			</label>
+	             			  	<input style="margin-top:16px;" type="text" readonly="readonly" title="File Route">
+	               	</div>
                  <div style="margin-left:48px; margin-top:11px" id="api">
                       <div style="width: 914px; margin-left: 1px;">
                         <textarea id="summernote" name="content">${board.content }</textarea>
                       </div>
                 </div>
-                 <!--
-								<button type="button" style="text-align: left;" onclick="fileDownload('${a.file}','${a.refile }');">
-									첨부파일${vs.count} - ${a.file }
-								</button>--> 
-                <div style="height:140px; overflow:auto" id="file">
-                		<div id="fileDiv">
-		                    <p>
-			                    <input type="file" id="upFile0"  name="upFile">
-				                 <a style="float:center;" href="#this" class="btn" id="delete" name="delete">삭제</a>
-		                    </p>
-		                    <hr>
-	                	</div>
-	                    <!-- <input type="file"/> -->
-		                
-		                <a style="float:left;" href="#this" class="btn" id="addFile" >파일 추가</a>
-                 </div>	
+                 
 	        <script type="text/javascript">
-	
+	        $('.file_input input[type=file]').change(function() {
+		        var fileName = $(this).val();
+		        var fileCount = $(this).get(0).files.length;
+		        if($(this).get(0).files.length == 1){
+		            $('.file_input input[type=text]').val(fileName);
+		        }
+		        else {
+		            $('.file_input input[type=text]').val('파일 '+fileCount+'개');
+		        }
+		    });
+
 	        var gfv_count = 1;
 	        $(document).ready(function(){
 		        $("#addFile").on("click", function(e){ //파일 추가 버튼 

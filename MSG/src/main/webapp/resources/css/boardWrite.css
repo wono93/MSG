@@ -83,13 +83,13 @@ article > .subNav {
       width: 200px;
       margin-right: 40px;
       margin-top: 25px;
-      height: 300px;
+      height: 143px;
     }
     #first1{
       position: relative;
       width: 400px;
       text-align: left;
-      height: 200px;
+      height: 143px;
       margin-left: 0px;
     }
   }
@@ -317,7 +317,6 @@ input#srchWord {
     width: 100%;
     float: none;
     border: 2px solid #999999;
-    border-radius: 5%;
     cursor: pointer;
     outline: none;
   }

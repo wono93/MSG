@@ -135,6 +135,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    overflow-y : auto; 
   }
   
   .primnav li:hover, .primnav expand:hover {
@@ -217,9 +218,8 @@
   }
   
   .secnav {
-    margin-left: 58px;
+    margin-left: 60px;
     margin-bottom: 10px;
-    overflow-y: scroll;
     font-size: 13pt;
   }
   .secnav li {

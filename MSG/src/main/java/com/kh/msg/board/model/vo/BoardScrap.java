@@ -23,8 +23,10 @@ public class BoardScrap implements Serializable {/**
 	private int empNo;
 	private String memo;
 	private Date date;
+	private Date bdate;
 	private int cnt;
 	private String catag;
+	private String title;
 	
 	
 	public static long getSerialversionuid() {
