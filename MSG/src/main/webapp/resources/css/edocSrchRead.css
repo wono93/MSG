@@ -76,6 +76,11 @@ article > .subNav {
     font-size: 14px;
     font-weight: 400;
 }
+.submitBtn{
+    font-size: 15px;
+    font-weight: 400;
+    padding: 6px;	
+}
 .whiteBtn:hover{
 	color: #333333;
 	border: 1px solid #333333;
@@ -93,6 +98,10 @@ article > .subNav {
 .subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 
 /* 여기서부터 테이블들 */
+#flowCmt {
+	resize: none;
+	border: 0;
+}
 .edocJsp table {
     margin-top: 15px;
     display: inline-block;
@@ -232,6 +241,14 @@ table tr:last-child {
     color: #333333;
     text-align: left;
     padding-left: 12px;
+  }
+  #flowNP{
+  	position: absolute;
+  	top: 4px;
+  }
+  #flowYP{
+  	position: absolute;
+  	top: 4px;
   }
   form {
       display: inline-block;
