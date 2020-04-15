@@ -87,12 +87,20 @@ $(document).ready(function(){
 			console.log("에러"+x,s,e);
 		}
 	});
-	
+	$("#informSched").css("visibility","hidden");
 	//일정 색깔 안내표
 	var $schedCircle = $("#informSched").children("div");
 	$schedCircle.addClass("floatLeft");
 	$("#informSched").children("p").css("margin","0 10px")
 									.addClass("floatLeft");
+	
+
+	 $(".hover_").hover(function(){
+		 $("#informSched").css("visibility","visible");
+		 $(this).css("cursor","pointer");
+     }, function(){
+    	 $("#informSched").css("visibility","hidden");
+     });
 
 	
 	
