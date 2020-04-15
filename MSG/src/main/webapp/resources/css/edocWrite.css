@@ -282,6 +282,8 @@ left: 20px;
     border : 0;
     border-bottom: 2px solid  #fefefe;
     font-size: 13pt;
+	width: 280px;
+    text-align: left;
 }
 #timepicker-startend:focus + .startendicon{
     color:#f4ca25;
