@@ -150,18 +150,18 @@
 					<table>
 						<tr>
 							<th></th>
-							<th>일시</th>
-							<th>사유</th>
 							<th>종류</th>
+							<th>사유</th>
+							<th>일시</th>
 							<th>사용일수</th>
 						</tr>
 						<c:forEach  items="${leaveMyList}" var="leave" varStatus="vs">
 						<c:if test="${memberLoggedIn.empNo == leave.empNo  }">
 						<tr>
 							<td>${leave.vctnDtlNo}</td>
-							<td>${leave.vctnStdt }~${leave.vctnEndt}</td>
-							<td>${leave.vctnReason}</td>
 							<td>${leave.vctnNm }</td>
+							<td>${leave.vctnReason}</td>
+							<td>${leave.vctnStdt }~${leave.vctnEndt}</td>
 							<td>${leave.vctnUsed }</td>
 						</tr>
 						</c:if>
@@ -174,11 +174,11 @@
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'VCTN_REASON'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="0" value="vctn_reason" name="srchTypeInput" ${srchType eq 'VCTN_REASON'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">사유</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'VCTN_NM'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="1" value="vctn_nm" name="srchTypeInput" ${srchType eq 'VCTN_NM'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">휴가종류</p>
 								</div>
 								<div class="select-box__value">
