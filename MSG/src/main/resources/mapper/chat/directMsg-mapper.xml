@@ -62,8 +62,11 @@
 			HEADER_DM_LIST_VIEW
 		where
 			to_id = #{fromId}
-			
-		<if test="keyword != null and keyword != ''">
+		<if test="keyword == null">
+		and 
+			read_dm = 0
+		</if>
+		<if test="keyword != null">
 			and  emp_name like '%'||#{keyword}||'%'
 		</if>
 		order by msg_date desc
