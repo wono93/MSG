@@ -201,8 +201,8 @@
 	
 	<!-- 내가쓴글 총 게시글 갯수 출력 -->
 	<select id="countMyBoard" resultType="int">
-		SELECT COUNT(*) FROM brd_tb
-				WHERE emp_no like #{empNo}
+		SELECT COUNT(*) FROM brd_tb 
+		where emp_no like #{empNo} and content is not null
 				
 	</select>
 	<!-- 내가쓴글 페이징 처리 후 게시글 조회 -->
@@ -227,8 +227,8 @@
 	</select>
 	
 	<select id="countScrapBoard" resultType="int">
-		SELECT COUNT(*) FROM brd_scp_tb
-				WHERE emp_no like #{empNo}
+		SELECT COUNT(*) FROM brd_scp_tb S join brd_tb B on S.no = B.no
+				WHERE S.emp_no like #{empNo} and B.content is not null
 	</select>
 	<!-- 내가쓴글 페이징 처리 후 게시글 조회 -->
 	<select id="selectScrapBoard" resultType="BoardScrap">
@@ -237,13 +237,14 @@
 				SELECT ROWNUM RN, A.* 
 					FROM (
 							select * 
-							from brd_scp_tb
-							WHERE emp_no like #{empNo}
-							order by no desc
+							from brd_scp_tb S
+							left join brd_tb B
+							on S.no = B.no
+							WHERE S.emp_no like #{empNo}
+							order by S.no desc
 							) a
 					)
 		WHERE RN BETWEEN #{start} AND #{end}
-		order by no desc
 	</select>
 	
 	<insert id="insertRead">

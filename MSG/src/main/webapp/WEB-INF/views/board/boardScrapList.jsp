@@ -82,7 +82,6 @@
                     <h3>커뮤니케이션</h3>
                     <ul>
                         <li onclick="#">이메일</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/chat/channel.do'">팀채널</li>
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
                      </ul>
                 </div>
@@ -106,7 +105,7 @@
                                     <input class="select-box__input" type="radio" id="asd6" value="자유" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">자유게시판</p>
                                 </div> 
-                                <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                                <img style="left:350px" class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             
                             <ul class="select-box__list">
@@ -142,7 +141,7 @@
                         </div>
 
 
-                        <div class="select-box">
+                        <div style="margin-right: 132px" class="select-box">
                             <div class="select-box__current" tabindex="1">
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
@@ -184,11 +183,11 @@
                                 </li> -->
                             </ul>
                         </div>
-                        <button type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/write.do'"><i class="far fa-edit"></i> 글쓰기</button>
+                        <button style="cursor:pointer;" type="button" name="" id="boardBtn" class="yellowBtn"  onclick="location.href='${pageContext.request.contextPath}/board/summer.do'"><i class="far fa-edit"></i> 글쓰기</button>
                     </div>
                 <div id="44">
                     <table>
-                        <tr >
+                        <tr>
                             <th></th>
                             <th>글쓴이</th>
                             <th>카테고리</th>
@@ -199,32 +198,29 @@
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
 							
-								<tr style="z-index:999;">
+	                            <c:if test="${b.title != null }">
+								<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer;">
 							
 	                            	<td>${b.no }</td>
 	                            <c:forEach items="${memberList }" var="m">
+	                            
 		                            <c:if test="${m.empNo == b.empNo }">
 		                            	<td>${m.empName }</td>
 		                        	</c:if>
 		                        </c:forEach>    
 	                            <td>${b.catag }</td>
 		                            <td>
-	                            <c:forEach items="${boardList }" var="bb">
-		                            <c:if test="${bb.no == b.no }">
-					                            <a style="position:relative; z-index:1;" href="${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}&memberEmpno=${memberLoggedIn.empNo}">
-						                           ${bb.content }
-					                            </a>
-		                            </c:if>
-	                            </c:forEach> 
+	                            	${b.title }
 		                            </td>
 	                            		<td>
 		                            ${b.memo}
                             			</td>
-	                            <td>${b.date }</td>
+	                            <td>${b.bdate }</td>
 	                            <td>${b.cnt}
 	                            	<input type="hidden" name="no" value="${b.no }"/>
 	                            </td>
 	                        </tr>
+	                        </c:if>
                         </c:forEach>
                     </table>
                 </div>
