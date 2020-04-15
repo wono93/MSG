@@ -122,17 +122,17 @@
 	            	<img src="/msg/resources/image/plus-icon.png" id="plus-icon" style="width:10px; heigth:10px;">
 	            </p>
 			</ul>
-            <ul class="secnav" id="channelList" style="height:120px;"></ul>
+            <ul class="secnav" id="channelList" style="height:107px;"></ul>
             <ul class="secnav" id="">
-	            <p id="dmListTitle">Direct Message
+	            <p id="dmListTitle">DM
 		            <span id="getAllReadDm"></span>
-		            	<input type="text" name="dmKeyword" id="srchDmWord">
+		            	<input type="text" name="dmKeyword" id="srchDmWord" autocomplete="off">
 	                    	<a href="#" onclick="searchMember()">
 	                     		<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="dm-search-icon">
 	                    	</a>
 	            </p>
 	        </ul>
-            <ul class="secnav" id="dmList" style="height:223px;"></ul>
+            <ul class="secnav" id="dmList" style="height:168px;"></ul>
         </ul>
     </nav>
     <label for="hamburger" class="hamburger"> 
@@ -175,8 +175,8 @@
                             </a>
                         </div>
 
-                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3">
-                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4">
+                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3" autocomplete="off">
+                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4" autocomplete="off">
                         <input type="hidden" name="regId" value="${memberLoggedIn.userId }">
                         <input type="hidden" name="regEmpNo" value="${memberLoggedIn.empNo }">
 

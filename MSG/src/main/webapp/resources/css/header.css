@@ -264,8 +264,10 @@
   .userinfo {
     position: relative;
     display: flex;
-    height: 260px;
-    padding-top: 35px;
+    height: 315px;
+    padding-top: 6px;
+    
+    
   }
   .headerlistname{
   	margin-left: 10px;
@@ -498,4 +500,10 @@
   }
 #channelListTitle {
 	margin: 5px 0 0 0;
+}
+#channelList{
+	margin-bottom: 24px;
+}
+input{
+	outline: none;
 }
