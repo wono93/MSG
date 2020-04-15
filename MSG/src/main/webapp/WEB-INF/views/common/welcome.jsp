@@ -43,7 +43,6 @@
                 <div style="margin-left: 15px;" class="subNav">
                     <div style="margin-top: 55px;">
                         <button type="button" name="" id="boardBtn1" class="yellowBtn">접속자 확인</button>
-                        <button type="button" name="" id="boardBtn2" class="yellowBtn">팀 채널 가기</button>
                     </div>
                     <div style="bottom: 60px; width:100px; position: relative; left: 825px;text-align: right;">
                         <img style="right: 0px; width: 190px; height: 75px; " src="${pageContext.request.contextPath }/resources/image/msgMain.png"/>

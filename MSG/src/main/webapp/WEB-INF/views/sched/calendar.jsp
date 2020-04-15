@@ -155,7 +155,7 @@
 				                    <div class="modal-footer modalBtnContainer-modifyEvent">
 				                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-				                        <input type="submit" class="btn btn-primary" id="updateEvent">저장</input>
+				                        <input type="submit" class="btn btn-primary" id="updateEvent">
 				                    </div>
 				                 </form>
 			                </div><!-- /.modal-content -->
