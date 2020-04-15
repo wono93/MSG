@@ -26,6 +26,7 @@ $(document).ready(function(){
 //	informSched.findAll("td").addClass('floatLeft');
 //	informSched.findAll("tr").children("td:eq(0)").append("<div class='typeCircle'></div>")
 	
+	//메인 일정부분에 이번주 7일 출력
 	for(var i=1; i<8; i++){
 		$("#day_"+i).html(thisWeekMon);
 		thisWeekMon++;
@@ -86,6 +87,12 @@ $(document).ready(function(){
 			console.log("에러"+x,s,e);
 		}
 	});
+	
+	//일정 색깔 안내표
+	var $schedCircle = $("#informSched").children("div");
+	$schedCircle.addClass("floatLeft");
+	$("#informSched").children("p").css("margin","0 10px")
+									.addClass("floatLeft");
 
 	
 	

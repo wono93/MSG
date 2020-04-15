@@ -162,38 +162,31 @@
                     </div>
                 </div>
             </article>
-           <!--  <div id="informSched">
-			    <table>
-			    	<tr>
-			    		<td></td>
-			    		<td>회의</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>기타</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>퇴근</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>휴가</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>출장</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td>데드라인</td>
-			    	</tr>
-			    	<tr>
-			    		<td></td>
-			    		<td></td>
-			    	</tr>
-			    </table>
-		    </div> -->
+           	<div id="informSched">
+           		<div class="alldayY"></div>
+			    <p>하루종일</p>
+			    <div class="alldayN closer"></div>
+			    <p class="div">하루 미만</p>
+			    <hr />
+			    <div class="schedCircle" id="c1"></div>
+			    <p>회의</p>
+			    <div class="schedCircle" id="c2"></div>
+			    <p>기타</p>
+			    <div class="schedCircle" id="c3"></div>
+			    <p>외근</p>
+			    <div class="schedCircle" id="c4"></div>
+			    <p>휴가</p>
+			    <div class="schedCircle" id="c5"></div>
+			    <p>출장</p>
+			    <div class="schedCircle" id="c6"></div>
+			    <p id="over">데드라인</p>
+			    <div class="schedCircle" id="c7"></div>
+			    <p>회의실 예약</p>
+			    <div class="schedCircle closer2" id="c8"></div>
+			    <p class="over2">차량 예약</p>
+			    <div class="schedCircle" id="c9"></div>
+			    <p>생일</p>
+		    </div>
         </div>
     </section>
 <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>

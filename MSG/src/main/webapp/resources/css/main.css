@@ -149,6 +149,39 @@ table td:nth-child(2){
   .floatLeft{float:left;}
   .typeCircle{width:30px; height:30px; color:#333}
   
+  /* welcome 스케줄종류 안내 div */
+  #informSched{width:250px; height: 300px; background:#fefefe; padding: 50px 50px 50px 50px; margin:0;}
+  #informSched p{margin-bottom:30px !important;}
+  
+  .alldayY{width:20px; height:20px; border:2px solid #999; margin:0 0 30px 0px;}
+  .alldayN{width:20px; height:20px; border-radius:20px; border:2px solid #999; margin:0 0 30px 0px;}
+  .schedCircle{width:20px; height:20px; border-radius:20px; margin:0 0 30px 0px;}
+  #informSched div:nth-of-type(4),
+  #informSched div:nth-of-type(6),
+  #informSched div:nth-of-type(8){margin-left:70px;}
+  #informSched p:nth-of-type(4), #informSched p:nth-of-type(6){margin-right:50px !important;}
+  #over{margin: 0 20px 30px 10px !important;}
+  .over2{margin-right:16px !important;}
+  .closer{margin-left:34px !important;}
+  .closer2{margin-left:23px !important;}
+  .div{margin-right: 15px !important;}
+  hr{margin-bottom: 20px;}
+  
+  #c1{background-color:#f4ca25;}
+  #c2{background-color:#f2ab39;}
+  #c3{background-color:#ee6a22;}
+  #c4{background-color:#bd8e62;}
+  #c5{background-color:#69491a;}
+  #c6{background-color:#370d00;}
+  #c7{background-color:#91d4ce;}
+  #c8{background-color:#45bb89;}
+  #c9{background-color:#dc2543;}
+       
+  
+  
+  
+  
+  
   
   
   
