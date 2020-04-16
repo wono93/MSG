@@ -19,10 +19,6 @@ public class LeaveInfoPlus   implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int empNo;
-	private String deptName;
-	private String jobName;
-	private String empName;
-	private String userId;
 	private int annual;
 	private int reward;
 	private String vctnCd;
