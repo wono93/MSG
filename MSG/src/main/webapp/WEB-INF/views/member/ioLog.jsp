@@ -63,8 +63,8 @@
 				<form action="${pageContext.request.contextPath}/member/ioLog.do"
 					method="get">
 					<div class="content">
+
 						<div class="control">
-							<h2>조회날짜</h2>
 							<input type='text' id='timepicker-start' class='datepicker-here'
 								name="startDate" data-language='ko' data-date-format="yyyy-m-d"
 								autocomplete="off" minutesStep="10" /> <i
@@ -74,23 +74,52 @@
 								data-date-format="yyyy-m-d" autocomplete="off" minutesStep="10" />
 							<i class='far fa-calendar-alt endicon' style='font-size: 32px'></i>
 						</div>
-						<hr class="boardHr" />
+						
+						<div class="srchBar" style="margin-top: 20px;">
+							<div class="select-box">
+								<div class="select-box__current" tabindex="1">
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="empName"
+											value="emp_name" name="searchBy" checked="checked" />
+										<p class="select-box__input-text">이름</p>
+									</div>
+									<img class="select-box__icon"
+										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+										alt="Arrow Icon" aria-hidden="true" />
+								</div>
+								<ul class="select-box__list">
+									<li><label class="select-box__option" for="empName"
+										aria-hidden="aria-hidden">이름</label></li>
+								</ul>
+							</div>
+							<input type="text" name="keyword" id="srchWord">
+							<button type="submit" name="" id="srchBtn" class="yellowBtn">
+								<i class="fas fa-search" style="font-size: 15px"></i> 검색
+							</button>
+						</div>
 						<div class="logView">
-							<ol style="list-style:none;">
+							<table style=" width: 750px;">
+								<tr>
+									<th></th>
+									<th>시각</th>
+									<th>사원명</th>
+									<th>출입 플래그</th>
+								</tr>
 								<c:forEach items="${list }" var="io" varStatus="vs">
-									<li>${vs.count}. <fmt:formatDate value="${io.taken}"
-											pattern="YYYY-MM-dd HH:mm" /> by ${io.empName }
-										(${io.inoutFg })</li>
+									<tr>
+										<td>${vs.count}</td>
+										<td><fmt:formatDate value="${io.taken}"
+												pattern="YYYY-MM-dd HH:mm" /></td>
+										<td>${io.empName }</td>
+										<td>${io.inoutFg }</td>
+									</tr>
 								</c:forEach>
-							</ol>
-							
-							
-							
-							
+							</table>
 							<div class="pagination">
 								<c:if test="${paging.startPage != 1 }">
 									<a
-										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}" class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
+										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
+										class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
 								</c:if>
 								<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
 									var="p">
@@ -106,37 +135,9 @@
 								</c:forEach>
 								<c:if test="${paging.endPage != paging.lastPage}">
 									<a
-										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}" class="arrow"  style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
+										href="${pageContext.request.contextPath}/member/ioLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&searchBy=${searchBy}&keyword=${keyword}"
+										class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
 								</c:if>
-							</div>
-							
-							
-							
-							
-							
-							
-							
-							<div class="srchBar">
-								<div class="select-box">
-									<div class="select-box__current" tabindex="1">
-										<div class="select-box__value">
-											<input class="select-box__input" type="radio" id="empName"
-												value="emp_name" name="searchBy" checked="checked" />
-											<p class="select-box__input-text">이름</p>
-										</div>
-										<img class="select-box__icon"
-											src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
-											alt="Arrow Icon" aria-hidden="true" />
-									</div>
-									<ul class="select-box__list">
-										<li><label class="select-box__option" for="empName"
-											aria-hidden="aria-hidden">이름</label></li>
-									</ul>
-								</div>
-								<input type="text" name="keyword" id="srchWord">
-								<button type="submit" name="" id="srchBtn" class="yellowBtn">
-									<i class="fas fa-search" style="font-size: 15px"></i> 검색
-								</button>
 							</div>
 						</div>
 					</div>

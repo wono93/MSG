@@ -229,7 +229,6 @@ public class MemberController {
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		Date monthAgoDate = monthAgo.getTime();
-		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 		List<HrMntList> list = null;
 		HashMap<String, Object> map = new HashMap<>();
 
@@ -237,6 +236,8 @@ public class MemberController {
 			srcDateStart = fmt.format(monthAgoDate);
 			srcDateEnd = fmt.format(curDate);
 		}
+		//영업일 구하기
+		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 
 		if (searchBy != "" && keyword != "") {
 			map.put("searchBy", searchBy);
@@ -440,11 +441,11 @@ public class MemberController {
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "10";
+			cntPerPage = "30";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "10";
+			cntPerPage = "30";
 		}
 		pvo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 

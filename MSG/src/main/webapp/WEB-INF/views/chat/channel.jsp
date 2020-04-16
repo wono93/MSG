@@ -47,7 +47,7 @@
 				    <div id="channel-container"></div>
 		        
 			        <div id="channel-send-msg-container">
-			            <textarea name="" id="channel-send-msg-content" cols="150" rows="5"></textarea>
+			            <textarea name="" id="channel-send-msg-content" cols="140" rows="5"></textarea>
 			            <button onclick="channelSubmitFunction();" id="channel-send-msg-button" class="channel-button">전송</button>
 			        </div>
 		        </div>
@@ -71,8 +71,8 @@
                             </a>
                         </div>
 
-                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3" value="${chName }">
-                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4" value="${chEx }">
+                        <input type="text" name="chName" class="ch-input" placeholder="채널명을 입력해주세요." required="required" tabindex="3" autocomplete="off" value="${chName }">
+                        <input type="text" name="chEx" class="ch-input" placeholder="채널 소개란을 입력해주세요." required="required" tabindex="4" autocomplete="off" value="${chEx }">
                         <input type="hidden" name="regEmpNo" value="${memberLoggedIn.empNo }">
                         <input type="hidden" name="regId" value="${memberLoggedIn.userId }">
                         <input type="hidden" name="chNo" value="${chNo}">
