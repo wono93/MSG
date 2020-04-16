@@ -183,8 +183,9 @@
 			        </div>
 			        <style>
 					.modal a.close-modal{
-					  top: 6px;
-					  right: 7px;
+					  top: 13px;
+			  right: 15px;
+			  width: 20px;
 					  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
 					  }
 			        </style>

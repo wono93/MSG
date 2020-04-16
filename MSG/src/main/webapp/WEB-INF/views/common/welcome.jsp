@@ -97,13 +97,13 @@ $('a[href="#ex7"]').click(function(event) {
 								</c:forEach>
 						    </ul>
 					    </div>
-						    <style>
-						  
-  .modal a.close-modal{
-  top: 6px;
-  right: 7px;
-  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
-  }
+						    <style>						  
+							  .modal a.close-modal{
+								top: 13px;
+								right: 15px;
+								width: 20px;
+							  	background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+							  }
 						    </style>
 			              <div style="height:30px;">
 						  	<a rel="modal:close">
