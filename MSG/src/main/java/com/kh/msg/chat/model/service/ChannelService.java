@@ -3,9 +3,11 @@ package com.kh.msg.chat.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.chat.model.vo.ChannelInfo;
 import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
 public interface ChannelService {
@@ -34,6 +36,8 @@ public interface ChannelService {
 	
 	int modifyChannel(ChannelInfo chInfo);
 
+	List<Board> mainBoardList();
 
+	List<Member> userLogin();
 
 }

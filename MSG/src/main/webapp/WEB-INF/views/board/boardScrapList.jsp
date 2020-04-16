@@ -89,10 +89,7 @@
                     <div class="control">
                         <div id="first" class="select-box">
                             <div class="select-box__current" tabindex="1">
-                                <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd3" value="%%" name="Ben1" checked="checked"/>
-                                    <p class="select-box__input-text">전체 보기</p>
-                                </div>
+                               
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd4" value="건의" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">건의사항</p>
@@ -105,17 +102,15 @@
                                     <input class="select-box__input" type="radio" id="asd6" value="자유" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">자유게시판</p>
                                 </div> 
+                                 <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="asd3" value="%%" name="Ben1" checked="checked"/>
+                                    <p class="select-box__input-text">전체 보기</p>
+                                </div>
                                 <img style="left:350px" class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             
                             <ul class="select-box__list">
-                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do'"  id="1">
-                                    <li>
-                                        <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
-                                        		전체보기
-                                      	</label>
-                                    </li>
-                                </div>
+                                
                                 <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=건의'"  id="2">
                                     <li>
                                         <label id="catag2" class="select-box__option" for="asd4" aria-hidden="aria-hidden">
@@ -135,6 +130,13 @@
                                         <label  id="catag4" class="select-box__option" for="asd6" aria-hidden="aria-hidden">
                                         	자유게시판		
                                         </label>
+                                    </li>
+                                </div>
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do'"  id="1">
+                                    <li>
+                                        <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
+                                        		전체보기
+                                      	</label>
                                     </li>
                                 </div>
                             </ul>
@@ -192,7 +194,7 @@
                             <th>글쓴이</th>
                             <th>카테고리</th>
                             <th>제목</th>
-                            <th>메모</th>
+                            <th>메모내용</th>
                             <th>작성일</th>
                             <th>조회수 </th>
                         </tr>

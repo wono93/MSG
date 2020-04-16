@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.chat.model.service.ChannelService;
 import com.kh.msg.chat.model.vo.ChannelInfo;
 import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
+import com.kh.msg.member.controller.MemberController;
+import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
@@ -396,7 +400,7 @@ public class ChannelController {
 			mav.setViewName("chat/channel");
 		
 		return mav;
-		
+
 	}
 	@PostMapping("/deleteChannel.do")
 	public ModelAndView deleteChannel(ChannelInfo chInfo,
@@ -418,7 +422,15 @@ public class ChannelController {
 	
 	
 	@GetMapping("/main.do")
-	public String main() {
+	public String main(Model model) {
+		
+		List<Board> boardList = channelService.mainBoardList();
+		List<Member> memberList = channelService.userLogin();
+   		List<LoginVO> userList= MemberController.userList;
+   		
+   		model.addAttribute("userList", userList);
+   		model.addAttribute("memberList", memberList);
+		model.addAttribute("boardList", boardList);
 		return "/common/welcome";
 	}
 	

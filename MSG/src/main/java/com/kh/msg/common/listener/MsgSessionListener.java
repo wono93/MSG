@@ -57,7 +57,6 @@ public class MsgSessionListener implements HttpSessionListener {
 		log.debug("로그아웃 = ============"+se.getSession().getId());
 
 		List<LoginVO> userList= MemberController.userList;
-		//접소자 목록에서 제거
         
         for(int i=0; i<userList.size(); i++) {
             if(userList.get(i).getId().equals(member.getUserId())){
