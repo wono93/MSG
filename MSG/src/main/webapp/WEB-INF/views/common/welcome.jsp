@@ -100,9 +100,9 @@ $('a[href="#ex7"]').click(function(event) {
 						    <style>
 						  
   .modal a.close-modal{
-  top: -3px;
-  right:-2px;
-  background-image: src("${pageContext.request.contextPath }/resources/image/X-icon.png");
+  top: 6px;
+  right: 7px;
+  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
   }
 						    </style>
 			              <div style="height:30px;">

@@ -339,10 +339,15 @@
 				<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
-
 			</div>
 		</div>
-
+		<style>
+			.modal a.close-modal{
+			  top: 6px;
+			  right: 7px;
+			  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+			  }
+        </style>
 	</section>
 	<script>
 		$("#srchBtn").click(

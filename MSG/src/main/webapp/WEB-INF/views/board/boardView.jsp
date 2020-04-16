@@ -149,7 +149,7 @@
 					    <div style="">
 							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
 								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
-									<i id="star1"  class="far fa-star" style="color:black; font-size: 30px; "></i>
+									<i id="star1"  class="far fa-star" style="color:#999; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
@@ -158,7 +158,7 @@
 						<div style="">
 							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
 								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
-									<i id="star1" class="fas fa-star" style="color:black; font-size: 30px; "></i>
+									<i id="star1" class="fas fa-star" style="color:#999; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
@@ -181,12 +181,13 @@
 				              </div>
 							</div>
 			        </div>
-					<style>
-						.modal a.close-modal{
-							background-image: src();
-}
-						}
-						</style>
+			        <style>
+					.modal a.close-modal{
+					  top: 6px;
+					  right: 7px;
+					  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+					  }
+			        </style>
 				<script>
 				 $('a[href="#ex7"]').click(function(event) {
 				      event.preventDefault();
@@ -215,7 +216,6 @@
 								 $('#Scr').attr("rel", "");
 							}
 						});
-						alert("스크랩 등록");
 					}
 				 
 				 function deleteFunction() {
@@ -235,7 +235,6 @@
 								 $('#Scr').attr("rel", "modal:open");
 							}
 						});
-						alert("스크랩 취소");
 					}
 				</script>
                             
