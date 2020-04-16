@@ -414,44 +414,31 @@ public class EdocController {
 	}
 
 	@GetMapping("/jstreeMem.do")
-	public void jstreeMem(HttpServletRequest request, HttpServletResponse response) {
+	public void jstreeMem(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		if (request.getParameter("id").charAt(0) == 'D') {
-			try {
-				JSONObject sObject = new JSONObject();
-				sObject.put("empNo", "fail");
-				sObject.put("dept", "fail");
-				sObject.put("job", "fail");
-				sObject.put("name", "fail");
+			JSONObject sObject = new JSONObject();
+			sObject.put("empNo", "fail");
+			sObject.put("dept", "fail");
+			sObject.put("job", "fail");
+			sObject.put("name", "fail");
 
-				response.setCharacterEncoding("UTF-8");
-				PrintWriter out;
-				out = response.getWriter();
-				out.write(sObject.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+			out = response.getWriter();
+			out.write(sObject.toString());
 		} else {
-			try {
-				JstreeMem memOne = edocService.selectJstreeMem(request.getParameter("id"));
+			JstreeMem memOne = edocService.selectJstreeMem(request.getParameter("id"));
+			log.debug("memOne@EdocController" + memOne.toString());
+			JSONObject sObject = new JSONObject();
+			sObject.put("empNo", memOne.getEmpNo());
+			sObject.put("dept", memOne.getDeptName());
+			sObject.put("job", memOne.getJobName());
+			sObject.put("name", memOne.getEmpName());
 
-				log.debug("memOne@EdocController" + memOne.toString());
-
-				JSONObject sObject = new JSONObject();
-				sObject.put("empNo", memOne.getEmpNo());
-				sObject.put("dept", memOne.getDeptName());
-				sObject.put("job", memOne.getJobName());
-				sObject.put("name", memOne.getEmpName());
-
-				response.setCharacterEncoding("UTF-8");
-				PrintWriter out;
-				out = response.getWriter();
-				out.write(sObject.toString());
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+			out = response.getWriter();
+			out.write(sObject.toString());
 		}
 	}
 
@@ -473,10 +460,7 @@ public class EdocController {
 	
 	@ResponseBody
 	@GetMapping("/edocSrchView.do")
-	public ModelAndView edocSrchViewPost(HttpServletRequest request, HttpServletResponse response, ModelAndView mav)
-			throws InvalidFormatException, IOException {
-		
-		
+	public ModelAndView edocSrchViewPost(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) throws InvalidFormatException, IOException {
 		edocService.deleteEdocPdfSt(); // 보안을 위해 DB의 pdf 목록 초기화, update/delete 문에서 무한 로딩나면 기존에 commit이 되어 있는지 확인하자. 
 		
 		String edocId = request.getParameter("edocId"); // 파라미터로 넣을 edocId 가져오기
@@ -492,10 +476,7 @@ public class EdocController {
 		return mav;
 	}
 
-	// private static 으로 안하면 에러나려나?
-	public EdocAtt createDocFromTemplate(HttpServletRequest request, String edocId) throws InvalidFormatException, IOException {
-//	private static createDocFromTemplate(HttpServletRequest request) throws InvalidFormatException, IOException {		
-		
+	public EdocAtt createDocFromTemplate(HttpServletRequest request, String edocId) throws InvalidFormatException, IOException {		
 		// Edoc에 배열이 두 개 들어있으므로, 배열 데이터는 따로 갖고 온다. 이쪽이 문서 작성할때도 편리.
 		List<EdocFlow> edocFlowList = edocService.selectEdocFlowList(edocId); // 결재선은 jsp에서도 필요하므로 여기서 가져온다. 
 		EdocLeaveLtt edocLeaveLtt = edocService.selectEdocLeaveLtt(edocId);
@@ -525,7 +506,6 @@ public class EdocController {
 		
 		
 		// doc 템플릿 열 때에 읽기 쓰기 권한 획득
-//		XWPFDocument doc = new XWPFDocument(OPCPackage.open("/resources/template/leaveTemplate.docx"));
 		XWPFDocument doc = new XWPFDocument(OPCPackage.open(request.getServletContext().getRealPath("/resources/template/leaveTemplate.docx")));
 
 		// doc 템플릿에 DB값 삽입
@@ -727,7 +707,6 @@ public class EdocController {
 		return edocAtt;
 	}
 	public EdocAtt write2Pdf(XWPFDocument doc, HttpServletRequest request) throws IOException {
-//	private static String write2Pdf(XWPFDocument doc, HttpServletRequest request) throws IOException {
 
 		String optFolder = request.getServletContext().getRealPath("/resources/upload/edocPdf/");
 		String originFilename = "createFileFromTemplate.pdf";
@@ -740,11 +719,9 @@ public class EdocController {
 			System.out.println("Created folder " + optFolder);
 			f.mkdirs();
 		}
-		
 
 		OutputStream out = new FileOutputStream(new File(optFolder + renamedFilename));
-		PdfOptions options = PdfOptions.create().fontEncoding("Identity-H"); // 왜...Identity-H? 이거 설정안하거나 UTF-8 이런거 주면
-																				// 한글 안보임
+		PdfOptions options = PdfOptions.create().fontEncoding("Identity-H"); // Identity-H 인코딩 설정안하거나 UTF-8 등으로 설정하면 한글 안보임
 		PdfConverter.getInstance().convert(doc, out, options);
 		
 		EdocAtt edocAtt = new EdocAtt();
@@ -755,13 +732,11 @@ public class EdocController {
 		return edocAtt;
 	}
 	@PostMapping("/flowExe.do")
-	public String edocFlowExe(EdocFlow edocFlow, String edocTitleFromPage, HttpServletRequest request, HttpServletResponse response)
-			throws Exception, IOException {
+	public String edocFlowExe(EdocFlow edocFlow, String edocTitleFromPage, HttpServletRequest request, HttpServletResponse response) throws Exception, IOException {
 		request.setCharacterEncoding("utf-8");
 		edocTitleFromPage = URLEncoder.encode(edocTitleFromPage, "UTF-8");
 		log.debug("edocFlow.edocFlowExe@EdocController={}", edocFlow);
-		
-		
+
 		int result = edocService.updateFlowExe(edocFlow);
 		
 		if(edocFlow.getFlowCd().equals("F1")||edocFlow.getFlowCd().equals("F2")) {
@@ -769,10 +744,7 @@ public class EdocController {
 			if(count == 0) {
 				int complete = edocService.updateEdocSt(edocFlow);
 			}
-			
 		}
-		
-		
 		return "redirect:/edoc/edocSrchView.do?edocId="+edocFlow.getEdocId()+"&edocTitleFromPage="+edocTitleFromPage+"";
 	}
 	

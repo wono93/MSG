@@ -60,7 +60,9 @@ public class MemberController {
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	// 전역변수 접속자확인 시작
+	
 	public static List<LoginVO> userList = new ArrayList<LoginVO>();
+	
 	// 접속자 확인 끝
 
 	@PostMapping("/login.do")
@@ -79,14 +81,15 @@ public class MemberController {
 			log.debug(bcryptPasswordEncoder.encode(password));
 
 			// 접속자확인 시작
+			
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 
-			PrintWriter out = response.getWriter();
 			HttpSession session = request.getSession();
 
 			String id = request.getParameter("userId");
 			String pw = request.getParameter("password");
+			
 			// 접속자 확인 끝
 
 			// 2. member.password와 사용자가 입력한 password 를 비교해서 로그인 처리
@@ -102,7 +105,6 @@ public class MemberController {
 					if (userList.get(i).getId().equals(userId)) {
 						userList.remove(i);
 					}
-
 				}
 				System.out.println(" session.getId() :" + session.getId());
 				LoginImpl loginUser = new LoginImpl(id, pw, session.getId());
@@ -125,7 +127,7 @@ public class MemberController {
 			throw new MemberException("로그인 처리 도중 오류가 발생했습니다.");
 		}
 
-		return "/common/welcome";
+		return "redirect:/chat/main.do";
 	}
 
 	@GetMapping("/logout.do")
@@ -229,7 +231,6 @@ public class MemberController {
 		monthAgo.add(Calendar.MONTH, -1); // 한달전 날짜 가져오기
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		Date monthAgoDate = monthAgo.getTime();
-		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 		List<HrMntList> list = null;
 		HashMap<String, Object> map = new HashMap<>();
 
@@ -237,6 +238,8 @@ public class MemberController {
 			srcDateStart = fmt.format(monthAgoDate);
 			srcDateEnd = fmt.format(curDate);
 		}
+		//영업일 구하기
+		int bsnsDay = calculateDate(srcDateStart, srcDateEnd);
 
 		if (searchBy != "" && keyword != "") {
 			map.put("searchBy", searchBy);
@@ -440,11 +443,11 @@ public class MemberController {
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "10";
+			cntPerPage = "30";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "10";
+			cntPerPage = "30";
 		}
 		pvo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 

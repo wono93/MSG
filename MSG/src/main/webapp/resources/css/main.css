@@ -103,7 +103,48 @@ table td:nth-child(2){
     width: auto;
 }
 
-  #boardBtn1, #boardBtn2{
+.mainLi li:hover .icon {
+							    color: #333333;
+							    border-left: 3.5px solid black;
+							    border-left-color: #F4CA25;
+							  }
+						 	   .mainLi li:hover a {
+							    color: #333333;
+							  }
+							  .mainLi li {
+							    color: #999999;
+							    max-height: 100px;
+							    -webkit-transition: max-height 0.1s;
+							    transition: max-height 0.1s;
+							    margin-bottom: 75px;
+							    font-size: 13pt;
+							  }
+							  .mainLi li {
+							    color: #999999;
+							    -webkit-transition: max-height 0.1s;
+							    transition: max-height 0.1s;
+							  }
+							  @media (min-width: 650px) {
+							     .mainLi li {
+							      max-height: 0px;
+							      -webkit-transition: max-height 0.5s 0.5s;
+							      transition: max-height 0.5s 0.5s;
+							    }
+							  }
+							   .mainLi li a {
+							    position: relative;
+							    display: -webkit-box;
+							    display: flex;
+							    -webkit-box-align: center;
+							            align-items: center;
+							    white-space: nowrap;
+							    color: #999999;
+							    text-decoration: none;
+							    font-weight: 600;
+							    
+							  }
+
+  #boardBtn1, #boardBtn2 {
     height: 60PX;
     width: 145px;
     font-size: 20PX;
@@ -113,8 +154,20 @@ table td:nth-child(2){
     color: #999;
     cursor: pointer;
   }
+  #grayBtnModal{
+height: 34PX;
+    width: 66px;
+    font-size: 5PX;
+    border: 1px solid #999;
+    margin-right: 10px;
+    margin-left: 183px;
+    background: none;
+    color: #999;
+    cursor: pointer;
+  }
   
-  #boardBtn1:hover, #boardBtn2:hover{border:1px solid #333; color:#333;}
+  
+  #boardBtn1:hover, #boardBtn2:hover, #grayBtnModal:hover{border:1px solid #333; color:#333;}
   
   
   
@@ -142,6 +195,7 @@ table td:nth-child(2){
   
   .sen{font-family: 'Sen', sans-serif;}
   #calTable{position:relative; top:-400px;}
+  #calTable tr:last-of-type td{border-bottom:none !important; }
   #calTable tr>td:first-of-type{font-family: 'Sen', sans-serif; font-weight:700; font-size:20px !important; color: #999; width:10%;}
   #calTable tr>td:nth-of-type(2){font-size:20px !important; color: #999; width:5%; padding: 10px 0 !important;}
   #calTable tr>td:nth-of-type(3){  overflow: hidden; text-overflow: ellipsis;}

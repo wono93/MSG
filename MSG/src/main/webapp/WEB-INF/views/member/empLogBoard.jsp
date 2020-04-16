@@ -24,6 +24,12 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/hrBoard.css"
 	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath }/resources/css/timepicker.custom.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath }/resources/css/empLogBoard.css"
+	rel="stylesheet" type="text/css">
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
 <script
@@ -53,13 +59,51 @@
 							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">나의휴가내역</li>
 					</ul>
 				</div>
 
 				<form
 					action="${pageContext.request.contextPath}/member/empLogBoard.do"
 					method="get">
-					<div class="content">
+					<div class="content" style=" padding-top: 28px; ">
+						<div class="srchBar">
+							<div class="select-box">
+								<div class="select-box__current" tabindex="1">
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="R1"
+											value="dept_name" name="searchBy" checked="checked" />
+										<p class="select-box__input-text">부서</p>
+									</div>
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="R2"
+											value="job_name" name="searchBy" />
+										<p class="select-box__input-text">직위</p>
+									</div>
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="R3"
+											value="emp_name" name="searchBy" />
+										<p class="select-box__input-text">이름</p>
+
+
+
+									</div>
+									<img class="select-box__icon"
+										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+										alt="Arrow Icon" aria-hidden="true" />
+								</div>
+								<ul class="select-box__list">
+									<li><label class="select-box__option" for="R1"
+										aria-hidden="aria-hidden">부서</label></li>
+									<li><label class="select-box__option" for="R2"
+										aria-hidden="aria-hidden">직위</label></li>
+									<li><label class="select-box__option" for="R3"
+										aria-hidden="aria-hidden">이름</label></li>
+								</ul>
+							</div>
+							<input type="text" name="keyword" id="srchWord">
+							<h1>총 영업일 <span style="font-weight:bold;font-size:1.5em;">${bsnsDay }</span> 일</h1>
+						</div>
 						<div class="control">
 							<input type='text' id='timepicker-start' name="startDate"
 								class='datepicker-here' data-language='ko'
@@ -70,8 +114,14 @@
 								data-language='ko' data-date-format="yyyy-mm-dd"
 								autocomplete="off" minutesStep="10" /> <i
 								class='far fa-calendar-alt endicon' style='font-size: 32px'></i>
-							<h1>총 영업일 ${bsnsDay } 일</h1>
+							<button type="submit" name="" id="srchBtn" class="yellowBtn" style="float: none;
+    margin-right: auto;
+    margin-left: 194px;">
+								<i class="fas fa-search" style="font-size: 15px"></i> 검색
+							</button>
+							
 						</div>
+						
 						<table class="board">
 							<tr>
 								<th></th>
@@ -121,46 +171,7 @@
 									class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
 							</c:if>
 						</div>
-						<div class="srchBar">
-							<div class="select-box">
-								<div class="select-box__current" tabindex="1">
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="R1"
-											value="dept_name" name="searchBy" checked="checked" />
-										<p class="select-box__input-text">부서</p>
-									</div>
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="R2"
-											value="job_name" name="searchBy" />
-										<p class="select-box__input-text">직위</p>
-									</div>
-									<div class="select-box__value">
-										<input class="select-box__input" type="radio" id="R3"
-											value="emp_name" name="searchBy" />
-										<p class="select-box__input-text">이름</p>
-
-
-
-									</div>
-									<img class="select-box__icon"
-										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
-										alt="Arrow Icon" aria-hidden="true" />
-								</div>
-								<ul class="select-box__list">
-									<li><label class="select-box__option" for="R1"
-										aria-hidden="aria-hidden">부서</label></li>
-									<li><label class="select-box__option" for="R2"
-										aria-hidden="aria-hidden">직위</label></li>
-									<li><label class="select-box__option" for="R3"
-										aria-hidden="aria-hidden">이름</label></li>
-								</ul>
-							</div>
-							<input type="text" name="keyword" id="srchWord">
-							<button type="submit" name="" id="srchBtn" class="yellowBtn">
-								<i class="fas fa-search" style="font-size: 15px"></i> 검색
-							</button>
-						</div>
-
+						
 					</div>
 				</form>
 

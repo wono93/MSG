@@ -56,4 +56,6 @@ public interface EdocDAO {
 	int updateEdocSt(EdocFlow edocFlow);
 
 	List<OrgChart> selectNameSrch();
+
+	List<EdocSrch> selectEdocWelcome();
 }

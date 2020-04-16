@@ -65,7 +65,7 @@ function dmListFunction() {
 			for (var i = 0; i < data.length; i++) {
 					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
 			}
-		} 
+		}
 	});
 }
 function searchMember() {

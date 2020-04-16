@@ -52,5 +52,7 @@ public interface EdocService {
 	int updateEdocSt(EdocFlow edocFlow);
 
 	List<OrgChart> selectNameSrch();
+
+	List<EdocSrch> selectEdocWelcome();
 	
 }

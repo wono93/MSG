@@ -127,8 +127,8 @@
                 </div>
                 <div class="content">
                     <div class="control">
-                        <div class="box" style="background: #BDBDBD;">
-                            <img class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${member.empImage}">
+                        <div class="box"  background: #BDBDBD;">
+                            <img   class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${member.empImage}">
                         </div>
                         <div id="comLeft">
                             <div id="title">
@@ -137,20 +137,28 @@
                                 </p>
                             </div>
 				    <div>
+				    <div style="top:77px;" id="member">
+                                <p class="com3">${member.deptCd }</p>
+                           
+                                <p class="com3">${member.jobCd }</p>
+                            	
+                           
+                                <p class="com3">${member.empName }</p>
+                            </div>
 						<c:if test="${board.no != boardScrap.no && boardScrap.empNo != memberLoggedIn.empNo }">
 					    <div style="">
-							<p style="position:absolute; margin-left:130px; top:290px;">
+							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
 								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
-									<i id="star1"  class="far fa-star" style="color:black; font-size: 30px; "></i>
+									<i id="star1"  class="far fa-star" style="color:#999; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
 						</c:if>
 						<c:if test="${board.no == boardScrap.no && boardScrap.empNo == memberLoggedIn.empNo }">
 						<div style="">
-							<p style="position:absolute; margin-left:100px; top:290px;">
+							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
 								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
-									<i id="star1" class="fas fa-star" style="color:black; font-size: 30px; "></i>
+									<i id="star1" class="fas fa-star" style="color:#999; font-size: 30px; "></i>
 								</a>
 							</p>
 						</div>
@@ -160,19 +168,27 @@
 				            <div style="bottom:200px; z-index: 100;" id="ex1" class="modal">
 				            <p>Scrap memo</p>
 				              <textarea style="width:427px; height:94px;" class="memo" id="memo" name="memo" rows="" cols=""></textarea>
+				              <br><br>
 				              <div>
 				              <!-- 
 							  <button id="send-dm-button" class="dmButton" rel="modal:close"
 								onclick="submitFunction();">등록</button>
 				               -->
-							  	<a href="#" id="grayBtn3" class="btn" rel="modal:close">닫기</a>
+							  	<a href="#" style="margin:0; margin-right:10px; height: 24PX; width: 48px;" id="grayBtn1" class="btn" rel="modal:close">닫기</a>
 				              </div>
 				              <div>
-								<a href="#" id="yellowBtn" class="btn" onclick="submitFunction();" rel="modal:close">등록</a>
+								<a href="#" style="margin:0; margin-right:10px; height: 24PX; width: 48px;" id="grayBtn1" class="btn" onclick="submitFunction();" rel="modal:close">등록</a>
 				              </div>
 							</div>
 			        </div>
-
+			        <style>
+					.modal a.close-modal{
+					  top: 13px;
+			  right: 15px;
+			  width: 20px;
+					  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+					  }
+			        </style>
 				<script>
 				 $('a[href="#ex7"]').click(function(event) {
 				      event.preventDefault();
@@ -201,7 +217,6 @@
 								 $('#Scr').attr("rel", "");
 							}
 						});
-						alert("스크랩 등록");
 					}
 				 
 				 function deleteFunction() {
@@ -221,27 +236,19 @@
 								 $('#Scr').attr("rel", "modal:open");
 							}
 						});
-						alert("스크랩 취소");
 					}
 				</script>
-                            <div id="member">
-                                <p class="com3">${member.deptCd }</p>
-                           
-                                <p class="com3">${member.jobCd }</p>
-                            	
-                           
-                                <p class="com3">${member.empName }</p>
-                            </div>
+                            
                             
                         </div>
                         <div id="comRight">
                             <div id="category">
-								<p name="catag" >${board.catag }</p>
+								<p name="catag" >${board.catag } 게시판</p>
                             </div>
                             <div id="date">
                                 <i class="fas fa-eye" id="eye">
                                 </i>
-                                <p name="cnt" class="com3" style="font-size: 22px; padding-right: 8px;">
+                                <p name="cnt" class="com3" style="font-size: 18px; padding-right: 8px;">
                                 ${board.cnt }
                                 </p>
                                 <p name="date" class="com3">
@@ -268,7 +275,7 @@
                     </div>
                     
                     <div>
-                        <div style="margin-top:35px; width: 100%; height: 100%; z-index: 77; position: relative; 
+                        <div style="margin-top:35px; width: 100%; height: 100%; z-index: 1; position: relative; 
                             display: inline-block;">
                              <c:if test="${memberLoggedIn.empNo == board.empNo || memberLoggedIn.authority eq 'H' || memberLoggedIn.authority eq 'A' }">
                             	<button style="z-index:78;" type="button" name="" id="grayBtn1" class="btn" onclick="update('${board.no}','${board.empNo }', '${memberLoggedIn.empNo }');">수정</button>

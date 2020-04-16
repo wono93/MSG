@@ -99,8 +99,6 @@
                             <th>기안자</th>
                             <th>보안</th>
                             <th>기안일</th>
-                            <th>유형</th>
-                            <th>상태</th>
                         </tr>
 					<c:forEach items="${myEdocList }" var="ed">
 						<tr data-edoc-no="${ed.edocId }" data-edoc-title="${ed.edocTitle }">
@@ -113,68 +111,6 @@
 								<fmt:parseDate var="parsedDate" value="${ed.edocDt }" pattern="yyyy-MM-dd HH:mm:ss" />
 								<fmt:formatDate value="${parsedDate }" pattern="yy/MM/dd HH:mm"/>
 							</td>
-						<c:set var="currentUsr" value="${memberLoggedIn.empNo }"/>
-						<c:if test="${ed.empNo == currentUsr }">
-							<td>기안</td>
-							<c:set var="flowStVal" value="false"/>
-							<c:forEach items="${ed.edocFlowList	}" var="sf">
-								<c:if test="${sf.flowSt == 'n'}">
-									<c:set var="flowStVal" value="true"/>
-								</c:if>
-							</c:forEach>
-							<c:choose>
-								<c:when test="${flowStVal  == 'true'}">
-									<td>반려</td>
-								</c:when>
-								<c:when test="${flowStVal  == 'false'}">
-									<td>대기</td>
-								</c:when>
-								<c:otherwise>
-									<td></td>
-								</c:otherwise>
-							</c:choose>
-						</c:if>
- 						<c:if test="${ed.empNo != currentUsr }">
-							<c:forEach items="${ed.edocFlowList }" var="sf">
-								<c:choose>
-									<c:when test="${sf.flowOrd != 1 && sf.flowSt  != 'y' && sf.flowNm  == '결재'}">
-										<td>
-											요청
-										</td>
-										<td>
-										</td>								
-									</c:when>
-									<c:when test="${sf.flowOrd != 1 && sf.flowSt == 'y' && sf.flowNm == '결재'}">
-										<td>
-											완료
-										</td>
-										<c:if test="${empty sf.flowSt }">
-											<td>
-												대기
-											</td>																	
-										</c:if>
-										<c:if test="${sf.flowSt == 'n'} ">
-											<td>
-												반려
-											</td>																	
-										</c:if>
-									</c:when>
-									<c:when test="${sf.flowEmpNo == ed.empNo && sf.flowOrd != 1 && sf.flowSt != 'y' && sf.flowNm == '결재'}">
-										<td>
-											참조
-										</td>
-										<td>
-										</td>
-									</c:when>
-									<c:otherwise>
-										<td>
-										</td>
-										<td>
-										</td>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</c:if>
 						</tr>
 					</c:forEach>
                     </table>

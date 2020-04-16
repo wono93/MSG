@@ -98,21 +98,29 @@ table td:nth-child(2){
 
 /* 여기서부터 검색창 */
 .srchBar {
-    padding-top: 10px;
-    padding-bottom: 150px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 #srchWord {
     background-color: #ebebeb;
     color: #333333;
-    border: 0;
-    height: 34px;
+    border:  2px solid #ebebeb;
+    height: 33px;
     width: 230px;
     font-family: "Noto Sans KR";
     font-size: 14px;
+    float: left;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+#srchWord:focus{
+	background-color : #fefefe;
+	border:  2px solid  #f4ca25;
 }
 .yellowBtn{
-    background-color: #f4ca25;
-    border: none;
+	    background-color: #fefefe;
+    border: 1px solid #999999;
     color: #333333;
     padding: 9px 19px;
     text-align: center;
@@ -120,6 +128,14 @@ table td:nth-child(2){
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
+    margin-left: 380px;
+
+}
+
+.yellowBtn:hover{
+	background-color:  #f4ca25;
+    border: 1px solid  #f4ca25;
+    color: #fefefe;
 }
 
 /* 여기서부터 select-box */
@@ -135,6 +151,8 @@ table td:nth-child(2){
   @media (min-width: 110px) {
     .select-box {
       width: 110px;
+      float: left;
+    margin-left: 60px;
     }
   }
   .select-box__current {
@@ -217,7 +235,12 @@ table td:nth-child(2){
      color:gray; border:white; cursor: pointer;
      padding: 0px 0px;
   }
-
+	#search:focus{
+	 background-color : #fefefe;
+	border:  2px solid  #f4ca25;
+	 
+	
+	}
   .penbutton:hover{
     color: black;
   }
@@ -413,7 +436,8 @@ table td:nth-child(2){
   .setting.custom{
     margin-left: 40px;
   }
-
+  
+ 
 /*   input[type="radio"].custom {
     margin-left: 0;
     padding: 0;
@@ -531,8 +555,9 @@ table td:nth-child(2){
   }
 
   #modalsub:hover{
-    background-color: orange;
-    color: white;
+    background-color: #f4ca25;
+    border: solid 1px #f4ca25;
+    color: #fefefe;
   }
 
   #modalclo{
@@ -574,23 +599,27 @@ table td:nth-child(2){
 
   /* 모달 컨텍스트 */
  #updateCar-no{ background-color: #ebebeb; color: #333333; height: 30px;
-            width: 590px; border: none; border-bottom: 3px solid #999999; 
-            padding: 12px 19px; margin-bottom: 15px; font-size: 15px; clear:both; }
+            width: 560px; border: none; border-bottom: 3px solid #999999; 
+            padding: 12px 19px; margin-bottom: 15px; font-size: 15px; clear:both;
+            margin-left: 40px; }
  
  .minusBtn, .plusBtn{background-color: #ebebeb; width: 40px; height: 40px; border-radius: 40px; border: solid #ebebeb;
   					color: #333; font: bold; font-size: 20px; cursor: pointer;}
 .minusBtn:hover, .plusBtn:hover{ background-color: #f4ca25; color: white; border: solid #f4ca25;}
 #person, #person_{ width: 70px; text-align: center; font-size: 20px; font: bold; border:none;}
-.mLeft50{margin-left: 50px;}
 
+#a.close-modal{
+	display:none;
+}
+margin-left: 40px;
 /* 모달 체크박스 */
 .checkbox_wrap label {
-    margin: 0px 10px;
+    margin-left: 40px;
 }
 .checkbox_wrap{position: relative;}
-.myDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.myDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px; margin-left:40px;}
 .myDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
-.myDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.myDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
 .myDocu-container:hover input ~ .myDocu-checkmark { background-color: #ccc;}
 .myDocu-container input:checked ~ .myDocu-checkmark { background-color: #F4CA25; }
 .myDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
@@ -599,7 +628,7 @@ table td:nth-child(2){
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
 .reqDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
 .reqDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
-.reqDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #fefefe;}
+.reqDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
 .reqDocu-container:hover input ~ .reqDocu-checkmark { background-color: #ccc;}
 .reqDocu-container input:checked ~ .reqDocu-checkmark { background-color: #F4CA25; }
 .reqDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/

@@ -571,8 +571,6 @@ public class BoardController {
     			boardScrap.setNo(boardNo);
 				int result = boardService.deleteScrap(boardScrap);
 
-				log.debug("scrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapscrapresult={}",result);
-
 			}
     @GetMapping("/userLogin.do")
    	public String userLogin(Model model,

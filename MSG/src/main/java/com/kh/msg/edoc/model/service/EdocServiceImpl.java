@@ -157,4 +157,10 @@ public class EdocServiceImpl implements EdocService {
 		List<OrgChart> orgChartList = edocDAO.selectNameSrch();
 		return orgChartList;
 	}
+
+	@Override
+	public List<EdocSrch> selectEdocWelcome() {
+		List<EdocSrch> edocSrchList = edocDAO.selectEdocWelcome();
+		return edocSrchList;
+	}
 }

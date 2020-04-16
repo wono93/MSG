@@ -98,8 +98,11 @@
 								<td>${ed.edocTitle }</td>
 								<td>${ed.empName }</td>
 								<td>${ed.secuNm }</td>
-								<td>${ed.edocEndDt }</td>
-								<td>${ed.prsvAmt }년</td>
+								<td>
+									<fmt:parseDate var="parsedDate" value="${ed.edocEndDt }" pattern="yyyy-MM-dd HH:mm:ss" />
+									<fmt:formatDate value="${parsedDate }" pattern="yy/MM/dd HH:mm"/>
+								</td>
+								<td>${ed.prsvAmt eq '0'?'영구' : ed.prsvAmt+'년' }</td>
 							</tr>
 						</c:forEach>
 					</table>

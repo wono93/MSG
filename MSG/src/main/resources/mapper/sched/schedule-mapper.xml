@@ -42,7 +42,7 @@
 	values(
 		seq_sche_schecode.nextval, #{scheCate}, #{empNo}, #{empName}, #{deptName},
 		#{jobName}, #{scheName}, to_date(#{scheStart}, 'YYYY-MM-DD HH24:MI:SS'), 
-		to_date(#{scheEnd}, 'YYYY-MM-DD HH24:MI:SS'), #{scheColor},#{scheEx}, #{alldayYn}
+		to_date(#{scheEnd}, 'YYYY-MM-DD HH24:MI:SS'), #{scheColor},#{scheEx}, #{alldayYn}, null
 	)
 	<!-- (sche_code, sche_cate, emp_no, sche_name, sche_start, sche_end, sche_color, sche_ex, allday_yn) -->
 	</insert>

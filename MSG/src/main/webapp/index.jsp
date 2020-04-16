@@ -25,7 +25,7 @@ h3{color: #333333; font-size:48px; margin: 100px 0 50px 0;}
 #loginForm {text-align: center;}
 #loginForm h1+p, h3+p { margin-top: 15px;}
 #loginFrm {width: 100%; height:auto;}
-#loginFrm>div {width:1200px; padding-top: 80px; margin:0 auto; text-align: center; background-color: #FEFEFE;}
+#loginFrm>div {width:1200px; padding-top: 80px; margin:0 auto; text-align: center; background-color: #FEFEFE;height: 530px;}
 #loginFrm>p {color: #333333; font-size: 16px;}
 #loginFrm label { color: #333333; font-size: 18px; position: absolute;  left: 310px; margin-bottom: 10px; padding-left: 65px; padding-top: 15px;}
 /* #loginFrm label:nth-of-type(1) { color: #3B3B3B; font-size:20px; position: absolute; left:310px; margin-bottom: 10px;}
@@ -38,7 +38,7 @@ h3{color: #333333; font-size:48px; margin: 100px 0 50px 0;}
 #float-form { margin-top: 20px;}
 #enroll-btn{position:relative; color:#999999; font-size: 18px; border:none; background:white; 
     cursor: pointer; margin-left: 646px; border: 1px solid #999999; padding: 12px 35px;}
-#login-btn{width:580px; height:85px; background: #F4CA25; border:none; cursor: pointer;}
+#login-btn{width:580px; height:85px; background: #F4CA25; border:none; cursor: pointer; margin-top: 30px;}
 button[type=button]{margin-top: 30px; margin-bottom: 100px;}
 button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
 /* 아이디저장 체크박스*/
