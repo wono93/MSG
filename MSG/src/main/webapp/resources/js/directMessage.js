@@ -22,12 +22,10 @@ hdjq(document).ready(function(){
         if(hdjq("input:checkbox[id='hamburger']").is(":checked")==true){
         	dmListFunction();
         	repeatDmList = setInterval(function() {
-//        		console.log("header Dm List Reload!");
         		dmListFunction();
         	}, 3000);
         	getAllUnreadDm();
         	repeatDmRead = setInterval(function() {
-//        		console.log("header read DM List Reload!");
         		getAllUnreadDm();
         	}, 3000);
         }
@@ -43,19 +41,9 @@ hdjq(document).ready(function(){
         		 clearInterval(repeatDmList, repeatDmRead);
         	 }
         });
-        hdjq("#msgContent").keyup(function(e){
-        	if (e.keyCode == 13) {
-        		submitFunction();
-        	}
-//        	if (e.ctrlKey && e.keyCode == 13) {
-//        		console.log("ctrl enter!");
-//        		hdjq("#msgContent").append("<br>");
-//        	}
-        });	
 	});
 });
 function getAllUnreadDm() {
-//	console.log(fromId);
 	hdjq.ajax({
 		type : "Post",
 		url : "/msg/chat/getAllUnreadDm.do",
@@ -64,7 +52,6 @@ function getAllUnreadDm() {
 		},
 		success : function(data) {
 			hdjq("#getAllReadDm").html(data);
-//			console.log(data);
 		}
 	});
 }
@@ -77,15 +64,12 @@ function dmListFunction() {
 			hdjq("#dmList").html('');
 			for (var i = 0; i < data.length; i++) {
 					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
-//					console.log("unread="+data[i]['unread']);
 			}
 		} 
 	});
 }
 function searchMember() {
 	var dmKeyword = hdjq("input[name=dmKeyword").val();
-//	console.log(dmKeyword);
-	
 	hdjq.ajax({
 		type : "GET",
 		url : "/msg/chat/headerDmList.do",
@@ -133,8 +117,6 @@ function dmWindow(paramId, empName){
 	
 	chatListFunction(0, toId, fromId);
 	
-//	console.log("dmWindow@JS=toId:"+toId+", fromId:"+fromId);
-	
 	var repeat = setInterval(function() {
 		chatListFunction(lastID, toId, fromId);
 	}, 1000);
@@ -144,41 +126,8 @@ function dmWindow(paramId, empName){
 	});
 
 }
-function autoClosingAlert(selecter, delay) {
-	var alert = hdjq(selecter);
-	alert.show();
-
-	window.setTimeout(function() {
-		alert.hide()
-	}, delay);
-}
-
-function submitFunction() {
-	var msgContent = hdjq("#msgContent").val();
-	hdjq.ajax({
-		type : "POST",
-		url : "/msg/chat/msgInsert.do",
-		data : {
-			fromId : encodeURIComponent(fromId),
-			toId : encodeURIComponent(toId),
-			msgContent : encodeURIComponent(msgContent),
-			empNo : encodeURIComponent(empNo)
-		},
-		success : function(result) {
-			if (result == 1) {
-				autoClosingAlert('#successMessage', 2000);
-			} else if (result == 0) {
-				autoClosingAlert('#dangerMessage', 2000);
-			} else {
-				autoClosingAlert('#warningMessage', 2000);
-			}
-		}
-	});
-	hdjq('#msgContent').val('');
-}
 
 function chatListFunction(type, toId, fromId) {
-//	console.log("chatList@JS=toId:"+toId+", fromId:"+fromId);
 	hdjq.ajax({
 		cache: false,
 		type : "POST",
@@ -220,7 +169,6 @@ function chatListFunction(type, toId, fromId) {
 				addChat(result[i][2].value, result[i][3].value, msgTime, hrDate, hideDate, result[i][5].value, fromId);
 			}
 			lastID = Number(parsed.last);
-//			console.log(lastID+"@ajax");
 		}
 	});
 }
@@ -228,7 +176,6 @@ function chatListFunction(type, toId, fromId) {
 function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) {
 		let style = {display: "none"};
 	var selHideDate =hdjq("#dm-container").children().children("p:last").text();
-//	console.log("작성자: "+toId+", 내용: "+msgContent);
 	if(selHideDate != hideDate){
 		hdjq("#dm-container").append(
 									'<div id="hr-container">'
@@ -271,3 +218,26 @@ function addChat(toId, msgContent, msgTime, hrDate, hideDate, empImage, fromId) 
 	
 }
 
+function submitFunction() {
+	var msgContent = hdjq("#msgContent").val();
+	hdjq.ajax({
+		type : "POST",
+		url : "/msg/chat/msgInsert.do",
+		data : {
+			fromId : encodeURIComponent(fromId),
+			toId : encodeURIComponent(toId),
+			msgContent : encodeURIComponent(msgContent),
+			empNo : encodeURIComponent(empNo)
+		},
+		success : function(result) {
+			if (result == 1) {
+				autoClosingAlert('#successMessage', 2000);
+			} else if (result == 0) {
+				autoClosingAlert('#dangerMessage', 2000);
+			} else {
+				autoClosingAlert('#warningMessage', 2000);
+			}
+		}
+	});
+	hdjq('#msgContent').val('');
+}

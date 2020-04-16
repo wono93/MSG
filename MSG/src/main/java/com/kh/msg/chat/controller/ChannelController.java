@@ -52,11 +52,7 @@ public class ChannelController {
 			
 			List<Integer> chNoList = channelService.chMemberList(fromId);
 			
-			
-//			log.debug("chNoList@ChannelController"+chNoList.toString());
-			
 			List<ChannelInfo> list = channelService.headerChList(chNoList);
-			
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -87,8 +83,6 @@ public class ChannelController {
 		try {
 			
 			List<ChannelMember> MemberList = channelService.channelMember(chNo);
-			
-//			log.debug("Memberlist@ChannelController"+MemberList.toString());
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -124,16 +118,13 @@ public class ChannelController {
 	}
 	@ResponseBody
 	@PostMapping("/channelContent.do")
-	public void channelList(
-							@RequestParam(value="userId", required=false) String userId,
+	public void channelList(@RequestParam(value="userId", required=false) String userId,
 							@RequestParam(value="chNo", required=false) String chNo,
-							  HttpServletRequest request,
-							  HttpServletResponse response){
+							HttpServletRequest request,
+							HttpServletResponse response){
 		
 		String listType = request.getParameter("listType");
 		
-//		log.debug("listType="+listType);
-//		log.debug("userId="+userId+", chNo="+chNo+" listType="+listType);
 		try {
 			
 			request.setCharacterEncoding("UTF-8");
@@ -158,7 +149,7 @@ public class ChannelController {
 		}
 	}
 	
-	public String getMsgNo(String userId, String chNo, String chMsgNo ) {
+	public String getMsgNo(String userId, String chNo, String chMsgNo) {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		
@@ -166,8 +157,6 @@ public class ChannelController {
 		param.put("userId", userId);
 		param.put("chNo", chNo);
 		param.put("chMsgNo", chMsgNo);
-		
-//		log.debug("param={}",param);
 		
 		List<ChannelMsg> chatList = channelService.channelListByNumber(param);
 		if(chatList.size() == 0 ) return "";
@@ -183,11 +172,9 @@ public class ChannelController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
-//		log.debug("result={}",result);
-		
 		return result.toString();
-		
 	}
+	
 	public String getTen(String userId, String chNo) {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
@@ -197,8 +184,6 @@ public class ChannelController {
 		param.put("chNo", chNo);
 		param.put("chMsgNo", 10);
 		
-//		log.debug("param={}",param);
-
 		List<ChannelMsg> chatList = channelService.channelListByRecent(param);
 		if(chatList.size() == 0 ) return "";
 		for(int i = 0; i<chatList.size(); i++) {
@@ -213,10 +198,7 @@ public class ChannelController {
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getChMsgNo() +"\"}");
 		
-//		log.debug("result={}",result);
-		
 		return result.toString();
-		
 	}
 	
 	@PostMapping("/channelMsgInsert.do")
@@ -246,11 +228,7 @@ public class ChannelController {
 				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
 				
-//				log.debug("param={}",param);
-				
 				result = channelService.insert(param);
-				
-//				log.debug("result={}",result);
 				
 			}
 		}catch(Exception e) {
@@ -258,6 +236,41 @@ public class ChannelController {
 		}
 	
 	}
+	
+	@PostMapping("/generateChannel.do")
+	public ModelAndView generateChannel(ModelAndView mav, ChannelInfo chInfo,
+			@RequestParam("empNo") int[] empNo,
+			@RequestParam("chName") String chName,
+			@RequestParam("regId") String regId,
+			@RequestParam("chEx") String chEx,
+			@RequestParam("regEmpNo") int regEmpNo,
+			RedirectAttributes redirectAttributes) {
+		
+		int result = channelService.generateChannel(chInfo);
+		
+		int chNo = chInfo.getChNo();
+		
+		int memberResult = channelService.addChannelMember(empNo, chNo);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("chNo", chNo);
+		param.put("empNo", regEmpNo);
+		param.put("userId", regId);
+		param.put("msgContent", "채널이 생성되었습니다.");
+		
+		result = channelService.insert(param);
+		
+		mav.addObject("chNo",chInfo.getChNo());
+		mav.addObject("chEx",chInfo.getChEx());
+		mav.addObject("chName",chName);
+		mav.addObject("regId",regId);
+		mav.addObject("userId",regId);
+		
+		mav.setViewName("chat/channel");
+		
+		return mav;
+	}
+	
 	@GetMapping("/searchListCh.do")
 	public void searchListCh(@RequestParam("keyword") String keyword,
 							 @RequestParam("searchType") String searchType,
@@ -270,8 +283,6 @@ public class ChannelController {
 				param.put("searchType", searchType);
 			
 			List<OrgChart> list = channelService.searchListCh(param);
-			
-//			log.debug("list@ChannelController"+list.toString());
 			
 			JSONArray jsonArr = new JSONArray();
 			
@@ -297,41 +308,6 @@ public class ChannelController {
 		
 	}
 		
-	@PostMapping("/generateChannel.do")
-	public ModelAndView generateChannel(ModelAndView mav, ChannelInfo chInfo,
-										@RequestParam("empNo") int[] empNo,
-										@RequestParam("chName") String chName,
-										@RequestParam("regId") String regId,
-										@RequestParam("chEx") String chEx,
-										@RequestParam("regEmpNo") int regEmpNo,
-										RedirectAttributes redirectAttributes) {
-		
-//		log.debug("empNo={}", empNo);
-//		log.debug("empNo.length="+ empNo.length);
-		
-		int result = channelService.generateChannel(chInfo);
-		
-		int chNo = chInfo.getChNo();
-		
-		int memberResult = channelService.addChannelMember(empNo, chNo);
-		
-		Map<String, Object> param = new HashMap<>();
-		param.put("chNo", chNo);
-		param.put("empNo", regEmpNo);
-		param.put("userId", regId);
-		param.put("msgContent", "채널이 생성되었습니다.");
-		
-		result = channelService.insert(param);
-		
-		mav.addObject("chNo",chInfo.getChNo());
-		mav.addObject("chName",chName);
-		mav.addObject("regId",regId);
-		mav.addObject("userId",regId);
-		
-		mav.setViewName("chat/channel");
-
-		return mav;
-	}
 	@GetMapping("/modifyChannel.do")
 	@ResponseBody
 	public void modifyChannel(
@@ -372,27 +348,22 @@ public class ChannelController {
 			@RequestParam(value="empNo", required=false) int[] empNo,
 			@RequestParam(value="chName", required=false) String chName,
 			@RequestParam(value="regId", required=false) String regId,
-//			@RequestParam(value="regEmpNo", required=false) int regEmpNo,
 			HttpServletRequest request,
 			 HttpServletResponse response) {
 		
-//		log.debug("empNo={}", empNo);
 			int chNo = chInfo.getChNo();
-//		log.debug("chNo="+chNo);
 			
 			int deleteResult = channelService.deleteChannelMember(chNo);
 			
-			
-//			int insertResult = channelService.addChannelMember(empNo, chNo, regEmpNo);
 			int insertResult = channelService.addChannelMember(empNo, chNo);
 		
 			int result = channelService.modifyChannel(chInfo);
 			
+			mav.addObject("chEx",chInfo.getChEx());
 			mav.addObject("userId",regId);
 			mav.addObject("regId",regId);
 			mav.addObject("chNo",chInfo.getChNo());
 			mav.addObject("chName",chName);
-			
 			mav.setViewName("chat/channel");
 		
 		return mav;
@@ -406,16 +377,13 @@ public class ChannelController {
 			) {
 		
 		int chNo = chInfo.getChNo();
-//		log.debug("chNo="+chNo);
 		
 		int deleteResult = channelService.deleteChannelMember(chNo);
 		
 		mav.setViewName("/common/welcome");
 
 		return mav;
-		
 	}
-	
 	
 	@GetMapping("/main.do")
 	public String main() {

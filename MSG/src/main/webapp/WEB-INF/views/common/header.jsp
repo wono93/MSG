@@ -119,7 +119,9 @@
             </li> -->
             <ul class="secnav" style="margin-bottom: 4px;">
 	            <p id="channelListTitle">Channel
+	           	<a href="#">
 	            	<img src="/msg/resources/image/plus-icon.png" id="plus-icon" style="width:10px; heigth:10px;">
+	           	</a>
 	            </p>
 			</ul>
             <ul class="secnav" id="channelList" style="height:107px;"></ul>

@@ -1,7 +1,6 @@
 var arr = new Array(); 
 hdjq(document).ready(function(){
 	arr.push(empNo);
-//	console.log(arr);
 	
     // Get the modal
     var channelModal = document.getElementById("channelGenModal");
@@ -29,14 +28,10 @@ hdjq(document).ready(function(){
         }
     }
     
-    /*hdjq(".ch-input").click(fucniton(){
-    	this.css("border","2px solid #f4ca25");
-    });*/
 });
 
 function searchMemberCh(){
 	var chKeyword = hdjq("input[name=chKeyword").val();
-	
 	var chSearchType = hdjq("input[name=chSearchType]:checked").val();
 	hdjq.ajax({
 		type:"GET",
@@ -48,8 +43,6 @@ function searchMemberCh(){
 		dataType: "json",
 		success : function(data) {
 			
-//			console.log(chSearchType+", "+chKeyword);
-			
 			for (var i = 0; i < data.length; i++) {
 				addChMember(data[i]['empImage'], data[i]['empName'], data[i]['deptName'], data[i]['jobName'], data[i]['empNo']);
 			}
@@ -57,14 +50,11 @@ function searchMemberCh(){
 	});
 }
 
-
 function addChMember(empImage, empName, deptName, jobName, empNo){
-	
 	for(var i=0; i<arr.length; i++){
 		if(empNo == arr[i])
 			return false;
 	}
-	
 	hdjq("#ch-member-table").append('<tr>'	
             +'<td><img src="/msg/resources/upload/empImg/'+empImage+'" id="ch-member-list-img" class="ch-member-img"></td>'
             +'<td>'+empName+'</td>'
@@ -74,11 +64,9 @@ function addChMember(empImage, empName, deptName, jobName, empNo){
             +'<input type="hidden" name="empNo" value="'+empNo+'">'
             +'<td><a href="#"><img src="/msg/resources/image/X-icon.png" class="x-icon" onclick="deleteMember(this)"></td></a>'
             +'</tr>');
-	
 	arr.push(empNo);
-	
-//	console.log(arr);
 }
+
 function deleteMember(obj){
 	var delTr = hdjq(obj).parents("tr");
 	hdjq(delTr).remove();

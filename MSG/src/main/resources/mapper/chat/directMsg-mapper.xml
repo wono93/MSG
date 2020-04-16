@@ -28,33 +28,13 @@
                     	where (D.from_id = #{fromId) and D.to_id = #{toId})
             				OR (D.to_id = #{fromId} and D.from_id = #{toId}))
 		order by D.msg_date
-<!-- 		select
-		    D.msg_no,E.emp_no,E.user_id,E.emp_name,E.emp_image,D.to_id,D.from_id,D.msg_content,D.msg_date
-		from
-		    emp_tb E left join dm_tb D
-		        on E.emp_no = D.emp_no
-		where
-		    ((D.to_id = #{toId} and D.from_id = #{fromId})
-            	OR (D.to_id = #{fromId} and D.from_id = #{toId}))
-                    and D.msg_no > (select max(D.msg_no) - ${msgNo} from dm_tb)
-		order by D.msg_date -->
 	</select>
 	<insert id="insert">
 		insert into
 			dm_tb
 		values
-			<!-- (seq_msg_no.nextval,${empNo},#{fromId},#{msgContent},default,#{toId}) -->
 			(seq_msg_no.nextval,${empNo},#{fromId},#{msgContent},default,#{toId},0)
 	</insert>
-	<select id="selectOne" resultType="DirectMsg">
-		select
-		    *
-		from
-		    emp_tb E left join dm_tb D
-		        on E.emp_no = D.emp_no
-		where
-		     D.msg_no = (select max(msg_no) from dm_tb where from_id = #{toId})
-	</select>
 	<select id="headerDmList" resultType="DirectMsg">
 		select 
 			*
@@ -63,8 +43,8 @@
 		where
 			to_id = #{fromId}
 		<if test="keyword == null">
-		and 
-			read_dm = 0
+			and 
+				read_dm = 0
 		</if>
 		<if test="keyword != null">
 			and  emp_name like '%'||#{keyword}||'%'
