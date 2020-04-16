@@ -756,12 +756,4 @@ public class EdocController {
 		log.debug("orgChartList.nameSrch@EdocController={}", orgChartList);
 		return orgChartList;
 	}
-	@GetMapping("/edocWelcome.do") // 모달내 검색
-	@ResponseBody
-	public List<EdocSrch> edocWelcome() {
-		
-		List<EdocSrch> EdocSrchList = edocService.selectEdocWelcome();
-		
-		return EdocSrchList;
-	}
 }
