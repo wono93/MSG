@@ -102,6 +102,7 @@ $('a[href="#ex7"]').click(function(event) {
   .modal a.close-modal{
   top: -3px;
   right:-2px;
+  background-image: src("${pageContext.request.contextPath }/resources/image/X-icon.png");
   }
 						    </style>
 			              <div style="height:30px;">
@@ -121,7 +122,6 @@ $('a[href="#ex7"]').click(function(event) {
                                 <th>글쓴이</th>
                                 <th>작성일</th>
                                 <th>제목</th>
-                                
                             </tr>
                             <c:forEach begin="0" end="5" items="${boardList }" var="bl">
 	                            <tr onClick="view('${bl.no}', '${bl.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer;">
@@ -144,7 +144,7 @@ $('a[href="#ex7"]').click(function(event) {
                                 <td>장그래</td>
                                 <td>자유</td>
                                 <td >
-                                    실현에 청춘의 대중을 설레는 얼마나 하(4)
+                                    	실현에 청춘의 대중을 설레는 얼마나 하(4)
                                 </td>
                             </tr>
                             <tr>
