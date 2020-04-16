@@ -86,29 +86,65 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
-	                    <li onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">나의휴가내역</li>
 					</ul>
 				</div>
 				<div class="content">
+						<h3 class="h3title">${memberLoggedIn.deptName }
+							${memberLoggedIn.jobName } ${memberLoggedIn.empName }</h3>
 					<div class="control">
-						<h3 class="h3title">
-						${memberLoggedIn.deptName } ${memberLoggedIn.jobName } ${memberLoggedIn.empName }
-							</h3>
-							<form>
-								<p>
-								<h4 class="h4title">휴가현황</h4>
-								<div id="btnBox">
-									<input type="text" value="2020년" id="yearcheck" />
-									<button type="button" id="upYearcheck" onclick="upYear();">▲</button>
-									<button type="button" id="downYearcheck" onclick="downYear();">▼</button>
+						<div class="srchBar">
+							<div class="select-box">
+								<div class="select-box__current" tabindex="1">
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="0"
+											value="vctn_reason" name="srchTypeInput"
+											${srchType eq 'VCTN_REASON'?'checked="checked"':"" } />
+										<p class="select-box__input-text">사유</p>
+									</div>
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="1"
+											value="vctn_nm" name="srchTypeInput"
+											${srchType eq 'VCTN_NM'?'checked="checked"':"" } />
+										<p class="select-box__input-text">휴가종류</p>
+									</div>
+									<div class="select-box__value">
+										<input class="select-box__input" type="radio" id="2"
+											value="all" name="srchTypeInput"
+											${srchType eq 'all'?'checked="checked"':"" } />
+										<p class="select-box__input-text">전체</p>
+									</div>
+									<img class="select-box__icon"
+										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+										alt="Arrow Icon" aria-hidden="true" />
 								</div>
-								</p>
-							</form>
+								<ul class="select-box__list">
+									<li><label class="select-box__option" for="2"
+										aria-hidden="aria-hidden">전체</label></li>
+									<li><label class="select-box__option" for="0"
+										aria-hidden="aria-hidden">사유</label></li>
+									<li><label class="select-box__option" for="1"
+										aria-hidden="aria-hidden">휴가종류</label></li>
+								</ul>
+							</div>
+							<input type="text" name="" id="srchWord"
+								value="${srchWord eq 'null'?'':srchWord }">
+							<button type="button" name="" id="srchBtn" class="yellowBtn">
+								<i class="fas fa-search" style="font-size: 15px"></i> 검색
+							</button>
+						</div>
 					</div>
+					<h4 class="h4title">휴가현황</h4>
 					<table>
 						<tr id="vct_tr">
 							<th id="vct_th" rowspan="2">연차</th>
@@ -125,60 +161,57 @@
 							<th id="vct_th">무급</th>
 							<th id="vct_th">기타</th>
 						</tr>
-					    <c:forEach  items="${leaveListInfoPlus}" var="leave2" varStatus="vs">
-							 <c:if test="${vs.last}">
-							<tr>
-							 <th>${leave2.annual}</th> 
-							 <th>${leave2.reward}</th>
-							<th>${leave2.annualUsed}</th>
-							<th>${leave2.rewardUsed}</th>
-							<th>${leave2.floatingUsed}</th>
-							<th>${leave2.familyeventUsed}</th>
-							<th>${leave2.sickleaveUsed}</th>
-							<th>${leave2.unpaidUsed}</th>
-							<th>${leave2.otherUsed}</th>
-							<th>연차${leave2.annualNotUsed }일 포상${leave2.rewardNotused }일</th> 			
-						</tr>
-						</c:if> 
-						</c:forEach>				
+						<c:forEach items="${leaveListInfoPlus}" var="leave2"
+							varStatus="vs">
+							<c:if test="${vs.last}">
+								<tr>
+									<th>${leave2.annual}</th>
+									<th>${leave2.reward}</th>
+									<th>${leave2.annualUsed}</th>
+									<th>${leave2.rewardUsed}</th>
+									<th>${leave2.floatingUsed}</th>
+									<th>${leave2.familyeventUsed}</th>
+									<th>${leave2.sickleaveUsed}</th>
+									<th>${leave2.unpaidUsed}</th>
+									<th>${leave2.otherUsed}</th>
+									<th>연차${leave2.annualNotUsed }일 포상${leave2.rewardNotused }일</th>
+								</tr>
+							</c:if>
+						</c:forEach>
 					</table>
 					<table>
-						<h4 class="h4title2">
-							휴가내역
-							</h4>
+						<h4 class="h4title2">휴가내역</h4>
 					</table>
 					<table>
 						<tr>
 							<th></th>
-							<th>일시</th>
-							<th>사유</th>
 							<th>종류</th>
+							<th>사유</th>
+							<th>일시</th>
 							<th>사용일수</th>
 						</tr>
-						<c:forEach  items="${leaveMyList}" var="leave" varStatus="vs">
-						<c:if test="${memberLoggedIn.empNo == leave.empNo  }">
-						<tr>
-							<td>${leave.vctnDtlNo}</td>
-							<td>${leave.vctnStdt }~${leave.vctnEndt}</td>
-							<td>${leave.vctnReason}</td>
-							<td>${leave.vctnNm }</td>
-							<td>${leave.vctnUsed }</td>
-						</tr>
-						</c:if>
+						<c:forEach items="${leaveMyList}" var="leave" varStatus="vs">
+							<c:if test="${memberLoggedIn.empNo == leave.empNo  }">
+								<tr>
+									<td>${leave.vctnDtlNo}</td>
+									<td>${leave.vctnNm }</td>
+									<td>${leave.vctnReason}</td>
+									<td>${leave.vctnStdt }~${leave.vctnEndt}</td>
+									<td>${leave.vctnUsed }</td>
+								</tr>
+							</c:if>
 						</c:forEach>
 					</table>
-					<div class="pagination">
-					${pageBar }	
-					</div>
-					<div class="srchBar">
+					<div class="pagination">${pageBar }</div>
+					<%-- 	<div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0" value="dept_name" name="srchTypeInput" ${srchType eq 'VCTN_REASON'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="0" value="vctn_reason" name="srchTypeInput" ${srchType eq 'VCTN_REASON'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">사유</p>
 								</div>
 								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1" value="emp_name" name="srchTypeInput" ${srchType eq 'VCTN_NM'?'checked="checked"':"" }/>
+									<input class="select-box__input" type="radio" id="1" value="vctn_nm" name="srchTypeInput" ${srchType eq 'VCTN_NM'?'checked="checked"':"" }/>
 									<p class="select-box__input-text">휴가종류</p>
 								</div>
 								<div class="select-box__value">
@@ -202,41 +235,41 @@
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
-					</div>
+					</div> --%>
 				</div>
 			</article>
 		</div>
 	</section>
-		<script>
-	
-	$("#srchBtn").click(function(){
-		
-		//폼 태그 생성
-        var form = document.createElement('form');
-        //폼 속성 set attribute
-        form.name = 'newForm';
-        form.method = 'get';
-        form.action = '/msg/leave/select.do';
-        form.target = '_self';        
-        //input 태그 생성
-        var input1 = document.createElement('input');
-			 var input3 = document.createElement('input');
-        //input태그에 set attribute
-        input1.setAttribute("type", "hidden");
-			input1.setAttribute("name", "srchWord");
-			input1.setAttribute("value", $("#srchWord").val());
-			input3.setAttribute("type", "hidden");
-	        input3.setAttribute("name", "srchType");
-	        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
-        //완성된 input 태그를 form에 append
-       form.appendChild(input1);
-			form.appendChild(input3);
-        //form 태그
-        document.body.appendChild(form);
-        // form 제출
-        form.submit();
-	});
-	
+	<script>
+		$("#srchBtn").click(
+				function() {
+
+					//폼 태그 생성
+					var form = document.createElement('form');
+					//폼 속성 set attribute
+					form.name = 'newForm';
+					form.method = 'get';
+					form.action = '/msg/leave/select.do';
+					form.target = '_self';
+					//input 태그 생성
+					var input1 = document.createElement('input');
+					var input3 = document.createElement('input');
+					//input태그에 set attribute
+					input1.setAttribute("type", "hidden");
+					input1.setAttribute("name", "srchWord");
+					input1.setAttribute("value", $("#srchWord").val());
+					input3.setAttribute("type", "hidden");
+					input3.setAttribute("name", "srchType");
+					input3.setAttribute("value", $(
+							"input[name='srchTypeInput']:checked").val());
+					//완성된 input 태그를 form에 append
+					form.appendChild(input1);
+					form.appendChild(input3);
+					//form 태그
+					document.body.appendChild(form);
+					// form 제출
+					form.submit();
+				});
 	</script>
 </body>
 </html>

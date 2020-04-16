@@ -1,3 +1,45 @@
+.control {
+ margin-top: 0px;
+}
+
+.content>.control{
+	margin-top:0;
+}
+
+.board:nth-child(1) > tbody:nth-child(1) {
+ position: relative;
+ top: -295px;
+}
+
+.empLogView {
+ position: relative;
+ top: 15px;
+}
+
+.number {
+ position: relative;
+ left: -0.4375px;
+}
+
+.workingdays {
+ width: 172px;
+ position: relative;
+ left: -36.2344px;
+}
+
+h2:nth-child(1) {
+ position: relative;
+ left: 14.6562px;
+}
+
+#timepicker-start {
+ height: 31px;
+}
+
+#timepicker-end {
+ height: 31px;
+}
+
 .board th, .board td{
     width: 70%;
 }
@@ -8,7 +50,7 @@ table th:nth-child(3){
     width: -webkit-fill-available;
 }
 table td:nth-child(3){
-    padding-left: 0px;
+    padding-left: 7px;
     text-align: center;
 }
 table td:nth-child(2){
@@ -47,4 +89,9 @@ h2.workingdays{
 
 li.deptAndJob{
     font-size: 1.3em;
+}
+
+.pagination {
+    z-index: 100;
+    margin-top: 0;
 }

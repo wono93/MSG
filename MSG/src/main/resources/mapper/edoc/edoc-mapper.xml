@@ -375,6 +375,21 @@
 		        USING (JOB_CD)
 	</select>
 	
+	<select id="selectEdocWelcome" resultType="edocSrch">
+	select
+		rownum, A.*
+	from
+		(select
+			distinct edoc_id, emp_name, form_nm, edoc_title, edoc_end_dt
+		from
+			edoc_all_tb
+		where
+			edoc_end = 'Y'
+		order by edoc_end_dt desc) A
+	where rownum <![CDATA[<]]> 7
+	</select>
+	
+	
 	<resultMap type="EdocSrch" id="EdocSrchFlowCollection">
 		<id column="edoc_id" property="edocId" />
 		<result column="secu_cd" property="secuCd" />

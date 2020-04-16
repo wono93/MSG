@@ -50,7 +50,7 @@ table {
 }
 th, td {
     border-bottom: 1px solid #999999;
-    padding: 9px;
+    padding-top: 12px;
 }
 table th:nth-child(3){
     width: 350px;
@@ -64,8 +64,8 @@ table td:nth-child(2){
 }
 /* 여기서부터 페이징 */
 .pagination {
-    padding-top: 30px;
     display: inline-block;
+    margin-top: -23px;
 }
 .pagination a {
     color: #999999;
@@ -91,10 +91,6 @@ table td:nth-child(2){
 }
 
 /* 여기서부터 검색창 */
-.srchBar {
-    padding-top: 10px;
-    padding-bottom: 150px;
-}
 #srchWord {
     background-color: #ebebeb;
     color: #333333;
@@ -103,6 +99,9 @@ table td:nth-child(2){
     width: 230px;
     font-family: "Noto Sans KR";
     font-size: 14px;
+    float: left;
+    margin-left: 22px;
+    z-index: 100;
 }
 .yellowBtn{
     background-color: #f4ca25;
@@ -114,6 +113,8 @@ table td:nth-child(2){
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
+    float: right;
+    margin-right: 136px;
 }
 #timepicker-start, #timepicker-end {
     width: 210px;
@@ -133,6 +134,9 @@ table td:nth-child(2){
     font-size: 14px;
     font-weight: 800;
     color: #333333;
+    float: left;
+    margin-left: 134px;
+    z-index: 100;
   }
   @media (min-width: 110px) {
     .select-box {
@@ -257,13 +261,14 @@ html{background-color: #ededed; }
 	margin:0 auto;
 	min-height: 1200px;
 	background-color:#fefefe;
-	text-align: center;
+	/* text-align: center; */
 }
 .content>span{font-size:30px; margin-left: 30px;}
 
 .content > .board {
-	padding : 0px 40px;
-	width : 960px;
+	padding: 0px 40px;
+	width: 750px;
+	/* margin-top: 70px; */
 }
 
 .content>.control {
@@ -272,6 +277,7 @@ html{background-color: #ededed; }
     vertical-align: middle;
     border: 0 solid white;
     height: auto;
+    margin-top: -77px;
 }
 .control h2{
     margin: 43px 33px 43px 20px;
@@ -336,8 +342,8 @@ article > .content{
 .empLogView{
     float: left;
 }
-.board{width: 100%; line-height: 46px; margin-top: 20px;}
+.board{width: 100%;line-height: 46px;margin-top: 5px;}
 .board th, .board td{color: #333;width: 34%;text-align: center;}
-.board tr{/* width:980px; */display:flex;border-bottom: 1px solid #999;}
-.board tr:first-child{ border-top: 4px solid #999;}
+.board tr{display:flex;border-bottom: 1px solid #999;}
+.board tr:first-child{border-top: px solid #999;}
 .board tr:last-child{ margin-bottom:50px;}

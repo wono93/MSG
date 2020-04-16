@@ -39,12 +39,10 @@ article > .subNav {
     vertical-align: middle;
    
 }
-
 /* subNav */
 .subNav::after{content:""; display:block; clear:both;}
 .subNav > h3{margin:75px 0 0 0px; font-size:36px; font-weight:900; text-align: left;}
 .subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
-
 
 /* 여기서부터 테이블 */
 table {
@@ -61,14 +59,15 @@ table {
 
 th, td {
     border-bottom: 1px solid #999999;
-    padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 table td:nth-child(3){
     padding-left: 30px;
-    text-align: center;
+    text-align: left;
 }
 table td:nth-child(2){
-    text-align: center;
+    text-align: left;
 }
 /* 여기서부터 페이징 */
 .pagination {
@@ -98,30 +97,31 @@ table td:nth-child(2){
     margin-right: 100px;
 }
 
-.wavepart{
-  font-size: 2em;
-  top: 5px;
-  position: relative;
-}
-
-
 /* 여기서부터 검색창 */
 .srchBar {
-    padding-top: 10px;
-    padding-bottom: 150px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 #srchWord {
     background-color: #ebebeb;
     color: #333333;
-    border: 0;
-    height: 34px;
+    border:  2px solid #ebebeb;
+    height: 33px;
     width: 230px;
     font-family: "Noto Sans KR";
     font-size: 14px;
+    float: left;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+#srchWord:focus{
+	background-color : #fefefe;
+	border:  2px solid  #f4ca25;
 }
 .yellowBtn{
-    background-color: #f4ca25;
-    border: none;
+	    background-color: #fefefe;
+    border: 1px solid #999999;
     color: #333333;
     padding: 9px 19px;
     text-align: center;
@@ -129,6 +129,14 @@ table td:nth-child(2){
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
+    margin-left: 380px;
+
+}
+
+.yellowBtn:hover{
+	background-color:  #f4ca25;
+    border: 1px solid  #f4ca25;
+    color: #fefefe;
 }
 
 /* 여기서부터 select-box */
@@ -144,6 +152,8 @@ table td:nth-child(2){
   @media (min-width: 110px) {
     .select-box {
       width: 110px;
+      float: left;
+    margin-left: 60px;
     }
   }
   .select-box__current {
@@ -222,8 +232,9 @@ table td:nth-child(2){
   }
  /*버튼*/
   .penbutton{
-    font-size:24px; background-color:white;
+    font-size:20px; background-color:white;
      color:gray; border:white; cursor: pointer;
+     padding: 0px 0px;
   }
 
   .penbutton:hover{
@@ -235,7 +246,8 @@ table td:nth-child(2){
     width: 105px;
     margin-top: 50px;
     height: 35px;
-    border: solid gray;
+    border: solid gray 2px;
+
 
   }
   #yearcheck{
@@ -276,10 +288,9 @@ table td:nth-child(2){
   #downYearcheck:hover{
     color: black;
   }
-  #checkcal{
+  #vacationcheck{
     float:right;
     margin-right:60px;
-  
   }
 
   .upQtyBtn{
@@ -346,6 +357,7 @@ table td:nth-child(2){
     cursor: pointer;
    
   }
+
   #vct_li a:link{
     color: gray; text-decoration: none;
   }
@@ -375,24 +387,21 @@ table td:nth-child(2){
     color:black; text-decoration: none;
   }
   /*휴가내역*/
-  #checkcal{
+  #vacationcheck{
     width: 200px;
     height: 40px;
     background: white;
-    border: solid  #999 2px;
-    color:  #999;
+    border: solid gray 2px;
+    color: gray;
     font-weight: bold;
     position: relative;
-    margin-top: 40px;
+    margin-top: -40px;
     cursor: pointer;
-    margin-top: -60px;
   }
 
-  #checkcal:hover{
-    color: #000000;
-    background-color: #f4ca25;
-    border: solid  #999 2px;
-    
+  #vacationcheck:hover{
+    color: black;
+    border: solid black;
   }
 
   /*modal*/
@@ -403,9 +412,29 @@ table td:nth-child(2){
     display: block;
     width: 100%;
     margin-bottom: 20px;
+    margin-left: 40px;
+
+  }
+
+  .updown.custom{
+    margin-left: 40px;
+  }
+
+  .divice.custom{
+    margin-left: 40px;
   }
   
-  input[type="radio"].custom {
+  .divice.brd{
+    margin-top: 10px;
+    font-size: 17px;
+  }
+
+  .setting.custom{
+    margin-left: 40px;
+  }
+  
+ 
+/*   input[type="radio"].custom {
     margin-left: 0;
     padding: 0;
   }
@@ -420,9 +449,9 @@ table td:nth-child(2){
     padding: 0px;
     border: 0;
   }
-  
+   */
 
-  input[type=radio].css-checkbox+label.css-label-red,
+/*   input[type=radio].css-checkbox+label.css-label-red,
   input[type=radio].css-checkbox+label.css-label-yellow{
     padding-left: 40px;
     height: 30px;
@@ -435,21 +464,21 @@ table td:nth-child(2){
     vertical-align: middle;
     cursor: pointer;
     opacity: 1;
-  }
+  } */
   
 
-  input[type=radio].css-checkbox+label.css-label-red:hover,
+ /*  input[type=radio].css-checkbox+label.css-label-red:hover,
   input[type=radio].css-checkbox+label.css-label-yellow:hover{
-  /*   opacity: 0.5; */ /* 선택적 사용 */
+    opacity: 0.5; 선택적 사용
   }
   
 
   input[type=radio].css-checkbox:checked+label.css-label-red,
   input[type=radio].css-checkbox:checked+label.css-label-yellow {
     background-position: 0 -30px;
-  }
+  } */
   
-  
+  /* 
   .css-label-red {
     background-image: url(http://codeopus.net/file/blog/check3.png);
     background-size: 30px;
@@ -458,28 +487,33 @@ table td:nth-child(2){
   .css-label-yellow {
     background-image: url(http://codeopus.net/file/blog/check3.png);
     background-size: 30px;
-  }
+  } */
   
-  #bookid{
+ /*  #bookid{
     width: 300px;
     height: 100px;
     background-color: #ebebeb;
-    color: gray;
+    color: #121212;
     margin-left: 120px;
     margin-top: -35px;
     font-size: 12px;
    
-  }
+  } */
 
   #bookid p{
     margin-left: 10px;
   }
 
+  #test.modal{
+    max-width: 730px;
+    border-radius: 0px;
+  }
   .modaltb{
-    border: solid gray;
-    width: 450px;
-    font-size: 10px;
+    border: solid gray 2px;
+    width: 600px;
+    font-size: 16px;
     overflow: auto;
+    margin-left: 0px;
   }
   
   .modaltr{
@@ -510,13 +544,14 @@ table td:nth-child(2){
     background-color: white;
     color: gray;
     border: solid 1px gray;
-    width: 60px;
-    margin-left: 140px;
+    width: 80px;
+    height: 40px;
+    margin-left: 455px;
     cursor: pointer;
   }
 
   #modalsub:hover{
-    background-color: gray;
+    background-color: orange;
     color: white;
   }
 
@@ -524,8 +559,9 @@ table td:nth-child(2){
     background-color: white;
     color: gray;
     border: solid 1px gray;
-    width: 60px;
-    margin-left: 50px;
+    width: 80px;
+    height: 40px;
+    margin-left: 20px;
     cursor: pointer;
   }
 
@@ -554,33 +590,45 @@ table td:nth-child(2){
       -webkit-transform: scaleY(0);
               transform: scaleY(0);
     }
-  }
-  
-  #checkdate1{
-    margin-left: 60px;
-    float: left;
-    margin-top: 50px;
-    font-size: 20px;
-    font: bold;
-    color: gray;
-  }
+}
 
-  #checkdate2{
-    float: left;
-    margin-left: 20px;
-    margin-top: 55px;
-  }
+  /* 모달 컨텍스트 */
+ #updateCar-no{ background-color: #ebebeb; color: #333333; height: 30px;
+            width: 560px; border: none; border-bottom: 3px solid #999999; 
+            padding: 12px 19px; margin-bottom: 15px; font-size: 15px; clear:both;
+            margin-left: 40px; }
+ 
+ .minusBtn, .plusBtn{background-color: #ebebeb; width: 40px; height: 40px; border-radius: 40px; border: solid #ebebeb;
+  					color: #333; font: bold; font-size: 20px; cursor: pointer;}
+.minusBtn:hover, .plusBtn:hover{ background-color: #f4ca25; color: white; border: solid #f4ca25;}
+#person, #person_{ width: 70px; text-align: center; font-size: 20px; font: bold; border:none;}
 
-  #checkdate3{
-    float: left;
-    margin-left: 20px;
-    margin-top: 55px;
-  }
+#a.close-modal{
+	display:none;
+}
+margin-left: 40px;
+/* 모달 체크박스 */
+.checkbox_wrap label {
+    margin-left: 40px;
+}
+.checkbox_wrap{position: relative;}
+.myDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px; margin-left:40px;}
+.myDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.myDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
+.myDocu-container:hover input ~ .myDocu-checkmark { background-color: #ccc;}
+.myDocu-container input:checked ~ .myDocu-checkmark { background-color: #F4CA25; }
+.myDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.myDocu-container input:checked ~ .myDocu-checkmark:after { display: inline; }
+.myDocu-container .myDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.reqDocu-container { display: inline; position: relative; padding-left: 35px; cursor: pointer; font-size: 20px;}
+.reqDocu-container input {position: absolute; opacity: 0; cursor: pointer; }
+.reqDocu-checkmark { position: absolute; top: 3px; left: 0; height: 25px; width: 25px; background-color: #ebebeb;}
+.reqDocu-container:hover input ~ .reqDocu-checkmark { background-color: #ccc;}
+.reqDocu-container input:checked ~ .reqDocu-checkmark { background-color: #F4CA25; }
+.reqDocu-checkmark:after { content: ""; position: absolute; display: none; } /*클릭시 체크생성*/
+.reqDocu-container input:checked ~ .reqDocu-checkmark:after { display: inline; }
+.reqDocu-container .reqDocu-checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white;
+                                    border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
 
-  #wave{
-    float: left;
-    margin-left: 20px;
-    margin-top: 50px;
-    font:bold;
-    font-size: 25px;
-  }
+            

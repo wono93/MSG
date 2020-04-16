@@ -195,6 +195,7 @@ height: 34PX;
   
   .sen{font-family: 'Sen', sans-serif;}
   #calTable{position:relative; top:-400px;}
+  #calTable tr:last-of-type td{border-bottom:none !important; }
   #calTable tr>td:first-of-type{font-family: 'Sen', sans-serif; font-weight:700; font-size:20px !important; color: #999; width:10%;}
   #calTable tr>td:nth-of-type(2){font-size:20px !important; color: #999; width:5%; padding: 10px 0 !important;}
   #calTable tr>td:nth-of-type(3){  overflow: hidden; text-overflow: ellipsis;}

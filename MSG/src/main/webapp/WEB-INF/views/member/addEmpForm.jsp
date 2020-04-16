@@ -456,6 +456,7 @@ to {
 							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">나의휴가내역</li>
 					</ul>
 				</div>
 

@@ -152,4 +152,9 @@ public class EdocDAOImpl implements EdocDAO {
 		return sqlSession.selectList("edoc.selectNameSrch");
 	}
 
+	@Override
+	public List<EdocSrch> selectEdocWelcome() {
+		return sqlSession.selectList("edoc.selectEdocWelcome");
+	}
+
 }
