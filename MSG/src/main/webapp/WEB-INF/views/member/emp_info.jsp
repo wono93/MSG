@@ -130,7 +130,19 @@ article .content {
 
 .statusbox {
 	text-align: center;
+ 	position: relative;
 	margin-top: 400px;
+ 	top: 0px;
+}
+
+.fas.fa-quote-left.quote-left {
+ position: relative;
+ top: -22.5px;
+}
+
+.fas.fa-quote-right.quote-right {
+ position: relative;
+ top: 35.5px;
 }
 
 .statusbox img {
@@ -148,15 +160,26 @@ article .content {
 	font-size: 20px;
 	outline: none;
 	font-family: 'Noto Sans KR', sans-serif;
-	border: none;
 	background-color: inherit;
+	
 }
+
+#status{
+	border-bottom: 2px solid #999;
+	border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+
 
 .quote-left::before, .quote-right::before {
 	position: relative;
 	top: -30px;
-	color: #F4CA25;
+	color: #999;
 }
+
+
 .buttons button:hover {
     font-weight: bold;
     color: #fefefe;
@@ -419,7 +442,13 @@ to {
 			$(document).ready(function(){
 				$("#status").prop('disabled',false);
 				$(".submit").show();
-			})
+			});
+			$('#status').focus(function(){
+				$("head").append('<style>.quote-right::before,.quote-left::before{color:#FACA25;}#status{border:none;}</style>}');
+			});
+			$('#status').focusout(function(){
+				$("head").append('<style>.quote-right::before,.quote-left::before{color:#999;}#status{border-bottom: 2px solid #999;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;}</style>}');
+			});
 		</script>
 		
 	</c:if>
