@@ -46,10 +46,10 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						<c:if test="${memberLoggedIn.authority ne 'N' }"> 		
+								<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+								<li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+            			</c:if>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 						<li
@@ -78,26 +78,29 @@
 						<ul>
 							<li class="deptAndJob">${list.get(0).deptName }</li>
 							<li><p class="empName">${list.get(0).empName }</li>
-							<li>출근일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-								class=number>${bsnsDay - list.get(0).vctnCount }</span>일
-							</li>
-							<li>휴가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								<span class="number">${list.get(0).vctnCount }</span>일
-							</li>
-							<li>결근&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;
-								<span class="number">${list.get(0).absentCount }</span>일
-							</li>
-							<li>지각&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;
-								<span class="number">${list.get(0).lateCount }</span>일
-							</li>
-							<li>조퇴&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;
-								<span class="number">${list.get(0).leaveCount }</span>일
-							</li>
 						</ul>
+						<table>
+							<tr>
+								<td>출근일</td>
+								<td>${bsnsDay - list.get(0).vctnCount }일</td>
+							</tr>
+							<tr>
+								<td>휴가</td>
+								<td>${list.get(0).vctnCount }일</td>
+							</tr>
+							<tr>
+								<td>결근</td>
+								<td>${list.get(0).absentCount }일</td>
+							</tr>
+							<tr>
+								<td>지각</td>
+								<td>${list.get(0).lateCount }일</td>
+							</tr>
+							<tr>
+								<td>조퇴</td>
+								<td>${list.get(0).leaveCount }일</td>
+							</tr>
+						</table>
 					</div>
 					<div class="empLogView">
 						<table class="board">
@@ -119,30 +122,30 @@
 								</tr>
 							</c:forEach>
 						</table>
-					</div>
-					<div class="pagination">
-						<c:if test="${paging.startPage != 1 }">
-							<a
-								href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
-								class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
-						</c:if>
-						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
-							var="p">
-							<c:choose>
-								<c:when test="${p == paging.nowPage }">
-									<a class="active">${p }</a>
-								</c:when>
-								<c:when test="${p != paging.nowPage }">
-									<a
-										href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}">${p }</a>
-								</c:when>
-							</c:choose>
-						</c:forEach>
-						<c:if test="${paging.endPage != paging.lastPage}">
-							<a
-								href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
-								class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
-						</c:if>
+						<div class="pagination">
+							<c:if test="${paging.startPage != 1 }">
+								<a
+									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
+									class="arrow" style="margin-left: 0px; margin-right: 0px;">&laquo;</a>
+							</c:if>
+							<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+								var="p">
+								<c:choose>
+									<c:when test="${p == paging.nowPage }">
+										<a class="active">${p }</a>
+									</c:when>
+									<c:when test="${p != paging.nowPage }">
+										<a
+											href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}">${p }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${paging.endPage != paging.lastPage}">
+								<a
+									href="${pageContext.request.contextPath}/member/empLog.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&startDate=${srcDateStart}&endDate=${srcDateEnd}&empNo=${empNo}"
+									class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</article>

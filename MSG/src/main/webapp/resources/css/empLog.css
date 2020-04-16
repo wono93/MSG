@@ -95,3 +95,114 @@ li.deptAndJob{
     z-index: 100;
     margin-top: 0;
 }
+
+.emp {
+ height: 311px;
+}
+
+.emp table {
+	width:auto;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) {
+ position: relative;
+ left: -35.5px;
+ border: 0px none rgb(0, 0, 0);
+ font-weight: bold;
+ font-style: normal;
+ font-size: 18px;
+}
+
+table:nth-child(2) {
+ border-top-width: 0px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) {
+ position: relative;
+ left: 33.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: right;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) {
+ position: relative;
+ left: -35.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: left;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(1) {
+ position: relative;
+ left: -35.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: left;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) {
+ position: relative;
+ left: -35.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: left;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) {
+ position: relative;
+ left: -35.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: left;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2) {
+ position: relative;
+ left: 33.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: right;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(2) {
+ position: relative;
+ left: 33.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: right;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(2) {
+ position: relative;
+ left: 33.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: right;
+ font-size: 18px;
+}
+
+table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(2) {
+ position: relative;
+ left: 33.5px;
+ border-bottom-width: 0px;
+ font-weight: bold;
+ font-style: normal;
+ text-align: right;
+ font-size: 18px;
+}

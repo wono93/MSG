@@ -49,12 +49,11 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
+						<c:if test="${memberLoggedIn.authority ne 'N' }"> 		
+								<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+								<li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+            			</c:if>
+						<li onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
 						<li
