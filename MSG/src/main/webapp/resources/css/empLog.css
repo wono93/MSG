@@ -90,3 +90,8 @@ h2.workingdays{
 li.deptAndJob{
     font-size: 1.3em;
 }
+
+.pagination {
+    z-index: 100;
+    margin-top: 0;
+}

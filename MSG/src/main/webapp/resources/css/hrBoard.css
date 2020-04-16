@@ -101,6 +101,7 @@ table td:nth-child(2){
     font-size: 14px;
     float: left;
     margin-left: 22px;
+    z-index: 100;
 }
 .yellowBtn{
     background-color: #f4ca25;
@@ -135,6 +136,7 @@ table td:nth-child(2){
     color: #333333;
     float: left;
     margin-left: 134px;
+    z-index: 100;
   }
   @media (min-width: 110px) {
     .select-box {
