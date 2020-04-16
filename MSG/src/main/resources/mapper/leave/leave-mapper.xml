@@ -221,8 +221,8 @@
 
 	<resultMap type="leaveModal" id="leaveModal"></resultMap>
 	<select id="selectModalList" resultMap="leaveModal">
-		SELECT
-		C.EMP_NO
+			SELECT
+		B.EMP_NO
 		,A.VCTN_CD
 		,A.VCTN_NM
 		,B.VCTN_AMT
@@ -232,11 +232,9 @@
 		FROM
 		VCTN_TYPE_TB A
 		,VCTN_UPDT_TB B
-		,EMP_TB C
-		WHERE E.EMP_NO= #{empNo}
+		WHERE B.EMP_NO= #{empNo}
 		AND
 		B.VCTN_CD = A.VCTN_CD
-		AND B.EMP_NO = C.EMP_NO
 	</select>
 
 	<resultMap type="leaveSet" id="leaveSet"></resultMap>

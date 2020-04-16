@@ -66,9 +66,6 @@
 										<input class="select-box__input" type="radio" id="R3"
 											value="emp_name" name="searchBy" />
 										<p class="select-box__input-text">이름</p>
-
-
-
 									</div>
 									<img class="select-box__icon"
 										src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"

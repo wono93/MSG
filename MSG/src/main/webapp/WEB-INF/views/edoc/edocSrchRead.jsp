@@ -70,7 +70,7 @@
 								class="whiteBtn commonBtn">결재선</button>
 							<button type="button" name="" id="listBtn"
 								class="whiteBtn commonBtn"
-								onclick="location.href='${pageContext.request.contextPath}/edoc/srch.do'">목록</button>
+								onclick="location.href='javascript:history.back();'">목록</button>
 						</div>
 					</div>
 					<div class="tbRow">

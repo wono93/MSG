@@ -27,6 +27,8 @@ import com.kh.msg.chat.model.service.ChannelService;
 import com.kh.msg.chat.model.vo.ChannelInfo;
 import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
+import com.kh.msg.edoc.model.service.EdocService;
+import com.kh.msg.edoc.model.vo.EdocSrch;
 import com.kh.msg.member.controller.MemberController;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
@@ -43,6 +45,9 @@ public class ChannelController {
 	
 	@Autowired
 	ChannelService channelService;
+	
+	@Autowired
+	EdocService edocService;
 	
 	@GetMapping("/headerChList.do")
 	@ResponseBody
@@ -427,10 +432,13 @@ public class ChannelController {
 		List<Board> boardList = channelService.mainBoardList();
 		List<Member> memberList = channelService.userLogin();
    		List<LoginVO> userList= MemberController.userList;
+		List<EdocSrch> edocSrchList = edocService.selectEdocWelcome();
    		
    		model.addAttribute("userList", userList);
    		model.addAttribute("memberList", memberList);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("edocList", edocSrchList);
+		
 		return "/common/welcome";
 	}
 	
