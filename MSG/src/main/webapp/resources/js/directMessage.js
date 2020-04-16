@@ -51,7 +51,7 @@ hdjq(document).ready(function(){
 //        		console.log("ctrl enter!");
 //        		hdjq("#msgContent").append("<br>");
 //        	}
-        });	
+        });
 	});
 });
 function getAllUnreadDm() {
@@ -79,13 +79,13 @@ function dmListFunction() {
 					addList(data[i]['empImage'], data[i]['empName'], data[i]['jobName'], data[i]['toId'], data[i]['unread']);
 //					console.log("unread="+data[i]['unread']);
 			}
-		} 
+		}
 	});
 }
 function searchMember() {
 	var dmKeyword = hdjq("input[name=dmKeyword").val();
 //	console.log(dmKeyword);
-	
+
 	hdjq.ajax({
 		type : "GET",
 		url : "/msg/chat/headerDmList.do",

@@ -256,14 +256,5 @@
 			EMP_TB(EMP_NO, USER_ID, USER_PWD, EMP_NAME, EMP_RRN_NO, EMP_IMAGE, EMP_ADDRESS, AUTHORITY, ISMANAGER, JOB_CD, DEPT_CD, EMP_EMAIL) 
 			VALUES(SEQ_EMP_NO.NEXTVAL, #{userId}, #{userPwd}, #{empName}, #{empRRNNo}, #{empImage}, #{empAddress}, #{authority}, #{isManager}, #{jobCd}, #{deptCd}, #{empEmail})
 	</insert>
-	<select id="mainBoardList" resultType="Board">
-		 select*from( SELECT ROWNUM RN, A.* 
-					FROM (
-							select *
-                            from brd_tb 
-                            where B.catag like '%'||'공지,행사'||'%'
-                            order by B.no desc
-							) A)
-                            WHERE  RN BETWEEN 1 AND 5
-	</select>
+	
 </mapper>

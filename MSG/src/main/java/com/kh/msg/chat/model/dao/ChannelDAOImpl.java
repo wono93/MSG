@@ -8,9 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.msg.board.model.vo.Board;
 import com.kh.msg.chat.model.vo.ChannelInfo;
 import com.kh.msg.chat.model.vo.ChannelMember;
 import com.kh.msg.chat.model.vo.ChannelMsg;
+import com.kh.msg.member.model.vo.Member;
 import com.kh.msg.member.model.vo.OrgChart;
 
 @Repository
@@ -83,5 +85,15 @@ public class ChannelDAOImpl implements ChannelDAO {
 		return sqlSession.update("Channel.modifyChannel",chInfo);
 	}
 
+	@Override
+	public List<Board> mainBoardList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("Channel.mainBoardList");
+	}
 
+	@Override
+	public List<Member> userLogin() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("Channel.userLogin");
+	}
 }

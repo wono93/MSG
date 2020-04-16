@@ -13,6 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4c554cd518.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  
 </head>
 <style>
 .welcomeBox {
@@ -31,9 +36,22 @@
 	margin: 0;
 	font-weight: 900;
 }
+
 </style>
 <script>
+function view(no, empNo, memberEmpno){
+	location.href="${pageContext.request.contextPath}/board/view.do?boardNo="+no+"&empNo="+empNo+"&memberEmpno="+memberEmpno;
 	
+}
+
+$('a[href="#ex7"]').click(function(event) {
+    event.preventDefault();
+
+    $(this).modal({
+      fadeDuration: 250
+    });
+  });
+
 </script>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -42,8 +60,55 @@
             <article>
                 <div style="margin-left: 15px;" class="subNav">
                     <div style="margin-top: 55px;">
-                        <button type="button" name="" id="boardBtn1" class="yellowBtn">접속자 확인</button>
+	                    <a id="Scr" href="#ex1"  rel="modal:open">
+	                        <button type="button" name="" id="boardBtn1" class="yellowBtn">접속자 확인</button>
+	                    </a>
+                        <button type="button" name="" id="boardBtn2" class="yellowBtn">팀 채널 가기</button>
                     </div>
+                    <!-- 접속자확인 모달 -->
+                    <div style="bottom:22px; width:317px; z-index: 100;" id="ex1" class="modal">
+			            <p>접속자 확인</p>
+			            <div style="text-align:left; height:300px; width:280px;  overflow-y:scroll;">
+			            	<ul  class="mainLi" id="userLogin">
+								<c:forEach items="${userList }" var="u">
+						            <c:forEach items="${memberList }" var= "m">
+							            <c:if test="${u.id == m.userId }">
+							            	<li>
+												 <a href="#" onclick="">
+												 <i class="fas fa-circle" style="font-size:15px; color:green; margin-right:5px;"></i>	
+												 <span style="position:relative; top:-15px; margin-bottom:-30px; margin-right:10px;"  class="headerlistname">${m.empName } / ${m.jobCd } </span>
+												 <img src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}" class="member-img">
+										 	</li>
+							            </c:if>
+						            </c:forEach>
+								</c:forEach>
+								<c:forEach items="${userList }" var="u">
+						            <c:forEach items="${memberList }" var= "m">
+							            <c:if test="${u.id != m.userId }">
+							            	<li >
+												 <a href="#" onclick="">
+												 <i class="fas fa-circle" style="font-size:15px; color:gray;  margin-right:5px;"></i>	
+												 <span style="position:relative; top:-15px; margin-bottom: -29px;  margin-right:10px;" class="headerlistname">${m.empName } / ${m.jobCd } </span>
+							            		
+												 <img src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}" class="member-img">
+										 	</li>
+							            </c:if>
+						              </c:forEach>
+								</c:forEach>
+						    </ul>
+					    </div>
+						    <style>
+						  
+  .modal a.close-modal{
+  top: -3px;
+  right:-2px;
+  }
+						    </style>
+			              <div style="height:30px;">
+						  	<a rel="modal:close">
+						  	<button id="grayBtnModal" rel="modal:close">닫기</button></a>
+			              </div>
+					</div>
                     <div style="bottom: 60px; width:100px; position: relative; left: 825px;text-align: right;">
                         <img style="right: 0px; width: 190px; height: 75px; " src="${pageContext.request.contextPath }/resources/image/msgMain.png"/>
                     </div>
@@ -58,9 +123,9 @@
                                 <th>제목</th>
                                 
                             </tr>
-                            <c:forEach items="${boardList }" var="bl">
-	                            <tr>
-	                                <td>${bl.empNo }</td>
+                            <c:forEach begin="0" end="5" items="${boardList }" var="bl">
+	                            <tr onClick="view('${bl.no}', '${bl.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer;">
+	                                <td>${bl.empName }</td>
 	                                <td>${bl.bdate }</td>
 	                                <td>${bl.title }</td>
 	                            </tr>

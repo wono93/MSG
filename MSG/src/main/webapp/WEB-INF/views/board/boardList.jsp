@@ -91,10 +91,7 @@
                     <div class="control">
                         <div id="first" class="select-box">
                             <div class="select-box__current" tabindex="1">
-                                <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd3" value="%%" name="Ben1" checked="checked"/>
-                                    <p class="select-box__input-text">전체 보기</p>
-                                </div>
+                               
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd4" value="건의" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">건의사항</p>
@@ -104,20 +101,18 @@
                                     <p class="select-box__input-text">공지&행사</p>
                                 </div>
                                  <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd6" value="자유" name="Ben1" checked="checked"/>
+                                    <input class="select-box__input" type="radio" id="asd3" value="자유" name="Ben1" checked="checked"/>
                                     <p class="select-box__input-text">자유게시판</p>
                                 </div> 
+                                 <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="asd6" value="%%" name="Ben1" checked="checked"/>
+                                    <p class="select-box__input-text">전체 보기</p>
+                                </div>
                                 <img style="left:350px" class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             
                             <ul class="select-box__list">
-                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do'"  id="1">
-                                    <li>
-                                        <label id="catag1" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
-                                        		전체보기
-                                      	</label>
-                                    </li>
-                                </div>
+                                
                                 <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=건의'"  id="2">
                                     <li>
                                         <label id="catag2" class="select-box__option" for="asd4" aria-hidden="aria-hidden">
@@ -134,28 +129,34 @@
                                 </div>
                                 <div onclick="location.href='${pageContext.request.contextPath}/board/list.do?keyword=1231qweqwe12gv3&catagkeyword=자유'" id="4">
                                     <li>
-                                        <label  id="catag4" class="select-box__option" for="asd6" aria-hidden="aria-hidden">
+                                        <label  id="catag4" class="select-box__option" for="asd3" aria-hidden="aria-hidden">
                                         	자유게시판		
                                         </label>
                                     </li>
                                 </div>
+                                <div onclick="location.href='${pageContext.request.contextPath}/board/list.do'"  id="1">
+                                    <li>
+                                        <label id="catag1" class="select-box__option" for="asd6" aria-hidden="aria-hidden">
+                                        		전체보기
+                                      	</label>
+                                    </li>
+                                </div>
                             </ul>
                         </div>
-
-
                         <div style="margin-right: 132px" class="select-box">
                             <div class="select-box__current" tabindex="1">
-                                <div class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
-                                    <p class="select-box__input-text">모두 보기</p>
-                                </div>
-                                <div  class="select-box__value">
-                                    <input class="select-box__input" type="radio" id="asd1" value="2" name="Ben" checked="checked"/>
-                                    <p class="select-box__input-text">내가 쓴 글</p>
-                                </div>
+                               
                                 <div class="select-box__value">
                                     <input class="select-box__input" type="radio" id="asd2" value="3" name="Ben" checked="checked"/>
                                     <p class="select-box__input-text">스크랩 글</p>
+                                </div>
+                                 <div  class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="asd1" value="2" name="Ben" checked="checked"/>
+                                    <p class="select-box__input-text">내가 쓴 글</p>
+                                </div>
+                                 <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="asd0" value="1" name="Ben" checked="checked"/>
+                                    <p class="select-box__input-text">모두 보기</p>
                                 </div>
                                 <!-- <div class="select-box__value">
                                 <input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked"/>
@@ -164,22 +165,24 @@
                                 <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                             </div>
                             <ul class="select-box__list">
-                            <div onclick="location.href='${pageContext.request.contextPath }/board/list.do'">
-                                <li>
-                                    <label class="select-box__option" for="asd0" aria-hidden="aria-hidden">모두 보기</label>
-                                </li>
-                            </div >
+                            
                             <!--  "${pageContext.request.contextPath}/board/view.do?boardNo=${b.no}&empNo=${b.empNo}" -->
-                            <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">
-                                <li>
-                                    <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
-                                </li>
-                            </div>
+                           
                             <div onclick="location.href='${pageContext.request.contextPath}/board/scrapList.do?empNo=${memberLoggedIn.empNo}'">
                                 <li>
                                     <label class="select-box__option" for="asd2" aria-hidden="aria-hidden">스크랩 글</label>
                                 </li>
                             </div>
+                             <div onclick="location.href='${pageContext.request.contextPath}/board/myList.do?empNo=${memberLoggedIn.empNo}'">
+                                <li>
+                                    <label class="select-box__option" for="asd1" aria-hidden="aria-hidden">내가 쓴 글</label>
+                                </li>
+                            </div>
+                            <div onclick="location.href='${pageContext.request.contextPath }/board/list.do'">
+                                <li>
+                                    <label class="select-box__option" for="asd0" aria-hidden="aria-hidden">모두 보기</label>
+                                </li>
+                            </div >
                                 <!-- <li>
                                 <label class="select-box__option" for="2" aria-hidden="aria-hidden">문서종류</label>
                                 </li> -->
@@ -200,7 +203,7 @@
                         </tr>
                         <c:forEach items="${viewAll }" var="b" varStatus="vs">
 							<c:if test="${b.dateb < 2 }">
-	                        	<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color:orangeRed;">
+	                        	<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3; color:#f2ab39;">
 							</c:if>
 							<c:if test="${b.dateb >= 2 }">
 								<tr onClick="view('${b.no}', '${b.empNo }', '${memberLoggedIn.empNo }');" style="cursor:pointer; position:relative; z-index:3;">
