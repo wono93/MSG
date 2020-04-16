@@ -39,37 +39,30 @@
 	var jq = jQuery.noConflict();
 
 	// 여기서부터 jstree
-
 	var selectedTree;
 	var flowLine = new Array();
 	var coopLine = new Array();
 	var referLine = new Array();
-
-	jq(
-			function() {
-				jq.ajax({
-					type : "get",
-					url : "/msg/edoc/jstree.do",
-					dataType : "json",
-					success : function(response) {
-						jq("#ajax_jstree").on(
-								"changed.jstree",
-								function(e, data) {
-									/* console.log(data); */
-									if (data.selected.length) {
-										selectedTree = data.instance
-												.get_node(data.selected[0]).id;
-										/* console.log("선택된 요소입니다"+selectedTree); */
-									}
-								}).jstree({
-							core : {
-								data : response
+	jq(function() {
+		jq.ajax({
+			type : "get",
+			url : "/msg/edoc/jstree.do",
+			dataType : "json",
+			success : function(response) {
+				jq("#ajax_jstree").on(
+						"changed.jstree",
+						function(e, data) {
+							if (data.selected.length) {
+								selectedTree = data.instance.get_node(data.selected[0]).id;
 							}
-
-						})
+						}).jstree({
+					core : {
+						data : response
 					}
-				});
-			})
+				})
+			}
+		});
+	})
 </script>
 <title>edocWrite</title>
 </head>
@@ -318,14 +311,12 @@
 						<table class="docuContentTb">
 							<tr>
 								<td>일 시</td>
-								<td class="timepickerTd">
-									<input type="text" data-range="true"
-										data-multiple-dates-separator=" ~ "
-										data-date-format="yyyy-mm-dd D" data-language="ko"
-										id='timepicker-startend' class="datepicker-here" readonly/> <i
-										class='far fa-calendar-alt startendicon'
-										style='font-size: 32px'></i>
-								</td>
+								<td class="timepickerTd"><input type="text"
+									data-range="true" data-multiple-dates-separator=" ~ "
+									data-date-format="yyyy-mm-dd D" data-language="ko"
+									id='timepicker-startend' class="datepicker-here" readonly /> <i
+									class='far fa-calendar-alt startendicon'
+									style='font-size: 32px'></i></td>
 								<td>잔여휴가</td>
 								<td></td>
 							</tr>
@@ -516,7 +507,8 @@
 				</table>
 				<div class="divBtn">
 					<button type="button" id="flowBoxBtn" class="yellowBtn commonBtn">확인</button>
-					<button type="button" id="closeBoxBtn" class="close whiteBtn commonBtn">취소</button>
+					<button type="button" id="closeBoxBtn"
+						class="close whiteBtn commonBtn">취소</button>
 				</div>
 			</div>
 		</div>
@@ -558,8 +550,7 @@
 	});
 	
 		// 모달 기능(결재선)
-		$("#flowArrow")
-				.click(
+		$("#flowArrow").click(
 						function() {
 							$.ajax({
 										type : "get",
@@ -590,7 +581,6 @@
 												}
 											}
 											flowLine.push(tmp);
-											/* console.log(flowLine.length); */
 											if (flowLine.length > 5) { // 결재선 5명 제한
 												alert("결재선은 최대 5명까지 지정 가능합니다.");
 												flowLine.splice(5, 1);
@@ -608,7 +598,6 @@
 																	+ "</td><td><label class='flowLine-container kor float' for='flowLine"+flowLine.length+"'><input type='checkbox' name='flowLineCheck' id='flowLine"
 																	+ flowLine.length
 																	+ "' onClick='flowLineCheck(this);'><span class='flowLine-checkmark'</span></label></td><td id='flowBoxX'><img src='${pageContext.request.contextPath}/resources/image/X-icon.png' onClick='removeFlow(this);' class='flowBoxX'/></td></tr>");
-											/* console.log(flowLine); */
 										}
 									});
 						});
@@ -783,8 +772,7 @@
 				
 		function edocSubmit() {
 			console.log("문서 제출 이벤트");
-			var empNo = <%=oc.getEmpNo()%>
-		;
+			var empNo = <%=oc.getEmpNo()%>;
 			var secuCd = $("input[name=secuCheck]:checked").val(); // 보안등급
 			var prsvCd = $("input[name=periodCheck]:checked").val(); // 보존연한
 
@@ -882,36 +870,36 @@
 		}
 
 		// 이름 검색 기능 (auto complete)
-		jq(document).ready(function() {
-				jq.ajax({
-					url : "/msg/edoc/nameSrch.do",
-					type : "GET",
-					success : function(data) {
-						var str = [];
-						jq.each(data, function(i, item) {
-							str[i] = {
-								label : item.deptName + " " + item.jobName
-										+ " " + item.empName,
-								value : item.empNo
-							}
-						});
+		jq(document).ready(
+				function() {
+					jq.ajax({
+						url : "/msg/edoc/nameSrch.do",
+						type : "GET",
+						success : function(data) {
+							var str = [];
+							jq.each(data, function(i, item) {
+								str[i] = {
+									label : item.deptName + " " + item.jobName
+											+ " " + item.empName,
+									value : item.empNo
+								}
+							});
+							jq("#nameSrch").autocomplete({
+								source : str,
+								select : function(event, ui) {
+									console.log(ui.item.value);
+									jq("#surEmpNo").val(ui.item.value);
+								},
+								focus : function(event, ui) {
+									return false;
+								}
+							});
+							console.log("STR =", str);
 
-						jq("#nameSrch").autocomplete({
-							source : str,
-							select : function(event, ui) {
-								console.log(ui.item.value);
-								jq("#surEmpNo").val(ui.item.value);
-							},
-							focus : function(event, ui) {
-								return false;
-							}
-						});
-						console.log("STR =", str);
+						}
 
-					}
-
-				});
-			})
+					});
+				})
 	</script>
 </body>
 </html>
