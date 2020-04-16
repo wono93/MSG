@@ -132,12 +132,14 @@
 								</c:forEach>
 							</ul>
 						</div>
-						<style>
-							.modal a.close-modal {
-								top: -3px;
-								right: -2px;
-							}
-						</style>
+            <style>						  
+            .modal a.close-modal{
+            top: 13px;
+            right: 15px;
+            width: 20px;
+              background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+            }
+            </style>
 						<div style="height: 30px;">
 							<a rel="modal:close">
 								<button id="grayBtnModal" rel="modal:close">닫기</button>

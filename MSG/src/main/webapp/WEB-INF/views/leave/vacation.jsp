@@ -341,11 +341,16 @@
 				 onclick="modalSub();">확인</button></a>
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
-				<!-- 닫기버튼 -->
-
 			</div>
 		</div>
-
+		<style>
+			.modal a.close-modal{
+			  top: 13px;
+			  right: 15px;
+			  width: 20px;
+			  background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+			  }
+        </style>
 	</section>
 	<script>
 		$("#srchBtn").click(
