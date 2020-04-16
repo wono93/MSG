@@ -365,7 +365,7 @@ public class MemberController {
 
 		log.debug("empImage = {}", empImage);
 		try {
-			if (empImage != null) {
+			if (!empImage.isEmpty()) {
 				// 파일명 재생성 renamedFileName으로 저장하기
 				String file = empImage.getOriginalFilename();
 				String renamedFile = Utils.getRefile(file);
