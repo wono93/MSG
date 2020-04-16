@@ -56,11 +56,7 @@ public class DirectMsgController {
 			param.put("keyword", keyword);
 			param.put("fromId", fromId);
 			
-			log.debug("asdasdadasdadadadadadadKEYWORD="+keyword);
 			List<DirectMsg> list = directMsgService.headerDmList(param);
-			
-//			log.debug("list@DirectController"+list.toString());
-			
 			
 			JSONArray jsonArr = new JSONArray();
 			int unread = 0;
@@ -72,9 +68,7 @@ public class DirectMsgController {
 					idMap.put("fromId", fromId);
 					idMap.put("toId",list.get(i).getUserId());
 					
-//					log.debug("idMap={}",idMap);
 					unread = directMsgService.getUnreadDm(idMap);
-//					log.debug("unread="+unread);
 					
 						sObject.put("empImage", list.get(i).getEmpImage());
 						sObject.put("empName", list.get(i).getEmpName());
@@ -125,13 +119,7 @@ public class DirectMsgController {
 				param.put("msgContent", msgContent.replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 										.replaceAll(">", "&gt;").replaceAll("\n", "<br>"));
 				
-//				log.debug("param={}",param);
-				
 				result = directMsgService.insert(param);
-				
-//				log.debug("result={}",result);
-				
-//				response.getWriter().write(new DirectMsgDAOImpl().insert(param) + "");
 				
 			}
 		}catch(Exception e) {
@@ -146,9 +134,6 @@ public class DirectMsgController {
 							  HttpServletRequest request,
 							  HttpServletResponse response){
 		
-//		String listType = request.getParameter("listType");
-		
-//		log.debug("fromId="+fromId+", toId="+toId+" listType="+listType);
 		try {
 			
 			request.setCharacterEncoding("UTF-8");
@@ -183,8 +168,6 @@ public class DirectMsgController {
 		param.put("toId", toId);
 		param.put("msgNo", msgNo);
 		
-//		log.debug("param={}",param);
-		
 		List<DirectMsg> chatList = directMsgService.directMsgList(param);
 		if(chatList.size() == 0 ) return "";
 		
@@ -195,15 +178,11 @@ public class DirectMsgController {
 			result.append("{\"value\": \"" + chatList.get(i).getMsgContent() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgDate() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getEmpImage() + "\"}]");
-			
 			if(i != chatList.size() -1) result.append(",");
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
-		
-//		log.debug("result={}",result);
 		readDm(fromId, toId);
 		return result.toString();
-		
 	}
 	public String getTen(String fromId, String toId) {
 		StringBuffer result = new StringBuffer("");
@@ -214,8 +193,6 @@ public class DirectMsgController {
 		param.put("toId", toId);
 		param.put("msgNo", 100);
 		
-//		log.debug("param={}",param);
-		
 		List<DirectMsg> chatList = directMsgService.directMsgListByRecent(param);
 		if(chatList.size() == 0 ) return "";
 		for(int i = 0; i<chatList.size(); i++) {
@@ -225,15 +202,11 @@ public class DirectMsgController {
 			result.append("{\"value\": \"" + chatList.get(i).getMsgContent() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getMsgDate() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getEmpImage() + "\"}]");
-			
 			if(i != chatList.size() -1) result.append(",");
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() -1).getMsgNo() +"\"}");
-		
-//		log.debug("result={}",result);
 		readDm(fromId, toId);
 		return result.toString();
-		
 	}
 
    public int readDm(String fromId, String toId) {
@@ -286,15 +259,4 @@ public class DirectMsgController {
 		   e.printStackTrace();
 	   }
    }
-//	String unread = 0;
-//	if(fromId.equals(chatList.get(i).getToId())) {
-//		
-//		Map<String, Object> idMap = new HashMap<>();
-//		param.put("toId", chatList.get(i).getToId());
-//		param.put("fromId", fromId);
-//		log.debug("idMap={}",idMap);
-//			unread = directMsgService.getUnreadDm(idMap);
-//			if(unread==0) unread = 0;
-//	}
-	   
 }

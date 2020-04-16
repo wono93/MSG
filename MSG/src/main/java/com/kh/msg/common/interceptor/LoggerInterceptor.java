@@ -28,9 +28,9 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.debug("============================== Handler ==============================");
+//		logger.debug("============================== Handler ==============================");
 //		logger.debug(request.getRequestURI());
-		logger.debug("---------------------------------------------------------------------");
+//		logger.debug("---------------------------------------------------------------------");
 		
 		
 		return super.preHandle(request, response, handler); // 뭔가 있어보이지만, 항상 true 리턴을 하고 있다. 필요에 따라 false 처리하면 됨.
@@ -42,23 +42,23 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 		
 //		super.postHandle(request, response, handler, modelAndView);
 		
-		logger.debug("---------------------------------------------------------------------");
-		logger.debug("mav={}", modelAndView);
-		logger.debug("------------------------------ View ---------------------------------");
+//		logger.debug("---------------------------------------------------------------------");
+//		logger.debug("mav={}", modelAndView);
+//		logger.debug("------------------------------ View ---------------------------------");
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		super.afterCompletion(request, response, handler, ex);
-		
-		logger.debug("================================ end ================================");
-
-		List<LoginVO> userList= MemberController.userList;
-		
-		for(int i=0; i<userList.size(); i++){
-			logger.debug("userList접속중목록"+userList.get(i).getId());
-		}
+//		super.afterCompletion(request, response, handler, ex);
+//		
+//		logger.debug("================================ end ================================");
+//
+//		List<LoginVO> userList= MemberController.userList;
+//		
+//		for(int i=0; i<userList.size(); i++){
+//			logger.debug("userList접속중목록"+userList.get(i).getId());
+//		}
 		
 	}
 

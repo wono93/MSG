@@ -2,6 +2,7 @@ var chjq = jQuery.noConflict();
 var arrModify = new Array();
 chjq(document).ready(function(){
 	arrModify.push(empNo);
+	
     // Get the modal
     var channelModifyModal = document.getElementById("channelModifyModal");
 
@@ -29,7 +30,6 @@ chjq(document).ready(function(){
 //    }
     
     var chNo = chjq("#inputChNo").val();
-//    console.log("chNo="+chNo);
     
     chjq("#addMemberModify").click(function(){	
     	presentList();
@@ -50,23 +50,9 @@ function presentList(){
 		}
 	});
 }
-function deleteChannel(){
-	chjq.ajax({
-		type:"Post",
-		url:"/msg/chat/deleteChannel.do",
-		data:{
-			chNo: chNo
-		},
-		success : function(data) {
-			alert("채널이 삭제되었습니다.");
-			location.href="/msg/chat/main.do";
-		}
-	});
-}
 
 function searchMemberModify(){
 	var chModifyKeyword = chjq("input[name=chModifyKeyword").val();
-	
 	var chModifySearchType = chjq("input[name=chModifySearchType]:checked").val();
 	chjq.ajax({
 		type:"GET",
@@ -84,16 +70,12 @@ function searchMemberModify(){
 	});
 }
 
-
-
 function addModifyMember(empImage, empName, deptName, jobName, empNo){
-	
 	for(var i=0; i<arrModify.length; i++){
 		if(empNo == arrModify[i])
 			return false;
 	}
 	var regEmpNo = chjq("input[name=regEmpNo]").val();
-//	console.log(regEmpNo);
 	if(regEmpNo == empNo){
 		chjq("#ch-modify-member-table").append('<tr>'	
 	            +'<td><img src="/msg/resources/upload/empImg/'+empImage+'" id="ch-member-list-img" class="ch-member-img"></td>'
@@ -116,19 +98,28 @@ function addModifyMember(empImage, empName, deptName, jobName, empNo){
 		        +'</tr>');
 	}
 	arrModify.push(empNo);
-	
-//	console.log(arrModify);
 }
+
 function deleteModifyMember(obj){
 	var delTr = chjq(obj).parents("tr");
 	chjq(delTr).remove();
 	var delNo = chjq(obj).parents("tr").find(".delNo").html();
 	arrModify.splice(arrModify.indexOf(delNo),1);
-	
-
-//	console.log(arrModify);
 }
 
+function deleteChannel(){
+	chjq.ajax({
+		type:"Post",
+		url:"/msg/chat/deleteChannel.do",
+		data:{
+			chNo: chNo
+		},
+		success : function(data) {
+			alert("채널이 삭제되었습니다.");
+			location.href="/msg/chat/main.do";
+		}
+	});
+}
 
 
 

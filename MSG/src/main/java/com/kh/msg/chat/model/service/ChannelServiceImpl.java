@@ -60,12 +60,9 @@ public class ChannelServiceImpl implements ChannelService {
 		
 		int result = 0;
 		
-//		result = channelDAO.addChannelMember(regEmpNo, chNo);
-		
 		for(int i=0; i<empNo.length; i++) {
 			result = channelDAO.addChannelMember(empNo[i], chNo);
 		}
-//		result = channelDAO.insert(, chNo);
 		
 		return result;
 	}

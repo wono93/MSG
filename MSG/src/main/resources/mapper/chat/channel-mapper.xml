@@ -77,14 +77,6 @@
 			select seq_ch_no.currval from dual
 		</selectKey>
 	</insert>
-	<insert id="addChannelMember">
-		insert into
-			ch_member_tb
-		values
-			(#{chNo},
-			#{empNo},
-			default)
-	</insert>
 	<select id="presentMember" resultType="OrgChart">
 		select 
 			I.ch_no, A.*
@@ -103,6 +95,14 @@
 	<delete id="deleteChannelMember">
 		delete from ch_member_tb where ch_no = #{chNo}
 	</delete>
+	<insert id="addChannelMember">
+		insert into
+			ch_member_tb
+		values
+			(#{chNo},
+			#{empNo},
+			default)
+	</insert>
 	<update id="modifyChannel">
 		update ch_info_tb set ch_name = #{chName},
 							  ch_ex = #{chEx} 
