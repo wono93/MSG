@@ -216,20 +216,25 @@ to {
 
 /* 여기서부터 검색창 */
 .channel_srchChBar {
-	padding: 50px 0 20px 0;
+	padding: 40px 0 10px 0;
 }
 
 #srchModifyChWord {
 	background-color: #ebebeb;
 	color: #333333;
 	border: 0;
-	height: 38px;
+	height: 35px;
 	width: 170px;
 	font-family: "Noto Sans KR";
 	font-size: 14px;
 	margin: 0 0 0 10px;
 }
-
+#srchModifyChWord:focus {
+	border:2px solid #f4ca25;
+	background: #fefefe;
+	height: 31px;
+	width: 166px;
+}
 #ch-search-icon {
 	width: 27px;
 	vertical-align: bottom;
@@ -263,6 +268,12 @@ to {
 	padding: 12px 19px;
 	margin-bottom: 15px;
 	font-size: 15px;
+}
+.ch-input:focus{
+	border:2px solid #f4ca25;
+	background: #fefefe;
+	height: 29px;
+	width: 586px;
 }
 
 .x-icon {
