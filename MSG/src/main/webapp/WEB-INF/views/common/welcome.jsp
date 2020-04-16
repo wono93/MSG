@@ -9,7 +9,6 @@
 <title>MSG</title>
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-<link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/main.css">
 <link
