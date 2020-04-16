@@ -336,9 +336,12 @@
 				</div>
 				</p>
 				<br> <br>
-				<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
+						<a href="#" rel="modal:close">
+				<button type="submit" id="modalsub"
+				 onclick="modalSub();">확인</button></a>
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
+				<!-- 닫기버튼 -->
 
 			</div>
 		</div>
@@ -480,11 +483,7 @@
 
 				}
 			});
-			/* $(".modal").modal('hide'); */
 			$(".delTr").remove();
-			/*  $("#test").hide(); */
-			$("#test").modal("hide");
-			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
 
