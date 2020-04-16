@@ -35,15 +35,38 @@
 
 	<select id="selectMyVacationTotalContents" resultType="int">
 		SELECT COUNT(*)
+		from (SELECT
+		A.EMP_NO
+		,B.VCTN_DTL_NO
+		,B.VCTN_STDT
+		,B.VCTN_ENDT
+		,A.USER_ID
+		,B.VCTN_REASON
+		,C.VCTN_NM
+		,c.VCTN_CD
+		,B.VCTN_USED
 		FROM
 		EMP_TB A
 		,VCTN_HIS_TB B
 		,VCTN_TYPE_TB C
-		<include refid="MySearch"></include>
-		AND
-		A.EMP_NO=B.EMP_NO
+			<where>
+		A.emp_no = #{empNo} 
+		<choose>
+			<!--전체 검색 -->
+			<when test="srchType == 'all'">
+				and (B.VCTN_REASON like '%'|| #{srchWord} || '%'
+				OR C.VCTN_NM like '%'||#{srchWord} ||'%')
+			</when>
+			<!--일부 검색 -->
+			<otherwise>
+				and	 ${srchType} like '%'||#{srchWord}||'%'
+			</otherwise>
+		</choose>
+		</where> 
+		AND A.EMP_NO=B.EMP_NO
 		AND B.VCTN_CD=C.VCTN_CD
-		ORDER BY B.VCTN_DTL_NO DESC
+		ORDER BY B.VCTN_DTL_NO
+		DESC)
 	</select>
 	<!-- 페이징 처리 후 게시글 조회 -->
 
@@ -107,7 +130,20 @@
 		EMP_TB A
 		,VCTN_HIS_TB B
 		,VCTN_TYPE_TB C
-		<include refid="MySearch"></include>
+		<where>
+		A.emp_no = #{empNo} 
+		<choose>
+			<!--전체 검색 -->
+			<when test="srchType == 'all'">
+				and (B.VCTN_REASON like '%'|| #{srchWord} || '%'
+				OR C.VCTN_NM like '%'||#{srchWord} ||'%')
+			</when>
+			<!--일부 검색 -->
+			<otherwise>
+				and	 ${srchType} like '%'||#{srchWord}||'%'
+			</otherwise>
+		</choose>
+		</where> 
 		AND A.EMP_NO=B.EMP_NO
 		AND B.VCTN_CD=C.VCTN_CD
 		ORDER BY B.VCTN_DTL_NO
