@@ -52,10 +52,12 @@ body {
     width: 62%;
     height: 50px;
     margin-bottom: 25px;
-    border: 1px solid #999999;
+    border: 2px solid #ebebeb;
     font-size: 18px;
+    outline: none;
     
 }
+.inputModal:focus{border: 2px solid #f4ca25;}
 
 
 #contextMenu {

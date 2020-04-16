@@ -1,3 +1,41 @@
+.control {
+ margin-top: 0px;
+}
+
+.board:nth-child(1) > tbody:nth-child(1) {
+ position: relative;
+ top: -295px;
+}
+
+.empLogView {
+ position: relative;
+ top: 15px;
+}
+
+.number {
+ position: relative;
+ left: -0.4375px;
+}
+
+.workingdays {
+ width: 172px;
+ position: relative;
+ left: -36.2344px;
+}
+
+h2:nth-child(1) {
+ position: relative;
+ left: 14.6562px;
+}
+
+#timepicker-start {
+ height: 31px;
+}
+
+#timepicker-end {
+ height: 31px;
+}
+
 
 article{
     margin: 0 auto;

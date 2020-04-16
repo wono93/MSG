@@ -177,9 +177,9 @@ $('a[href="#ex7"]').click(function(event) {
                 </div>
                 <div style="width: 500px;" id="content2">
                     <div style="width:500px; margin-bottom: 34px; margin-top: 30px;" id="notice">
-                        <div id="calender" style="width:400px; height: 300px; margin-left: 50px; border: 1px solid black;">
-                            <p> 달력소스 오픈소스</p>
-                        </div>
+						<div id="calender" style="width: 400px; height: 300px; margin-left: 50px;">
+	               			<iframe src="https://calendar.google.com/calendar/embed?src=ltm0jrlsamv8mlhrg0bpcgu6ps%40group.calendar.google.com&ctz=Asia%2FSeoul&amp;showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0"" style="border-width:0" width="400" height="300" frameborder="0" scrolling="no"></iframe>
+						</div>
                     </div>
                     <div id="66" >
                     <p class="hover_" style="text-align: left; margin-left: 40px;"><i style="color:#f4ca25;" class="fas fa-circle"></i > 이번 주 일정</p>

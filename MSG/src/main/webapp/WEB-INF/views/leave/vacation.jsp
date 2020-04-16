@@ -113,10 +113,53 @@
 							onclick="location.href='${pageContext.request.contextPath}/leave/update.do'">휴가관리</li>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/leave/list.do'">휴가내역</li>
+						<li
+							onclick="location.href='${pageContext.request.contextPath}/leave/select.do'">나의휴가내역</li>
 					</ul>
 				</div>
 				<div class="content">
-					<div class="control">
+					<div class="srchBar">
+						<div class="select-box">
+							<div class="select-box__current" tabindex="1">
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio" id="0"
+										value="dept_name" name="srchTypeInput"
+										${srchType eq 'dept_name'?'checked="checked"':"" } />
+
+									<p class="select-box__input-text">부서</p>
+								</div>
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio" id="1"
+										value="emp_name" name="srchTypeInput"
+										${srchType eq 'emp_name'?'checked="checked"':"" } />
+									<p class="select-box__input-text">이름</p>
+								</div>
+								<div class="select-box__value">
+									<input class="select-box__input" type="radio" id="2"
+										value="all" name="srchTypeInput"
+										${srchType eq 'all'?'checked="checked"':"" } />
+									<p class="select-box__input-text">전체</p>
+								</div>
+								<img class="select-box__icon"
+									src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+									alt="Arrow Icon" aria-hidden="true" />
+							</div>
+							<ul class="select-box__list">
+								<li><label class="select-box__option" for="2"
+									aria-hidden="aria-hidden">전체</label></li>
+								<li><label class="select-box__option" for="0"
+									aria-hidden="aria-hidden">부서</label></li>
+								<li><label class="select-box__option" for="1"
+									aria-hidden="aria-hidden">이름</label></li>
+							</ul>
+						</div>
+						<input type="text" name="" id="srchWord"
+							value="${srchWord eq 'null'?'':srchWord }">
+						<button type="button" name="" id="srchBtn" class="yellowBtn">
+							<i class="fas fa-" style="font-size: 15px"></i> 검색
+						</button>
+					</div>
+					<!-- 	<div class="control">
 						<form>
 							<p>
 							<div id="btnBox">
@@ -127,7 +170,7 @@
 							<button type="submit" id="vacationcheck">휴가내역 보기</button>
 							</p>
 						</form>
-					</div>
+					</div> -->
 					<table>
 						<tr>
 							<th rowspan="2">부서</th>
@@ -179,14 +222,14 @@
 						</c:forEach>
 					</table>
 					<div class="pagination">${pageBar }</div>
-					<div class="srchBar">
+					<%-- <div class="srchBar">
 						<div class="select-box">
 							<div class="select-box__current" tabindex="1">
 								<div class="select-box__value">
 									<input class="select-box__input" type="radio" id="0"
 										value="dept_name" name="srchTypeInput"
 										${srchType eq 'dept_name'?'checked="checked"':"" } />
-										
+
 									<p class="select-box__input-text">부서</p>
 								</div>
 								<div class="select-box__value">
@@ -220,7 +263,7 @@
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
 							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
-					</div>
+					</div> --%>
 				</div>
 			</article>
 		</div>
@@ -229,6 +272,7 @@
 			<h1 style="margin-left: 40px;">휴가조정</h1>
 			<p>
 			<div class="checkbox_wrap">
+				<h3 style="margin-left: 40px;">휴가 선택</h3>
 				<label class="myDocu-container kor float" for="myDocu">연차 <input
 					type="radio" name="arrayDocuCheck" id="myDocu" class="docuCheck"
 					value="myDocu" checked="checked"> <span
@@ -248,7 +292,7 @@
 			</p>
 			<p>
 			<div class="updown custom">
-				조정
+				<h3>조정</h3>
 				<button type="button" class="minusBtn mLeft50" onclick="minus();">-</button>
 				<input type="text" id="person_" value="0" name="carSize"
 					readonly="true" />
@@ -264,11 +308,12 @@
 			</div> 
 			</p> -->
 			<div class="ui-widget">
-				<label for="search">문서 검색: </label> <input id="search">
-
+				<h3 style="margin-left: 40px; float: left;">문서 검색</h3>
+				<label for="search"> </label> <input id="search"
+					style="margin-left: 30px; margin-top: 20px; width: 400px; background: #ebebeb; border: 2px solid  #ebebeb;">
 				<p>
 				<div class="divice custom">
-					근거
+					<h3 style="left: -76px; position: relative;">근거</h3>
 					<!-- <form id="bookid">
 						<input type="text" id="reasonBox" />
 					</form> -->
@@ -278,7 +323,7 @@
 					placeholder="근거를 입력해주세요." />
 				<p>
 				<div class="setting custom">
-					기조정내역 <br> <br>
+					<h3>기조정내역</h3>
 					<table class="modaltb" id="modalAjax">
 						<tr class="modaltr">
 							<th class="modalth1">종류</th>
@@ -294,40 +339,41 @@
 				<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
 				<a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
-				<!-- 닫기버튼 -->
-				
+
 			</div>
 		</div>
 
 	</section>
 	<script>
-		$("#srchBtn").click(function() {
+		$("#srchBtn").click(
+				function() {
 
-			//폼 태그 생성
-			var form = document.createElement('form');
-			//폼 속성 set attribute
-			form.name = 'newForm';
-			form.method = 'get';
-			form.action = '/msg/leave/update.do';
-			form.target = '_self';
-			//input 태그 생성
-			var input1 = document.createElement('input');
-			 var input3 = document.createElement('input');
-			//input태그에 set attribute
-			input1.setAttribute("type", "hidden");
-			input1.setAttribute("name", "srchWord");
-			input1.setAttribute("value", $("#srchWord").val());
-			input3.setAttribute("type", "hidden");
-	        input3.setAttribute("name", "srchType");
-	        input3.setAttribute("value", $("input[name='srchTypeInput']:checked").val());
-			//완성된 input 태그를 form에 append
-			form.appendChild(input1);
-			form.appendChild(input3);
-			//form 태그
-			document.body.appendChild(form);
-			// form 제출
-			form.submit();
-		});
+					//폼 태그 생성
+					var form = document.createElement('form');
+					//폼 속성 set attribute
+					form.name = 'newForm';
+					form.method = 'get';
+					form.action = '/msg/leave/update.do';
+					form.target = '_self';
+					//input 태그 생성
+					var input1 = document.createElement('input');
+					var input3 = document.createElement('input');
+					//input태그에 set attribute
+					input1.setAttribute("type", "hidden");
+					input1.setAttribute("name", "srchWord");
+					input1.setAttribute("value", $("#srchWord").val());
+					input3.setAttribute("type", "hidden");
+					input3.setAttribute("name", "srchType");
+					input3.setAttribute("value", $(
+							"input[name='srchTypeInput']:checked").val());
+					//완성된 input 태그를 form에 append
+					form.appendChild(input1);
+					form.appendChild(input3);
+					//form 태그
+					document.body.appendChild(form);
+					// form 제출
+					form.submit();
+				});
 	</script>
 	<script>
 		/*기조정내역 테이블  */
@@ -441,10 +487,8 @@
 			/* 	$(".jquery-modal blocker current").modal("hide"); */
 
 		};
-		
-		  $(".close-modal").css("dispay", "none");
-		
-		
+
+		$(".close-modal").css("dispay", "none");
 	</script>
 
 </body>

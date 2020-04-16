@@ -117,17 +117,7 @@
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
-					            <div class="pagingg">
-					                <div class="pagination">
-					                    <a href="#" class="arrow">&laquo;</a>
-					                    <a href="#">1</a>
-					                    <a href="#" class="active">2</a>
-					                    <a href="#">3</a>
-					                    <a href="#">4</a>
-					                    <a href="#">5</a>
-					                    <a href="#" class="arrow">&raquo;</a>
-					                </div>        
-					            </div>
+					           
 					        </div>
 					         <div id="confList-div" class="haveNoRes">
 				           		<table class="res-table conf-res">
@@ -166,18 +156,7 @@
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
-					            <div class="pagingg">
-					                <div class="pagination">
-					                    <a href="#" class="arrow">&laquo;</a>
-					                    <a href="#">1</a>
-					                    <a href="#" class="active">2</a>
-					                    <a href="#">3</a>
-					                    <a href="#">4</a>
-					                    <a href="#">5</a>
-					                    <a href="#" class="arrow">&raquo;</a>
-					                </div>        
-					            </div>
-					        </div>
+					          </div> 
 					         <div id="carList-div" class="haveNoRes">
 				           		<table class="res-table car-res">
 				                    <tr>
@@ -215,17 +194,7 @@
 				                    	</tr>
 				                    </c:forEach>
 					            </table>
-					            <div class="pagingg">
-					                <div class="pagination">
-					                    <a href="#" class="arrow">&laquo;</a>
-					                    <a href="#">1</a>
-					                    <a href="#" class="active">2</a>
-					                    <a href="#">3</a>
-					                    <a href="#">4</a>
-					                    <a href="#">5</a>
-					                    <a href="#" class="arrow">&raquo;</a>
-					                </div>        
-					            </div>
+					           
 					        </div>
 			    	</div>
 			    </div>

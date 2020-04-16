@@ -28,6 +28,10 @@ hdjq(document).ready(function(){
         	channelModal.style.display = "none";
         }
     }
+    
+    /*hdjq(".ch-input").click(fucniton(){
+    	this.css("border","2px solid #f4ca25");
+    });*/
 });
 
 function searchMemberCh(){
