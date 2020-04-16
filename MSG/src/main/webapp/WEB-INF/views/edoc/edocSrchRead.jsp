@@ -107,12 +107,12 @@
 									</td>
 									<c:choose>
 										<c:when test="${EdocFlow.flowSt eq 'Y'}">
-											<td>${EdocFlow.flowCmt }</td>
+											<td class="flowCmtTd">${EdocFlow.flowCmt }</td>
 											<td>결재</td>
 											<td>${EdocFlow.flowDt }</td>
 										</c:when>
 										<c:when test="${EdocFlow.flowSt eq 'N'}">
-											<td>${EdocFlow.flowCmt }</td>
+											<td class="flowCmtTd">${EdocFlow.flowCmt }</td>
 											<td>반려</td>
 											<td>${EdocFlow.flowDt }</td>
 										</c:when>
@@ -120,7 +120,7 @@
 											<c:choose>
 												<c:when
 													test="${EdocFlow.flowEmpNo eq memberLoggedIn.empNo }">
-													<td><textarea id="flowCmt" name="flowCmt" rows="3"
+													<td class="flowCmtTd"><textarea id="flowCmt" name="flowCmt" rows="3"
 															cols="50" placeholder="결재의견을 입력하세요"></textarea></td>
 													<td>
 														<div id="selectFlow" class="select-box">
@@ -174,12 +174,12 @@
 									</td>
 									<c:choose>
 										<c:when test="${EdocFlow.flowSt eq 'Y'}">
-											<td>${EdocFlow.flowCmt }</td>
+											<td class="flowCmtTd">${EdocFlow.flowCmt }</td>
 											<td>전결</td>
 											<td>${EdocFlow.flowDt }</td>
 										</c:when>
 										<c:when test="${EdocFlow.flowSt eq 'N'}">
-											<td>${EdocFlow.flowCmt }</td>
+											<td class="flowCmtTd">${EdocFlow.flowCmt }</td>
 											<td>반려</td>
 											<td>${EdocFlow.flowDt }</td>
 										</c:when>
@@ -187,7 +187,7 @@
 											<c:choose>
 												<c:when
 													test="${EdocFlow.flowEmpNo eq memberLoggedIn.empNo }">
-													<td><textarea name="flowCmt" rows="3" cols="50"
+													<td class="flowCmtTd"><textarea name="flowCmt" rows="3" cols="50"
 															placeholder="전결의견을 입력하세요"></textarea></td>
 													<td>
 														<div id="selectFlow" class="select-box">

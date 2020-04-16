@@ -720,3 +720,80 @@ select edoc_id, min(flow_ord) flow_ord
             from edoc_all_tb
             where (flow_st is null or flow_st = 'N')
                 and flow_cd in ('F1','F2')) group by edoc_id;
+                
+                
+--
+select *
+			from
+			(
+			 
+			select *
+ from edoc_all_tb
+			where 
+				emp_no = 1
+				and flow_ord = 1
+				and flow_cd in ('F1', 'F2')
+				and edoc_end is NULL
+			 
+			 
+			 
+			 
+			 
+			)
+			 WHERE edoc_title like '%' || '' || '%'
+					or
+					emp_name like '%' || '' || '%'
+					or
+					form_nm like '%' || '' || '%'
+					or
+					edoc_id like '%' || '' || '%' 
+			order by edoc_dt desc;
+            
+-- 결재 요청
+
+select *
+			from
+			(
+			 
+			 
+			select
+				A.edoc_id, A.secu_cd, A.prsv_cd, A.emp_no, A.emp_mod_no, A.edoc_title, A.edoc_ver, A.edoc_org_id, A.edoc_dt, A.edoc_end, A.edoc_end_dt, A.type_cd, A.form_nm, A.prsv_amt, A.secu_nm, A.emp_name, A.flow_exe_no, A.flow_cd, A.flow_nm, A.flow_emp_no, A.flow_ord, A.flow_st
+			from
+				
+ (select
+					*
+				from
+					edoc_all_tb
+ where (flow_st is null or flow_st = 'N')
+ and flow_cd in ('F1','F2')) A
+					join
+					
+ (select
+						edoc_id, min(flow_ord) flow_ord
+					from
+					
+ (select *
+ from edoc_all_tb
+					where
+						(flow_st is null or flow_st = 'N')
+ and flow_cd in ('F1','F2'))group by edoc_id) B
+					 	on A.edoc_id = B.edoc_id
+ and A.flow_ord = B.flow_ord
+		 	where
+		 		flow_emp_no = 1
+			 
+			 
+			 
+			 
+			)
+			 WHERE edoc_title like '%' || '' || '%'
+					or
+					emp_name like '%' || '' || '%'
+					or
+					form_nm like '%' || '' || '%'
+					or
+					edoc_id like '%' || '' || '%' 
+			order by edoc_dt desc;
+
+select rownum, A.* from
+(select distinct edoc_id, emp_name, form_nm, edoc_title, edoc_end_dt from edoc_all_tb where edoc_end = 'Y' order by edoc_end_dt desc) A where rownum < 7;
