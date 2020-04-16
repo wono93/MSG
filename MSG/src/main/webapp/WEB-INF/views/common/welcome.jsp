@@ -97,8 +97,7 @@
 					<div style="bottom: 22px; width: 317px; z-index: 100;" id="ex1"
 						class="modal">
 						<p>접속자 확인</p>
-						<div
-							style="text-align: left; height: 300px; width: 280px; overflow-y: scroll;">
+						<div style="text-align: left; height: 300px; width: 280px; overflow-y: scroll;">
 							<ul class="mainLi" id="userLogin">
 								<c:forEach items="${userList }" var="u">
 									<c:forEach items="${memberList }" var="m">
@@ -107,7 +106,7 @@
 													style="font-size: 15px; color: green; margin-right: 5px;"></i>
 													<span
 													style="position: relative; top: -15px; margin-bottom: -30px; margin-right: 10px;"
-													class="headerlistname">${m.empName } / ${m.jobCd } </span>
+													class="headerlistname">${m.empName }  ${m.jobName } </span>
 													<img
 													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
 													class="member-img"></li>
@@ -122,7 +121,7 @@
 													style="font-size: 15px; color: gray; margin-right: 5px;"></i>
 													<span
 													style="position: relative; top: -15px; margin-bottom: -29px; margin-right: 10px;"
-													class="headerlistname">${m.empName } / ${m.jobCd } </span>
+													class="headerlistname">${m.empName }  ${m.jobName } </span>
 
 													<img
 													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
@@ -160,18 +159,18 @@
 						</p>
 						<table>
 							<tr>
-								<th>글쓴이</th>
-								<th>작성일</th>
+								<th style="width:40px;">글쓴이</th>
 								<th>제목</th>
+								<th style="width:60px;">작성일</th>
 
 							</tr>
 							<c:forEach begin="0" end="5" items="${boardList }" var="bl">
 								<tr
 									onClick="view('${bl.no}', '${bl.empNo }', '${memberLoggedIn.empNo }');"
 									style="cursor: pointer;">
-									<td>${bl.empName }</td>
-									<td>${bl.bdate }</td>
-									<td>${bl.title }</td>
+									<td style="width:40px;">${bl.empName }</td>
+									<td style="width:102px;">${bl.title }</td>
+									<td style="width:60px;">${bl.bdate }</td>
 								</tr>
 							</c:forEach>
 						</table>

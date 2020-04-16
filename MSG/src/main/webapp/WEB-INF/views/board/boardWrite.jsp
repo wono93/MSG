@@ -167,8 +167,8 @@
                     </div>
                     <div id="boardBD">
                         <p class="com3">작성자</p>
-                        <p class="com3">${memberLoggedIn.deptCd}</p>
-                        <p class="com3">${memberLoggedIn.jobCd}</p>
+                        <p class="com3">${memberLoggedIn.deptName}</p>
+                        <p class="com3">${memberLoggedIn.jobName}</p>
                         <p class="com3">${memberLoggedIn.empName}</p>
                         <p class="com3"></p>
                         <div class="box" style="background: #BDBDBD;">

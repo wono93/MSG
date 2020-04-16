@@ -121,7 +121,7 @@
                 <div class="subNav">
                     <h3>커뮤니케이션</h3>
                     <ul>
-                        <li onclick="#">이메일</li>
+                     
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
                      </ul>
                 </div>
@@ -131,39 +131,43 @@
                             <img   class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${member.empImage}">
                         </div>
                         <div id="comLeft">
-                            <div id="title">
+                            <div style="height:40px;" id="title">
                                 <p name="title">
                                 ${board.title }
+                                 
+                                
+	                               <c:if test="${boardScrapCount == 0}">
+									    <div style="">
+											<p style="left: 238px; position: relative; top: -50px;">
+												<a id="Scr" href="#ex1" onclick="" rel="modal:open">
+													<i id="star1"  class="far fa-star" style="color:#999; font-size: 30px; "></i>
+												</a>
+											</p>
+										</div>
+									</c:if>
+									<c:if test="${boardScrapCount != 0}">
+										<div style="">
+											<p style="left: 238px; position: relative; top: -50px;">
+												<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
+													<i id="star1" class="fas fa-star" style="color:#999; font-size: 30px; "></i>
+												</a>
+											</p>
+										</div>
+									</c:if>
                                 </p>
+                                
                             </div>
 				    <div>
 				    <div style="top:77px;" id="member">
-                                <p class="com3">${member.deptCd }</p>
+                                <p class="com3">${member.deptName }</p>
                            
-                                <p class="com3">${member.jobCd }</p>
+                                <p class="com3">${member.jobName }</p>
                             	
                            
                                 <p class="com3">${member.empName }</p>
-                            </div>
-						<c:if test="${board.no != boardScrap.no && boardScrap.empNo != memberLoggedIn.empNo }">
-					    <div style="">
-							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
-								<a id="Scr" href="#ex1" onclick="" rel="modal:open">
-									<i id="star1"  class="far fa-star" style="color:#999; font-size: 30px; "></i>
-								</a>
-							</p>
-						</div>
-						</c:if>
-						<c:if test="${board.no == boardScrap.no && boardScrap.empNo == memberLoggedIn.empNo }">
-						<div style="">
-							<p style="position:relative; right:-20px; margin-left:100px; top:-59px;">
-								<a id="Scr" href="#ex1" onclick="deleteFunction()" rel="">
-									<i id="star1" class="fas fa-star" style="color:#999; font-size: 30px; "></i>
-								</a>
-							</p>
-						</div>
-						</c:if>
+                            
 						
+						</div>
 						
 				            <div style="bottom:200px; z-index: 100;" id="ex1" class="modal">
 				            <p>Scrap memo</p>
@@ -235,7 +239,7 @@
 								 $('#Scr').attr("onclick", "");
 								 $('#Scr').attr("rel", "modal:open");
 							}
-						});
+						});console.log("스크랩취소");
 					}
 				</script>
                             
@@ -311,12 +315,11 @@
 		                                        	<img class="profile" src="${pageContext.request.contextPath }/resources/upload/empImg/${c.empImage}">
 		                                        </div>
 		                                    </td>
-	                                    	<td style="padding: 0; width: 166px;">
-	                                    		${c.deptCd} ${c.jobCd}  ${c.empName }
+	                                    	<td style="font-size:10px; text-align:left; position: relative; left: 8px; padding: 0; width: 166px;">
+	                                    		${c.deptName} ${c.jobName}  ${c.empName }
 	                                    	</td>
-						                                 
 			                                   
-		                                    <td style="font-size: 22px; padding-left: 20px;">${c.cmtContent }</td>
+		                                    <td style="font-size: 18px; padding-left: 20px;">${c.cmtContent }</td>
 		                                    <td style="padding: 0; width: 166px; color: gray;">
 		                                        ${c.date }
 		                                        <br>

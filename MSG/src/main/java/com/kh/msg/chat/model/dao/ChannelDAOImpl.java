@@ -92,7 +92,7 @@ public class ChannelDAOImpl implements ChannelDAO {
 	}
 
 	@Override
-	public List<Member> userLogin() {
+	public List<OrgChart> userLogin() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("Channel.userLogin");
 	}

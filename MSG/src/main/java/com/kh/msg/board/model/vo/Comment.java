@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +33,9 @@ public class Comment implements Serializable {/**
 	private String deptCd;
 	private String empName;
 	private String empImage;
-	private List<Member> memberList;
+	private List<OrgChart> memberList;
+	private String jobName;
+	private String deptName;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 public interface BoardDAO {
 
@@ -38,17 +39,15 @@ public interface BoardDAO {
 
 	Object selectBoard(BoardPagingVo vo);
 
-	BoardScrap selectScrap(int boardNo);
-
 	int deleteScrap(BoardScrap boardScrap);
 
 	int getBoardScrap(BoardScrap voScrap);
 
 	int attachUpdate(Attachment attachment);
 
-	Member selectMember(int empNo);
+	OrgChart selectMember(int empNo);
 
-	List<Member> selectMemberList();
+	List<OrgChart> selectMemberList();
 
 	List<Attachment> selectAttachList();
 
@@ -72,6 +71,8 @@ public interface BoardDAO {
 
 	int countComment(Comment comment);
 
-	List<Member> userLogin();
+	List<OrgChart> userLogin();
+
+	int selectScrap(BoardScrap boardScrap);
 
 }

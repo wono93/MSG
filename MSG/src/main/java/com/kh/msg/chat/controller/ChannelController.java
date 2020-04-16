@@ -398,7 +398,7 @@ public class ChannelController {
 	public String main(Model model) {
 		
 		List<Board> boardList = channelService.mainBoardList();
-		List<Member> memberList = channelService.userLogin();
+		List<OrgChart> memberList = channelService.userLogin();
    		List<LoginVO> userList= MemberController.userList;
 		List<EdocSrch> edocSrchList = edocService.selectEdocWelcome();
    		

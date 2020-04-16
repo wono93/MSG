@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -101,11 +102,6 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("board.selectBoard", vo);
 	}
 
-	@Override
-	public BoardScrap selectScrap(int boardNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("board.selectScrap", boardNo);
-	}
 
 	@Override
 	public int deleteScrap(BoardScrap boardScrap) {
@@ -126,13 +122,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Member selectMember(int empNo) {
+	public OrgChart selectMember(int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board.selectMember", empNo);
 	}
 
 	@Override
-	public List<Member> selectMemberList() {
+	public List<OrgChart> selectMemberList() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.selectMemberList");
 	}
@@ -204,8 +200,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Member> userLogin() {
+	public List<OrgChart> userLogin() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.userLogin");
+	}
+
+	@Override
+	public int selectScrap(BoardScrap boardScrap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.selectScrap", boardScrap);
 	}
 }

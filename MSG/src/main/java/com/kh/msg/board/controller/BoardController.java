@@ -38,6 +38,7 @@ import com.kh.msg.common.util.Utils;
 import com.kh.msg.member.controller.MemberController;
 import com.kh.msg.member.model.vo.LoginVO;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,11 +74,11 @@ public class BoardController {
 	
 	@GetMapping("/view.do")
 	public String view(
-			HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session, BoardScrap boardScrap,
 			@RequestParam("boardNo") int boardNo,
 			@RequestParam("empNo") int empNo,
 			@RequestParam("memberEmpno")int memberEmpno,
-			Board board, Member member, Comment comment, BoardRead boardRead,
+			Board board,  Comment comment, BoardRead boardRead,
 			 Model model) {
 		
 		//읽은글 저장
@@ -122,62 +123,25 @@ public class BoardController {
 			int result = boardService.cntUp(board);
 			
 		}
-		/*
-		//조회수 증가
-		Cookie[] cookies = request.getCookies();
-		Cookie boardCookie = null;
-		
-		
-		//쿠키가 있을 경우
-		if(cookies != null && cookies.length > 0) {
-			for(int i=0; i< cookies.length; i++) {
-				if(cookies[i].getName().equals("cookie"+boardNo)) {
-					log.debug("처음 쿠키가 생성한 뒤 들어옴");
-					boardCookie = cookies[i];
-				}
-			}
-		}
-		if(board != null) {
-			
-			if(boardCookie == null) {
-				log.debug("cookie 없음");
-				Cookie newCookie = new Cookie("cookie"+ boardNo, "|" + boardNo + "|");
-				response.addCookie(newCookie);
-				
-				log.debug("result================"+result);
-				if(result>0) {
-					log.debug("조회수 증가");
-				}
-				else{
-					log.debug("조회수 낫 증가");
-				}
-			}
-			else {
-				log.debug("쿠키 있음");
-				
-				String value= boardCookie.getValue();
-				
-				log.debug("쿠키값은?="+value);
-			}
-		}
-		*/
-		BoardScrap boardScrap = boardService.selectScrap(boardNo);
 		board = boardService.selectOne(boardNo);
-		member = boardService.selectMember(empNo);
+		OrgChart orgChart = boardService.selectMember(empNo);
 		List<Comment> commentList = boardService.selectComment(boardNo);
-		List<Member> memberList = boardService.selectMemberList();
-		
-		log.debug("board================"+board);
+		List<OrgChart> memberList = boardService.selectMemberList();
 		comment.setBrdNo(boardNo);
 		int countComment = boardService.countComment(comment);
+		log.debug("memberEmpno================"+memberEmpno);
+		log.debug("boardNo================"+boardNo);
+		
+		int boardScrapCount = boardService.selectScrap(boardScrap, memberEmpno, boardNo);
+		
+		log.debug("boardScrapCount================"+boardScrapCount);
 		model.addAttribute("countComment", countComment);
-		model.addAttribute("boardScrap", boardScrap);
+		model.addAttribute("boardScrapCount", boardScrapCount);
 		model.addAttribute("boardRead", boardRead);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("board", board);
 		model.addAttribute("memberList", memberList);
-		model.addAttribute("member", member);
-		
+		model.addAttribute("member", orgChart);
 		
     	return "board/boardView";
 	}
@@ -286,26 +250,8 @@ public class BoardController {
     	
     	return "redirect:/board/list.do";
     }
-    
-    /**
-     * /board/view.do
-     * 
-     * => board/view
-     * 
-     * (ViewNameTranslator)
-     * - 앞/뒤 슬래쉬 제거
-     * - 파일확장자제거(.jsp는 예외)
-     *  
-     */
-	/**
-     * Resource 
-     * - 웹상의 자원(파일)
-     * - 서버상의 자원(파일)
-     * 
-     * @param oName
-     * @param rName
-     * @return
-     */
+   
+
     @GetMapping("/fileDownload.do")
     @ResponseBody
     public Resource fileDownload(@RequestParam("oName") String oName,
@@ -439,7 +385,7 @@ public class BoardController {
     	vo.setKeyword(keyword);
     	//vo.setEmpNo(empNo);
     	
-    	List<Member> memberList = boardService.selectMemberList();
+    	List<OrgChart> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
     	
     	model.addAttribute("readList", readList);
@@ -474,7 +420,7 @@ public class BoardController {
     	vo = new BoardPagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
     	vo.setEmpNo(empNo);
-    	List<Member> memberList = boardService.selectMemberList();
+    	List<OrgChart> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
 
     	model.addAttribute("attachList", attachList);
@@ -510,7 +456,7 @@ public class BoardController {
 
     	vo.setEmpNo(empNo);
     	board.setEmpNo(empNo);
-    	List<Member> memberList = boardService.selectMemberList();
+    	List<OrgChart> memberList = boardService.selectMemberList();
     	List<Attachment> attachList = boardService.selectAttachList();
     	List<Board> boardList = boardService.selectBoardList(empNo);
     	model.addAttribute("boardList", boardList);
@@ -576,8 +522,8 @@ public class BoardController {
    	public String userLogin(Model model,
    							HttpServletRequest request,
    							HttpServletResponse response){
-   		    	
-   		List<Member> memberList = boardService.userLogin();
+    	
+   		List<OrgChart> memberList = boardService.userLogin();
    		List<LoginVO> userList= MemberController.userList;
    		model.addAttribute("userList", userList);
    		model.addAttribute("memberList", memberList);

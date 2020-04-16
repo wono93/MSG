@@ -38,7 +38,7 @@ public interface ChannelDAO {
 
 	List<Board> mainBoardList();
 
-	List<Member> userLogin();
+	List<OrgChart> userLogin();
 
 	
 
