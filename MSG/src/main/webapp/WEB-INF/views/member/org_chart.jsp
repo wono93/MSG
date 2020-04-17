@@ -35,10 +35,10 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						<c:if test="${memberLoggedIn.authority ne 'N' }"> 		
+								<li onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+								<li onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+            			</c:if>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 						<li
@@ -153,13 +153,9 @@
 								class="arrow" style="margin-left: 0px; margin-right: 0px;">&raquo;</a>
 						</c:if>
 					</div>
-					<button type="button" class="yellowBtn"
-								onclick="location.href='${pageContext.request.contextPath}/member/addEmp.do'" style="
-    position: absolute;
-    margin-top: -16px;
-    float: right;
-    margin-left: 148px;
-">사원추가</button>
+					<c:if test="${memberLoggedIn.authority ne 'N' }"> 		
+						<button type="button" class="yellowBtn" onclick="location.href='${pageContext.request.contextPath}/member/addEmp.do'" style="position: absolute;margin-top: -16px; float: right;margin-left: 148px;">사원추가</button>
+           			</c:if>
 				</div>
 			</article>
 		</div>
