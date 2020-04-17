@@ -127,30 +127,32 @@ article {
 								<c:forEach items="${userList }" var="u">
 									<c:forEach items="${memberList }" var="m">
 										<c:if test="${u.id == m.userId }">
-											<li><a href="#" onclick=""> <i class="fas fa-circle"
-													style="font-size: 15px; color: green; margin-right: 5px;"></i>
+											<li><a href="#" onclick="">
+													<img
+													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
+													class="member-img">
 													<span
 													style="position: relative; top: -15px; margin-bottom: -30px; margin-right: 10px;"
 													class="headerlistname">${m.empName }  ${m.jobName } </span>
-													<img
-													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
-													class="member-img"></li>
+													
+											<i class="fas fa-circle" style="font-size: 15px; color: green; margin-right: 5px;"></i>
+													</li>
 										</c:if>
 									</c:forEach>
 								</c:forEach>
 								<c:forEach items="${userList }" var="u">
 									<c:forEach items="${memberList }" var="m">
 										<c:if test="${u.id != m.userId }">
-											<li><a href="#" onclick=""> <i
-													class="fas fa-circle"
-													style="font-size: 15px; color: gray; margin-right: 5px;"></i>
+											<li><a href="#" onclick=""> 
+													<img
+													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
+													class="member-img">
 													<span
 													style="position: relative; top: -15px; margin-bottom: -29px; margin-right: 10px;"
 													class="headerlistname">${m.empName }  ${m.jobName } </span>
-
-													<img
-													src="${pageContext.request.contextPath }/resources/upload/empImg/${m.empImage}"
-													class="member-img"></li>
+											<i class="fas fa-circle"
+													style="font-size: 15px; color: gray; margin-right: 5px;"></i>
+													</li>
 										</c:if>
 									</c:forEach>
 								</c:forEach>

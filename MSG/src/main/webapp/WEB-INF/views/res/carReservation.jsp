@@ -79,14 +79,13 @@
 				            	</tr> 
 				            </c:forEach>
 				        </table>
-				       <c:if test="${memberLoggedIn.isManager eq 'Y' } ">
 				      <button id="add-car" type="button">법인차량 추가</button>
 			          <button id="update-car" type="button" >수정</button>
 			          <button id="del-car" type="button">삭제</button>
-			          </c:if>
-			          <c:if test="${memberLoggedIn.isManager eq 'N'}">
+			         
+			          <%-- <c:if test="${memberLoggedIn.isManager eq 'N'}">
 			          <div class="notManagerDiv"></div>
-			          </c:if>
+			          </c:if> --%>
 				    </form>
 			    </div>
             </article>

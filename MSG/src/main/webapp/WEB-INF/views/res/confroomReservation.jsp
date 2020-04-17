@@ -73,10 +73,10 @@
 				            	</tr>
 				            </c:forEach>
 				        </table>
-				        <input type="hidden" id="croomCode" name="croomCode" />
+				       <%--  <input type="hidden" id="croomCode" name="croomCode" />
 				        <button id="add-conf" type="button">회의실 추가</button>
 				        <button id="update-conf" type="button" onclick="location.href='${pageContext.request.contextPath }/res/updateConf.do'" >수정</button>
-				        <button id="del-conf" type="button" onclick="location.href='${pageContext.request.contextPath }/res/delConf.do'" >삭제</button>
+				        <button id="del-conf" type="button" onclick="location.href='${pageContext.request.contextPath }/res/delConf.do'" >삭제</button> --%>
 				     </form>
 			    </div>
              </article>

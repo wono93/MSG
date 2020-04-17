@@ -63,6 +63,7 @@ END;
 
 --문서번호 예시, 아쉽게도 칼럼 default로 seq와 같은 의사 칼럼을 주는 것은 불가능하다
 select 'ED-'||to_char(sysdate + 9/24,'yymmdd')||'-'||seq_edoc_id.NEXTVAL from dual;
+select 'ED-'||to_char(sysdate,'yymmdd')||'-'||seq_edoc_id.NEXTVAL from dual;
 
 select * from emp_tb join job_tb using(job_cd) join dept_tb using(dept_cd);
 select * from job_tb;
@@ -804,3 +805,25 @@ from
 (select emp_no, reward, annual,nvl(vctn_cd, 'V1'), nvl(vctn_used, 0) from vctn_tb left join vctn_his_tb using(emp_no)
 union
 select emp_no, reward, annual,nvl(vctn_cd, 'V2'), nvl(vctn_used, 0) from vctn_tb left join vctn_his_tb using(emp_no));
+
+
+
+select
+		*
+		from
+		edoc_srch_view
+		 WHERE (edoc_title like '%' || '' || '%'
+				or
+				emp_name like
+				'%' || '' || '%'
+				or
+				form_nm like '%' || '' || '%'
+				or
+				edoc_id like '%' || '' || '%')
+				and edoc_end = 'Y' 
+		order by edoc_dt desc;
+        
+        
+select edoc_id, edoc_dt from edoc_tb;
+
+select sysdate, sysdate + 9/24, to_char(sysdate + 9/24,'yymmdd') from dual;
