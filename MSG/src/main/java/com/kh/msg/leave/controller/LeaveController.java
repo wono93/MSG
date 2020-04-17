@@ -144,10 +144,6 @@ public class LeaveController {
 		for (int i = 0; i < leaveListInfoPlus.size(); i++) {
 
 			lip.setEmpNo(leaveListInfoPlus.get(i).getEmpNo());
-			lip.setDeptName(leaveListInfoPlus.get(i).getDeptName());
-			lip.setJobName(leaveListInfoPlus.get(i).getJobName());
-			lip.setUserId(leaveListInfoPlus.get(i).getUserId());
-			lip.setEmpName(leaveListInfoPlus.get(i).getEmpName());
 			lip.setAnnual(leaveListInfoPlus.get(i).getAnnual());
 			lip.setReward(leaveListInfoPlus.get(i).getReward());
 			if (leaveListInfoPlus.get(i).getVctnCd().equals("V1")) {
