@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/member/login.css">
 <script src="https://kit.fontawesome.com/226b55f414.js" crossorigin="anonymous"></script>
 <style>
-.thick { font-weight: bold; }
+.thick {font-weight: bold; font-size : 25px;}
 .float {float: left;}
 .clear {clear: both;}
 .inline-block {display: inline-block;}
@@ -25,7 +25,7 @@ h3{color: #333333; font-size:48px; margin: 100px 0 50px 0;}
 #loginForm {text-align: center;}
 #loginForm h1+p, h3+p { margin-top: 15px;}
 #loginFrm {width: 100%; height:auto;}
-#loginFrm>div {width:1200px; padding-top: 80px; margin:0 auto; text-align: center; background-color: #FEFEFE;height: 530px;}
+#loginFrm>div {width:1200px; padding-top: 80px; margin:0 auto; text-align: center; background-color: #FEFEFE;height: 645px;}
 #loginFrm>p {color: #333333; font-size: 16px;}
 #loginFrm label { color: #333333; font-size: 18px; position: absolute;  left: 310px; margin-bottom: 10px; padding-left: 65px; padding-top: 15px;}
 /* #loginFrm label:nth-of-type(1) { color: #3B3B3B; font-size:20px; position: absolute; left:310px; margin-bottom: 10px;}
@@ -37,7 +37,7 @@ h3{color: #333333; font-size:48px; margin: 100px 0 50px 0;}
 .hidden-space { color:#f4ca25; font-size: 16px; position: relative; left:-190px;}
 #float-form { margin-top: 20px;}
 #enroll-btn{position:relative; color:#999999; font-size: 18px; border:none; background:white; 
-    cursor: pointer; margin-left: 646px; border: 1px solid #999999; padding: 12px 35px;}
+    cursor: pointer; margin-left: 625px; border: 1px solid #999999; padding: 12px 35px;}
 #login-btn{width:580px; height:85px; background: #F4CA25; border:none; cursor: pointer; margin-top: 30px;}
 button[type=button]{margin-top: 30px; margin-bottom: 100px;}
 button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
@@ -52,6 +52,13 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
 .saveId-container .saveId-checkmark:after { left: 20px; top: 5px; width: 10px; height: 30px; border: solid white;
                                     border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
 .checkbox_wrap{position: relative;}
+.loginLogo {
+}
+.logoDiv{
+	position : relative;
+	top : 100px;
+	
+}
                                     
 </style>
 <!-- RedirectAttributes 를 통해 session 에 저장된 msg 속성이 있을 경우만 실행 -->
@@ -65,10 +72,10 @@ button[type=button]>p{width: 580px; color:#333333; font-size: 30px;}
 </c:if>
 </head>
 <body id="loginForm">
-    <h3 class="thick kor">로그인</h3>
-    <div>
+    <div class="logoDiv">
     <form id="loginFrm" method="POST" action="${pageContext.request.contextPath}/member/login.do">
         <div>
+	    	<img class="loginLogo" style="right: 0px; width: 190px; height: 75px;" src="/msg/resources/image/msgMain.png">
             <p class="kor login-label">아이디</p>
             <input type="text" name="userId" id="userId"  class="kor"
                    placeholder="아이디를 입력하세요"/>

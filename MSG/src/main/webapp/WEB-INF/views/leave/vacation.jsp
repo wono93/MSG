@@ -42,10 +42,6 @@
 <title>vacation</title>
 </head>
 <script>
-	$(document).ready(function() {
-		$('td:empty').append(0);
-	});
-
 	// yearcheck ++
 	function upYear() {
 		var yearCheck = document.getElementById('yearcheck');
@@ -103,10 +99,12 @@
 				<div class="subNav">
 					<h3>인사관리</h3>
 					<ul>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
-						<li
-							onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						<c:if test="${memberLoggedIn.authority ne 'N' }">
+							<li
+								onclick="location.href='${pageContext.request.contextPath}/member/empLogBoard.do'">근태관리</li>
+							<li
+								onclick="location.href='${pageContext.request.contextPath}/member/ioLog.do'">출입기록</li>
+						</c:if>
 						<li
 							onclick="location.href='${pageContext.request.contextPath}/member/orgChart.do'">조직도</li>
 						<li
@@ -156,7 +154,7 @@
 						<input type="text" name="" id="srchWord"
 							value="${srchWord eq 'null'?'':srchWord }">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
-							<i class="fas fa-" style="font-size: 15px"></i> 검색
+							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
 					</div>
 					<!-- 	<div class="control">
@@ -222,48 +220,6 @@
 						</c:forEach>
 					</table>
 					<div class="pagination">${pageBar }</div>
-					<%-- <div class="srchBar">
-						<div class="select-box">
-							<div class="select-box__current" tabindex="1">
-								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="0"
-										value="dept_name" name="srchTypeInput"
-										${srchType eq 'dept_name'?'checked="checked"':"" } />
-
-									<p class="select-box__input-text">부서</p>
-								</div>
-								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="1"
-										value="emp_name" name="srchTypeInput"
-										${srchType eq 'emp_name'?'checked="checked"':"" } />
-									<p class="select-box__input-text">이름</p>
-								</div>
-								<div class="select-box__value">
-									<input class="select-box__input" type="radio" id="2"
-										value="all" name="srchTypeInput"
-										${srchType eq 'all'?'checked="checked"':"" } />
-									<p class="select-box__input-text">전체</p>
-								</div>
-								<img class="select-box__icon"
-									src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
-									alt="Arrow Icon" aria-hidden="true" />
-							</div>
-							<ul class="select-box__list">
-								<li><label class="select-box__option" for="2"
-									aria-hidden="aria-hidden">전체</label></li>
-								<li><label class="select-box__option" for="0"
-									aria-hidden="aria-hidden">부서</label></li>
-								<li><label class="select-box__option" for="1"
-									aria-hidden="aria-hidden">이름</label></li>
-							</ul>
-						</div>
-						<input type="text" name="" id="srchWord"
-							value="${srchWord eq 'null'?'':srchWord }"
-							placeholder="검색창 나중에 위 쪽으로 올릴것">
-						<button type="button" name="" id="srchBtn" class="yellowBtn">
-							<i class="fas fa-search" style="font-size: 15px"></i> 검색
-						</button>
-					</div> --%>
 				</div>
 			</article>
 		</div>
@@ -299,24 +255,14 @@
 				<button type="button" class="plusBtn" onclick="plus();">+</button>
 			</div>
 			</p>
-			<!-- <p>			
-			<div class="updown custom">
-				조절량
-				<button type="button" class="upQtyBtn" onclick="upYear2();">+</button>
-				<input type="text" id="Qty" value="0" readonly="true" name="Qty" />
-				<button type="button" class="downQtyBtn" onclick="downYear2();">-</button>
-			</div> 
-			</p> -->
+			<h3 style="margin-left: 40px; position: relative; margin-top: 150px;">문서
+				검색</h3>
 			<div class="ui-widget">
-				<h3 style="margin-left: 40px; float: left;">문서 검색</h3>
 				<label for="search"> </label> <input id="search"
-					style="margin-left: 30px; margin-top: 20px; width: 400px; background: #ebebeb; border: 2px solid  #ebebeb;">
+					style="margin-left: 40px; width: 400px; background: #ebebeb; border: 2px solid #ebebeb; border-bottom: 3px solid #999999; "placeholder="전자문서 검색">
 				<p>
 				<div class="divice custom">
-					<h3 style="left: -76px; position: relative;">근거</h3>
-					<!-- <form id="bookid">
-						<input type="text" id="reasonBox" />
-					</form> -->
+					<h3 style="margin-left: 40px; position: relative;">근거</h3>
 				</div>
 				</p>
 				<input type="text" name="carNo" id="updateCar-no"
@@ -335,11 +281,9 @@
 					</table>
 				</div>
 				</p>
-				<br> <br>
-						<a href="#" rel="modal:close">
-				<button type="submit" id="modalsub"
-				 onclick="modalSub();">확인</button></a>
-				<a href="#" rel="modal:close"><button id="modalclo"
+				<br> <br> <a href="#" rel="modal:close">
+					<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
+				</a> <a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
 			</div>
 		</div>

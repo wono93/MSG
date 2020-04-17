@@ -277,7 +277,7 @@
 	<resultMap type="leaveInfoPlus" id="leaveInfoPlus"></resultMap>
 	<select id="selectleaveListInfoPlus" parameterType="Member"
 		resultMap="leaveInfoPlus">
-		SELECT
+<!-- 		SELECT
 		A.EMP_NO
 		,E.DEPT_NAME
 		,F.JOB_NAME
@@ -302,7 +302,21 @@
 		AND
 		C.VCTN_CD=D.VCTN_CD
 		AND A.DEPT_CD = E.DEPT_CD
-		AND A.JOB_CD = F.JOB_CD
+		AND A.JOB_CD = F.JOB_CD -->
+				SELECT
+        A.EMP_NO
+         ,A.ANNUAL
+		,A.REWARD
+		,C.VCTN_CD
+		,C.VCTN_NM
+		,B.VCTN_USED
+		FROM
+		 VCTN_TB A
+		,VCTN_HIS_TB B
+		,VCTN_TYPE_TB C
+		WHERE A.EMP_NO = #{empNo} 
+		AND A.EMP_NO = B.EMP_NO
+		AND C.VCTN_CD = B.VCTN_CD
 	</select>
 	<!-- 사용한 휴가 (연차,포상,기타) -->
 		<select  id="selectAnnualList" resultType="LeaveAnnual">

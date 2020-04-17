@@ -9,7 +9,6 @@
 <title>MSG</title>
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-<link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/main.css">
 <link
@@ -30,6 +29,10 @@
 
 </head>
 <style>
+article {
+	overflow: hidden;
+}
+
 .welcomeBox {
 	opacity: 0.4;
 	position: absolute;
@@ -46,6 +49,28 @@
 	margin: 0;
 	font-weight: 900;
 }
+.welcomeBoard td:nth-child(1) {
+	width: 22%;
+}
+.welcomeBoard td:nth-child(2) {
+	text-align: left;
+	text-overflow: ellipsis;
+}
+.welcomeBoard td:nth-child(3) {
+	width: 24%;
+}
+.welcomeEdoc td:nth-child(1) {
+	width: 22%;
+}
+.welcomeEdoc td:nth-child(2) {
+	width: 22%;
+}
+.welcomeEdoc td:nth-child(3) {
+	text-align: left;
+	text-overflow: ellipsis;
+}
+
+
 </style>
 <script>
 	function view(no, empNo, memberEmpno) {
@@ -86,12 +111,12 @@
 			<article>
 				<div style="margin-left: 15px;" class="subNav">
 					<div style="margin-top: 55px;">
-						<a id="Scr" href="#ex1" rel="modal:open">
+						<a id="Scr" href="#ex1" rel="modal:open" style="text-decoration: none;">
 							<button type="button" name="" id="boardBtn1" class="yellowBtn">접속자
 								확인</button>
 						</a>
-						<button type="button" name="" id="boardBtn2" class="yellowBtn">팀
-							채널 가기</button>
+<!-- 						<button type="button" name="" id="boardBtn2" class="yellowBtn">팀
+							채널 가기</button> -->
 					</div>
 					<!-- 접속자확인 모달 -->
 					<div style="bottom: 22px; width: 317px; z-index: 100;" id="ex1"
@@ -133,11 +158,19 @@
 						</div>
             <style>						  
             .modal a.close-modal{
-            top: 13px;
-            right: 15px;
-            width: 20px;
-              background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
+				top: 13px;
+				right: 15px;
+				width: 20px;
+				background-image: url("${pageContext.request.contextPath }/resources/image/X-icon.png");
             }
+            .dummyDiv {
+            	background-color: #fefefe;
+				top: -30px;
+			    position: relative;
+			    height: 25px;
+            }
+            
+            
             </style>
 						<div style="height: 30px;">
 							<a rel="modal:close">
@@ -157,20 +190,20 @@
 						<p style="text-align: left; margin-left: 40px;">
 							<i style="color: #f4ca25;" class="fas fa-circle"></i> 공지사항
 						</p>
-						<table>
+						<table class="welcomeBoard">
 							<tr>
-								<th style="width:40px;">글쓴이</th>
+								<th>글쓴이</th>
 								<th>제목</th>
-								<th style="width:60px;">작성일</th>
+								<th>작성일</th>
 
 							</tr>
 							<c:forEach begin="0" end="5" items="${boardList }" var="bl">
 								<tr
 									onClick="view('${bl.no}', '${bl.empNo }', '${memberLoggedIn.empNo }');"
 									style="cursor: pointer;">
-									<td style="width:40px;">${bl.empName }</td>
-									<td style="width:102px;">${bl.title }</td>
-									<td style="width:60px;">${bl.bdate }</td>
+									<td>${bl.empName }</td>
+									<td>${bl.title }</td>
+									<td>${bl.bdate }</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -179,7 +212,7 @@
 						<p style="text-align: left; margin-left: 40px;">
 							<i style="color: #f4ca25;" class="fas fa-circle"></i> 전자문서
 						</p>
-						<table>
+						<table class="welcomeEdoc">
 							<tr>
 								<th>기안자</th>
 								<th>문서종류</th>
@@ -204,6 +237,7 @@
 								src="https://calendar.google.com/calendar/embed?src=ltm0jrlsamv8mlhrg0bpcgu6ps%40group.calendar.google.com&ctz=Asia%2FSeoul&amp;showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0"
 								" style="border-width: 0" width="400" height="300"
 								frameborder="0" scrolling="no"></iframe>
+							<div class="dummyDiv"></div>
 						</div>
 					</div>
 					<div id="66">
@@ -280,7 +314,6 @@
 					</div>
 				</div>
 			</article>
-
 		</div>
 	</section>
 	<script src="${pageContext.request.contextPath }/resources/js/main.js"></script>

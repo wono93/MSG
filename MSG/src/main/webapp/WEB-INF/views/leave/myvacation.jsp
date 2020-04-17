@@ -163,7 +163,7 @@
 						</tr>
 						<c:forEach items="${leaveListInfoPlus}" var="leave2"
 							varStatus="vs">
-							<c:if test="${vs.last}">
+						<%-- 	<c:if test="${vs.last}"> --%>
 								<tr>
 									<th>${leave2.annual}</th>
 									<th>${leave2.reward}</th>
@@ -176,7 +176,7 @@
 									<th>${leave2.otherUsed}</th>
 									<th>연차${leave2.annualNotUsed }일 포상${leave2.rewardNotused }일</th>
 								</tr>
-							</c:if>
+							<%-- </c:if> --%>
 						</c:forEach>
 					</table>
 					<table>

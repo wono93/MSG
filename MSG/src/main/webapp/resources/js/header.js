@@ -15,10 +15,10 @@ hdjq(function(){
                 var targetImg = document.querySelector("nav.primnav .userinfo img");
                 var playerImg = targetImg.animate([
                     {transform: 'translate(0)'},
-                    {transform: 'translate(105px, 30px) scale(2.8)'},
+                    {transform: 'translate(106px, 30px) scale(2.8)'},
                 ], 300);
                 playerImg.addEventListener('finish', function(){
-                    targetImg.style.transform = 'translate(105px, 30px) scale(2.8)';
+                    targetImg.style.transform = 'translate(106px, 30px) scale(2.8)';
                 });
                 hdjq("nav.primnav .userinfo idSection idSection").fadeIn(300);
                 hdjq(".primnav .icon").css("paddingLeft", "50px");
@@ -30,7 +30,7 @@ hdjq(function(){
             setTimeout(function(){
                 var targetImg = document.querySelector("nav.primnav .userinfo img");
                 var playerImg = targetImg.animate([
-                    {transform: 'translate(105px, 30px)'},
+                    {transform: 'translate(106px, 30px)'},
                     {transform: 'translate(0px, 0px) scale(1)'},
                 ], 100);
                 playerImg.addEventListener('finish', function(){

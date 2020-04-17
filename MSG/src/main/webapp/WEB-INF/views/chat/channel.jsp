@@ -122,7 +122,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <input type="text" name="chModifyKeyword" id="srchModifyChWord" tabindex="1">
+                            <input type="text" name="chModifyKeyword" id="srchModifyChWord" tabindex="1" autocomplete="off">
                            	<a href="#" onclick="searchMemberModify();" tabindex="2">
 	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="ch-search-icon">
                            	</a>

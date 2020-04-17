@@ -126,7 +126,7 @@
 			</ul>
             <ul class="secnav" id="channelList" style="height:107px;"></ul>
             <ul class="secnav" id="">
-	            <p id="dmListTitle">DM
+	            <p id="dListTitle">DM
 		            <span id="getAllReadDm"></span>
 		            	<input type="text" name="dmKeyword" id="srchDmWord" autocomplete="off">
 	                    	<a href="#" onclick="searchMember()">
@@ -227,7 +227,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <input type="text" name="chKeyword" id="srchChWord" tabindex="1">
+                            <input type="text" name="chKeyword" id="srchChWord" tabindex="1" autocomplete="off">
                            	<a href="#" onclick="searchMemberCh()" tabindex="2">
 	                           	<img src="${pageContext.request.contextPath}/resources/image/search-icon.png" id="ch-search-icon">
                            	</a>
