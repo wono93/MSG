@@ -393,18 +393,18 @@ function carValidate(){
 	}
 	
 	//차량번호 유효성검사 
-	var re = /^[0-9]{2}[\s]*[가~힣]{1}[\s]*[0-9]{4}/gi;
-	if(!re.test(carNoValid.val())){
-		alert("차량번호는 숫자 2자리 + 한글 1자리 + 숫자 4자리입니다. \n확인 후 다시 입력해주세요.");
-		return false;
-	}
-	
+//	var re = /^[0-9]{2}[\s]*[가~힣]{1}[\s]*[0-9]{4}/gi;
+//	if(!re.test(carNoValid.val())){
+//		alert("차량번호는 숫자 2자리 + 한글 1자리 + 숫자 4자리입니다. \n확인 후 다시 입력해주세요.");
+//		return false;
+//	}
 	var whichFrmId = $checkedParent.parent("form").attr('id');
 	
-	if(whichFrmId.contains('add')){
+	console.log(whichFrmId);
+	if(whichFrmId=='addCarFrm'){
 		document.getElementById('addCarFrm').submit();
 	}
-	else if(whichFrmId.contains('update')){
+	else if(whichFrmId=='updateCarFrm'){
 		document.getElementById('updateCarFrm').submit();
 	}
 	//이미 등록된 차량과 동일한 경우

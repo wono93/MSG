@@ -23,7 +23,7 @@ input{font-family: 'Noto Sans KR';}
 #timepicker-end-conf, #timepicker-end-car{margin-left: 30px;}
 .starticon,.endicon,.startendicon {color:#999; margin-left: 10px; cursor: pointer;}
 .starticon:hover,.endicon:hover,.startendicon:hover{color:#333;}
-#add-conf, #add-car, #update-car{width:140px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 663px;}
+#add-conf, #add-car, #update-car{width:140px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 755px;}
 #update-conf, #del-conf, #update-car, #del-car{width:70px; height: 55px; font-size:19px; color:#999; background-color:#fefefe; border: 1px solid #999; margin: 0 0 50px 15px;}
 #add-conf:hover, #update-conf:hover, #del-conf:hover, #add-car:hover, #update-car:hover, #del-car:hover{color:#333; border: 2px solid #333;cursor:pointer;}
 #getCarReserv, #getConfReserv{width:100px; height:55px; font-size:19px; color:#999; background-color:#fefefe; border:1px solid #999; margin-left:280px;}

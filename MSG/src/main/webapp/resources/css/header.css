@@ -6,7 +6,9 @@
     outline:none;
   }
   
-  
+  button {
+  	cursor: pointer;
+  }
   main {
     display: -webkit-box;
     display: flex;
@@ -22,6 +24,7 @@
   	left: 16px;
   	top : 9px;
 	position: relative;
+	cursor: pointer;
   }
   .logoutImg{
   	height:20px;
@@ -29,6 +32,7 @@
   	top : -12px;
 	left: 243px;
 	position: relative;
+	cursor: pointer;
   }
   
   input.hamburger {

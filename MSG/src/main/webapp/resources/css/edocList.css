@@ -60,6 +60,9 @@ th, td {
     border-bottom: 1px solid #999999;
     padding: 10px;
 }
+td {
+	cursor: pointer;
+}
 table th:nth-child(3){
     width: 289px;
 }
