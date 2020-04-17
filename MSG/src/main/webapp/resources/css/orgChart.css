@@ -46,7 +46,6 @@ article > .subNav {
 .subNav li{list-style: none; float: left; margin: 45px 45px 30px 0px; font-size: 21px; font-family: 'Noto Sans KR'; color:#999; cursor: pointer;}
 
 
-
 /* 여기서부터 테이블 */
 .edocJsp table {
     width: 900px;

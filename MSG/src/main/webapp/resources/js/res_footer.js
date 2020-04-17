@@ -100,10 +100,10 @@ $('#timepicker-end-car').datepicker({
 
 $(document).ready(function(){
 	
-	//3초 후 대여시작시간 자동선택해주기
+	//1초 후 대여시작시간 자동선택해주기
 	setTimeout(()=>{
 		$('[id^="timepicker-start"]').focus();
-	}, 3000);
+	}, 1000);
 	
 	// 회의실 - 예약하기 버튼을 눌렀을 떄
 	$("#getConfReserv").click(function(){

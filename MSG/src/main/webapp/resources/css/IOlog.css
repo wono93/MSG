@@ -35,3 +35,7 @@
 .yellowBtn {
     margin-right: 208px;
 }
+
+.subNav li:nth-child(2){
+	color:#333333;
+}

@@ -258,11 +258,10 @@
 			<h3 style="margin-left: 40px; position: relative; margin-top: 150px;">문서
 				검색</h3>
 			<div class="ui-widget">
-				<label for="search"> </label> <input id="search"
-					style="margin-left: 40px; width: 400px; background: #ebebeb; border: 2px solid #ebebeb; border-bottom: 3px solid #999999; "placeholder="전자문서 검색">
+				<label for="search"> </label> <input id="search" placeholder="전자문서 검색">
 				<p>
 				<div class="divice custom">
-					<h3 style="margin-left: 40px; position: relative;">근거</h3>
+					<h3 style="position: relative;">근거</h3>
 				</div>
 				</p>
 				<input type="text" name="carNo" id="updateCar-no"
@@ -281,7 +280,7 @@
 					</table>
 				</div>
 				</p>
-				<br> <br> <a href="#" rel="modal:close">
+				<br> <br> <a href="#" rel="modal:close" style="text-decoration: none;">
 					<button type="submit" id="modalsub" onclick="modalSub();">확인</button>
 				</a> <a href="#" rel="modal:close"><button id="modalclo"
 						onclick="modalDel();">취소</button></a>
