@@ -797,3 +797,10 @@ select *
 
 select rownum, A.* from
 (select distinct edoc_id, emp_name, form_nm, edoc_title, edoc_end_dt from edoc_all_tb where edoc_end = 'Y' order by edoc_end_dt desc) A where rownum < 7;
+
+
+select *
+from
+(select emp_no, reward, annual,nvl(vctn_cd, 'V1'), nvl(vctn_used, 0) from vctn_tb left join vctn_his_tb using(emp_no)
+union
+select emp_no, reward, annual,nvl(vctn_cd, 'V2'), nvl(vctn_used, 0) from vctn_tb left join vctn_his_tb using(emp_no));
