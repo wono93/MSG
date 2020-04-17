@@ -26,14 +26,13 @@ section{
     width: 100%;
     height: 100%;
     left: 0;
-    top: 0;
+    top: -4px;
 }
 section > div {
     display: inline-block;
     width: 1200px;
     height: 100%;
     vertical-align: middle;
-/*     border: 1px solid black; */
 postition: relative;
     z-index: 99;
 }
@@ -155,7 +154,7 @@ table td:nth-child(2){
     font-size: 14px;
     font-weight: 800;
     color: #333333;
-    margin-top: 50px;
+    margin-top: 47px;
     height: 250px;
   	z-index:1;
   }

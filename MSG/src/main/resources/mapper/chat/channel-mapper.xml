@@ -115,7 +115,7 @@
            where B.catag like '%'||'공지,행사'||'%'
            order by B.no desc
 	</select>
-	<select id="userLogin" resultType="Member">
+	<select id="userLogin" resultType="OrgChart">
 		select 
 			*
 		from

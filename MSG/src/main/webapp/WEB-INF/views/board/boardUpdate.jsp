@@ -191,12 +191,12 @@
                 </div>
                  <hr>
                 
-	                <div style=" border: 1px solid black; margin-left:50px; margin-top:35px; height:70px; width:915px;" class="file_input" id="fileDiv">
-	                			<label style="cursor:pointer; margin-top:20px;">
+	                <div style="text-align:left;  margin-left:50px; margin-top:35px; height:70px; width:915px;" class="file_input" id="fileDiv">
+	                			<label style="cursor:pointer; margin-top:10px;">
 	                				파일 첨부
 			                    	<input type="file" id="upFile0"  name="upFile" multiple="multiple">
 	                			</label>
-	             			  	<input style="margin-top:16px;" type="text" readonly="readonly" title="File Route">
+	             			  	<input style="margin-top:7px;" type="text" readonly="readonly" title="File Route" value="">
 	               	</div>
                  <div style="margin-left:48px; margin-top:11px" id="api">
                       <div style="width: 914px; margin-left: 1px;">

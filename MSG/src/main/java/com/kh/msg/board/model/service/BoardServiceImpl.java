@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 import com.kh.msg.board.model.dao.BoardDAO;
 import com.kh.msg.board.model.vo.Attachment;
 import com.kh.msg.board.model.vo.Board;
+import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.board.model.vo.BoardRead;
 import com.kh.msg.board.model.vo.BoardScrap;
 import com.kh.msg.board.model.vo.Comment;
-import com.kh.msg.board.model.vo.BoardPagingVo;
 import com.kh.msg.member.model.vo.Member;
+import com.kh.msg.member.model.vo.OrgChart;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -109,13 +110,6 @@ public class BoardServiceImpl implements BoardService{
 	
 
 	@Override
-	public BoardScrap selectScrap(int boardNo) {
-		// TODO Auto-generated method stub
-		return boardDAO.selectScrap(boardNo);
-	}
-
-
-	@Override
 	public int deleteScrap(BoardScrap boardScrap) {
 		// TODO Auto-generated method stub
 		return boardDAO.deleteScrap(boardScrap);
@@ -154,13 +148,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Member selectMember(int empNo) {
+	public OrgChart selectMember(int empNo) {
 		// TODO Auto-generated method stub
 		return boardDAO.selectMember(empNo);
 	}
 
 	@Override
-	public List<Member> selectMemberList() {
+	public List<OrgChart> selectMemberList() {
 		// TODO Auto-generated method stub
 		return boardDAO.selectMemberList();
 	}
@@ -232,10 +226,19 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Member> userLogin() {
+	public List<OrgChart> userLogin() {
 		// TODO Auto-generated method stub
 		return boardDAO.userLogin();
 	}
+
+	@Override
+	public int selectScrap(BoardScrap boardScrap, int memberEmpno, int boardNo) {
+		boardScrap.setEmpNo(memberEmpno);
+		boardScrap.setNo(boardNo);
+		return boardDAO.selectScrap(boardScrap);
+	}
+
+	
 
 	
 

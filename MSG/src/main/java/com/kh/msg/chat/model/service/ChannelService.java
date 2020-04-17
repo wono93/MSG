@@ -38,6 +38,6 @@ public interface ChannelService {
 
 	List<Board> mainBoardList();
 
-	List<Member> userLogin();
+	List<OrgChart> userLogin();
 
 }

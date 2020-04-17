@@ -33,6 +33,7 @@ public class Board implements Serializable {/**
 	private String catagkeyword;
 	private int dateb;
 	private String empName;
+	private int atcmtNo;
 	
 	private List<Attachment> attachList;
 	

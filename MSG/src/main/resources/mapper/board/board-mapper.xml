@@ -9,8 +9,8 @@
 	</select>
 	
 	<resultMap type="member" id="member"></resultMap>
-	<select id="selectMemberList" resultMap="member">
-		select * from emp_tb
+	<select id="selectMemberList" resultType="OrgChart">
+		select * from emp_tb E left join job_tb J on E.job_cd = J.job_cd left join dept_tb D on E.dept_cd = D.dept_cd
 	</select>
 	
 	<resultMap type="attachment" id="attachment"></resultMap>
@@ -60,16 +60,17 @@
 			#{brdNo})
 	</insert>
 	
-	<select id="selectScrap" resultType="BoardScrap">
-		select * from brd_scp_tb where no = #{no}
+	<select id="selectScrap" resultType="int">
+		select count(*) from brd_scp_tb where no = #{no} and emp_no = #{empNo}
 	</select>
 	
 	<resultMap type="comment" id="comment"></resultMap>
-	<select id="selectComment" resultMap="comment">
-		select c.emp_no as cemp_no, c.*, e.emp_no as eemp_no, e.*
-            from cmt_tb c
-            left join emp_tb e
+	<select id="selectComment" resultType="Comment">
+		 select c.emp_no as cemp_no, c.*, e.emp_no as eemp_no, e.*, J.*, D.*
+            from emp_tb E
+            right join cmt_tb c
             on c.emp_no = e.emp_no
+            left join job_tb J on E.job_cd = J.job_cd left join dept_tb D on E.dept_cd = D.dept_cd
             where brd_no= #{boardNo}
             order by c.no
 	</select>
@@ -86,8 +87,6 @@
             on b.no = a.brd_no
             left join cmt_tb c
             on b.no = c.brd_no
-            left join brd_scp_tb s
-            on b.no = s.no
 			where b.no = #{boardNo}
 	</select>
 	
@@ -116,12 +115,6 @@
 			<result column="cmt_no" property="cmtNo"/>
 			<result column="emp_no" property="empNo"/>
 			<result column="brd_no" property="brdNo"/>
-		</collection>
-		<collection property="scrapList" ofType="boardScrap">
-			<id column="sno" property="no"/>
-			<result column="emp_no" property="empNo"/>
-			<result column="memo" property="memo"/>
-			<result column="date" property="date"/>
 		</collection>
 	</resultMap>
 	
@@ -277,13 +270,14 @@
 			atcmt_tb
 		where no = #{no}
     </delete>
-    <select id="selectMember" resultType="Member">
-    	select * from emp_tb where emp_no = #{empNo}
+    <select id="selectMember" resultType="OrgChart">
+    	select * from emp_tb E left join job_tb J on E.job_cd = J.job_cd left join dept_tb D on E.dept_cd = D.dept_cd
+    	 where emp_no = #{empNo}
     </select>
     <insert id="insertScrap">
     	insert into brd_scp_tb values(#{no}, #{empNo}, #{memo}, default)
     </insert>
-    <select id="userLogin" resultType="Member">
+    <select id="userLogin" resultType="OrgChart">
 		select 
 			*
 		from

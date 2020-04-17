@@ -81,7 +81,7 @@
                 <div class="subNav">
                     <h3>커뮤니케이션</h3>
                     <ul>
-                        <li onclick="#">이메일</li>
+                        
                         <li onclick="location.href='${pageContext.request.contextPath}/board/list.do'">사내게시판</li>
                      </ul>
                 </div>

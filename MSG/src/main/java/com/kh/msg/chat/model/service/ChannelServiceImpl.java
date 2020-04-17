@@ -94,7 +94,7 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Member> userLogin() {
+	public List<OrgChart> userLogin() {
 		// TODO Auto-generated method stub
 		return channelDAO.userLogin();
 	}
