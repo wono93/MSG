@@ -126,7 +126,7 @@
 			</ul>
             <ul class="secnav" id="channelList" style="height:107px;"></ul>
             <ul class="secnav" id="">
-	            <p id="dmListTitle">DM
+	            <p id="dListTitle">DM
 		            <span id="getAllReadDm"></span>
 		            	<input type="text" name="dmKeyword" id="srchDmWord" autocomplete="off">
 	                    	<a href="#" onclick="searchMember()">

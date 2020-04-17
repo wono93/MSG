@@ -156,7 +156,7 @@
 						<input type="text" name="" id="srchWord"
 							value="${srchWord eq 'null'?'':srchWord }">
 						<button type="button" name="" id="srchBtn" class="yellowBtn">
-							<i class="fas fa-" style="font-size: 15px"></i> 검색
+							<i class="fas fa-search" style="font-size: 15px"></i> 검색
 						</button>
 					</div>
 					<!-- 	<div class="control">

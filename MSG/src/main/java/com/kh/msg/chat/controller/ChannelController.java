@@ -51,7 +51,7 @@ public class ChannelController {
 	
 	@GetMapping("/headerChList.do")
 	@ResponseBody
-	public void headerDmList(HttpSession session, HttpServletResponse response) {
+	public void headerCmList(HttpSession session, HttpServletResponse response) {
 		
 		try {
 			
