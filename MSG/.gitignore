@@ -163,4 +163,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# properties
+*.properties
+
+
 # End of https://www.gitignore.io/api/java,macos,maven,windows,eclipse
